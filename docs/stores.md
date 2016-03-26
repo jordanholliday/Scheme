@@ -1,66 +1,85 @@
 # Flux Stores
 
-### NoteStore
+### TaskStore
 
-Holds all persisted note data.
-
-##### Actions:
-- `receiveAllNotes`
-- `receiveSingleNote`
-- `removeNote`
-
-##### Listeners:
-- `NotesIndex` (passes to `NoteIndexItem` via props)
-- `NoteDetail`
-
-### NoteFormStore
-
-Holds un-persisted note data to send to the API.
+Holds all persisted task data.
 
 ##### Actions:
-- `receiveNoteFormParams`
+- `receiveAllTasks`
+- `receiveSingleTask`
+- `removeTask`
 
 ##### Listeners:
-- `NoteForm`
+- `TasksIndex` (passes to `TaskIndexItem` via props)
+- `TaskDetail` (passes to children via props)
 
-### NotebookStore
+### TaskEditorStore
 
-Holds all persisted notebook data.
+Holds un-persisted task data to send to the API.
 
 ##### Actions:
-- `receiveAllNotebooks`
-- `receiveSingleNotebook`
-- `removeNotebook`
+- `receiveTaskEditorParams`
 
 ##### Listeners:
-- `NotebookIndex`
+- `TaskIndexItem`
+- `TaskDetail` (passes to children via props)
 
-### NotebookFormStore
+### ProjectStore
 
-Holds un-persisted notebook data to send to the API.
+Holds all persisted project data.
 
 ##### Actions:
-- `receiveNotebookFormParams`
+- `receiveAllProjects`
+- `receiveSingleProject`
+- `removeProject`
 
 ##### Listeners:
-- `NotebookForm`
+- `ProjectIndex`
 
-### SearchStore
+### ProjectEditorStore
+
+Holds un-persisted project data to send to the API.
+
+##### Actions:
+- `receiveProjectEditorParams`
+
+##### Listeners:
+- `ProjectModal`
+
+### TaskSearchStore
 
 Holds search parameters to send to the API.
 
 ##### Actions:
-- `receiveSearchParams`
+- `receiveTaskSearchParams`
 
 ##### Listeners:
-- `SearchIndex`
+- `TaskSearch`
 
-### SearchSuggestionStore
+### TaskSearchSuggestionStore
 
-Holds typeahead suggestions for search.
+Holds typeahead suggestions for task search.
 
 ##### Actions:
-- `receiveSearchSuggestions`
+- `receiveTaskSearchSuggestions`
 
 ##### Listeners:
-- `SearchSuggestions`
+- `TaskSearchSuggestions`
+
+### UiStore
+
+Holds hovered item id.
+
+##### Actions:
+- `receiveMouseEnter`
+- `receiveMouseExit`
+- `receiveClick`
+- `removeClick`
+
+##### Listeners:
+- `TaskIndexItem`
+- `NavBar`
+- `ProjectIndex`
+- `TaskSearch`
+- other elements with non-CSSable hover/click states
+

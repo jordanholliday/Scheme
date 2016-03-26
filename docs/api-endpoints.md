@@ -33,13 +33,13 @@
 - `DELETE /api/teams/:id`
   - Delete team, if I get to that
 
-### Members
-- `GET /api/members`
+### Memberships
+- `GET /api/memberships`
   - Includes query param for typeahead suggestions, if I get to that
-- `POST /api/teams/:team_id/members`:
+- `POST /api/teams/:team_id/memberships`:
   - Add member to team by id
   - If member doesn't exist, they will be invited to create account
-- `DELETE /api/teams/:team_id/member/:member_id`:
+- `DELETE /api/teams/:team_id/memberships/:member_id`:
   - Remove member from team by id
 
 ### Projects

@@ -7,6 +7,7 @@ id          | integer   | not null, primary key
 name        | string    | not null
 description | text      |
 deadline    | date      |
+repeats     | string    | in: %w(daily weekdays weekly monthly)
 parent_id   | integer   | foreign key (references tasks), indexed
 assignee_id | integer   | not null, foreign key (references users), indexed
 creator_id  | integer   | not null, foreign key (references users), indexed

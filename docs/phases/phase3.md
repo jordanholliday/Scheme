@@ -1,44 +1,45 @@
-# Phase 3: Notebooks and Tags (2 days)
+# Phase 3: Projects and Teams (2 days)
 
 ## Rails
 ### Models
-* Notebook
-* Tag
-* Tagging
+* Project
+* Team
+* Member
 
 ### Controllers
-* Api::NotebooksController (create, destroy, index, show, update)
+* Api::TeamsController (create)
+* Api::ProjectsController (create, index, show, update, destroy)
+* Api::MembershipsController (create, destroy)
 
 ### Views
-* notebooks/index.json.jbuilder
-* notebooks/show.json.jbuilder
-* tags/show.json.jbuilder
+* projects/index.json.jbuilder
+* projects/show.json.jbuilder
 
 ## Flux
 ### Views (React Components)
-* NotebooksIndex
-  - NotebookIndexItem
-* NotebookForm
-* SearchIndex
+* `ProjectIndex`
+  * `ProjectIndexItem`
+  * `Project Editor`
 
 ### Stores
-* Notebook
+* ProjectStore
+* ProjectEditorStore
 
 ### Actions
-* ApiActions.receiveAllNotebooks -> triggered by ApiUtil
-* ApiActions.receiveSingleNotebook
-* ApiActions.deleteNotebook
-* NotebookActions.fetchAllNotebooks -> triggers ApiUtil
-* NotebookActions.fetchSingleNotebook
-* NotebookActions.createNotebook
-* NotebookActions.editNotebook
-* NotebookActions.destroyNotebook
+* ApiActions.receiveAllProjects -> triggered by ApiUtil
+* ApiActions.receiveSingleProject
+* ApiActions.deleteProject
+* ProjectActions.fetchAllProjects -> triggers ApiUtil
+* ProjectActions.fetchSingleProject
+* ProjectActions.createProject
+* ProjectActions.editProject
+* ProjectActions.destroyProject
 
 ### ApiUtil
-* ApiUtil.fetchAllNotebooks
-* ApiUtil.fetchSingleNotebook
-* ApiUtil.createNotebook
-* ApiUtil.editNotebook
-* ApiUtil.destroyNotebook
+* ApiUtil.fetchAllProjects
+* ApiUtil.fetchSingleProject
+* ApiUtil.createProject
+* ApiUtil.editProject
+* ApiUtil.destroyProject
 
 ## Gems/Libraries

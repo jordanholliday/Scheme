@@ -1,16 +1,20 @@
 ## Component Hierarchy
 
 * `App`
-  * `TaskSearch`
+  * `NavBar`
+    * `TaskSearch`
   * `ProjectIndex`
     * `ProjectIndexItem`
-  * `NewProjectForm`
+    * `Project Editor`
   * `TaskIndex`
     * `TaskIndexItem`
-  * `TaskDetail`
-    * `TaskSummary`
-    * `TaskComments`
-    * `TaskUploads`
-    * `TaskCommentForm`
-    * `TaskFollowers`
+      * `TaskDetail`
+        * `TaskSummary`
+        * `TaskCommentIndex`
+          * `TaskComment`
+        * `TaskUploadIndex`
+          * `TaskUpload`
+        * `TaskCommentForm`
+        * `TaskFollowerIndex`
+          * `TaskFollower`
 
