@@ -4,7 +4,9 @@
 
 ### Root
 
-- `GET /` - loads React web app
+- `GET /`
+  - Loads React web app
+  - Splash page if not logged in
 
 ### Users
 
@@ -24,16 +26,16 @@
 - `GET /api/teams/:id/projects`
   - Index of all projects & tasks for team
 - `POST /api/teams`
-- `GET /api/teams/:id/projects`
-  - See team details, if I get to that
+- `GET /api/teams/:id`
+  - View team admin details, if I get to that
 - `PATCH /api/teams/:id`
-  - Edit team details, if I get to that
+  - Edit team admin details, if I get to that
 - `DELETE /api/teams/:id`
   - Delete team, if I get to that
 
 ### Members
-- `GET /api/followers`
-  - includes query param for typeahead suggestions, if I get to that
+- `GET /api/members`
+  - Includes query param for typeahead suggestions, if I get to that
 - `POST /api/teams/:team_id/members`:
   - Add member to team by id
   - If member doesn't exist, they will be invited to create account
@@ -42,14 +44,14 @@
 
 ### Projects
 - `GET /api/projects/:id`
-  - index of all tasks for project
+  - Index of all tasks for project
 - `POST /api/projects`
 - `PATCH /api/projects/:id`
 - `DELETE /api/projects/:id`
 
 ### Tasks
 - `GET /api/tasks`
-  - For searching & displaying all tasks available to user
+  - For searching tasks available to user
 - `POST /api/tasks`
 - `GET /api/tasks/:id`
 - `PATCH /api/tasks/:id`

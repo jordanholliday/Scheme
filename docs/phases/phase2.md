@@ -21,9 +21,9 @@
 * ApiActions.receiveSingleNote
 * ApiActions.deleteNote
 * NoteActions.fetchAllNotes -> triggers ApiUtil
-* NoteActions.fetchSingleNote 
+* NoteActions.fetchSingleNote
 * NoteActions.createNote
-* NoteActions.editNote 
+* NoteActions.editNote
 * NoteActions.destroyNote
 
 ### ApiUtil
