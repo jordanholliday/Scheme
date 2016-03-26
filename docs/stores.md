@@ -68,7 +68,7 @@ Holds typeahead suggestions for task search.
 
 ### UiStore
 
-Holds hovered item id.
+Holds hovered/clicked items.
 
 ##### Actions:
 - `receiveMouseEnter`
