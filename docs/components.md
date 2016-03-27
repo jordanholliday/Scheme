@@ -3,9 +3,10 @@
 * `App`
   * `NavBar`
     * `TaskSearch`
+    * `MemberInvite`
   * `ProjectIndex`
     * `ProjectIndexItem`
-    * `Project Editor`
+    * `ProjectEditor`
   * `TaskIndex`
     * `TaskIndexItem`
       * `TaskDetail`
@@ -17,4 +18,6 @@
         * `TaskCommentForm`
         * `TaskFollowerIndex`
           * `TaskFollower`
+  * `InboxIndex`
+    * `InboxItem`
 

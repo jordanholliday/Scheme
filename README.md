@@ -44,23 +44,25 @@ progress. Put an x between the brackets for a checkmark: [x] -->
 - [ ] user signup/signin pages
 - [ ] blank landing page after signin
 
-### Phase 2: Notes Model, API, and basic APIUtil (1.5 days)
+### Phase 2: Task Model, API, and React Components (2 days)
 
-**Objective:** Notes can be created, read, edited and destroyed through
-the API.
+**Objective:** CRUD API for Tasks, plus React components and Flux cycle for
+creating and updating tasks.
 
-- [ ] create `Note` model
-- [ ] seed the database with a small amount of test data
-- [ ] CRUD API for notes (`NotesController`)
-- [ ] jBuilder views for notes
-- [ ] setup Webpack & Flux scaffold
+- [ ] create `Task` model & DB seeds
+- [ ] CRUD API for notes (`TasksController`)
+- [ ] jBuilder views for tasks
 - [ ] setup `APIUtil` to interact with the API
-- [ ] test out API interaction in the console.
+- [ ] Add primary React components for Tasks:
+  - [ ] `TasksIndex`
+  - [ ] `TasksIndexItem`
+  - [ ] `TaskDetail`
+  - [ ] `TaskSummary`
 
-### Phase 3: Flux Architecture and Router (1.5 days)
+### Phase 3: Projects and Teams (3 days)
 
-**Objective:** Notes can be created, read, edited and destroyed with the
-user interface.
+**Objective:** Projects can be created, users can be invited to teams. All
+tasks belong to a project, all users belong to a team.
 
 - [ ] setup the flux loop with skeleton files
 - [ ] setup React Router

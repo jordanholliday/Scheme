@@ -1,40 +1,32 @@
-# Phase 5: Reminders and Garbage Collection
+# Phase 5: Follow Tasks and Inbox (1 day)
 
 ## Rails
 ### Models
-* Reminder
+* TaskFollow
 
 ### Controllers
-* Api::RemindersController (create, destroy, index, show, update)
+* Api::TaskFollowsController (create, destroy)
 
 ### Views
-* reminders/index.json.jbuilder
 
 ## Flux
 ### Views (React Components)
-* RemindersIndex
-  - ReminderIndexItem
-* ReminderShow
-* ReminderForm
+* `TaskFollowerIndex`
+  * `TaskFollower`
+* `InboxIndex`
+  * `InboxItem`
 
 ### Stores
-* Reminder
+* Task
+* Inbox
 
 ### Actions
-* ApiActions.receiveAllReminders -> triggered by ApiUtil
-* ApiActions.receiveSingleReminder
-* ApiActions.deleteReminder
-* ReminderActions.fetchAllReminders -> triggers ApiUtil
-* ReminderActions.fetchSingleReminder
-* ReminderActions.createReminder
-* ReminderActions.updateReminder
-* ReminderActions.destroyReminder
+* ApiActions.receiveSingleTask (reuse)
 
 ### ApiUtil
-* ApiUtil.fetchAllReminders
-* ApiUtil.fetchSingleReminder
-* ApiUtil.createReminder
-* ApiUtil.updateReminder
-* ApiUtil.destroyReminder
+* ApiUtil.createTaskFollower
+* ApiUtil.destroyTaskFollower
+* ApiUtil.fetchAllInboxItems
+* ApiUtil.fetchMoreInboxItems
 
 ## Gems/Libraries

@@ -44,7 +44,7 @@ Holds un-persisted project data to send to the API.
 - `receiveProjectEditorParams`
 
 ##### Listeners:
-- `ProjectModal`
+- `ProjectEditor`
 
 ### TaskSearchStore
 
@@ -66,6 +66,17 @@ Holds typeahead suggestions for task search.
 ##### Listeners:
 - `TaskSearchSuggestions`
 
+### InboxStore
+
+Holds all inbox items.
+
+##### Actions:
+- `receiveAllInboxItems`
+- `removeAllInboxItems`
+
+##### Listeners:
+- `InboxIndex` (passes to InboxIndexItem via props)
+
 ### UiStore
 
 Holds hovered/clicked items.
@@ -82,4 +93,5 @@ Holds hovered/clicked items.
 - `ProjectIndex`
 - `TaskSearch`
 - other elements with non-CSSable hover/click states
+
 

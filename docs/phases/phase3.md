@@ -1,4 +1,4 @@
-# Phase 3: Projects and Teams (2 days)
+# Phase 3: Projects and Teams (3 days)
 
 ## Rails
 ### Models
@@ -14,26 +14,33 @@
 ### Views
 * projects/index.json.jbuilder
 * projects/show.json.jbuilder
+* users/new.html.erb -> Add "Create New Team" field(s)
 
 ## Flux
 ### Views (React Components)
 * `ProjectIndex`
   * `ProjectIndexItem`
-  * `Project Editor`
+  * `ProjectEditor`
+* `MemberInvite`
 
 ### Stores
 * ProjectStore
 * ProjectEditorStore
 
 ### Actions
-* ApiActions.receiveAllProjects -> triggered by ApiUtil
-* ApiActions.receiveSingleProject
+* ApiActions.receiveAllProjects
+* ApiActions.receiveSingleProject -> triggered by ApiUtil
 * ApiActions.deleteProject
-* ProjectActions.fetchAllProjects -> triggers ApiUtil
-* ProjectActions.fetchSingleProject
+* ApiActions.receiveAllMemberships
+* ApiActions.receiveSingleMembership
+* ApiActions.deleteMembership
+* ProjectActions.fetchSingleProject -> triggers ApiUtil
 * ProjectActions.createProject
 * ProjectActions.editProject
 * ProjectActions.destroyProject
+* MembershipActions.createMembership
+* MembershipActions.destroyMembership
+* MembershipActions.fetchAllMemberships
 
 ### ApiUtil
 * ApiUtil.fetchAllProjects
@@ -41,5 +48,8 @@
 * ApiUtil.createProject
 * ApiUtil.editProject
 * ApiUtil.destroyProject
+* ApiUtil.createMembership
+* ApiUtil.destroyMembership
+* ApiUtil.createTeam
 
 ## Gems/Libraries

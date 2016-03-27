@@ -13,8 +13,6 @@
   - TasksIndexItem
   - `TaskDetail`
     * `TaskSummary`
-    * `TaskCommentIndex`
-      * `TaskComment`
 
 ### Stores
 * TaskStore
