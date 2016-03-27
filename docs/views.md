@@ -15,6 +15,12 @@
 ## InboxIndex
 ![inbox]
 
+[new-user]: ./wireframes/new_user.png
+[new-session]: ./wireframes/new_session.png
+[project_index]: ./wireframes/project_index.png
+[task_detail]: ./wireframes/task_detail.png
+[inbox]: ./wireframes/inbox.png
+
 ## Component Hierarchy
 
 * `App`
@@ -40,8 +46,3 @@
   * `InboxIndex`
     * `InboxItem`
 
-[new-user]: ./wireframes/new_user.png
-[new-session]: ./wireframes/new_session.png
-[project_index]: ./wireframes/project_index.png
-[task_detail]: ./wireframes/task_detail.png
-[inbox]: ./wireframes/inbox.png

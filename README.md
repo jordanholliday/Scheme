@@ -98,7 +98,7 @@ in "Inbox" mode
   - [ ] `InboxItem`
 - Use CSS to style Inbox view
 
-### Phase 8: Styling Cleanup and Seeding (1 day)
+### Phase 6: Styling Cleanup and Seeding (1 day)
 
 **objective:** Make the site feel more cohesive and awesome.
 
@@ -111,7 +111,7 @@ in "Inbox" mode
 - [ ] Multiple sessions
 - [ ] Drag-n-drop organization of tasks
 - [ ] Animated unicorns to celebrate task completion
-- [ ] Pagination / infinite for Inbox and TaskIndex
+- [ ] Pagination / infinite scroll for Inbox and TaskIndex
 - [ ] Keyboard shortcuts for power users
 - [ ] Push new task comments from other users
 - [ ] Paid account upgrades
