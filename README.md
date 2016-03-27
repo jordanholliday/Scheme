@@ -1,8 +1,6 @@
 # Scheme
 
-[Heroku link][heroku] **NB:** This should be a link to your production site
-
-[heroku]: http://www.herokuapp.com
+(link coming soon)
 
 ## Minimum Viable Product
 
