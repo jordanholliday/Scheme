@@ -50,7 +50,7 @@ progress. Put an x between the brackets for a checkmark: [x] -->
 creating and updating tasks.
 
 - [ ] create `Task` model & DB seeds
-- [ ] CRUD API for notes (`TasksController`)
+- [ ] CRUD API for tasks (`TasksController`)
 - [ ] jBuilder views for tasks
 - [ ] setup `APIUtil` to interact with the API
 - [ ] Add primary React components for Tasks:

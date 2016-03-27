@@ -6,17 +6,42 @@
 ## New Session
 ![new-session]
 
-## NotesIndex / NoteIndexItem / NoteForm
-![notes]
+## ProjectIndex / TaskIndex / NavBar
+![project_index]
 
-## NotebooksIndex / NotebookIndexItem
-![notebooks]
+## TaskDetail / TaskComment / TaskUpload / TaskCommentForm / TaskFollow
+![task_detail]
 
-## NotebookForm
-![notebook-form]
+## InboxIndex
+![inbox]
+
+## Component Hierarchy
+
+* `App`
+  * `NavBar`
+    * `TaskSearch`
+    * `MemberInvite`
+  * `ProjectIndex`
+    * `ProjectIndexItem`
+    * `ProjectEditor`
+  * `TaskIndex`
+    * `TaskIndexItem`
+      * `TaskDetail`
+        * `TaskSummary`
+        * `SubTaskIndex`
+          * `SubTask`
+        * `TaskCommentIndex`
+          * `TaskComment`
+        * `TaskUploadIndex`
+          * `TaskUpload`
+        * `TaskCommentForm`
+        * `TaskFollowerIndex`
+          * `TaskFollower`
+  * `InboxIndex`
+    * `InboxItem`
 
 [new-user]: ./wireframes/new_user.png
 [new-session]: ./wireframes/new_session.png
-[notes]: ./wireframes/root_notes.png
-[notebooks]: ./wireframes/root_notebooks.png
-[notebook-form]: ./wireframes/notebook_form.png
+[project_index]: ./wireframes/project_index.png
+[task_detail]: ./wireframes/task_detail.png
+[inbox]: ./wireframes/inbox.png
