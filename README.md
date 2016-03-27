@@ -112,6 +112,7 @@ in "Inbox" mode
 - [ ] Search tasks
 - [ ] Multiple sessions
 - [ ] Drag-n-drop organization of tasks
+- [ ] Animated unicorns to celebrate task completion
 - [ ] Pagination / infinite for Inbox and TaskIndex
 - [ ] Keyboard shortcuts for power users
 - [ ] Push new task comments from other users
