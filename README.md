@@ -4,7 +4,7 @@
 
 ## Minimum Viable Product
 
-Scheme is a project management web app inspired by Asana, and built on Rails with React/Flux. Scheme users ("schemers") can:
+Scheme is an Asana clone. It is built on Rails with React/Flux. Scheme users ("schemas") can:
 
 <!-- This is a Markdown checklist. Use it to keep track of your
 progress. Put an x between the brackets for a checkmark: [x] -->
