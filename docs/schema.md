@@ -35,6 +35,7 @@ column name | data type | details
 id          | integer   | not null, primary key
 member_id   | integer   | not null, foreign key (references user), compound indexed with team_id
 team_id     | integer   | not null, foreign key (references task), compound index with member_id
+admin       | boolean   | not null, default: false
 
 ## comments
 column name | data type | details

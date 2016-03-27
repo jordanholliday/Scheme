@@ -11,6 +11,8 @@
     * `TaskIndexItem`
       * `TaskDetail`
         * `TaskSummary`
+        * `SubTaskIndex`
+          * `SubTask`
         * `TaskCommentIndex`
           * `TaskComment`
         * `TaskUploadIndex`

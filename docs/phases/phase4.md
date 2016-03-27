@@ -17,6 +17,8 @@
   * `TaskComment`
 * `TaskUploadIndex`
   * `TaskUpload`
+* `SubTaskIndex`
+  * `SubTask`
 
 ### Stores
 
