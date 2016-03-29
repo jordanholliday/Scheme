@@ -46,3 +46,8 @@ group :development do
   gem 'spring'
 end
 
+group :production do
+  # For troubleshooting in rails logs
+  gem 'rails_12factor'
+end
+
