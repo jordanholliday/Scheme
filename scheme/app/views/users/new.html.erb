@@ -1,0 +1,42 @@
+<div class="registration-fullscreen">
+
+  <div class="login-logo">
+    <img src="<%= asset_url('scheme_logo.png') %>" />
+  </div>
+
+  <div class="group registration-dialog">
+
+    <h1>Please start by completing your profile.</h1>
+
+    <form action="<%= users_url %>" method="POST">
+      <%= auth_token %>
+
+      <div class="upload-div">
+        <p>Add Photo</p>
+      </div>
+
+      <div class="input">
+        <label for="name">Full Name</label><br />
+        <input type="text" name="user[name]" id="name" />
+      </div>
+
+      <div class="input">
+        <label for="email">Work Email</label><br />
+        <input type="email" name="user[email]" id="email" />
+        <svg class="confirm" viewBox="0 0 32 32">
+          <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
+        </svg>
+      </div>
+
+      <div class="input password">
+        <label for="password">Password</label><br />
+        <input type="password" name="user[password]" id="password" />
+      </div>
+
+      <div class="submit">
+        <button>Continue</button>
+      </div>
+    </form>
+  </div>
+
+</div>

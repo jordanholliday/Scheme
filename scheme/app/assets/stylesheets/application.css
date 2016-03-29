@@ -12,4 +12,6 @@
  *
  *= require_tree .
  *= require_self
+ *= resets
+ *= require new_user_page
  */
