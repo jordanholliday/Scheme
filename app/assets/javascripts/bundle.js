@@ -24782,9 +24782,6 @@
 	
 	  showNewTaskForm: function () {
 	    this.setState({ addingTask: true });
-	    debugger;
-	
-	    var oh = 0;
 	  },
 	
 	  render: function () {
@@ -24807,6 +24804,12 @@
 	          key: taskId
 	        }));
 	      }.bind(this));
+	
+	      if (this.state.addingTask) {
+	        allTasks.push(React.createElement(TaskIndexItem, {
+	          className: 'edit-task'
+	        }));
+	      }
 	
 	      return React.createElement(
 	        'section',
@@ -24846,6 +24849,21 @@
 	        console.log("ApiUtil#fetchTasks error");
 	      }
 	    });
+	  },
+	
+	  updateTaskName: function (task) {
+	    $.ajax({
+	      type: 'PATCH',
+	      url: 'api/tasks/' + task.id,
+	      dataType: 'json',
+	      data: { task: task },
+	      success: function (task) {
+	        console.log(task);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#fetchTasks error");
+	      }
+	    });
 	  }
 	};
 	
@@ -24864,6 +24882,13 @@
 	      actionType: ApiConstants.RECEIVE_TASKS,
 	      tasks: tasks
 	    });
+	  },
+	
+	  updateTaskName: function (task) {
+	    AppDispatcher.dispatch({
+	      actionType: ApiConstants.UPDATE_TASK_NAME,
+	      task: task
+	    });
 	  }
 	};
 	
@@ -24874,7 +24899,8 @@
 /***/ function(module, exports) {
 
 	ApiConstants = {
-	  RECEIVE_TASKS: "RECEIVE_TASKS"
+	  RECEIVE_TASKS: "RECEIVE_TASKS",
+	  UPDATE_TASK_NAME: "UPDATE_TASK_NAME"
 	};
 	
 	module.exports = ApiConstants;
@@ -31685,11 +31711,43 @@
 	var TaskIndexItem = React.createClass({
 	  displayName: 'TaskIndexItem',
 	
+	  getInitialState: function () {
+	    if (this.props.task) {
+	      return {
+	        name: this.props.task.name,
+	        id: this.props.task.id
+	      };
+	    } else {
+	      return {
+	        name: null,
+	        id: $('.task-input').length + 835
+	      };
+	    }
+	  },
+	
+	  handleType: function () {
+	    var id = "#" + this.state.id;
+	    this.setState({ name: $(id).val() });
+	  },
+	
+	  saveNameChange: function () {
+	    ApiUtil.updateTaskName({
+	      id: this.props.task.id,
+	      name: this.state.name
+	    });
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'li',
 	      { className: 'task-index-item' },
-	      this.props.task.name
+	      React.createElement('input', {
+	        type: 'text',
+	        className: 'task-input',
+	        value: this.state.name,
+	        id: this.state.id,
+	        onChange: this.handleType,
+	        onBlur: this.saveNameChange })
 	    );
 	  }
 	});

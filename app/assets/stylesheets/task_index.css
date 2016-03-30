@@ -23,6 +23,18 @@
   padding-top: 12px;
 }
 
+.task-index-item .edit-task  {
+  border-bottom-color: #1AAFD0;
+}
+
+.task-index-item input  {
+  width: 860px;
+}
+
+.task-index .task-index-item.edit-task + li  {
+  border-bottom-color: #1AAFD0;
+}
+
 .task-index > button {
   margin: 0px auto 15px;
   height: 30px;
@@ -38,9 +50,4 @@
   color: #02ceff;
   box-shadow: 0 0 0 3px #02ceff;
   font-weight: 700;
-}
-
-.task-index .test-input {
-  border: 1px solid #000;
-  padding: 10px;
 }

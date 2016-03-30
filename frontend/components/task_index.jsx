@@ -24,9 +24,6 @@ var TaskIndex = React.createClass({
 
   showNewTaskForm: function () {
     this.setState({addingTask: true});
-    debugger
-
-    var oh = 0;
   },
 
   render: function () {
@@ -44,6 +41,14 @@ var TaskIndex = React.createClass({
           key={taskId}
         />);
       }.bind(this));
+
+      if (this.state.addingTask) {
+        allTasks.push(
+          <TaskIndexItem
+            className="edit-task"
+          />
+        );
+      }
 
       return (
         <section className="task-index">
