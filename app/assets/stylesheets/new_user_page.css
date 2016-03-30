@@ -74,13 +74,14 @@
   color: #02ceff;
   box-shadow: none;
   transition: .25s;
-  transition-property: box-shadow;
+  transition-property: box-shadow, inherit;
   transition-timing-function: ease;
 }
 
 .registration-dialog form .upload-div:hover {
   box-shadow: 0 0 0 2px #02ceff;
   color: #02ceff;
+  border: none;
 }
 
 .registration-dialog form .upload-div:hover p {
@@ -88,7 +89,7 @@
 }
 
 .registration-dialog form .upload-div p {
-  font-family: 'proxima_nova_reg';
+  font-family: 'proxima_nova_bold';
   position: absolute;
   top: 45%;
   left: 50%;

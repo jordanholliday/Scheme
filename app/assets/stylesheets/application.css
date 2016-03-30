@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require fonts.scss
  *= resets
  *= require new_user_page
  */
