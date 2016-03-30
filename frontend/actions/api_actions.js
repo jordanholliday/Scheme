@@ -1,9 +1,10 @@
-var ApiConstants = require('../constants/api_constants');
+var ApiConstants = require('../constants/api_constants'),
+    AppDispatcher = require('../dispatcher/dispatcher.js');
 
 ApiActions = {
   recieveAll: function (tasks) {
     AppDispatcher.dispatch({
-      actionType: ApiConstants.TASKS_RECEIVED,
+      actionType: ApiConstants.RECEIVE_TASKS,
       tasks: tasks
     });
   }

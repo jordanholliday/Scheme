@@ -27,6 +27,4 @@ $(document).on('ready', function () {
   ReactDOM.render(<Router>{routes}</Router>, $('.app')[0]);
 });
 
-ApiUtil.fetchTasks();
-
 

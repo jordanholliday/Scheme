@@ -1,5 +1,5 @@
 ApiConstants = {
-  RECEIVED_TASKS: "RECEIVED_TASKS"
+  RECEIVE_TASKS: "RECEIVE_TASKS"
 };
 
 module.exports = ApiConstants;

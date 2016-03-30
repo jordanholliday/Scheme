@@ -7,7 +7,7 @@ ApiUtil = {
       url: 'api/tasks',
       dataType: 'json',
       success: function (tasks) {
-        console.log(tasks);
+        ApiActions.recieveAll(tasks);
       },
       error: function () {
         console.log("ApiUtil#fetchTasks error");
