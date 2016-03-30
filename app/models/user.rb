@@ -3,6 +3,13 @@ class User < ActiveRecord::Base
   before_save :downcase_email_remove_whitespace
   validates :email, :name, :password_digest, :session_token, presence: true
 
+  has_many(
+    :tasks,
+    class_name: 'Task',
+    primary_key: :id,
+    foreign_key: :creator_id
+  )
+
   attr_reader :password
 
   def password=(password)

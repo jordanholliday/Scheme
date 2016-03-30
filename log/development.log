@@ -14400,3 +14400,451 @@ Started GET "/session/new" for ::1 at 2016-03-30 10:06:35 -0400
 Processing by SessionsController#new as HTML
   Rendered sessions/new.html.erb within layouts/application (3.4ms)
 Completed 200 OK in 42ms (Views: 41.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/new" for ::1 at 2016-03-30 10:07:44 -0400
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 35ms (Views: 34.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/session/new" for ::1 at 2016-03-30 10:07:54 -0400
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 31ms (Views: 31.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/session" for ::1 at 2016-03-30 10:07:58 -0400
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"RBY69HDxr/gRrQzYY4GZbwRmvQVz8ZfqFJ8dNwsZSI6QmuvL7HeNET7z0o/BVRkB2rRgfv3c716gkbh6DBOP8g==", "user"=>{"email"=>"jh@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[35mUser Load (13.1ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "jh@gmail.com"]]
+  Rendered sessions/new.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 92ms (Views: 48.0ms | ActiveRecord: 13.4ms)
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT "users".* FROM "users"[0m
+
+
+Started POST "/session" for ::1 at 2016-03-30 10:08:38 -0400
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"rwq8HJC0PHJOfKiVBQgWk6oKYKvuBN1TS9oQYPs4qOZ7hm0jDDIem2EidsKn3Jb9dNi90GAppef/1LUt/DJvmg==", "user"=>{"email"=>"pray4mojo742@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "pray4mojo742@gmail.com"]]
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (6.1ms)[0m  [1mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "85Mo1ZSuOawWWMZ9Tafu5g"], ["updated_at", "2016-03-30 14:08:38.250900"], ["id", 3]]
+  [1m[35m (12.5ms)[0m  COMMIT
+Redirected to http://localhost:3000/users/3
+Completed 302 Found in 106ms (ActiveRecord: 19.2ms)
+
+
+Started GET "/users/3" for ::1 at 2016-03-30 10:08:38 -0400
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 3]]
+  Rendered users/show.html.erb within layouts/application (1.2ms)
+Completed 200 OK in 33ms (Views: 31.4ms | ActiveRecord: 0.4ms)
+
+
+Started DELETE "/session" for ::1 at 2016-03-30 10:08:41 -0400
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"Sx4O4S15JhY1TBB2OZNvXWjjo4NSaTTCebc83li1UNafkt/esf8E/xoSziGbR+8ztjF++NxETHbNuZmTX7+Xqg=="}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "85Mo1ZSuOawWWMZ9Tafu5g"]]
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["session_token", "thvXmR87gk_548d74nkqoA"], ["updated_at", "2016-03-30 14:08:41.374541"], ["id", 3]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/session/new
+Completed 302 Found in 6ms (ActiveRecord: 1.2ms)
+
+
+Started GET "/session/new" for ::1 at 2016-03-30 10:08:41 -0400
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 33ms (Views: 32.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/new" for ::1 at 2016-03-30 10:08:44 -0400
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 32ms (Views: 31.3ms | ActiveRecord: 0.0ms)
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 3]]
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  DELETE FROM "users" WHERE "users"."id" = $1  [["id", 3]]
+  [1m[36m (6.1ms)[0m  [1mCOMMIT[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users"
+
+
+Started POST "/users" for ::1 at 2016-03-30 10:09:05 -0400
+Processing by UsersController#create as HTML
+  Parameters: {"authenticity_token"=>"IeV6v+LqZ8OfXZOSMOuAm5aGOtKi5OVxvHRbRSUhSBX1aauAfmxFKrADTcWSPwD1SFTnqSzJncUIev4IIiuPaQ==", "user"=>{"name"=>"Young Mojo", "email"=>"pray4mojo742@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (1.7ms)[0m  [1mINSERT INTO "users" ("name", "email", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "Young Mojo"], ["email", "pray4mojo742@gmail.com"], ["password_digest", "$2a$10$So7na3Ec3BN5IfrZi5ddsOOBgvieHD.PEavGs2K6LKh1JKKTnT/4W"], ["session_token", "KM090DTP6Ks7qyXMctLcDw"], ["created_at", "2016-03-30 14:09:05.922599"], ["updated_at", "2016-03-30 14:09:05.922599"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["session_token", "9_lIKhLjFbbptYKFr_T27w"], ["updated_at", "2016-03-30 14:09:05.927077"], ["id", 5]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/users/5
+Completed 302 Found in 83ms (ActiveRecord: 3.0ms)
+
+
+Started GET "/users/5" for ::1 at 2016-03-30 10:09:05 -0400
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"5"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 5]]
+  Rendered users/show.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 26ms (Views: 25.2ms | ActiveRecord: 0.3ms)
+
+
+Started DELETE "/session" for ::1 at 2016-03-30 10:09:10 -0400
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"Wo3Ky4liumP7SUV82gr8tEKtxxi95BHbzfC9OubY4xyOARv0FeSYitQXmyt43nzanH8aYzPJaW95/hh34dIkYA=="}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "9_lIKhLjFbbptYKFr_T27w"]]
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "JkMuQkwyXVQMHRJWXHTdNA"], ["updated_at", "2016-03-30 14:09:10.141571"], ["id", 5]]
+  [1m[35m (6.1ms)[0m  COMMIT
+Redirected to http://localhost:3000/session/new
+Completed 302 Found in 11ms (ActiveRecord: 6.8ms)
+
+
+Started GET "/session/new" for ::1 at 2016-03-30 10:09:10 -0400
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 29ms (Views: 29.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/new" for ::1 at 2016-03-30 10:09:12 -0400
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (1.8ms)
+Completed 200 OK in 27ms (Views: 26.6ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (2.2ms)[0m  [1mSELECT  "users".* FROM "users"  ORDER BY "users"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mDELETE FROM "users" WHERE "users"."id" = $1[0m  [["id", 5]]
+  [1m[35m (0.4ms)[0m  COMMIT
+
+
+Started POST "/users" for ::1 at 2016-03-30 10:09:31 -0400
+Processing by UsersController#create as HTML
+  Parameters: {"authenticity_token"=>"oWGepGGxNLwU9TfYSaGwYkbEVABpaCyFn/JoV6EJAA517U+b/TcWVTur6Y/rdTAMmBaJe+dFVDEr/M0apgPHcg==", "user"=>{"name"=>"Young Mojo", "email"=>"pray4mojo742@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (1.7ms)[0m  INSERT INTO "users" ("name", "email", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["name", "Young Mojo"], ["email", "pray4mojo742@gmail.com"], ["password_digest", "$2a$10$iLo57/9GhwTpJI/pSiwVwuJTvwXsybXEIgjTAuM.ddmASpzEKYDVa"], ["session_token", "kH4tEZHb-j8z1usIgDBINw"], ["created_at", "2016-03-30 14:09:31.385278"], ["updated_at", "2016-03-30 14:09:31.385278"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "akyb8QqCAcNdaIYh1ZxlsA"], ["updated_at", "2016-03-30 14:09:31.389436"], ["id", 6]]
+  [1m[35m (0.3ms)[0m  COMMIT
+Redirected to http://localhost:3000/users/6
+Completed 302 Found in 80ms (ActiveRecord: 2.9ms)
+
+
+Started GET "/users/6" for ::1 at 2016-03-30 10:09:31 -0400
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 6]]
+  Rendered users/show.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 29ms (Views: 27.9ms | ActiveRecord: 0.3ms)
+
+
+Started DELETE "/session" for ::1 at 2016-03-30 10:09:33 -0400
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"tZHo0OWm+XMGQ+eAjHUvjdHC+tejaEzfoXod3lSNgK1hHTnveSDbmikdOdcuoa/jDxAnrC1FNGsVdLiTU4dH0Q=="}
+  [1m[35mUser Load (0.4ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "akyb8QqCAcNdaIYh1ZxlsA"]]
+  [1m[36m (0.6ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  UPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["session_token", "MUH-fRwbaHW7eR4VXUccqg"], ["updated_at", "2016-03-30 14:09:33.137463"], ["id", 6]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/session/new
+Completed 302 Found in 6ms (ActiveRecord: 1.7ms)
+
+
+Started GET "/session/new" for ::1 at 2016-03-30 10:09:33 -0400
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 43ms (Views: 42.6ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/session" for ::1 at 2016-03-30 10:09:38 -0400
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"q916GNheaXDIZpjpJTFb+1/n3FACGBuv4RTDlvmwLPV/UasnRNhLmec4Rr6H5duVgTUBK4w1YxtVGmbb/rrriQ==", "user"=>{"email"=>"pray4mojo742@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "pray4mojo742@gmail.com"]]
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3  [["session_token", "MbkewizWuU4LzzSVjhbrcA"], ["updated_at", "2016-03-30 14:09:39.040242"], ["id", 6]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3000/users/6
+Completed 302 Found in 79ms (ActiveRecord: 1.0ms)
+
+
+Started GET "/users/6" for ::1 at 2016-03-30 10:09:39 -0400
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 6]]
+  Rendered users/show.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 28ms (Views: 26.6ms | ActiveRecord: 0.3ms)
+
+
+Started DELETE "/session" for ::1 at 2016-03-30 10:09:44 -0400
+Processing by SessionsController#destroy as HTML
+  Parameters: {"authenticity_token"=>"ezsiSsnei0P/GFHf4ESWn/akgMlIiRydb89t7hz/tTOvt/N1VVipqtBGj4hCkBbxKHZdssakZCnbwcijG/VyTw=="}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "MbkewizWuU4LzzSVjhbrcA"]]
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "g-E91zqhZt9vmMNHJ9zePg"], ["updated_at", "2016-03-30 14:09:44.763494"], ["id", 6]]
+  [1m[35m (0.4ms)[0m  COMMIT
+Redirected to http://localhost:3000/session/new
+Completed 302 Found in 5ms (ActiveRecord: 1.0ms)
+
+
+Started GET "/session/new" for ::1 at 2016-03-30 10:09:44 -0400
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (1.9ms)
+Completed 200 OK in 35ms (Views: 34.4ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/session" for ::1 at 2016-03-30 10:09:54 -0400
+Processing by SessionsController#create as HTML
+  Parameters: {"authenticity_token"=>"KezjOMRDLzIRy1o61AShNXVWpN/FO042ZqQTqMkknef9YDIHWMUN2z6VhG120CFbq4R5pEsWNoLSqrblzi5amw==", "user"=>{"email"=>"pray4mojo742@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "pray4mojo742@gmail.com"]]
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "ZXqnXrILflDgy5zvrs8ewA"], ["updated_at", "2016-03-30 14:09:54.711016"], ["id", 6]]
+  [1m[35m (0.3ms)[0m  COMMIT
+Redirected to http://localhost:3000/users/6
+Completed 302 Found in 78ms (ActiveRecord: 1.1ms)
+
+
+Started GET "/users/6" for ::1 at 2016-03-30 10:09:54 -0400
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 6]]
+  Rendered users/show.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 44ms (Views: 43.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/users/6" for ::1 at 2016-03-30 10:11:22 -0400
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[35mUser Load (0.4ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 6]]
+  Rendered users/show.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 26ms (Views: 24.8ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/auth_pages.self-4809f3b1d4385030ffb07132ebc73dd74799380cb79b03c935ce7981ebaec371.css?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/resets.self-56b1e17319b0c05f862fb1badf606149cb5078e86ef88eec1a5944e93ad4dbda.css?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/application.self-4c37e1646a03bd8c1885f7d0ec1c1e411235f967b4414b0dd9d9947bf98fc19a.css?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/fonts.self-8589b1b71b871801c18ea71e3f6ca8f56edb528cd42bc7f19f625f13de896cb5.css?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/sessions.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/bundle.self-6f22c928e9c088306f08d62ab1fea5b660829aa71e451991a3f66c3b703a4866.js?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/sessions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/application.self-377610cd7c1509e934744c810e3b4cf672dfbcacac3274e7d039827e2ae0fcc7.js?body=1" for ::1 at 2016-03-30 10:11:22 -0400
+
+
+Started GET "/assets/proxima_nova_reg-webfont-59e4ab885475a3b0bb21aef9cb7760b802e3f126e27c435ccf964167a43203c6.ttf" for ::1 at 2016-03-30 10:11:22 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateTasks (20160330141428)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (44.7ms)[0m  [1mCREATE TABLE "tasks" ("id" serial primary key, "name" character varying NOT NULL, "description" text, "deadline" date, "repeats" character varying, "completed" boolean DEFAULT 'f', "parent_id" integer, "assignee_id" integer, "creator_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20160330141428"]]
+  [1m[36m (11.8ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (2.4ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'tasks'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.7ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mTask Load (1.0ms)[0m  [1mSELECT "tasks".* FROM "tasks"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "tasks" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "My first ever task"], ["created_at", "2016-03-30 14:21:21.034095"], ["updated_at", "2016-03-30 14:21:21.034095"]]
+  [1m[35m (6.1ms)[0m  COMMIT
+  [1m[36mTask Load (0.7ms)[0m  [1mSELECT  "tasks".* FROM "tasks"  ORDER BY "tasks"."id" ASC LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "tasks" SET "description" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3[0m  [["description", "do work"], ["updated_at", "2016-03-30 14:21:59.168808"], ["id", 1]]
+  [1m[35m (6.1ms)[0m  COMMIT
+  [1m[36mTask Load (0.4ms)[0m  [1mSELECT  "tasks".* FROM "tasks"  ORDER BY "tasks"."id" ASC LIMIT 1[0m
+  [1m[36mTask Load (0.7ms)[0m  [1mSELECT  "tasks".* FROM "tasks"  ORDER BY "tasks"."id" ASC LIMIT 1[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateTasks (20160330141428)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (34.1ms)[0m  DROP TABLE "tasks"
+  [1m[36mSQL (0.4ms)[0m  [1mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = $1[0m  [["version", "20160330141428"]]
+  [1m[35m (24.2ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (3.7ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateTasks (20160330141428)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (26.7ms)[0m  [1mCREATE TABLE "tasks" ("id" serial primary key, "name" character varying NOT NULL, "description" text, "deadline" date, "repeats" character varying, "completed" boolean DEFAULT 'f', "parent_id" integer, "assignee_id" integer NOT NULL, "creator_id" integer NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20160330141428"]]
+  [1m[36m (6.1ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (2.6ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'tasks'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (1.7ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mTask Load (0.9ms)[0m  [1mSELECT "tasks".* FROM "tasks"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+Migrating to CreateTasks (20160330141428)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (1.3ms)[0m  DROP TABLE "tasks"
+  [1m[36mSQL (0.3ms)[0m  [1mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = $1[0m  [["version", "20160330141428"]]
+  [1m[35m (13.4ms)[0m  COMMIT
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (3.4ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateTasks (20160330141428)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (22.3ms)[0m  [1mCREATE TABLE "tasks" ("id" serial primary key, "name" character varying NOT NULL, "description" text, "deadline" date, "repeats" character varying, "completed" boolean DEFAULT 'f', "parent_id" integer, "assignee_id" integer, "creator_id" integer NOT NULL, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35mSQL (5.9ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20160330141428"]]
+  [1m[36m (6.3ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (2.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'tasks'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.0ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (8.1ms)[0m  INSERT INTO "tasks" ("name", "creator_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Another task"], ["creator_id", 5], ["created_at", "2016-03-30 14:28:32.759261"], ["updated_at", "2016-03-30 14:28:32.759261"]]
+  [1m[36m (11.8ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to AddIndicestoTasks (20160330143134)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (2.8ms)[0m  [1mCREATE  INDEX  "index_tasks_on_parent_id" ON "tasks"  ("parent_id")[0m
+  [1m[35m (0.9ms)[0m  CREATE  INDEX  "index_tasks_on_creator_id" ON "tasks"  ("creator_id")
+  [1m[36m (0.9ms)[0m  [1mCREATE  INDEX  "index_tasks_on_assignee_id" ON "tasks"  ("assignee_id")[0m
+  [1m[35mSQL (6.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20160330143134"]]
+  [1m[36m (6.3ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (2.5ms)[0m  [1mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'tasks'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.0ms)[0m  SELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'users'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+
+  [1m[36mUser Load (1.8ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35mTask Load (14.6ms)[0m  SELECT  "tasks".* FROM "tasks"  ORDER BY "tasks"."id" ASC LIMIT 1
+  [1m[36mTask Load (0.5ms)[0m  [1mSELECT  "tasks".* FROM "tasks"  ORDER BY "tasks"."id" ASC LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (13.6ms)[0m  [1mUPDATE "tasks" SET "creator_id" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3[0m  [["creator_id", 6], ["updated_at", "2016-03-30 14:34:52.633960"], ["id", 1]]
+  [1m[35m (10.8ms)[0m  COMMIT
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users"  ORDER BY "users"."id" ASC LIMIT 1 OFFSET 1[0m
+  [1m[35mTask Load (0.2ms)[0m  SELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1  [["creator_id", 6]]
+  [1m[36mTask Load (0.5ms)[0m  [1mSELECT  "tasks".* FROM "tasks"  ORDER BY "tasks"."id" ASC LIMIT 1[0m
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", 6]]
