@@ -27,6 +27,6 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_if_logged_out
-    redirect_to new_session_url if logged_in?
+    redirect_to new_session_url unless logged_in?
   end
 end
