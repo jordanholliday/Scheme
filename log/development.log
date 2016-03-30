@@ -10547,3 +10547,84 @@ Started GET "/assets/application.self-377610cd7c1509e934744c810e3b4cf672dfbcacac
 
 
 Started GET "/assets/scheme_logo-7b01a4948f59452915f95a476c261c739bf2527fed9b74827ebaeacdc0cd9716.png" for ::1 at 2016-03-30 05:46:10 -0400
+
+
+Started GET "/" for ::1 at 2016-03-30 06:09:02 -0400
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (14.2ms)
+Completed 200 OK in 252ms (Views: 242.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for ::1 at 2016-03-30 06:09:03 -0400
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (3.5ms)
+Completed 200 OK in 45ms (Views: 44.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/new_user_page.self-f9e063f870d1f74e8cae68b763d0cdb19b1b35a2f3e7b79fa2fe06ad04a4ba58.css?body=1" for ::1 at 2016-03-30 06:09:03 -0400
+
+
+Started GET "/assets/fonts.self-8589b1b71b871801c18ea71e3f6ca8f56edb528cd42bc7f19f625f13de896cb5.css?body=1" for ::1 at 2016-03-30 06:09:03 -0400
+
+
+Started GET "/assets/resets.self-56b1e17319b0c05f862fb1badf606149cb5078e86ef88eec1a5944e93ad4dbda.css?body=1" for ::1 at 2016-03-30 06:09:03 -0400
+
+
+Started GET "/assets/application.self-4c37e1646a03bd8c1885f7d0ec1c1e411235f967b4414b0dd9d9947bf98fc19a.css?body=1" for ::1 at 2016-03-30 06:09:03 -0400
+
+
+Started GET "/assets/bundle.self-6f22c928e9c088306f08d62ab1fea5b660829aa71e451991a3f66c3b703a4866.js?body=1" for ::1 at 2016-03-30 06:09:03 -0400
+
+
+Started GET "/assets/scheme_logo-7b01a4948f59452915f95a476c261c739bf2527fed9b74827ebaeacdc0cd9716.png" for ::1 at 2016-03-30 06:09:03 -0400
+
+
+Started GET "/assets/proxima_nova_reg-webfont-59e4ab885475a3b0bb21aef9cb7760b802e3f126e27c435ccf964167a43203c6.ttf" for ::1 at 2016-03-30 06:09:03 -0400
+
+
+Started GET "/assets/proxima_nova_bold-webfont-603b2561377b81c0c83d36037a7c9430c651fc783a5c4ca2054a451340e96d11.woff" for ::1 at 2016-03-30 06:09:03 -0400
+
+
+Started GET "/" for ::1 at 2016-03-30 06:09:38 -0400
+Processing by UsersController#new as HTML
+  Rendered users/new.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 128ms (Views: 128.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/fonts.self-8589b1b71b871801c18ea71e3f6ca8f56edb528cd42bc7f19f625f13de896cb5.css?body=1" for ::1 at 2016-03-30 06:09:38 -0400
+
+
+Started GET "/assets/new_user_page.self-7ef34586112552215b2c12f3a422fe7973324dab6942a7230696d161d0bc1389.css?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/sessions.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/resets.self-56b1e17319b0c05f862fb1badf606149cb5078e86ef88eec1a5944e93ad4dbda.css?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/application.self-4c37e1646a03bd8c1885f7d0ec1c1e411235f967b4414b0dd9d9947bf98fc19a.css?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/bundle.self-6f22c928e9c088306f08d62ab1fea5b660829aa71e451991a3f66c3b703a4866.js?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/sessions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/application.self-377610cd7c1509e934744c810e3b4cf672dfbcacac3274e7d039827e2ae0fcc7.js?body=1" for ::1 at 2016-03-30 06:09:39 -0400
+
+
+Started GET "/assets/scheme_logo-7b01a4948f59452915f95a476c261c739bf2527fed9b74827ebaeacdc0cd9716.png" for ::1 at 2016-03-30 06:09:39 -0400

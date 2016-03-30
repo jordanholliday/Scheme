@@ -123,6 +123,32 @@
   border-radius: 3px;
 }
 
+.registration-dialog .submit button {
+  float: right;
+  margin: 30px 0 15px;
+  height: 40px;
+  padding: 0 15px;
+  font-size: 14px;
+  background: #EFF0F1;
+  color: #898E95;
+  border: 1px solid;
+  border-color: #E1E2E4;
+  border-radius: 3px;
+}
+
+.registration-dialog .submit button:hover {
+  background-color: #02CEFF;
+  color: #fff;
+  border: #02CEFF 1px solid;
+  box-shadow: 0 0 0 3px #80E6FF;
+}
+
+/* STYLE ONCE ALL FIELDS PASS VALIDATION
+ .registration-dialog .submit button {
+  background-color: #1AAFD0;
+  color: #fff;
+}*/
+
 .registration-dialog svg.confirm {
   position: absolute;
   fill: #37C597;
