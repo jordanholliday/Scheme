@@ -14,5 +14,5 @@
  *= require_self
  *= require fonts.scss
  *= resets
- *= require new_user_page
+ *= require auth_pages
  */

@@ -1,17 +1,48 @@
+<div class="auth-fullscreen">
 
-<form action="<%= session_url %>" method="POST">
-  <%= auth_token %>
-  <div>
-    <label for="email">Email Address</label>
-    <input type="email" name="user[email]" />
+  <div class="login-logo">
+    <img src="<%= asset_url('scheme_logo.png') %>" />
   </div>
 
-  <div>
-    <label for="password">Password</label>
-    <input type="password" name="user[password]" />
+  <div class="group auth-dialog login">
+
+    <h1>Log In</h1>
+
+    <form action="<%= session_url %>" method="POST">
+      <%= auth_token %>
+
+      <div class="google-auth">
+        <button>FPO Use Google Account</button>
+      </div>
+
+      <div class="separator">
+        or
+      </div>
+
+      <div class="input">
+        <label for="name">Email</label><br />
+        <input type="text" name="user[email]" id="name" />
+      </div>
+
+      <div class="input">
+        <label for="email">Password</label><br />
+        <input type="password" name="user[password]" id="email" />
+      </div>
+
+      <div class="submit">
+        <button>Log In</button>
+      </div>
+    </form>
   </div>
 
-  <div class="submit">
-    <button>Log In</button>
-  </div>
-</form>
+  <footer class="group login">
+    <ul>
+      <li><a href="#">About Scheme</a></li>
+      <li><a href="http://jordanholliday.com">Blog</a></li>
+    </ul>
+    <div class="toggle-auth">
+      Don't have an account?
+       <a href="<%= new_user_url %>" class="button">Sign Up</a>
+    <div>
+  </footer>
+</div>
