@@ -22,9 +22,17 @@ var TaskIndex = React.createClass({
     ApiUtil.fetchTasks();
   },
 
+  showNewTaskForm: function () {
+    this.setState({addingTask: true});
+    debugger
+
+    var oh = 0;
+  },
+
   render: function () {
     var allTasks = [];
     if ($.isEmptyObject(this.state.tasks)) {
+      // if no tasks in TaskStore yet, show loading msg
       return (
         <section className="task-index">
           <li>loading tasks...</li>
@@ -39,7 +47,8 @@ var TaskIndex = React.createClass({
 
       return (
         <section className="task-index">
-          <ul>
+          <button onClick={this.showNewTaskForm}>Add Task</button>
+          <ul className="task-list-ul">
             {allTasks}
           </ul>
         </section>

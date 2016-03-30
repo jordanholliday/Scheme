@@ -51,7 +51,8 @@
 	    Route = ReactRouter.Route,
 	    IndexRoute = ReactRouter.IndexRoute,
 	    TaskIndex = __webpack_require__(217),
-	    ApiUtil = __webpack_require__(218);
+	    ApiUtil = __webpack_require__(218),
+	    NavBar = __webpack_require__(245);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -60,6 +61,7 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'app' },
+	      React.createElement(NavBar, null),
 	      this.props.children
 	    );
 	  }
@@ -24778,9 +24780,17 @@
 	    ApiUtil.fetchTasks();
 	  },
 	
+	  showNewTaskForm: function () {
+	    this.setState({ addingTask: true });
+	    debugger;
+	
+	    var oh = 0;
+	  },
+	
 	  render: function () {
 	    var allTasks = [];
 	    if ($.isEmptyObject(this.state.tasks)) {
+	      // if no tasks in TaskStore yet, show loading msg
 	      return React.createElement(
 	        'section',
 	        { className: 'task-index' },
@@ -24802,8 +24812,13 @@
 	        'section',
 	        { className: 'task-index' },
 	        React.createElement(
+	          'button',
+	          { onClick: this.showNewTaskForm },
+	          'Add Task'
+	        ),
+	        React.createElement(
 	          'ul',
-	          null,
+	          { className: 'task-list-ul' },
 	          allTasks
 	        )
 	      );
@@ -31673,13 +31688,30 @@
 	  render: function () {
 	    return React.createElement(
 	      'li',
-	      null,
+	      { className: 'task-index-item' },
 	      this.props.task.name
 	    );
 	  }
 	});
 	
 	module.exports = TaskIndexItem;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158);
+	
+	var NavBar = React.createClass({
+	  displayName: 'NavBar',
+	
+	  render: function () {
+	    return React.createElement('header', null);
+	  }
+	});
+	
+	module.exports = NavBar;
 
 /***/ }
 /******/ ]);

@@ -24,8 +24,6 @@ TaskStore.__onDispatch = function (payload) {
       TaskStore.__emitChange();
       break;
   }
-
-
 };
 
 module.exports = TaskStore;

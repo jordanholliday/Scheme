@@ -1,7 +1,46 @@
 .task-index {
   margin: 0 auto;
-  width: 900px;
+  width: 860px;
+  min-height: 100%;
   margin-top: 15px;
   border-radius: 3px;
   background: #fff;
+  padding: 15px 20px;
+  color: #1B2432;
+}
+
+.task-index .task-index-item {
+  border-bottom: #E1E2E4 1px solid;
+  padding: 11px 0;
+  font-size: 14px;
+}
+
+.task-index .task-index-item:hover {
+  padding-bottom: 10px;
+}
+
+.task-index .task-index-item:hover + li {
+  padding-top: 12px;
+}
+
+.task-index > button {
+  margin: 0px auto 15px;
+  height: 30px;
+  padding: 0 10px;
+  font-size: 14px;
+  border: 1px solid #1AAFD0;
+  border-radius: 3px;
+  color: #1AAFD0;
+}
+
+.task-index > button:hover {
+  border-color: transparent;
+  color: #02ceff;
+  box-shadow: 0 0 0 3px #02ceff;
+  font-weight: 700;
+}
+
+.task-index .test-input {
+  border: 1px solid #000;
+  padding: 10px;
 }

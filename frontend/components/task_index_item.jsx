@@ -3,7 +3,7 @@ var React = require('react'),
 
 var TaskIndexItem = React.createClass({
   render: function () {
-    return <li>{this.props.task.name}</li>;
+    return <li className="task-index-item">{this.props.task.name}</li>;
   }
 });
 

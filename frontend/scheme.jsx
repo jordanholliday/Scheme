@@ -5,12 +5,14 @@ var React = require('react'),
     Route = ReactRouter.Route,
     IndexRoute = ReactRouter.IndexRoute,
     TaskIndex = require('./components/task_index'),
-    ApiUtil = require('./util/api_util');
+    ApiUtil = require('./util/api_util'),
+    NavBar = require('./components/nav_bar');
 
 var App = React.createClass({
   render: function () {
     return (
       <div className="app">
+        <NavBar />
         {this.props.children}
       </div>
     );
