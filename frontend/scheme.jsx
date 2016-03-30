@@ -10,7 +10,7 @@ var React = require('react'),
 var App = React.createClass({
   render: function () {
     return (
-      <div>
+      <div className="app">
         {this.props.children}
       </div>
     );
@@ -24,7 +24,7 @@ var routes = (
 );
 
 $(document).on('ready', function () {
-  ReactDOM.render(<Router>{routes}</Router>, $('.app')[0]);
+  ReactDOM.render(<Router>{routes}</Router>, $('.root')[0]);
 });
 
 

@@ -12,7 +12,9 @@
  *
  *= require_tree .
  *= require_self
- *= require fonts.scss
  *= resets
+ *= require fonts.scss
+ *= require app.scss
+ *= task_index
  *= require auth_pages
  */

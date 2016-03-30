@@ -59,7 +59,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'app' },
 	      this.props.children
 	    );
 	  }
@@ -76,7 +76,7 @@
 	    Router,
 	    null,
 	    routes
-	  ), $('.app')[0]);
+	  ), $('.root')[0]);
 	});
 
 /***/ },
@@ -24755,7 +24755,8 @@
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    TaskStore = __webpack_require__(221),
-	    ApiUtil = __webpack_require__(218);
+	    ApiUtil = __webpack_require__(218),
+	    TaskIndexItem = __webpack_require__(244);
 	
 	var TaskIndex = React.createClass({
 	  displayName: 'TaskIndex',
@@ -24781,23 +24782,30 @@
 	    var allTasks = [];
 	    if ($.isEmptyObject(this.state.tasks)) {
 	      return React.createElement(
-	        'li',
-	        null,
-	        'loading tasks...'
+	        'section',
+	        { className: 'task-index' },
+	        React.createElement(
+	          'li',
+	          null,
+	          'loading tasks...'
+	        )
 	      );
 	    } else {
 	      Object.keys(this.state.tasks).forEach(function (taskId) {
-	        allTasks.push(React.createElement(
-	          'li',
-	          { key: taskId },
-	          this.state.tasks[taskId].name
-	        ));
+	        allTasks.push(React.createElement(TaskIndexItem, {
+	          task: this.state.tasks[taskId],
+	          key: taskId
+	        }));
 	      }.bind(this));
 	
 	      return React.createElement(
-	        'ul',
-	        null,
-	        allTasks
+	        'section',
+	        { className: 'task-index' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          allTasks
+	        )
 	      );
 	    }
 	  }
@@ -31650,6 +31658,28 @@
 	
 	module.exports = Dispatcher;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 243 */,
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158);
+	
+	var TaskIndexItem = React.createClass({
+	  displayName: 'TaskIndexItem',
+	
+	  render: function () {
+	    return React.createElement(
+	      'li',
+	      null,
+	      this.props.task.name
+	    );
+	  }
+	});
+	
+	module.exports = TaskIndexItem;
 
 /***/ }
 /******/ ]);
