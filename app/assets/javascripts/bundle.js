@@ -31999,9 +31999,23 @@
 	          'FPO FPO'
 	        ),
 	        React.createElement(
-	          'p',
-	          null,
-	          this.state.task.name
+	          'div',
+	          { className: 'group edit-pane-name-complete' },
+	          React.createElement(
+	            'button',
+	            {
+	              className: 'complete-task-button' },
+	            React.createElement(
+	              'svg',
+	              { viewBox: '0 0 32 32', className: 'check-complete' },
+	              React.createElement('polygon', { points: '30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30' })
+	            )
+	          ),
+	          React.createElement(
+	            'textarea',
+	            { className: 'task-name-input' },
+	            this.state.task.name
+	          )
 	        ),
 	        React.createElement(
 	          'p',

@@ -10,10 +10,61 @@
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
 }
 
-.task-detail .edit-pane-name-complete {
-  border: none;
+.task-detail
+  .edit-pane-name-complete {
+  display: flex;
+  border: 1px solid transparent;
+  padding: 5px;
 }
 
-.task-detail .edit-pane-name-complete:hover {
-  border: none;
+.task-detail
+  .edit-pane-name-complete:hover {
+  border: 1px solid #CDCFD2;
+  border-radius: 3px;
+}
+
+.task-detail
+  .edit-pane-name-complete
+  button.complete-task-button {
+  border: 1px solid #B9BCC0;
+  float: left;
+  box-sizing: border-box;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  margin: 0px 18px 0 12px;
+  transition: border, box-shadow;
+  transition-duration: .2s;
+  transition-timing-function: ease;
+}
+
+.edit-pane-name-complete
+  button.complete-task-button:hover {
+  border: 1px solid transparent;
+  box-shadow: #3BF7D1 0 0 0 3px;
+  background: #fff;
+}
+
+.edit-pane-name-complete
+  button.complete-task-button
+  svg.check-complete {
+  width: 16px;
+  margin: 6px 5px 3px 6px;
+  fill: #E1E2E4;
+  transition: fill;
+  transition-duration: .2s;
+  transition-timing-function: ease;
+}
+
+.task-detail
+  .edit-pane-name-complete
+  button.complete-task-button:hover
+  svg.check-complete {
+  fill: #3BF7D1;
+}
+
+.edit-pane-name-complete textarea.task-name-input {
+  flex: 1;
+  font-family: 'proxima_nova_bold', sans-serif;
+  font-size: 24px;
 }
