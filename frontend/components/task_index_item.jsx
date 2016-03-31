@@ -1,7 +1,8 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     TaskStore = require('../stores/tasks');
-    Link = require('react-router').Link;
+    Link = require('react-router').Link,
+    TaskAction = require('../actions/task_actions');
 
 var TaskIndexItem = React.createClass({
   contextTypes: {
@@ -22,6 +23,12 @@ var TaskIndexItem = React.createClass({
         persisted: false
       }
     }
+  },
+
+  componentWillReceiveProps: function (newProps) {
+    this.setState({
+      name: newProps.task.name
+    })
   },
 
   // task.name is held in state and updated as user types

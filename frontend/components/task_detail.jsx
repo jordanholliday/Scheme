@@ -1,6 +1,8 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
-    TaskStore = require('../stores/tasks');
+    TaskStore = require('../stores/tasks'),
+    TaskActions = require('../actions/task_actions'),
+    ApiUtil = require('../util/api_util.js');
 
 var TaskDetail = React.createClass({
   contextTypes: {
@@ -37,6 +39,28 @@ var TaskDetail = React.createClass({
     this.setState(this.getStateFromStore());
   },
 
+  storeUpdateTask: function () {
+    this.state.task.name = this.refs.nameTextarea.value;
+    TaskActions.updateTaskInStore(this.state.task);
+  },
+
+  apiUpdateTask: function () {
+    ApiUtil.updateTask({
+      id: this.state.task.id,
+      name: this.state.task.name,
+      description: this.state.task.description,
+      completed: this.state.task.completed,
+      deadline: this.state.task.deadline,
+      assignee_id: this.state.task
+    });
+  },
+
+  apiUpdateTaskName: function () {
+    if (!this.state.task.persisted) {
+      this.apiUpdateTask();
+    }
+  },
+
   render: function () {
     if (this.state.task) {
       return (
@@ -49,7 +73,14 @@ var TaskDetail = React.createClass({
                 <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
               </svg>
             </button>
-            <textarea className="task-name-input">{this.state.task.name}</textarea>
+            <textarea
+              className="task-name-input"
+              onChange={this.storeUpdateTask}
+              onBlur={this.apiUpdateTaskName}
+              onMouseOut={this.apiUpdateTaskName}
+              ref="nameTextarea"
+              value={this.state.task.name}>
+            </textarea>
             </div>
           <p>{this.state.task.description}</p>
         </section>

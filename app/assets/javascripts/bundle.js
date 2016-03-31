@@ -24776,7 +24776,6 @@
 	  getStateFromStore: function () {
 	    // start by getting tasks from store
 	    var returnState = { tasks: TaskStore.all() };
-	
 	    // Check if there are any tasks. If not, give a blank component
 	    // to edit. Check returnState, not this.state, as new this.state
 	    // will not be set yet.
@@ -24812,7 +24811,6 @@
 	
 	  render: function () {
 	    var allTasks = [];
-	
 	    // if task store isn't empty, put all tasks in allTasks arr
 	    if (!this.taskStoreIsEmpty()) {
 	      Object.keys(this.state.tasks).forEach(function (taskId) {
@@ -24983,7 +24981,8 @@
 
 	var Store = __webpack_require__(222).Store,
 	    AppDispatcher = __webpack_require__(240),
-	    ApiConstants = __webpack_require__(220);
+	    ApiConstants = __webpack_require__(220),
+	    TaskConstants = __webpack_require__(248);
 	
 	var _tasks = {};
 	var TaskStore = new Store(AppDispatcher);
@@ -25006,6 +25005,12 @@
 	
 	var receiveOneTask = function (task) {
 	  _tasks[task.id] = task;
+	  _tasks[task.id].persisted = true;
+	};
+	
+	var receiveOneUnpersistedTask = function (task) {
+	  _tasks[task.id] = task;
+	  _tasks[task.id].persisted = false;
 	};
 	
 	TaskStore.__onDispatch = function (payload) {
@@ -25016,6 +25021,10 @@
 	      break;
 	    case ApiConstants.RECEIVE_ONE_TASK:
 	      receiveOneTask(payload.task);
+	      TaskStore.__emitChange();
+	      break;
+	    case TaskConstants.UPDATE_TASK_IN_STORE:
+	      receiveOneUnpersistedTask(payload.task);
 	      TaskStore.__emitChange();
 	      break;
 	  }
@@ -31792,7 +31801,7 @@
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    TaskStore = __webpack_require__(221);
-	Link = __webpack_require__(159).Link;
+	Link = __webpack_require__(159).Link, TaskAction = __webpack_require__(247);
 	
 	var TaskIndexItem = React.createClass({
 	  displayName: 'TaskIndexItem',
@@ -31815,6 +31824,12 @@
 	        persisted: false
 	      };
 	    }
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({
+	      name: newProps.task.name
+	    });
 	  },
 	
 	  // task.name is held in state and updated as user types
@@ -31949,7 +31964,9 @@
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    TaskStore = __webpack_require__(221);
+	    TaskStore = __webpack_require__(221),
+	    TaskActions = __webpack_require__(247),
+	    ApiUtil = __webpack_require__(218);
 	
 	var TaskDetail = React.createClass({
 	  displayName: 'TaskDetail',
@@ -31988,6 +32005,28 @@
 	    this.setState(this.getStateFromStore());
 	  },
 	
+	  storeUpdateTask: function () {
+	    this.state.task.name = this.refs.nameTextarea.value;
+	    TaskActions.updateTaskInStore(this.state.task);
+	  },
+	
+	  apiUpdateTask: function () {
+	    ApiUtil.updateTask({
+	      id: this.state.task.id,
+	      name: this.state.task.name,
+	      description: this.state.task.description,
+	      completed: this.state.task.completed,
+	      deadline: this.state.task.deadline,
+	      assignee_id: this.state.task
+	    });
+	  },
+	
+	  apiUpdateTaskName: function () {
+	    if (!this.state.task.persisted) {
+	      this.apiUpdateTask();
+	    }
+	  },
+	
 	  render: function () {
 	    if (this.state.task) {
 	      return React.createElement(
@@ -32011,11 +32050,13 @@
 	              React.createElement('polygon', { points: '30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30' })
 	            )
 	          ),
-	          React.createElement(
-	            'textarea',
-	            { className: 'task-name-input' },
-	            this.state.task.name
-	          )
+	          React.createElement('textarea', {
+	            className: 'task-name-input',
+	            onChange: this.storeUpdateTask,
+	            onBlur: this.apiUpdateTaskName,
+	            onMouseOut: this.apiUpdateTaskName,
+	            ref: 'nameTextarea',
+	            value: this.state.task.name })
 	        ),
 	        React.createElement(
 	          'p',
@@ -32034,6 +32075,34 @@
 	});
 	
 	module.exports = TaskDetail;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var TaskConstants = __webpack_require__(248),
+	    AppDispatcher = __webpack_require__(240);
+	
+	TaskActions = {
+	  updateTaskInStore: function (task) {
+	    AppDispatcher.dispatch({
+	      actionType: TaskConstants.UPDATE_TASK_IN_STORE,
+	      task: task
+	    });
+	  }
+	};
+	
+	module.exports = TaskActions;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports) {
+
+	TaskConstants = {
+	  UPDATE_TASK_IN_STORE: "UPDATE_TASK_IN_STORE"
+	};
+	
+	module.exports = TaskConstants;
 
 /***/ }
 /******/ ]);

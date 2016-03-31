@@ -8,3 +8,7 @@
   /* hide overflow since task container is set to height 100%*/
   overflow: hidden;
 }
+
+.app textarea {
+  resize: none;
+}

@@ -49,6 +49,10 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+textarea {
+  resize: inherit;
+}
+
 /* Clearfix */
 
 .group:after {

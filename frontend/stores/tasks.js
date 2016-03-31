@@ -1,6 +1,7 @@
 var Store = require('flux/utils').Store,
     AppDispatcher = require('../dispatcher/dispatcher.js'),
-    ApiConstants = require('../constants/api_constants');
+    ApiConstants = require('../constants/api_constants'),
+    TaskConstants = require('../constants/task_constants');
 
 var _tasks = {};
 var TaskStore = new Store(AppDispatcher);
@@ -23,6 +24,12 @@ var resetTasks = function (newTasks) {
 
 var receiveOneTask = function (task) {
   _tasks[task.id] = task;
+  _tasks[task.id].persisted = true;
+};
+
+var receiveOneUnpersistedTask = function (task) {
+  _tasks[task.id] = task;
+  _tasks[task.id].persisted = false;
 };
 
 TaskStore.__onDispatch = function (payload) {
@@ -33,6 +40,10 @@ TaskStore.__onDispatch = function (payload) {
       break;
     case ApiConstants.RECEIVE_ONE_TASK:
       receiveOneTask(payload.task);
+      TaskStore.__emitChange();
+      break;
+    case TaskConstants.UPDATE_TASK_IN_STORE:
+      receiveOneUnpersistedTask(payload.task);
       TaskStore.__emitChange();
       break;
   }

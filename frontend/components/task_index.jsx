@@ -12,7 +12,6 @@ var TaskIndex = React.createClass({
   getStateFromStore: function () {
     // start by getting tasks from store
     var returnState = {tasks: TaskStore.all()}
-
     // Check if there are any tasks. If not, give a blank component
     // to edit. Check returnState, not this.state, as new this.state
     // will not be set yet.
@@ -48,7 +47,6 @@ var TaskIndex = React.createClass({
 
   render: function () {
     var allTasks = [];
-
     // if task store isn't empty, put all tasks in allTasks arr
     if (!this.taskStoreIsEmpty()) {
       Object.keys(this.state.tasks).forEach( function (taskId) {
