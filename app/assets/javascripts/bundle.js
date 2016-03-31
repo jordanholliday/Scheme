@@ -70,7 +70,11 @@
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  React.createElement(IndexRoute, { component: TaskIndex })
+	  React.createElement(
+	    IndexRoute,
+	    { component: TaskIndex },
+	    React.createElement(Route, { path: 'task/:taskId', component: TaskDetail })
+	  )
 	);
 	
 	$(document).on('ready', function () {

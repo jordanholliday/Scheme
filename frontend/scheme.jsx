@@ -21,7 +21,9 @@ var App = React.createClass({
 
 var routes = (
   <Route path="/" component={App}>
-    <IndexRoute component={TaskIndex} />
+    <IndexRoute component={TaskIndex}>
+      <Route path="task/:taskId" component={TaskDetail}/>
+    </IndexRoute>
   </Route>
 );
 

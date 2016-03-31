@@ -53632,3 +53632,866 @@ Processing by Api::TasksController#create as JSON
   Rendered api/tasks/_task.json.jbuilder (0.1ms)
   Rendered api/tasks/show.json.jbuilder (0.8ms)
 Completed 200 OK in 44ms (Views: 5.6ms | ActiveRecord: 23.2ms)
+
+
+Started GET "/" for ::1 at 2016-03-31 14:06:51 -0400
+Processing by StaticPagesController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  Rendered static_pages/index.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 145ms (Views: 142.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/auth_pages.self-4809f3b1d4385030ffb07132ebc73dd74799380cb79b03c935ce7981ebaec371.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/task_index.self-0fb4ac2498226ae9e22525ca836b858e79fbb38f59ad45aa0b680b164f3de94b.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/resets.self-1a584a9adc5ef9a6fe377cce1101be2182671db2daff2a89a7c9263da23fdc34.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/nav_bar.self-d7a1aabd8183a76c59797c5424bd43f3026c3fa5e456c0089c7d34fa7005be1b.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/fonts.self-8589b1b71b871801c18ea71e3f6ca8f56edb528cd42bc7f19f625f13de896cb5.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/app.self-6df8fa0881433d2b2e8d66e1defcf8567b4a89e50733d7e683c6eac2b450f9e5.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/sessions.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/static_pages.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/application.self-54fb4a6784f0a0f1272df15e9c47ad925e81166b96b7685a2cbcb2d77f2164ab.css?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/bundle.self-ef2f383c512de1430bbca4e87885711febc3b732da31eafb8f3094d5471afdfb.js?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/sessions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/static_pages.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/bundle.js.map" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/mineral-9a84749464204de3f5b6a36aff077cb8c12b8455eab382f3433a679c33be29d1.jpg" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/assets/proxima_nova_reg-webfont-59e4ab885475a3b0bb21aef9cb7760b802e3f126e27c435ccf964167a43203c6.ttf" for ::1 at 2016-03-31 14:06:52 -0400
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:06:52 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.4ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/index.json.jbuilder (15.1ms)
+Completed 200 OK in 21ms (Views: 18.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for ::1 at 2016-03-31 14:08:26 -0400
+Processing by StaticPagesController#index as HTML
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  Rendered static_pages/index.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 106ms (Views: 104.4ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/task_index.self-7307c0feb5fb174ec618729d4a2d390b6864e753afc6b66f2022c46db3c25262.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/app.self-6df8fa0881433d2b2e8d66e1defcf8567b4a89e50733d7e683c6eac2b450f9e5.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/auth_pages.self-4809f3b1d4385030ffb07132ebc73dd74799380cb79b03c935ce7981ebaec371.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/resets.self-1a584a9adc5ef9a6fe377cce1101be2182671db2daff2a89a7c9263da23fdc34.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/fonts.self-8589b1b71b871801c18ea71e3f6ca8f56edb528cd42bc7f19f625f13de896cb5.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/nav_bar.self-d7a1aabd8183a76c59797c5424bd43f3026c3fa5e456c0089c7d34fa7005be1b.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/static_pages.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/sessions.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/application.self-54fb4a6784f0a0f1272df15e9c47ad925e81166b96b7685a2cbcb2d77f2164ab.css?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-03-31 14:08:26 -0400
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-03-31 14:08:27 -0400
+
+
+Started GET "/assets/bundle.self-ef2f383c512de1430bbca4e87885711febc3b732da31eafb8f3094d5471afdfb.js?body=1" for ::1 at 2016-03-31 14:08:27 -0400
+
+
+Started GET "/assets/sessions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:08:27 -0400
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:08:27 -0400
+
+
+Started GET "/assets/static_pages.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:08:27 -0400
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-03-31 14:08:27 -0400
+
+
+Started GET "/assets/bundle.js.map" for ::1 at 2016-03-31 14:08:27 -0400
+
+
+Started GET "/assets/mineral-9a84749464204de3f5b6a36aff077cb8c12b8455eab382f3433a679c33be29d1.jpg" for ::1 at 2016-03-31 14:08:27 -0400
+
+
+Started GET "/assets/proxima_nova_reg-webfont-59e4ab885475a3b0bb21aef9cb7760b802e3f126e27c435ccf964167a43203c6.ttf" for ::1 at 2016-03-31 14:08:27 -0400
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:08:27 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[35mTask Load (0.3ms)[0m  SELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.3ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/index.json.jbuilder (15.4ms)
+Completed 200 OK in 23ms (Views: 20.2ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for ::1 at 2016-03-31 14:08:33 -0400
+Processing by StaticPagesController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  Rendered static_pages/index.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 113ms (Views: 111.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/app.self-6df8fa0881433d2b2e8d66e1defcf8567b4a89e50733d7e683c6eac2b450f9e5.css?body=1" for ::1 at 2016-03-31 14:08:33 -0400
+
+
+Started GET "/assets/auth_pages.self-4809f3b1d4385030ffb07132ebc73dd74799380cb79b03c935ce7981ebaec371.css?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/fonts.self-8589b1b71b871801c18ea71e3f6ca8f56edb528cd42bc7f19f625f13de896cb5.css?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/nav_bar.self-d7a1aabd8183a76c59797c5424bd43f3026c3fa5e456c0089c7d34fa7005be1b.css?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/resets.self-1a584a9adc5ef9a6fe377cce1101be2182671db2daff2a89a7c9263da23fdc34.css?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/sessions.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/task_index.self-826eb59150d192798019b3adcb1560c33c8cbb348ef0e26f5ed29b6dee51459c.css?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/static_pages.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/application.self-54fb4a6784f0a0f1272df15e9c47ad925e81166b96b7685a2cbcb2d77f2164ab.css?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/bundle.self-ef2f383c512de1430bbca4e87885711febc3b732da31eafb8f3094d5471afdfb.js?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/sessions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/static_pages.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/bundle.js.map" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/mineral-9a84749464204de3f5b6a36aff077cb8c12b8455eab382f3433a679c33be29d1.jpg" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/assets/proxima_nova_reg-webfont-59e4ab885475a3b0bb21aef9cb7760b802e3f126e27c435ccf964167a43203c6.ttf" for ::1 at 2016-03-31 14:08:34 -0400
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:08:34 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.3ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/index.json.jbuilder (16.6ms)
+Completed 200 OK in 22ms (Views: 19.1ms | ActiveRecord: 0.6ms)
+
+
+Started POST "/api/tasks" for ::1 at 2016-03-31 14:09:29 -0400
+Processing by Api::TasksController#create as JSON
+  Parameters: {"task"=>{"name"=>"Here is my great new task"}}
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36m (0.5ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (6.4ms)[0m  INSERT INTO "tasks" ("name", "creator_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Here is my great new task"], ["creator_id", 6], ["created_at", "2016-03-31 18:09:29.066133"], ["updated_at", "2016-03-31 18:09:29.066133"]]
+  [1m[36m (7.1ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/show.json.jbuilder (1.7ms)
+Completed 200 OK in 28ms (Views: 5.2ms | ActiveRecord: 14.2ms)
+
+
+Started PATCH "/api/tasks/118" for ::1 at 2016-03-31 14:09:39 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"118", "completed"=>"true"}, "id"=>"118"}
+  [1m[35mTask Load (0.2ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 118]]
+Unpermitted parameter: id
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:39.727997"], ["id", 118]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.7ms)
+Completed 200 OK in 7ms (Views: 2.5ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:39 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.2ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/index.json.jbuilder (8.6ms)
+Completed 200 OK in 12ms (Views: 9.9ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/api/tasks/116" for ::1 at 2016-03-31 14:09:41 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"116", "completed"=>"true"}, "id"=>"116"}
+  [1m[35mTask Load (0.2ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 116]]
+Unpermitted parameter: id
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:41.189632"], ["id", 116]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.7ms)
+Completed 200 OK in 8ms (Views: 2.5ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:41 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.3ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/index.json.jbuilder (8.2ms)
+Completed 200 OK in 13ms (Views: 10.3ms | ActiveRecord: 0.5ms)
+
+
+Started PATCH "/api/tasks/114" for ::1 at 2016-03-31 14:09:42 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"114", "completed"=>"true"}, "id"=>"114"}
+  [1m[35mTask Load (0.3ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 114]]
+Unpermitted parameter: id
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:42.309440"], ["id", 114]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.8ms)
+Completed 200 OK in 8ms (Views: 2.7ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:42 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.2ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/index.json.jbuilder (8.0ms)
+Completed 200 OK in 12ms (Views: 9.4ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/api/tasks/111" for ::1 at 2016-03-31 14:09:43 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"111", "completed"=>"true"}, "id"=>"111"}
+  [1m[35mTask Load (0.2ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 111]]
+Unpermitted parameter: id
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:43.333720"], ["id", 111]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.8ms)
+Completed 200 OK in 7ms (Views: 2.5ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:43 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.2ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/index.json.jbuilder (9.2ms)
+Completed 200 OK in 13ms (Views: 10.7ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/api/tasks/110" for ::1 at 2016-03-31 14:09:44 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"110", "completed"=>"true"}, "id"=>"110"}
+  [1m[35mTask Load (0.2ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 110]]
+Unpermitted parameter: id
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:44.056710"], ["id", 110]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (1.3ms)
+Completed 200 OK in 8ms (Views: 3.4ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:44 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.3ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.3ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/index.json.jbuilder (6.9ms)
+Completed 200 OK in 11ms (Views: 8.8ms | ActiveRecord: 0.5ms)
+
+
+Started PATCH "/api/tasks/117" for ::1 at 2016-03-31 14:09:45 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"117", "completed"=>"true"}, "id"=>"117"}
+  [1m[35mTask Load (0.2ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 117]]
+Unpermitted parameter: id
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:45.076139"], ["id", 117]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.9ms)
+Completed 200 OK in 8ms (Views: 3.4ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:45 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.2ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/index.json.jbuilder (5.7ms)
+Completed 200 OK in 12ms (Views: 7.0ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/api/tasks/107" for ::1 at 2016-03-31 14:09:46 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"107", "completed"=>"true"}, "id"=>"107"}
+  [1m[35mTask Load (0.2ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 107]]
+Unpermitted parameter: id
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:46.205601"], ["id", 107]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.9ms)
+Completed 200 OK in 7ms (Views: 2.7ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:46 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.2ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.3ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.3ms)
+  Rendered api/tasks/index.json.jbuilder (6.2ms)
+Completed 200 OK in 10ms (Views: 7.8ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/api/tasks/112" for ::1 at 2016-03-31 14:09:47 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"112", "completed"=>"true"}, "id"=>"112"}
+  [1m[35mTask Load (0.2ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 112]]
+Unpermitted parameter: id
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:47.781073"], ["id", 112]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.8ms)
+Completed 200 OK in 7ms (Views: 2.5ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:47 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.2ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/index.json.jbuilder (3.9ms)
+Completed 200 OK in 7ms (Views: 5.3ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/api/tasks/115" for ::1 at 2016-03-31 14:09:48 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"115", "completed"=>"true"}, "id"=>"115"}
+  [1m[35mTask Load (0.4ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 115]]
+Unpermitted parameter: id
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:48.351011"], ["id", 115]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.8ms)
+Completed 200 OK in 8ms (Views: 2.6ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:48 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.2ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/index.json.jbuilder (3.4ms)
+Completed 200 OK in 7ms (Views: 4.8ms | ActiveRecord: 0.5ms)
+
+
+Started PATCH "/api/tasks/109" for ::1 at 2016-03-31 14:09:56 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"109", "completed"=>"true"}, "id"=>"109"}
+  [1m[35mTask Load (0.2ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 109]]
+Unpermitted parameter: id
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:09:56.468615"], ["id", 109]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.8ms)
+Completed 200 OK in 7ms (Views: 2.6ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:09:56 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.2ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/index.json.jbuilder (2.6ms)
+Completed 200 OK in 6ms (Views: 3.9ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/api/tasks/113" for ::1 at 2016-03-31 14:10:17 -0400
+Processing by Api::TasksController#update as JSON
+  Parameters: {"task"=>{"id"=>"113", "completed"=>"true"}, "id"=>"113"}
+  [1m[35mTask Load (2.1ms)[0m  SELECT  "tasks".* FROM "tasks" WHERE "tasks"."id" = $1 LIMIT 1  [["id", 113]]
+Unpermitted parameter: id
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  UPDATE "tasks" SET "completed" = $1, "updated_at" = $2 WHERE "tasks"."id" = $3  [["completed", "t"], ["updated_at", "2016-03-31 18:10:17.897313"], ["id", 113]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/show.json.jbuilder (0.7ms)
+Completed 200 OK in 9ms (Views: 2.5ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:10:17 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.2ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.4ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.1ms)
+  Rendered api/tasks/index.json.jbuilder (2.0ms)
+Completed 200 OK in 5ms (Views: 3.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/" for ::1 at 2016-03-31 14:10:20 -0400
+Processing by StaticPagesController#index as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  Rendered static_pages/index.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 103ms (Views: 101.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/app.self-6df8fa0881433d2b2e8d66e1defcf8567b4a89e50733d7e683c6eac2b450f9e5.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/auth_pages.self-4809f3b1d4385030ffb07132ebc73dd74799380cb79b03c935ce7981ebaec371.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/fonts.self-8589b1b71b871801c18ea71e3f6ca8f56edb528cd42bc7f19f625f13de896cb5.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/nav_bar.self-d7a1aabd8183a76c59797c5424bd43f3026c3fa5e456c0089c7d34fa7005be1b.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/sessions.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/resets.self-1a584a9adc5ef9a6fe377cce1101be2182671db2daff2a89a7c9263da23fdc34.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/static_pages.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/task_index.self-0366f8ed01f5794749997f94e2260f3e777dc161cbe35a3de80682a44689ff25.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/application.self-54fb4a6784f0a0f1272df15e9c47ad925e81166b96b7685a2cbcb2d77f2164ab.css?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/bundle.self-ef2f383c512de1430bbca4e87885711febc3b732da31eafb8f3094d5471afdfb.js?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/sessions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/static_pages.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/mineral-9a84749464204de3f5b6a36aff077cb8c12b8455eab382f3433a679c33be29d1.jpg" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/assets/proxima_nova_reg-webfont-59e4ab885475a3b0bb21aef9cb7760b802e3f126e27c435ccf964167a43203c6.ttf" for ::1 at 2016-03-31 14:10:20 -0400
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:10:20 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[35mTask Load (0.3ms)[0m  SELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/index.json.jbuilder (3.0ms)
+Completed 200 OK in 8ms (Views: 5.6ms | ActiveRecord: 0.5ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mTask Load (0.7ms)[0m  SELECT "tasks".* FROM "tasks"
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 97]]
+  [1m[36m (6.1ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 98]]
+  [1m[35m (6.1ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 99]]
+  [1m[36m (6.0ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 100]]
+  [1m[35m (4.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 101]]
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 102]]
+  [1m[35m (0.6ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 103]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 104]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 105]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 106]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 108]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.3ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 116]]
+  [1m[35m (0.5ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 114]]
+  [1m[36m (0.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 111]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 110]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 107]]
+  [1m[35m (0.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 112]]
+  [1m[36m (0.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 115]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 109]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 113]]
+  [1m[35m (0.2ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.1ms)[0m  DELETE FROM "tasks" WHERE "tasks"."id" = $1  [["id", 118]]
+  [1m[36m (0.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.1ms)[0m  [1mDELETE FROM "tasks" WHERE "tasks"."id" = $1[0m  [["id", 117]]
+  [1m[35m (0.2ms)[0m  COMMIT
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 4], ["name", "synthesize cutting-edge systems"], ["description", "I'll override the optical PCI interface, that should monitor the GB program!"], ["created_at", "2016-03-31 18:10:30.509251"], ["updated_at", "2016-03-31 18:10:30.509251"]]
+  [1m[35m (5.8ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 4], ["name", "extend enterprise interfaces"], ["description", "Try to calculate the IB transmitter, maybe it will bypass the digital monitor!"], ["created_at", "2016-03-31 18:10:30.519661"], ["updated_at", "2016-03-31 18:10:30.519661"]]
+  [1m[36m (6.2ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 4], ["name", "engineer cutting-edge metrics"], ["description", "quantifying the array won't do anything, we need to hack the optical CSS circuit!"], ["created_at", "2016-03-31 18:10:30.529232"], ["updated_at", "2016-03-31 18:10:30.529232"]]
+  [1m[35m (4.9ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 4], ["name", "engineer 24/365 schemas"], ["description", "I'll back up the mobile XSS matrix, that should application the SAS feed!"], ["created_at", "2016-03-31 18:10:30.537173"], ["updated_at", "2016-03-31 18:10:30.537173"]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 4], ["name", "enable proactive ROI"], ["description", "The PCI port is down, bypass the mobile matrix so we can calculate the XML panel!"], ["created_at", "2016-03-31 18:10:30.541018"], ["updated_at", "2016-03-31 18:10:30.541018"]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 4], ["name", "repurpose proactive e-business"], ["description", "We need to compress the mobile EXE alarm!"], ["created_at", "2016-03-31 18:10:30.544612"], ["updated_at", "2016-03-31 18:10:30.544612"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 4], ["name", "reintermediate sticky mindshare"], ["description", "The SAS bus is down, bypass the cross-platform interface so we can copy the ADP microchip!"], ["created_at", "2016-03-31 18:10:30.548214"], ["updated_at", "2016-03-31 18:10:30.548214"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 4], ["name", "streamline revolutionary experiences"], ["description", "The AGP bandwidth is down, generate the neural application so we can copy the HTTP monitor!"], ["created_at", "2016-03-31 18:10:30.551445"], ["updated_at", "2016-03-31 18:10:30.551445"]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 4], ["name", "incentivize web-enabled action-items"], ["description", "We need to program the mobile XML transmitter!"], ["created_at", "2016-03-31 18:10:30.554547"], ["updated_at", "2016-03-31 18:10:30.554547"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 4], ["name", "disintermediate distributed architectures"], ["description", "You can't navigate the microchip without navigating the multi-byte FTP program!"], ["created_at", "2016-03-31 18:10:30.557786"], ["updated_at", "2016-03-31 18:10:30.557786"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 6], ["name", "e-enable front-end e-tailers"], ["description", "We need to parse the redundant FTP interface!"], ["created_at", "2016-03-31 18:10:30.561330"], ["updated_at", "2016-03-31 18:10:30.561330"]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 6], ["name", "transform extensible models"], ["description", "Use the auxiliary SCSI capacitor, then you can calculate the digital system!"], ["created_at", "2016-03-31 18:10:30.564676"], ["updated_at", "2016-03-31 18:10:30.564676"]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 6], ["name", "expedite web-enabled interfaces"], ["description", "The JSON panel is down, copy the virtual panel so we can index the THX protocol!"], ["created_at", "2016-03-31 18:10:30.568053"], ["updated_at", "2016-03-31 18:10:30.568053"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 6], ["name", "deliver e-business networks"], ["description", "indexing the alarm won't do anything, we need to generate the multi-byte PNG alarm!"], ["created_at", "2016-03-31 18:10:30.571475"], ["updated_at", "2016-03-31 18:10:30.571475"]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 6], ["name", "productize proactive deliverables"], ["description", "Use the bluetooth PNG feed, then you can override the back-end transmitter!"], ["created_at", "2016-03-31 18:10:30.574747"], ["updated_at", "2016-03-31 18:10:30.574747"]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 6], ["name", "syndicate dynamic experiences"], ["description", "You can't bypass the panel without parsing the haptic HDD card!"], ["created_at", "2016-03-31 18:10:30.577910"], ["updated_at", "2016-03-31 18:10:30.577910"]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 6], ["name", "synthesize interactive networks"], ["description", "If we index the array, we can get to the FTP protocol through the auxiliary USB capacitor!"], ["created_at", "2016-03-31 18:10:30.581387"], ["updated_at", "2016-03-31 18:10:30.581387"]]
+  [1m[35m (0.4ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 6], ["name", "harness bricks-and-clicks communities"], ["description", "copying the pixel won't do anything, we need to hack the primary PNG panel!"], ["created_at", "2016-03-31 18:10:30.584785"], ["updated_at", "2016-03-31 18:10:30.584785"]]
+  [1m[36m (0.3ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["creator_id", 6], ["name", "redefine viral platforms"], ["description", "We need to compress the redundant XML port!"], ["created_at", "2016-03-31 18:10:30.588145"], ["updated_at", "2016-03-31 18:10:30.588145"]]
+  [1m[35m (0.3ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "tasks" ("creator_id", "name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["creator_id", 6], ["name", "drive e-business infrastructures"], ["description", "If we navigate the program, we can get to the JSON firewall through the haptic SQL bandwidth!"], ["created_at", "2016-03-31 18:10:30.592207"], ["updated_at", "2016-03-31 18:10:30.592207"]]
+  [1m[36m (0.4ms)[0m  [1mCOMMIT[0m
+
+
+Started GET "/" for ::1 at 2016-03-31 14:10:33 -0400
+Processing by StaticPagesController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1[0m  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  Rendered static_pages/index.html.erb within layouts/application (0.1ms)
+Completed 200 OK in 37ms (Views: 34.8ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/auth_pages.self-4809f3b1d4385030ffb07132ebc73dd74799380cb79b03c935ce7981ebaec371.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/app.self-6df8fa0881433d2b2e8d66e1defcf8567b4a89e50733d7e683c6eac2b450f9e5.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/resets.self-1a584a9adc5ef9a6fe377cce1101be2182671db2daff2a89a7c9263da23fdc34.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/sessions.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/nav_bar.self-d7a1aabd8183a76c59797c5424bd43f3026c3fa5e456c0089c7d34fa7005be1b.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/task_index.self-0366f8ed01f5794749997f94e2260f3e777dc161cbe35a3de80682a44689ff25.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/fonts.self-8589b1b71b871801c18ea71e3f6ca8f56edb528cd42bc7f19f625f13de896cb5.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/static_pages.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/users.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/application.self-54fb4a6784f0a0f1272df15e9c47ad925e81166b96b7685a2cbcb2d77f2164ab.css?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/jquery.self-660adc51e0224b731d29f575a6f1ec167ba08ad06ed5deca4f1e8654c135bf4c.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/jquery_ujs.self-e87806d0cf4489aeb1bb7288016024e8de67fd18db693fe026fe3907581e53cd.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/bundle.self-ef2f383c512de1430bbca4e87885711febc3b732da31eafb8f3094d5471afdfb.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/sessions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/static_pages.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/sessions.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/static_pages.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/users.self-877aef30ae1b040ab8a3aba4e3e309a11d7f2612f44dde450b5c157aa5f95c05.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/application.self-3b8dabdc891efe46b9a144b400ad69e37d7e5876bdc39dee783419a69d7ca819.js?body=1" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/mineral-9a84749464204de3f5b6a36aff077cb8c12b8455eab382f3433a679c33be29d1.jpg" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/assets/proxima_nova_reg-webfont-59e4ab885475a3b0bb21aef9cb7760b802e3f126e27c435ccf964167a43203c6.ttf" for ::1 at 2016-03-31 14:10:34 -0400
+
+
+Started GET "/api/tasks" for ::1 at 2016-03-31 14:10:34 -0400
+Processing by Api::TasksController#index as JSON
+  [1m[35mUser Load (0.3ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT 1  [["session_token", "la7Uk8Xz5gQZ5GOc196S5g"]]
+  [1m[36mTask Load (0.4ms)[0m  [1mSELECT "tasks".* FROM "tasks" WHERE "tasks"."creator_id" = $1 AND "tasks"."completed" = $2[0m  [["creator_id", 6], ["completed", "f"]]
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.3ms)
+  Rendered api/tasks/_task.json.jbuilder (0.3ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/_task.json.jbuilder (0.2ms)
+  Rendered api/tasks/index.json.jbuilder (16.1ms)
+Completed 200 OK in 22ms (Views: 18.9ms | ActiveRecord: 0.7ms)

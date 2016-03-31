@@ -61,8 +61,11 @@ button.complete-task-button:hover svg.check-complete {
 }
 
 .task-index-item input  {
-  width: 800px;
-  float: left;
+  /*Task item li is 860px, button+padding is 51px*/
+  width: 809px;
+  float: right;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .task-index .task-index-item.edit-task + li  {
