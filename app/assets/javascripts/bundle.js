@@ -52,7 +52,8 @@
 	    IndexRoute = ReactRouter.IndexRoute,
 	    TaskIndex = __webpack_require__(217),
 	    ApiUtil = __webpack_require__(218),
-	    NavBar = __webpack_require__(245);
+	    NavBar = __webpack_require__(245),
+	    TaskDetail = __webpack_require__(246);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -70,10 +71,11 @@
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
+	  React.createElement(IndexRoute, { component: TaskIndex }),
 	  React.createElement(
-	    IndexRoute,
-	    { component: TaskIndex },
-	    React.createElement(Route, { path: 'task/:taskId', component: TaskDetail })
+	    Route,
+	    { path: '/tasks', component: TaskIndex },
+	    React.createElement(Route, { path: '/tasks/:taskId', component: TaskDetail })
 	  )
 	);
 	
@@ -24842,7 +24844,8 @@
 	      React.createElement(
 	        'ul',
 	        { className: 'task-list-ul' },
-	        allTasks
+	        allTasks,
+	        this.props.children
 	      )
 	    );
 	  }
@@ -31781,9 +31784,14 @@
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    TaskStore = __webpack_require__(221);
+	Link = __webpack_require__(159).Link;
 	
 	var TaskIndexItem = React.createClass({
 	  displayName: 'TaskIndexItem',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	
 	  getInitialState: function () {
 	    if (this.props.task) {
@@ -31862,8 +31870,15 @@
 	    });
 	  },
 	
+	  clickToShowDetail: function () {
+	    if (!this.props.task) {
+	      return;
+	    }
+	    this.context.router.push("tasks/" + this.props.task.id);
+	  },
+	
 	  render: function () {
-	    var button;
+	    var button, input;
 	    if (this.props.task) {
 	      button = React.createElement(
 	        'button',
@@ -31878,22 +31893,25 @@
 	      );
 	    }
 	
+	    input = React.createElement('input', {
+	      ref: 'childInput',
+	      type: 'text',
+	      className: 'task-input',
+	      value: this.state.name,
+	      id: this.state.id,
+	      autoFocus: this.props.focus,
+	      onChange: this.handleType,
+	      onBlur: this.saveNameChange,
+	      onMouseOut: this.saveNameChange,
+	      onKeyDown: this.keyDownHandler,
+	      onClick: this.clickToShowDetail
+	    });
+	
 	    return React.createElement(
 	      'li',
 	      { className: 'group task-index-item' },
 	      button,
-	      React.createElement('input', {
-	        ref: 'childInput',
-	        type: 'text',
-	        className: 'task-input',
-	        value: this.state.name,
-	        id: this.state.id,
-	        autoFocus: this.props.focus,
-	        onChange: this.handleType,
-	        onBlur: this.saveNameChange,
-	        onMouseOut: this.saveNameChange,
-	        onKeyDown: this.keyDownHandler
-	      })
+	      input
 	    );
 	  }
 	});
@@ -31916,6 +31934,28 @@
 	});
 	
 	module.exports = NavBar;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158);
+	
+	var TaskDetail = React.createClass({
+	  displayName: 'TaskDetail',
+	
+	  render: function () {
+	    debugger;
+	    return React.createElement(
+	      'div',
+	      null,
+	      'TASK DETAIL RIGHT HERE'
+	    );
+	  }
+	});
+	
+	module.exports = TaskDetail;
 
 /***/ }
 /******/ ]);

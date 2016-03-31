@@ -76,6 +76,7 @@ var TaskIndex = React.createClass({
         <button onClick={this.showNewTaskForm}>Add Task</button>
         <ul className="task-list-ul">
           {allTasks}
+          {this.props.children}
         </ul>
       </section>
     );

@@ -6,7 +6,8 @@ var React = require('react'),
     IndexRoute = ReactRouter.IndexRoute,
     TaskIndex = require('./components/task_index'),
     ApiUtil = require('./util/api_util'),
-    NavBar = require('./components/nav_bar');
+    NavBar = require('./components/nav_bar'),
+    TaskDetail = require('./components/task_detail');
 
 var App = React.createClass({
   render: function () {
@@ -21,9 +22,11 @@ var App = React.createClass({
 
 var routes = (
   <Route path="/" component={App}>
-    <IndexRoute component={TaskIndex}>
-      <Route path="task/:taskId" component={TaskDetail}/>
-    </IndexRoute>
+    <IndexRoute component={TaskIndex} />
+
+   <Route path="/tasks" component={TaskIndex} >
+     <Route path="/tasks/:taskId" component={TaskDetail} />
+   </Route>
   </Route>
 );
 

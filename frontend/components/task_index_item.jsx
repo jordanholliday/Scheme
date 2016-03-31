@@ -1,8 +1,13 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     TaskStore = require('../stores/tasks');
+    Link = require('react-router').Link;
 
 var TaskIndexItem = React.createClass({
+  contextTypes: {
+      router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function () {
     if (this.props.task) {
       return {
@@ -80,8 +85,14 @@ var TaskIndexItem = React.createClass({
     })
   },
 
+  clickToShowDetail: function () {
+    if (!this.props.task) {return}
+    this.context.router.push("tasks/" + this.props.task.id)
+  },
+
   render: function () {
-    var button;
+    var button,
+        input;
     if (this.props.task){
       button = <button
           className="complete-task-button"
@@ -92,25 +103,26 @@ var TaskIndexItem = React.createClass({
         </button>
     }
 
+    input = <input
+            ref="childInput"
+            type="text"
+            className="task-input"
+            value={this.state.name}
+            id={this.state.id}
+            autoFocus={this.props.focus}
+            onChange={this.handleType}
+            onBlur={this.saveNameChange}
+            onMouseOut={this.saveNameChange}
+            onKeyDown={this.keyDownHandler}
+            onClick={this.clickToShowDetail}
+           />
+
     return (
-      <li className="group task-index-item">
-
-        {button}
-
-        <input
-          ref="childInput"
-          type="text"
-          className="task-input"
-          value={this.state.name}
-          id={this.state.id}
-          autoFocus={this.props.focus}
-          onChange={this.handleType}
-          onBlur={this.saveNameChange}
-          onMouseOut={this.saveNameChange}
-          onKeyDown={this.keyDownHandler}
-         />
-      </li>
-    );
+        <li className="group task-index-item">
+          {button}
+          {input}
+        </li>
+    )
   }
 });
 
