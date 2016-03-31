@@ -1,0 +1,19 @@
+.task-detail {
+  flex: 1;
+  min-height: 100vh;
+  margin-left: 15px;
+  background: #fff;
+  margin-top: 15px;
+  border-radius: 3px;
+  padding: 15px 20px;
+  color: #1B2432;
+  box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
+}
+
+.task-detail .edit-pane-name-complete {
+  border: none;
+}
+
+.task-detail .edit-pane-name-complete:hover {
+  border: none;
+}

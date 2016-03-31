@@ -18,3 +18,15 @@
  *= task_index
  *= require auth_pages
  */
+
+.fpo {
+  /* requires inline styling for proper width*/
+  content: "FPOFPOFPOFPOFPOFPO";
+  opacity: 0.2;
+  background: #d33682;
+  color:#fff;
+  font-size: 7em;
+  width: 100%;
+  height: 125px;
+  display: block;
+}

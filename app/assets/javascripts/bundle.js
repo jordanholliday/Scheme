@@ -24834,19 +24834,23 @@
 	    }
 	
 	    return React.createElement(
-	      'section',
-	      { className: 'task-index' },
+	      'div',
+	      { className: 'task-wrapper' },
 	      React.createElement(
-	        'button',
-	        { onClick: this.showNewTaskForm },
-	        'Add Task'
+	        'section',
+	        { className: 'task-index' },
+	        React.createElement(
+	          'button',
+	          { onClick: this.showNewTaskForm },
+	          'Add Task'
+	        ),
+	        React.createElement(
+	          'ul',
+	          { className: 'task-list-ul' },
+	          allTasks
+	        )
 	      ),
-	      React.createElement(
-	        'ul',
-	        { className: 'task-list-ul' },
-	        allTasks,
-	        this.props.children
-	      )
+	      this.props.children
 	    );
 	  }
 	});
@@ -31987,8 +31991,13 @@
 	  render: function () {
 	    if (this.state.task) {
 	      return React.createElement(
-	        'div',
-	        null,
+	        'section',
+	        { className: 'task-detail' },
+	        React.createElement(
+	          'div',
+	          { className: 'fpo' },
+	          'FPO FPO'
+	        ),
 	        React.createElement(
 	          'p',
 	          null,

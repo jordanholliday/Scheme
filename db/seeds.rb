@@ -14,7 +14,10 @@ User.all.each do |user|
   10.times do
     task = user.tasks.new
     task.name = Faker::Company.bs
-    task.description = Faker::Hacker.say_something_smart
+    task.description =
+      [Faker::Hacker.say_something_smart,
+        Faker::Hacker.say_something_smart,
+        Faker::Hacker.say_something_smart].join(" ")
     task.save!
   end
 end

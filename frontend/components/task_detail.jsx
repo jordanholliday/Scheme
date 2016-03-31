@@ -40,10 +40,11 @@ var TaskDetail = React.createClass({
   render: function () {
     if (this.state.task) {
       return (
-        <div>
+        <section className="task-detail">
+          <div className="fpo">FPO FPO</div>
           <p>{this.state.task.name}</p>
           <p>{this.state.task.description}</p>
-        </div>
+        </section>
       );
     } else {
       return (<div>loading...</div>);

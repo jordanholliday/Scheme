@@ -1,7 +1,15 @@
+.task-wrapper {
+  display: flex;
+  max-width: 1125px;
+  margin: auto;
+}
+
 .task-index {
+  /*flexes inside task-wrapper, along with the task-detail*/
+  flex: 1;
   margin: 0 auto;
-  width: 860px;
-  min-height: 100%;
+  max-width: 860px;
+  min-height: 100vh;
   margin-top: 15px;
   border-radius: 3px;
   background: #fff;
@@ -14,6 +22,7 @@
   border-bottom: #E1E2E4 1px solid;
   padding: 11px 0 10px;
   font-size: 14px;
+  display: flex;
 }
 
 .task-index-item button.complete-task-button {
@@ -62,10 +71,11 @@ button.complete-task-button:hover svg.check-complete {
 
 .task-index-item input  {
   /*Task item li is 860px, button+padding is 51px*/
-  width: 809px;
-  float: right;
+  /*width: 100%;*/
+  /*float: left;*/
   padding-left: 0px;
   padding-right: 0px;
+  flex: 1;
 }
 
 .task-index .task-index-item.edit-task + li  {
