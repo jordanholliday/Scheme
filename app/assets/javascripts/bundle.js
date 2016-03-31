@@ -24881,7 +24881,7 @@
 	    });
 	  },
 	
-	  updateTaskName: function (task) {
+	  updateTask: function (task) {
 	    $.ajax({
 	      type: 'PATCH',
 	      url: 'api/tasks/' + task.id,
@@ -24891,7 +24891,23 @@
 	        ApiActions.receiveOneTask(task);
 	      },
 	      error: function () {
-	        console.log("ApiUtil#updateTaskName error");
+	        console.log("ApiUtil#updateTask error");
+	      }
+	    });
+	  },
+	
+	  completeTask: function (task) {
+	    var fetchCallback = this.fetchTasks;
+	    $.ajax({
+	      type: 'PATCH',
+	      url: 'api/tasks/' + task.id,
+	      dataType: 'json',
+	      data: { task: task },
+	      success: function () {
+	        fetchCallback();
+	      },
+	      error: function () {
+	        console.log("ApiUtil#updateTask error");
 	      }
 	    });
 	  },
@@ -31829,25 +31845,39 @@
 	  },
 	
 	  apiUpdateTaskName: function (id, name) {
-	    ApiUtil.updateTaskName({
+	    ApiUtil.updateTask({
 	      id: this.props.task.id,
 	      name: this.state.name
 	    });
 	  },
 	
+	  apiCompleteTask: function () {
+	    ApiUtil.completeTask({
+	      id: this.props.task.id,
+	      completed: true
+	    });
+	  },
+	
 	  render: function () {
+	    var button;
+	    if (this.props.task) {
+	      button = React.createElement(
+	        'button',
+	        {
+	          className: 'complete-task-button',
+	          onClick: this.apiCompleteTask },
+	        React.createElement(
+	          'svg',
+	          { viewBox: '0 0 32 32', className: 'check-complete' },
+	          React.createElement('polygon', { points: '30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30' })
+	        )
+	      );
+	    }
+	
 	    return React.createElement(
 	      'li',
 	      { className: 'group task-index-item' },
-	      React.createElement(
-	        'button',
-	        { className: 'complete-task-button' },
-	        React.createElement(
-	          'svg',
-	          { viewBox: '0 0 32 32' },
-	          React.createElement('polygon', { points: '30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30' })
-	        )
-	      ),
+	      button,
 	      React.createElement('input', {
 	        ref: 'childInput',
 	        type: 'text',

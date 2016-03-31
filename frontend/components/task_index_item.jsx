@@ -67,20 +67,35 @@ var TaskIndexItem = React.createClass({
   },
 
   apiUpdateTaskName: function (id, name) {
-    ApiUtil.updateTaskName({
+    ApiUtil.updateTask({
       id: this.props.task.id,
       name: this.state.name
     })
   },
 
+  apiCompleteTask: function () {
+    ApiUtil.completeTask({
+      id: this.props.task.id,
+      completed: true
+    })
+  },
+
   render: function () {
-    return (
-      <li className="group task-index-item">
-        <button className="complete-task-button">
-          <svg viewBox="0 0 32 32">
+    var button;
+    if (this.props.task){
+      button = <button
+          className="complete-task-button"
+          onClick={this.apiCompleteTask}>
+          <svg viewBox="0 0 32 32" className="check-complete">
             <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
           </svg>
         </button>
+    }
+
+    return (
+      <li className="group task-index-item">
+
+        {button}
 
         <input
           ref="childInput"

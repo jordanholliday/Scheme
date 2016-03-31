@@ -30,7 +30,7 @@ ApiUtil = {
     });
   },
 
-  updateTaskName: function (task) {
+  updateTask: function (task) {
     $.ajax({
       type: 'PATCH',
       url: 'api/tasks/' + task.id,
@@ -40,7 +40,23 @@ ApiUtil = {
         ApiActions.receiveOneTask(task);
       },
       error: function () {
-        console.log("ApiUtil#updateTaskName error");
+        console.log("ApiUtil#updateTask error");
+      }
+    });
+  },
+
+  completeTask: function (task) {
+    var fetchCallback = this.fetchTasks;
+    $.ajax({
+      type: 'PATCH',
+      url: 'api/tasks/' + task.id,
+      dataType: 'json',
+      data: {task: task},
+      success: function () {
+        fetchCallback();
+      },
+      error: function () {
+        console.log("ApiUtil#updateTask error");
       }
     });
   },

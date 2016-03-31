@@ -24,11 +24,28 @@
   width: 21px;
   border-radius: 50%;
   margin: -2px 18px 0 12px;
+  transition: border, box-shadow;
+  transition-duration: .2s;
+  transition-timing-function: ease;
 }
 
-button.complete-task-button svg {
-  fill: #37C597;
-  width: 14px;
+.task-index-item button.complete-task-button:hover {
+  border: 1px solid transparent;
+  box-shadow: #3BF7D1 0 0 0 3px;
+  background: #fff;
+}
+
+button.complete-task-button svg.check-complete {
+  width: 12px;
+  margin: 3px 0 3px 3.5px;
+  fill: #E1E2E4;
+  transition: fill;
+  transition-duration: .2s;
+  transition-timing-function: ease;
+}
+
+button.complete-task-button:hover svg.check-complete {
+  fill: #3BF7D1;
 }
 
 .task-index .task-index-item:hover {
