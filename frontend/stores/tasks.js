@@ -9,6 +9,10 @@ TaskStore.all = function () {
   return _tasks;
 };
 
+TaskStore.find = function (id) {
+  return _tasks[id];
+};
+
 var resetTasks = function (newTasks) {
   _tasks = {};
   for (var j = 0; j < newTasks.length; j++) {

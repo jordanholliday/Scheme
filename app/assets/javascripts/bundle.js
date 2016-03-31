@@ -24988,6 +24988,10 @@
 	  return _tasks;
 	};
 	
+	TaskStore.find = function (id) {
+	  return _tasks[id];
+	};
+	
 	var resetTasks = function (newTasks) {
 	  _tasks = {};
 	  for (var j = 0; j < newTasks.length; j++) {
@@ -31940,18 +31944,69 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158);
+	    ReactDOM = __webpack_require__(158),
+	    TaskStore = __webpack_require__(221);
 	
 	var TaskDetail = React.createClass({
 	  displayName: 'TaskDetail',
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return { task: TaskStore.find(this.props.params.taskId) };
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ task: TaskStore.find(newProps.params.taskId) });
+	  },
+	
+	  componentDidMount: function () {
+	    this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
+	  },
+	
+	  componentWillUnmount: function () {
+	    TaskStore.remove(this.taskStoreToken);
+	  },
+	
+	  getStateFromStore: function () {
+	    if (!this.state.task) {
+	      return { task: TaskStore.find(this.props.params.taskId) };
+	    } else {
+	      return {
+	        task: TaskStore.find(this.state.task.id)
+	      };
+	    }
+	  },
+	
+	  setStateFromStore: function () {
+	    this.setState(this.getStateFromStore());
+	  },
+	
 	  render: function () {
-	    debugger;
-	    return React.createElement(
-	      'div',
-	      null,
-	      'TASK DETAIL RIGHT HERE'
-	    );
+	    if (this.state.task) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'p',
+	          null,
+	          this.state.task.name
+	        ),
+	        React.createElement(
+	          'p',
+	          null,
+	          this.state.task.description
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        null,
+	        'loading...'
+	      );
+	    }
 	  }
 	});
 	
