@@ -17,10 +17,18 @@ var resetTasks = function (newTasks) {
   }
 };
 
+var receiveOneTask = function (task) {
+  _tasks[task.id] = task;
+};
+
 TaskStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case ApiConstants.RECEIVE_TASKS:
       resetTasks(payload.tasks);
+      TaskStore.__emitChange();
+      break;
+    case ApiConstants.RECEIVE_ONE_TASK:
+      receiveOneTask(payload.task);
       TaskStore.__emitChange();
       break;
   }

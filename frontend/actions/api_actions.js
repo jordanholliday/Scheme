@@ -9,9 +9,9 @@ ApiActions = {
     });
   },
 
-  updateTaskName: function (task) {
+  receiveOneTask: function (task) {
     AppDispatcher.dispatch({
-      actionType: ApiConstants.UPDATE_TASK_NAME,
+      actionType: ApiConstants.RECEIVE_ONE_TASK,
       task: task
     });
   }

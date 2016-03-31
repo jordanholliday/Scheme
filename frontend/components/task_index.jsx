@@ -10,7 +10,19 @@ var TaskIndex = React.createClass({
   },
 
   getStateFromStore: function () {
-    return {tasks: TaskStore.all()};
+    // start by getting tasks from store
+    var returnState = {tasks: TaskStore.all()}
+
+    // Check if there are any tasks. If not, give a blank component
+    // to edit. Check returnState, not this.state, as new this.state
+    // will not be set yet.
+    if ($.isEmptyObject(returnState.tasks)) {
+      returnState.addingTask = true;
+    } else {
+      returnState.addingTask = false;
+    }
+
+    return returnState;
   },
 
   setStateFromStore: function () {
@@ -26,39 +38,47 @@ var TaskIndex = React.createClass({
     this.setState({addingTask: true});
   },
 
+  taskStoreIsEmpty: function () {
+    if (!this.state) {
+      return true;
+    } else {
+      return $.isEmptyObject(this.state.tasks);
+    }
+  },
+
   render: function () {
     var allTasks = [];
-    if ($.isEmptyObject(this.state.tasks)) {
-      // if no tasks in TaskStore yet, show loading msg
-      return (
-        <section className="task-index">
-          <li>loading tasks...</li>
-        </section>)
-    } else {
+
+    // if task store isn't empty, put all tasks in allTasks arr
+    if (!this.taskStoreIsEmpty()) {
       Object.keys(this.state.tasks).forEach( function (taskId) {
         allTasks.push(<TaskIndexItem
           task={this.state.tasks[taskId]}
           key={taskId}
+          focus={false}
         />);
       }.bind(this));
+    }
 
-      if (this.state.addingTask) {
-        allTasks.push(
-          <TaskIndexItem
-            className="edit-task"
-          />
-        );
-      }
-
-      return (
-        <section className="task-index">
-          <button onClick={this.showNewTaskForm}>Add Task</button>
-          <ul className="task-list-ul">
-            {allTasks}
-          </ul>
-        </section>
+    // if addingTask is true, include a blank index item
+    if (this.state.addingTask) {
+      allTasks.push(
+        <TaskIndexItem
+          className="edit-task"
+          key="-1"
+          focus={true}
+        />
       );
     }
+
+    return (
+      <section className="task-index">
+        <button onClick={this.showNewTaskForm}>Add Task</button>
+        <ul className="task-list-ul">
+          {allTasks}
+        </ul>
+      </section>
+    );
   }
 });
 module.exports = TaskIndex;

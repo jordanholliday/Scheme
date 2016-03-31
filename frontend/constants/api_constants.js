@@ -1,6 +1,6 @@
 ApiConstants = {
   RECEIVE_TASKS: "RECEIVE_TASKS",
-  UPDATE_TASK_NAME: "UPDATE_TASK_NAME"
+  RECEIVE_ONE_TASK: "RECEIVE_ONE_TASK"
 };
 
 module.exports = ApiConstants;

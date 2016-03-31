@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
 
      if @user
        login!(@user)
-       redirect_to user_url(@user)
+       redirect_to root_url
      else
        flash.now[:errors] = ["invalid email / password combo"]
        render :new

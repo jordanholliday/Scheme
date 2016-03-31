@@ -24768,7 +24768,19 @@
 	  },
 	
 	  getStateFromStore: function () {
-	    return { tasks: TaskStore.all() };
+	    // start by getting tasks from store
+	    var returnState = { tasks: TaskStore.all() };
+	
+	    // Check if there are any tasks. If not, give a blank component
+	    // to edit. Check returnState, not this.state, as new this.state
+	    // will not be set yet.
+	    if ($.isEmptyObject(returnState.tasks)) {
+	      returnState.addingTask = true;
+	    } else {
+	      returnState.addingTask = false;
+	    }
+	
+	    return returnState;
 	  },
 	
 	  setStateFromStore: function () {
@@ -24784,48 +24796,51 @@
 	    this.setState({ addingTask: true });
 	  },
 	
+	  taskStoreIsEmpty: function () {
+	    if (!this.state) {
+	      return true;
+	    } else {
+	      return $.isEmptyObject(this.state.tasks);
+	    }
+	  },
+	
 	  render: function () {
 	    var allTasks = [];
-	    if ($.isEmptyObject(this.state.tasks)) {
-	      // if no tasks in TaskStore yet, show loading msg
-	      return React.createElement(
-	        'section',
-	        { className: 'task-index' },
-	        React.createElement(
-	          'li',
-	          null,
-	          'loading tasks...'
-	        )
-	      );
-	    } else {
+	
+	    // if task store isn't empty, put all tasks in allTasks arr
+	    if (!this.taskStoreIsEmpty()) {
 	      Object.keys(this.state.tasks).forEach(function (taskId) {
 	        allTasks.push(React.createElement(TaskIndexItem, {
 	          task: this.state.tasks[taskId],
-	          key: taskId
+	          key: taskId,
+	          focus: false
 	        }));
 	      }.bind(this));
-	
-	      if (this.state.addingTask) {
-	        allTasks.push(React.createElement(TaskIndexItem, {
-	          className: 'edit-task'
-	        }));
-	      }
-	
-	      return React.createElement(
-	        'section',
-	        { className: 'task-index' },
-	        React.createElement(
-	          'button',
-	          { onClick: this.showNewTaskForm },
-	          'Add Task'
-	        ),
-	        React.createElement(
-	          'ul',
-	          { className: 'task-list-ul' },
-	          allTasks
-	        )
-	      );
 	    }
+	
+	    // if addingTask is true, include a blank index item
+	    if (this.state.addingTask) {
+	      allTasks.push(React.createElement(TaskIndexItem, {
+	        className: 'edit-task',
+	        key: '-1',
+	        focus: true
+	      }));
+	    }
+	
+	    return React.createElement(
+	      'section',
+	      { className: 'task-index' },
+	      React.createElement(
+	        'button',
+	        { onClick: this.showNewTaskForm },
+	        'Add Task'
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'task-list-ul' },
+	        allTasks
+	      )
+	    );
 	  }
 	});
 	module.exports = TaskIndex;
@@ -24851,6 +24866,21 @@
 	    });
 	  },
 	
+	  createTask: function (task) {
+	    $.ajax({
+	      type: 'POST',
+	      url: 'api/tasks',
+	      dataType: 'json',
+	      data: { task: task },
+	      success: function (task) {
+	        ApiActions.receiveOneTask(task);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#createTask error");
+	      }
+	    });
+	  },
+	
 	  updateTaskName: function (task) {
 	    $.ajax({
 	      type: 'PATCH',
@@ -24858,13 +24888,28 @@
 	      dataType: 'json',
 	      data: { task: task },
 	      success: function (task) {
-	        console.log(task);
+	        ApiActions.receiveOneTask(task);
 	      },
 	      error: function () {
-	        console.log("ApiUtil#fetchTasks error");
+	        console.log("ApiUtil#updateTaskName error");
+	      }
+	    });
+	  },
+	
+	  deleteTask: function (task) {
+	    $.ajax({
+	      type: 'DELETE',
+	      url: 'api/tasks/' + task.id,
+	      dataType: 'json',
+	      success: function (tasks) {
+	        ApiActions.recieveAll(tasks);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#deleteTask error");
 	      }
 	    });
 	  }
+	
 	};
 	
 	module.exports = ApiUtil;
@@ -24884,9 +24929,9 @@
 	    });
 	  },
 	
-	  updateTaskName: function (task) {
+	  receiveOneTask: function (task) {
 	    AppDispatcher.dispatch({
-	      actionType: ApiConstants.UPDATE_TASK_NAME,
+	      actionType: ApiConstants.RECEIVE_ONE_TASK,
 	      task: task
 	    });
 	  }
@@ -24900,7 +24945,7 @@
 
 	ApiConstants = {
 	  RECEIVE_TASKS: "RECEIVE_TASKS",
-	  UPDATE_TASK_NAME: "UPDATE_TASK_NAME"
+	  RECEIVE_ONE_TASK: "RECEIVE_ONE_TASK"
 	};
 	
 	module.exports = ApiConstants;
@@ -24928,10 +24973,18 @@
 	  }
 	};
 	
+	var receiveOneTask = function (task) {
+	  _tasks[task.id] = task;
+	};
+	
 	TaskStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case ApiConstants.RECEIVE_TASKS:
 	      resetTasks(payload.tasks);
+	      TaskStore.__emitChange();
+	      break;
+	    case ApiConstants.RECEIVE_ONE_TASK:
+	      receiveOneTask(payload.task);
 	      TaskStore.__emitChange();
 	      break;
 	  }
@@ -31706,7 +31759,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158);
+	    ReactDOM = __webpack_require__(158),
+	    TaskStore = __webpack_require__(221);
 	
 	var TaskIndexItem = React.createClass({
 	  displayName: 'TaskIndexItem',
@@ -31715,22 +31769,66 @@
 	    if (this.props.task) {
 	      return {
 	        name: this.props.task.name,
-	        id: this.props.task.id
+	        id: this.props.task.id,
+	        persisted: true
 	      };
 	    } else {
 	      return {
 	        name: null,
-	        id: $('.task-input').length + 835
+	        id: $('.task-input').length + 835,
+	        persisted: false
 	      };
 	    }
 	  },
 	
+	  // task.name is held in state and updated as user types
 	  handleType: function () {
-	    var id = "#" + this.state.id;
-	    this.setState({ name: $(id).val() });
+	    var currentTaskName = this.refs.childInput.value;
+	    this.setState({ name: currentTaskName });
 	  },
 	
+	  // onBlur callback, calls ApiUtil to create task, update task,
+	  // or delete task if name is blank
 	  saveNameChange: function () {
+	    // do nothing if no changes have occurred OR task is new and name is blank
+	    if (this.state.persisted && this.state.name === this.props.task.name) {
+	      return;
+	    } else if (this.state.name === null && !this.state.persisted) {
+	      return;
+	    }
+	
+	    if (this.state.name === "" && this.state.persisted) {
+	      // delete if user clears out name of persisted task
+	      this.apiDeleteTask(this.props.task.id);
+	    } else if (this.state.persisted) {
+	      this.apiUpdateTaskName(this.props.task.id, this.state.name);
+	    } else {
+	      // else if not persisted, create the task in DB
+	      this.apiCreateTask(this.state.name);
+	    }
+	  },
+	
+	  // delete tasks with empty names if delete is pressed
+	  keyDownHandler: function (event) {
+	    if (this.state.name === "" && this.state.persisted) {
+	      // delete if user clears out name of persisted task
+	      this.apiDeleteTask(this.props.task.id);
+	    }
+	  },
+	
+	  apiDeleteTask: function (id) {
+	    ApiUtil.deleteTask({
+	      id: id
+	    });
+	  },
+	
+	  apiCreateTask: function (name) {
+	    ApiUtil.createTask({
+	      name: name
+	    });
+	  },
+	
+	  apiUpdateTaskName: function (id, name) {
 	    ApiUtil.updateTaskName({
 	      id: this.props.task.id,
 	      name: this.state.name
@@ -31740,14 +31838,28 @@
 	  render: function () {
 	    return React.createElement(
 	      'li',
-	      { className: 'task-index-item' },
+	      { className: 'group task-index-item' },
+	      React.createElement(
+	        'button',
+	        { className: 'complete-task-button' },
+	        React.createElement(
+	          'svg',
+	          { viewBox: '0 0 32 32' },
+	          React.createElement('polygon', { points: '30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30' })
+	        )
+	      ),
 	      React.createElement('input', {
+	        ref: 'childInput',
 	        type: 'text',
 	        className: 'task-input',
 	        value: this.state.name,
 	        id: this.state.id,
+	        autoFocus: this.props.focus,
 	        onChange: this.handleType,
-	        onBlur: this.saveNameChange })
+	        onBlur: this.saveNameChange,
+	        onMouseOut: this.saveNameChange,
+	        onKeyDown: this.keyDownHandler
+	      })
 	    );
 	  }
 	});
