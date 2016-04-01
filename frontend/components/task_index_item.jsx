@@ -10,21 +10,7 @@ var TaskIndexItem = React.createClass({
   },
 
   getInitialState: function () {
-    debugger
-    if (this.props.task) {
-      return {
-        task: this.props.task
-      };
-    } else {
-      return {
-        task: {
-          name: null,
-          id: TaskStore.all().length + 835,
-          persisted: false,
-          new: true
-        }
-      }
-    }
+    return { task: this.props.task };
   },
 
   setStateFromStore: function () {

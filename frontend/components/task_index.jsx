@@ -45,6 +45,15 @@ var TaskIndex = React.createClass({
     }
   },
 
+  emptyTask: function () {
+    return {
+      name: null,
+      id: -1,
+      persisted: false,
+      new: true
+    }
+  },
+
   render: function () {
     var allTasks = [];
     // if task store isn't empty, put all tasks in allTasks arr
@@ -62,6 +71,7 @@ var TaskIndex = React.createClass({
     if (this.state.addingTask) {
       allTasks.push(
         <TaskIndexItem
+          task={this.emptyTask()}
           className="edit-task"
           key="-1"
           focus={true}

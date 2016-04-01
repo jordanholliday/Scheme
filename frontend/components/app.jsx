@@ -2,7 +2,8 @@ var React = require('react'),
     ReactDOM = require('react-dom'),
     SessionStore = require('../stores/sessions.js'),
     NavBar = require('./nav_bar')
-    ApiUtil = require('../util/api_util.js');
+    ApiUtil = require('../util/api_util.js'),
+    TaskStore = require('../stores/tasks');
 
 var App = React.createClass({
   contextTypes: {
@@ -27,6 +28,7 @@ var App = React.createClass({
     if (SessionStore.isLoggedIn()) {
       this.setState({ currentUser: SessionStore.currentUser() })
     } else {
+      TaskStore.clearTasks();
       this.context.router.push('/login');
     }
   },

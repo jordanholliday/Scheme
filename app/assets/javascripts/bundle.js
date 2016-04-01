@@ -51,12 +51,12 @@
 	    Route = ReactRouter.Route,
 	    IndexRoute = ReactRouter.IndexRoute,
 	    TaskIndex = __webpack_require__(216),
-	    ApiUtil = __webpack_require__(241),
-	    SessionStore = __webpack_require__(245),
-	    App = __webpack_require__(247),
-	    TaskDetail = __webpack_require__(249),
+	    ApiUtil = __webpack_require__(217),
+	    SessionStore = __webpack_require__(226),
+	    App = __webpack_require__(244),
+	    TaskDetail = __webpack_require__(246),
 	    LoginForm = __webpack_require__(250),
-	    RegistrationForm = __webpack_require__(252);
+	    RegistrationForm = __webpack_require__(251);
 	
 	var routes = React.createElement(
 	  Route,
@@ -24768,9 +24768,9 @@
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    TaskStore = __webpack_require__(217),
-	    ApiUtil = __webpack_require__(241),
-	    TaskIndexItem = __webpack_require__(243);
+	    TaskStore = __webpack_require__(247),
+	    ApiUtil = __webpack_require__(217),
+	    TaskIndexItem = __webpack_require__(252);
 	
 	var TaskIndex = React.createClass({
 	  displayName: 'TaskIndex',
@@ -24815,6 +24815,15 @@
 	    }
 	  },
 	
+	  emptyTask: function () {
+	    return {
+	      name: null,
+	      id: -1,
+	      persisted: false,
+	      new: true
+	    };
+	  },
+	
 	  render: function () {
 	    var allTasks = [];
 	    // if task store isn't empty, put all tasks in allTasks arr
@@ -24831,6 +24840,7 @@
 	    // if addingTask is true, include a blank index item
 	    if (this.state.addingTask) {
 	      allTasks.push(React.createElement(TaskIndexItem, {
+	        task: this.emptyTask(),
 	        className: 'edit-task',
 	        key: '-1',
 	        focus: true
@@ -24864,62 +24874,184 @@
 /* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Store = __webpack_require__(218).Store,
-	    AppDispatcher = __webpack_require__(236),
-	    ApiConstants = __webpack_require__(239),
-	    TaskConstants = __webpack_require__(240);
+	var ApiActions = __webpack_require__(218),
+	    SessionActions = __webpack_require__(224);
 	
-	var _tasks = {};
-	var TaskStore = new Store(AppDispatcher);
+	ApiUtil = {
+	  fetchTasks: function () {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'api/tasks',
+	      dataType: 'json',
+	      success: function (tasks) {
+	        ApiActions.recieveAll(tasks);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#fetchTasks error");
+	      }
+	    });
+	  },
 	
-	TaskStore.all = function () {
-	  return _tasks;
-	};
+	  createTask: function (task) {
+	    $.ajax({
+	      type: 'POST',
+	      url: 'api/tasks',
+	      dataType: 'json',
+	      data: { task: task },
+	      success: function (task) {
+	        ApiActions.receiveOneTask(task);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#createTask error");
+	      }
+	    });
+	  },
 	
-	TaskStore.find = function (id) {
-	  return _tasks[id];
-	};
+	  updateTask: function (task) {
+	    $.ajax({
+	      type: 'PATCH',
+	      url: 'api/tasks/' + task.id,
+	      dataType: 'json',
+	      data: { task: task },
+	      success: function (task) {
+	        ApiActions.receiveOneTask(task);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#updateTask error");
+	      }
+	    });
+	  },
 	
-	var resetTasks = function (newTasks) {
-	  _tasks = {};
-	  for (var j = 0; j < newTasks.length; j++) {
-	    var currentTask = newTasks[j];
-	    _tasks[currentTask.id] = currentTask;
-	    _tasks[currentTask.id].persisted = true;
+	  completeTask: function (task) {
+	    var fetchCallback = this.fetchTasks;
+	    $.ajax({
+	      type: 'PATCH',
+	      url: 'api/tasks/' + task.id,
+	      dataType: 'json',
+	      data: { task: task },
+	      success: function () {
+	        fetchCallback();
+	      },
+	      error: function () {
+	        console.log("ApiUtil#updateTask error");
+	      }
+	    });
+	  },
+	
+	  deleteTask: function (task) {
+	    $.ajax({
+	      type: 'DELETE',
+	      url: 'api/tasks/' + task.id,
+	      dataType: 'json',
+	      success: function (tasks) {
+	        ApiActions.recieveAll(tasks);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#deleteTask error");
+	      }
+	    });
+	  },
+	
+	  register: function (user_details, callback) {
+	    $.ajax({
+	      type: "POST",
+	      url: "/api/users",
+	      dataType: "json",
+	      data: { user: user_details },
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	        callback && callback();
+	      }
+	    });
+	  },
+	
+	  login: function (credentials, callback) {
+	    $.ajax({
+	      type: "POST",
+	      url: "/api/session",
+	      dataType: "json",
+	      data: credentials,
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	        callback && callback();
+	      }
+	    });
+	  },
+	
+	  logout: function () {
+	    $.ajax({
+	      type: "DELETE",
+	      url: "/api/session",
+	      dataType: "json",
+	      success: function () {
+	        SessionActions.logout();
+	      }
+	    });
+	  },
+	
+	  fetchCurrentUser: function (completion) {
+	    $.ajax({
+	      type: "GET",
+	      url: "/api/session",
+	      dataType: "json",
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	      },
+	      complete: function () {
+	        completion && completion();
+	      }
+	    });
 	  }
+	
 	};
 	
-	var receiveOneTask = function (task) {
-	  _tasks[task.id] = task;
-	  _tasks[task.id].persisted = true;
-	};
-	
-	var receiveOneUnpersistedTask = function (task) {
-	  _tasks[task.id] = task;
-	  _tasks[task.id].persisted = false;
-	};
-	
-	TaskStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case ApiConstants.RECEIVE_TASKS:
-	      resetTasks(payload.tasks);
-	      TaskStore.__emitChange();
-	      break;
-	    case ApiConstants.RECEIVE_ONE_TASK:
-	      receiveOneTask(payload.task);
-	      TaskStore.__emitChange();
-	      break;
-	    case TaskConstants.UPDATE_TASK_IN_STORE:
-	      receiveOneUnpersistedTask(payload.task);
-	      TaskStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = TaskStore;
+	module.exports = ApiUtil;
 
 /***/ },
 /* 218 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var ApiConstants = __webpack_require__(219),
+	    AppDispatcher = __webpack_require__(220);
+	
+	ApiActions = {
+	  recieveAll: function (tasks) {
+	    AppDispatcher.dispatch({
+	      actionType: ApiConstants.RECEIVE_TASKS,
+	      tasks: tasks
+	    });
+	  },
+	
+	  receiveOneTask: function (task) {
+	    AppDispatcher.dispatch({
+	      actionType: ApiConstants.RECEIVE_ONE_TASK,
+	      task: task
+	    });
+	  }
+	};
+	
+	module.exports = ApiActions;
+
+/***/ },
+/* 219 */
+/***/ function(module, exports) {
+
+	ApiConstants = {
+	  RECEIVE_TASKS: "RECEIVE_TASKS",
+	  RECEIVE_ONE_TASK: "RECEIVE_ONE_TASK"
+	};
+	
+	module.exports = ApiConstants;
+
+/***/ },
+/* 220 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(221).Dispatcher;
+	module.exports = new Dispatcher();
+
+/***/ },
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24931,15 +25063,399 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Container = __webpack_require__(219);
-	module.exports.MapStore = __webpack_require__(223);
-	module.exports.Mixin = __webpack_require__(235);
-	module.exports.ReduceStore = __webpack_require__(224);
-	module.exports.Store = __webpack_require__(225);
+	module.exports.Dispatcher = __webpack_require__(222);
 
 
 /***/ },
-/* 219 */
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright (c) 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule Dispatcher
+	 * 
+	 * @preventMunge
+	 */
+	
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var invariant = __webpack_require__(223);
+	
+	var _prefix = 'ID_';
+	
+	/**
+	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
+	 * different from generic pub-sub systems in two ways:
+	 *
+	 *   1) Callbacks are not subscribed to particular events. Every payload is
+	 *      dispatched to every registered callback.
+	 *   2) Callbacks can be deferred in whole or part until other callbacks have
+	 *      been executed.
+	 *
+	 * For example, consider this hypothetical flight destination form, which
+	 * selects a default city when a country is selected:
+	 *
+	 *   var flightDispatcher = new Dispatcher();
+	 *
+	 *   // Keeps track of which country is selected
+	 *   var CountryStore = {country: null};
+	 *
+	 *   // Keeps track of which city is selected
+	 *   var CityStore = {city: null};
+	 *
+	 *   // Keeps track of the base flight price of the selected city
+	 *   var FlightPriceStore = {price: null}
+	 *
+	 * When a user changes the selected city, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'city-update',
+	 *     selectedCity: 'paris'
+	 *   });
+	 *
+	 * This payload is digested by `CityStore`:
+	 *
+	 *   flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'city-update') {
+	 *       CityStore.city = payload.selectedCity;
+	 *     }
+	 *   });
+	 *
+	 * When the user selects a country, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'country-update',
+	 *     selectedCountry: 'australia'
+	 *   });
+	 *
+	 * This payload is digested by both stores:
+	 *
+	 *   CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       CountryStore.country = payload.selectedCountry;
+	 *     }
+	 *   });
+	 *
+	 * When the callback to update `CountryStore` is registered, we save a reference
+	 * to the returned token. Using this token with `waitFor()`, we can guarantee
+	 * that `CountryStore` is updated before the callback that updates `CityStore`
+	 * needs to query its data.
+	 *
+	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       // `CountryStore.country` may not be updated.
+	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+	 *       // `CountryStore.country` is now guaranteed to be updated.
+	 *
+	 *       // Select the default city for the new country
+	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+	 *     }
+	 *   });
+	 *
+	 * The usage of `waitFor()` can be chained, for example:
+	 *
+	 *   FlightPriceStore.dispatchToken =
+	 *     flightDispatcher.register(function(payload) {
+	 *       switch (payload.actionType) {
+	 *         case 'country-update':
+	 *         case 'city-update':
+	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+	 *           FlightPriceStore.price =
+	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
+	 *           break;
+	 *     }
+	 *   });
+	 *
+	 * The `country-update` payload will be guaranteed to invoke the stores'
+	 * registered callbacks in order: `CountryStore`, `CityStore`, then
+	 * `FlightPriceStore`.
+	 */
+	
+	var Dispatcher = (function () {
+	  function Dispatcher() {
+	    _classCallCheck(this, Dispatcher);
+	
+	    this._callbacks = {};
+	    this._isDispatching = false;
+	    this._isHandled = {};
+	    this._isPending = {};
+	    this._lastID = 1;
+	  }
+	
+	  /**
+	   * Registers a callback to be invoked with every dispatched payload. Returns
+	   * a token that can be used with `waitFor()`.
+	   */
+	
+	  Dispatcher.prototype.register = function register(callback) {
+	    var id = _prefix + this._lastID++;
+	    this._callbacks[id] = callback;
+	    return id;
+	  };
+	
+	  /**
+	   * Removes a callback based on its token.
+	   */
+	
+	  Dispatcher.prototype.unregister = function unregister(id) {
+	    !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+	    delete this._callbacks[id];
+	  };
+	
+	  /**
+	   * Waits for the callbacks specified to be invoked before continuing execution
+	   * of the current callback. This method should only be used by a callback in
+	   * response to a dispatched payload.
+	   */
+	
+	  Dispatcher.prototype.waitFor = function waitFor(ids) {
+	    !this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
+	    for (var ii = 0; ii < ids.length; ii++) {
+	      var id = ids[ii];
+	      if (this._isPending[id]) {
+	        !this._isHandled[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
+	        continue;
+	      }
+	      !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+	      this._invokeCallback(id);
+	    }
+	  };
+	
+	  /**
+	   * Dispatches a payload to all registered callbacks.
+	   */
+	
+	  Dispatcher.prototype.dispatch = function dispatch(payload) {
+	    !!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
+	    this._startDispatching(payload);
+	    try {
+	      for (var id in this._callbacks) {
+	        if (this._isPending[id]) {
+	          continue;
+	        }
+	        this._invokeCallback(id);
+	      }
+	    } finally {
+	      this._stopDispatching();
+	    }
+	  };
+	
+	  /**
+	   * Is this Dispatcher currently dispatching.
+	   */
+	
+	  Dispatcher.prototype.isDispatching = function isDispatching() {
+	    return this._isDispatching;
+	  };
+	
+	  /**
+	   * Call the callback stored with the given id. Also do some internal
+	   * bookkeeping.
+	   *
+	   * @internal
+	   */
+	
+	  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
+	    this._isPending[id] = true;
+	    this._callbacks[id](this._pendingPayload);
+	    this._isHandled[id] = true;
+	  };
+	
+	  /**
+	   * Set up bookkeeping needed when dispatching.
+	   *
+	   * @internal
+	   */
+	
+	  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
+	    for (var id in this._callbacks) {
+	      this._isPending[id] = false;
+	      this._isHandled[id] = false;
+	    }
+	    this._pendingPayload = payload;
+	    this._isDispatching = true;
+	  };
+	
+	  /**
+	   * Clear bookkeeping used for dispatching.
+	   *
+	   * @internal
+	   */
+	
+	  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
+	    delete this._pendingPayload;
+	    this._isDispatching = false;
+	  };
+	
+	  return Dispatcher;
+	})();
+	
+	module.exports = Dispatcher;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule invariant
+	 */
+	
+	"use strict";
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var invariant = function (condition, format, a, b, c, d, e, f) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
+	        return args[argIndex++];
+	      }));
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+	
+	module.exports = invariant;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(220),
+	    SessionConstants = __webpack_require__(225);
+	
+	var SessionActions = {
+	  currentUserReceived: function (currentUser) {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
+	      currentUser: currentUser
+	    });
+	  },
+	
+	  logout: function () {
+	    AppDispatcher.dispatch({
+	      actionType: SessionConstants.LOGOUT
+	    });
+	  }
+	};
+	
+	module.exports = SessionActions;
+
+/***/ },
+/* 225 */
+/***/ function(module, exports) {
+
+	SessionConstants = {
+	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
+	  LOGOUT: "LOGOUT"
+	};
+	
+	module.exports = SessionConstants;
+
+/***/ },
+/* 226 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(227).Store;
+	var SessionConstants = __webpack_require__(225);
+	var AppDispatcher = __webpack_require__(220);
+	
+	var SessionStore = new Store(AppDispatcher);
+	
+	var _currentUser;
+	var _currentUserHasBeenFetched = false;
+	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	SessionStore.isLoggedIn = function () {
+	  return !!_currentUser;
+	};
+	
+	SessionStore.currentUserHasBeenFetched = function () {
+	  return _currentUserHasBeenFetched;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.CURRENT_USER_RECEIVED:
+	      _currentUser = payload.currentUser;
+	      _currentUserHasBeenFetched = true;
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _currentUser = null;
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 227 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright (c) 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	module.exports.Container = __webpack_require__(228);
+	module.exports.MapStore = __webpack_require__(231);
+	module.exports.Mixin = __webpack_require__(243);
+	module.exports.ReduceStore = __webpack_require__(232);
+	module.exports.Store = __webpack_require__(233);
+
+
+/***/ },
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24961,10 +25477,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStoreGroup = __webpack_require__(220);
+	var FluxStoreGroup = __webpack_require__(229);
 	
-	var invariant = __webpack_require__(221);
-	var shallowEqual = __webpack_require__(222);
+	var invariant = __webpack_require__(223);
+	var shallowEqual = __webpack_require__(230);
 	
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -25122,7 +25638,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 220 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25141,7 +25657,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(221);
+	var invariant = __webpack_require__(223);
 	
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
@@ -25203,62 +25719,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 221 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
-	 */
-	
-	"use strict";
-	
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-	
-	var invariant = function (condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-	
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
-	        return args[argIndex++];
-	      }));
-	    }
-	
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	};
-	
-	module.exports = invariant;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 222 */
+/* 230 */
 /***/ function(module, exports) {
 
 	/**
@@ -25313,7 +25774,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 223 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25334,10 +25795,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxReduceStore = __webpack_require__(224);
-	var Immutable = __webpack_require__(234);
+	var FluxReduceStore = __webpack_require__(232);
+	var Immutable = __webpack_require__(242);
 	
-	var invariant = __webpack_require__(221);
+	var invariant = __webpack_require__(223);
 	
 	/**
 	 * This is a simple store. It allows caching key value pairs. An implementation
@@ -25463,7 +25924,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 224 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25484,10 +25945,10 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var FluxStore = __webpack_require__(225);
+	var FluxStore = __webpack_require__(233);
 	
-	var abstractMethod = __webpack_require__(233);
-	var invariant = __webpack_require__(221);
+	var abstractMethod = __webpack_require__(241);
+	var invariant = __webpack_require__(223);
 	
 	var FluxReduceStore = (function (_FluxStore) {
 	  _inherits(FluxReduceStore, _FluxStore);
@@ -25570,7 +26031,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 225 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25589,11 +26050,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _require = __webpack_require__(226);
+	var _require = __webpack_require__(234);
 	
 	var EventEmitter = _require.EventEmitter;
 	
-	var invariant = __webpack_require__(221);
+	var invariant = __webpack_require__(223);
 	
 	/**
 	 * This class should be extended by the stores in your application, like so:
@@ -25753,7 +26214,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 226 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25766,14 +26227,14 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(227)
+	  EventEmitter: __webpack_require__(235)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 227 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25792,11 +26253,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(228);
-	var EventSubscriptionVendor = __webpack_require__(230);
+	var EmitterSubscription = __webpack_require__(236);
+	var EventSubscriptionVendor = __webpack_require__(238);
 	
-	var emptyFunction = __webpack_require__(232);
-	var invariant = __webpack_require__(231);
+	var emptyFunction = __webpack_require__(240);
+	var invariant = __webpack_require__(239);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -25970,7 +26431,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25991,7 +26452,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(229);
+	var EventSubscription = __webpack_require__(237);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -26023,7 +26484,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 229 */
+/* 237 */
 /***/ function(module, exports) {
 
 	/**
@@ -26077,7 +26538,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 230 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26096,7 +26557,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(231);
+	var invariant = __webpack_require__(239);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -26186,7 +26647,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 231 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26241,7 +26702,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 232 */
+/* 240 */
 /***/ function(module, exports) {
 
 	/**
@@ -26283,7 +26744,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 233 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26300,7 +26761,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(221);
+	var invariant = __webpack_require__(223);
 	
 	function abstractMethod(className, methodName) {
 	   true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
@@ -26310,7 +26771,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 234 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31297,7 +31758,7 @@
 	}));
 
 /***/ },
-/* 235 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31314,9 +31775,9 @@
 	
 	'use strict';
 	
-	var FluxStoreGroup = __webpack_require__(220);
+	var FluxStoreGroup = __webpack_require__(229);
 	
-	var invariant = __webpack_require__(221);
+	var invariant = __webpack_require__(223);
 	
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -31420,713 +31881,14 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 236 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(237).Dispatcher;
-	module.exports = new Dispatcher();
-
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright (c) 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 */
-	
-	module.exports.Dispatcher = __webpack_require__(238);
-
-
-/***/ },
-/* 238 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright (c) 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule Dispatcher
-	 * 
-	 * @preventMunge
-	 */
-	
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var invariant = __webpack_require__(221);
-	
-	var _prefix = 'ID_';
-	
-	/**
-	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
-	 * different from generic pub-sub systems in two ways:
-	 *
-	 *   1) Callbacks are not subscribed to particular events. Every payload is
-	 *      dispatched to every registered callback.
-	 *   2) Callbacks can be deferred in whole or part until other callbacks have
-	 *      been executed.
-	 *
-	 * For example, consider this hypothetical flight destination form, which
-	 * selects a default city when a country is selected:
-	 *
-	 *   var flightDispatcher = new Dispatcher();
-	 *
-	 *   // Keeps track of which country is selected
-	 *   var CountryStore = {country: null};
-	 *
-	 *   // Keeps track of which city is selected
-	 *   var CityStore = {city: null};
-	 *
-	 *   // Keeps track of the base flight price of the selected city
-	 *   var FlightPriceStore = {price: null}
-	 *
-	 * When a user changes the selected city, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'city-update',
-	 *     selectedCity: 'paris'
-	 *   });
-	 *
-	 * This payload is digested by `CityStore`:
-	 *
-	 *   flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'city-update') {
-	 *       CityStore.city = payload.selectedCity;
-	 *     }
-	 *   });
-	 *
-	 * When the user selects a country, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'country-update',
-	 *     selectedCountry: 'australia'
-	 *   });
-	 *
-	 * This payload is digested by both stores:
-	 *
-	 *   CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       CountryStore.country = payload.selectedCountry;
-	 *     }
-	 *   });
-	 *
-	 * When the callback to update `CountryStore` is registered, we save a reference
-	 * to the returned token. Using this token with `waitFor()`, we can guarantee
-	 * that `CountryStore` is updated before the callback that updates `CityStore`
-	 * needs to query its data.
-	 *
-	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       // `CountryStore.country` may not be updated.
-	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
-	 *       // `CountryStore.country` is now guaranteed to be updated.
-	 *
-	 *       // Select the default city for the new country
-	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
-	 *     }
-	 *   });
-	 *
-	 * The usage of `waitFor()` can be chained, for example:
-	 *
-	 *   FlightPriceStore.dispatchToken =
-	 *     flightDispatcher.register(function(payload) {
-	 *       switch (payload.actionType) {
-	 *         case 'country-update':
-	 *         case 'city-update':
-	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
-	 *           FlightPriceStore.price =
-	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
-	 *           break;
-	 *     }
-	 *   });
-	 *
-	 * The `country-update` payload will be guaranteed to invoke the stores'
-	 * registered callbacks in order: `CountryStore`, `CityStore`, then
-	 * `FlightPriceStore`.
-	 */
-	
-	var Dispatcher = (function () {
-	  function Dispatcher() {
-	    _classCallCheck(this, Dispatcher);
-	
-	    this._callbacks = {};
-	    this._isDispatching = false;
-	    this._isHandled = {};
-	    this._isPending = {};
-	    this._lastID = 1;
-	  }
-	
-	  /**
-	   * Registers a callback to be invoked with every dispatched payload. Returns
-	   * a token that can be used with `waitFor()`.
-	   */
-	
-	  Dispatcher.prototype.register = function register(callback) {
-	    var id = _prefix + this._lastID++;
-	    this._callbacks[id] = callback;
-	    return id;
-	  };
-	
-	  /**
-	   * Removes a callback based on its token.
-	   */
-	
-	  Dispatcher.prototype.unregister = function unregister(id) {
-	    !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-	    delete this._callbacks[id];
-	  };
-	
-	  /**
-	   * Waits for the callbacks specified to be invoked before continuing execution
-	   * of the current callback. This method should only be used by a callback in
-	   * response to a dispatched payload.
-	   */
-	
-	  Dispatcher.prototype.waitFor = function waitFor(ids) {
-	    !this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
-	    for (var ii = 0; ii < ids.length; ii++) {
-	      var id = ids[ii];
-	      if (this._isPending[id]) {
-	        !this._isHandled[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
-	        continue;
-	      }
-	      !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-	      this._invokeCallback(id);
-	    }
-	  };
-	
-	  /**
-	   * Dispatches a payload to all registered callbacks.
-	   */
-	
-	  Dispatcher.prototype.dispatch = function dispatch(payload) {
-	    !!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
-	    this._startDispatching(payload);
-	    try {
-	      for (var id in this._callbacks) {
-	        if (this._isPending[id]) {
-	          continue;
-	        }
-	        this._invokeCallback(id);
-	      }
-	    } finally {
-	      this._stopDispatching();
-	    }
-	  };
-	
-	  /**
-	   * Is this Dispatcher currently dispatching.
-	   */
-	
-	  Dispatcher.prototype.isDispatching = function isDispatching() {
-	    return this._isDispatching;
-	  };
-	
-	  /**
-	   * Call the callback stored with the given id. Also do some internal
-	   * bookkeeping.
-	   *
-	   * @internal
-	   */
-	
-	  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
-	    this._isPending[id] = true;
-	    this._callbacks[id](this._pendingPayload);
-	    this._isHandled[id] = true;
-	  };
-	
-	  /**
-	   * Set up bookkeeping needed when dispatching.
-	   *
-	   * @internal
-	   */
-	
-	  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
-	    for (var id in this._callbacks) {
-	      this._isPending[id] = false;
-	      this._isHandled[id] = false;
-	    }
-	    this._pendingPayload = payload;
-	    this._isDispatching = true;
-	  };
-	
-	  /**
-	   * Clear bookkeeping used for dispatching.
-	   *
-	   * @internal
-	   */
-	
-	  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
-	    delete this._pendingPayload;
-	    this._isDispatching = false;
-	  };
-	
-	  return Dispatcher;
-	})();
-	
-	module.exports = Dispatcher;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 239 */
-/***/ function(module, exports) {
-
-	ApiConstants = {
-	  RECEIVE_TASKS: "RECEIVE_TASKS",
-	  RECEIVE_ONE_TASK: "RECEIVE_ONE_TASK"
-	};
-	
-	module.exports = ApiConstants;
-
-/***/ },
-/* 240 */
-/***/ function(module, exports) {
-
-	TaskConstants = {
-	  UPDATE_TASK_IN_STORE: "UPDATE_TASK_IN_STORE"
-	};
-	
-	module.exports = TaskConstants;
-
-/***/ },
-/* 241 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ApiActions = __webpack_require__(242),
-	    SessionActions = __webpack_require__(251);
-	
-	ApiUtil = {
-	  fetchTasks: function () {
-	    $.ajax({
-	      type: 'GET',
-	      url: 'api/tasks',
-	      dataType: 'json',
-	      success: function (tasks) {
-	        ApiActions.recieveAll(tasks);
-	      },
-	      error: function () {
-	        console.log("ApiUtil#fetchTasks error");
-	      }
-	    });
-	  },
-	
-	  createTask: function (task) {
-	    $.ajax({
-	      type: 'POST',
-	      url: 'api/tasks',
-	      dataType: 'json',
-	      data: { task: task },
-	      success: function (task) {
-	        ApiActions.receiveOneTask(task);
-	      },
-	      error: function () {
-	        console.log("ApiUtil#createTask error");
-	      }
-	    });
-	  },
-	
-	  updateTask: function (task) {
-	    $.ajax({
-	      type: 'PATCH',
-	      url: 'api/tasks/' + task.id,
-	      dataType: 'json',
-	      data: { task: task },
-	      success: function (task) {
-	        ApiActions.receiveOneTask(task);
-	      },
-	      error: function () {
-	        console.log("ApiUtil#updateTask error");
-	      }
-	    });
-	  },
-	
-	  completeTask: function (task) {
-	    var fetchCallback = this.fetchTasks;
-	    $.ajax({
-	      type: 'PATCH',
-	      url: 'api/tasks/' + task.id,
-	      dataType: 'json',
-	      data: { task: task },
-	      success: function () {
-	        fetchCallback();
-	      },
-	      error: function () {
-	        console.log("ApiUtil#updateTask error");
-	      }
-	    });
-	  },
-	
-	  deleteTask: function (task) {
-	    $.ajax({
-	      type: 'DELETE',
-	      url: 'api/tasks/' + task.id,
-	      dataType: 'json',
-	      success: function (tasks) {
-	        ApiActions.recieveAll(tasks);
-	      },
-	      error: function () {
-	        console.log("ApiUtil#deleteTask error");
-	      }
-	    });
-	  },
-	
-	  register: function (user_details, callback) {
-	    $.ajax({
-	      type: "POST",
-	      url: "/api/users",
-	      dataType: "json",
-	      data: { user: user_details },
-	      success: function (currentUser) {
-	        SessionActions.currentUserReceived(currentUser);
-	        callback && callback();
-	      }
-	    });
-	  },
-	
-	  login: function (credentials, callback) {
-	    $.ajax({
-	      type: "POST",
-	      url: "/api/session",
-	      dataType: "json",
-	      data: credentials,
-	      success: function (currentUser) {
-	        SessionActions.currentUserReceived(currentUser);
-	        callback && callback();
-	      }
-	    });
-	  },
-	
-	  logout: function () {
-	    $.ajax({
-	      type: "DELETE",
-	      url: "/api/session",
-	      dataType: "json",
-	      success: function () {
-	        SessionActions.logout();
-	      }
-	    });
-	  },
-	
-	  fetchCurrentUser: function (completion) {
-	    $.ajax({
-	      type: "GET",
-	      url: "/api/session",
-	      dataType: "json",
-	      success: function (currentUser) {
-	        SessionActions.currentUserReceived(currentUser);
-	      },
-	      complete: function () {
-	        completion && completion();
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = ApiUtil;
-
-/***/ },
-/* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var ApiConstants = __webpack_require__(239),
-	    AppDispatcher = __webpack_require__(236);
-	
-	ApiActions = {
-	  recieveAll: function (tasks) {
-	    AppDispatcher.dispatch({
-	      actionType: ApiConstants.RECEIVE_TASKS,
-	      tasks: tasks
-	    });
-	  },
-	
-	  receiveOneTask: function (task) {
-	    AppDispatcher.dispatch({
-	      actionType: ApiConstants.RECEIVE_ONE_TASK,
-	      task: task
-	    });
-	  }
-	};
-	
-	module.exports = ApiActions;
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158),
-	    TaskStore = __webpack_require__(217);
-	Link = __webpack_require__(159).Link, TaskAction = __webpack_require__(244);
-	
-	var TaskIndexItem = React.createClass({
-	  displayName: 'TaskIndexItem',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    debugger;
-	    if (this.props.task) {
-	      return {
-	        task: this.props.task
-	      };
-	    } else {
-	      return {
-	        task: {
-	          name: null,
-	          id: TaskStore.all().length + 835,
-	          persisted: false,
-	          new: true
-	        }
-	      };
-	    }
-	  },
-	
-	  setStateFromStore: function () {
-	    var taskInStore = TaskStore.find(this.state.task.id);
-	    if (taskInStore) {
-	      this.setState({ task: taskInStore });
-	    }
-	  },
-	
-	  componentDidMount: function () {
-	    this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.taskStoreToken.remove();
-	  },
-	
-	  componentWillReceiveProps: function (newProps) {
-	    this.setState({
-	      task: newProps.task
-	    });
-	  },
-	
-	  // task.name is held in state and updated as user types
-	  handleType: function () {
-	    var currentTaskName = this.refs.childInput.value;
-	    this.state.task.name = currentTaskName;
-	
-	    // changes to new tasks are handled within component,
-	    // not communicated to the store
-	    if (!this.state.task.new) {
-	      this.storeUpdateTask();
-	    } else {
-	      this.setState({ task: this.state.task });
-	    }
-	  },
-	
-	  storeUpdateTask: function () {
-	    TaskActions.updateTaskInStore(this.state.task);
-	  },
-	
-	  // onBlur callback, calls ApiUtil to create task, update task,
-	  // or delete task if name is blank
-	  saveNameChange: function () {
-	    // do nothing if no changes have occurred OR task is new and name is blank
-	    if (!this.state.task) {
-	      return;
-	    } else if (this.state.task.persisted && this.state.task.name === this.props.task.name) {
-	      return;
-	    } else if (!this.state.task.name && !this.state.task.persisted) {
-	      return;
-	    }
-	
-	    if (this.state.task.new) {
-	      // else if not persisted, create the task in DB
-	      this.apiCreateTask(this.state.task.name);
-	    } else {
-	      this.apiUpdateTaskName(this.state.task.id, this.state.task.name);
-	    }
-	  },
-	
-	  // delete tasks with empty names if delete is pressed
-	  keyDownHandler: function (event) {
-	    if (event.which === 8 && this.state.task.name === "") {
-	      // delete if user clears out name of persisted task
-	      event.preventDefault();
-	      this.apiDeleteTask(this.state.task.id);
-	    }
-	  },
-	
-	  apiDeleteTask: function (id) {
-	    ApiUtil.deleteTask({
-	      id: id
-	    });
-	  },
-	
-	  apiCreateTask: function (name) {
-	    ApiUtil.createTask({
-	      name: name
-	    });
-	  },
-	
-	  apiUpdateTaskName: function (id, name) {
-	    ApiUtil.updateTask({
-	      id: this.state.task.id,
-	      name: this.state.task.name
-	    });
-	  },
-	
-	  apiCompleteTask: function () {
-	    ApiUtil.completeTask({
-	      id: this.state.task.id,
-	      completed: true
-	    });
-	  },
-	
-	  // routing to show TaskDetail pane
-	  clickToShowDetail: function () {
-	    if (!this.props.task) {
-	      return;
-	    }
-	    this.context.router.push("tasks/" + this.state.task.id);
-	  },
-	
-	  render: function () {
-	    var button, input;
-	    if (this.state.task) {
-	      button = React.createElement(
-	        'button',
-	        { className: 'complete-task-button',
-	          onClick: this.apiCompleteTask },
-	        React.createElement(
-	          'svg',
-	          { viewBox: '0 0 32 32', className: 'check-complete' },
-	          React.createElement('polygon', { points: '30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30' })
-	        )
-	      );
-	    }
-	
-	    var taskName, taskId;
-	
-	    if (!this.state.task) {
-	      taskName = null;
-	      taskId = $('.task-input').length + 835;
-	    } else {
-	      taskName = this.state.task.name;
-	      taskId = this.state.task.Id;
-	    }
-	
-	    input = React.createElement('input', {
-	      ref: 'childInput',
-	      type: 'text',
-	      className: 'task-input',
-	      value: taskName,
-	      id: taskId,
-	      autoFocus: this.props.focus,
-	      onChange: this.handleType,
-	      onBlur: this.saveNameChange,
-	      onMouseOut: this.saveNameChange,
-	      onKeyDown: this.keyDownHandler,
-	      onClick: this.clickToShowDetail
-	    });
-	
-	    return React.createElement(
-	      'li',
-	      { className: 'group task-index-item' },
-	      button,
-	      input
-	    );
-	  }
-	});
-	
-	module.exports = TaskIndexItem;
-
-/***/ },
 /* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var TaskConstants = __webpack_require__(240),
-	    AppDispatcher = __webpack_require__(236);
-	
-	TaskActions = {
-	  updateTaskInStore: function (task) {
-	    AppDispatcher.dispatch({
-	      actionType: TaskConstants.UPDATE_TASK_IN_STORE,
-	      task: task
-	    });
-	  }
-	};
-	
-	module.exports = TaskActions;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(218).Store;
-	var SessionConstants = __webpack_require__(246);
-	var AppDispatcher = __webpack_require__(236);
-	
-	var SessionStore = new Store(AppDispatcher);
-	
-	var _currentUser;
-	var _currentUserHasBeenFetched = false;
-	
-	SessionStore.currentUser = function () {
-	  return _currentUser;
-	};
-	
-	SessionStore.isLoggedIn = function () {
-	  return !!_currentUser;
-	};
-	
-	SessionStore.currentUserHasBeenFetched = function () {
-	  return _currentUserHasBeenFetched;
-	};
-	
-	SessionStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case SessionConstants.CURRENT_USER_RECEIVED:
-	      _currentUser = payload.currentUser;
-	      _currentUserHasBeenFetched = true;
-	      SessionStore.__emitChange();
-	      break;
-	    case SessionConstants.LOGOUT:
-	      _currentUser = null;
-	      SessionStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	module.exports = SessionStore;
-
-/***/ },
-/* 246 */
-/***/ function(module, exports) {
-
-	SessionConstants = {
-	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
-	  LOGOUT: "LOGOUT"
-	};
-	
-	module.exports = SessionConstants;
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    SessionStore = __webpack_require__(245),
-	    NavBar = __webpack_require__(248);
-	ApiUtil = __webpack_require__(241);
+	    SessionStore = __webpack_require__(226),
+	    NavBar = __webpack_require__(245);
+	ApiUtil = __webpack_require__(217), TaskStore = __webpack_require__(247);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -32153,6 +31915,7 @@
 	    if (SessionStore.isLoggedIn()) {
 	      this.setState({ currentUser: SessionStore.currentUser() });
 	    } else {
+	      TaskStore.clearTasks();
 	      this.context.router.push('/login');
 	    }
 	  },
@@ -32170,12 +31933,12 @@
 	module.exports = App;
 
 /***/ },
-/* 248 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    ApiUtil = __webpack_require__(241);
+	    ApiUtil = __webpack_require__(217);
 	
 	var NavBar = React.createClass({
 	  displayName: 'NavBar',
@@ -32196,14 +31959,14 @@
 	module.exports = NavBar;
 
 /***/ },
-/* 249 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    TaskStore = __webpack_require__(217),
-	    TaskActions = __webpack_require__(244),
-	    ApiUtil = __webpack_require__(241);
+	    TaskStore = __webpack_require__(247),
+	    TaskActions = __webpack_require__(249),
+	    ApiUtil = __webpack_require__(217);
 	
 	var TaskDetail = React.createClass({
 	  displayName: 'TaskDetail',
@@ -32375,6 +32138,96 @@
 	module.exports = TaskDetail;
 
 /***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(227).Store,
+	    AppDispatcher = __webpack_require__(220),
+	    ApiConstants = __webpack_require__(219),
+	    TaskConstants = __webpack_require__(248);
+	
+	var _tasks = {};
+	var TaskStore = new Store(AppDispatcher);
+	
+	TaskStore.all = function () {
+	  return _tasks;
+	};
+	
+	TaskStore.find = function (id) {
+	  return _tasks[id];
+	};
+	
+	TaskStore.clearTasks = function () {
+	  _tasks = {};
+	};
+	
+	var resetTasks = function (newTasks) {
+	  _tasks = {};
+	  for (var j = 0; j < newTasks.length; j++) {
+	    var currentTask = newTasks[j];
+	    _tasks[currentTask.id] = currentTask;
+	    _tasks[currentTask.id].persisted = true;
+	  }
+	};
+	
+	var receiveOneTask = function (task) {
+	  _tasks[task.id] = task;
+	  _tasks[task.id].persisted = true;
+	};
+	
+	var receiveOneUnpersistedTask = function (task) {
+	  _tasks[task.id] = task;
+	  _tasks[task.id].persisted = false;
+	};
+	
+	TaskStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case ApiConstants.RECEIVE_TASKS:
+	      resetTasks(payload.tasks);
+	      TaskStore.__emitChange();
+	      break;
+	    case ApiConstants.RECEIVE_ONE_TASK:
+	      receiveOneTask(payload.task);
+	      TaskStore.__emitChange();
+	      break;
+	    case TaskConstants.UPDATE_TASK_IN_STORE:
+	      receiveOneUnpersistedTask(payload.task);
+	      TaskStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = TaskStore;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports) {
+
+	TaskConstants = {
+	  UPDATE_TASK_IN_STORE: "UPDATE_TASK_IN_STORE"
+	};
+	
+	module.exports = TaskConstants;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var TaskConstants = __webpack_require__(248),
+	    AppDispatcher = __webpack_require__(220);
+	
+	TaskActions = {
+	  updateTaskInStore: function (task) {
+	    AppDispatcher.dispatch({
+	      actionType: TaskConstants.UPDATE_TASK_IN_STORE,
+	      task: task
+	    });
+	  }
+	};
+	
+	module.exports = TaskActions;
+
+/***/ },
 /* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32531,30 +32384,6 @@
 
 /***/ },
 /* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(236),
-	    SessionConstants = __webpack_require__(246);
-	
-	var SessionActions = {
-	  currentUserReceived: function (currentUser) {
-	    AppDispatcher.dispatch({
-	      actionType: SessionConstants.CURRENT_USER_RECEIVED,
-	      currentUser: currentUser
-	    });
-	  },
-	
-	  logout: function () {
-	    AppDispatcher.dispatch({
-	      actionType: SessionConstants.LOGOUT
-	    });
-	  }
-	};
-	
-	module.exports = SessionActions;
-
-/***/ },
-/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -32727,6 +32556,178 @@
 	});
 	
 	module.exports = RegistrationForm;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    TaskStore = __webpack_require__(247);
+	Link = __webpack_require__(159).Link, TaskAction = __webpack_require__(249);
+	
+	var TaskIndexItem = React.createClass({
+	  displayName: 'TaskIndexItem',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return { task: this.props.task };
+	  },
+	
+	  setStateFromStore: function () {
+	    var taskInStore = TaskStore.find(this.state.task.id);
+	    if (taskInStore) {
+	      this.setState({ task: taskInStore });
+	    }
+	  },
+	
+	  componentDidMount: function () {
+	    this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.taskStoreToken.remove();
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({
+	      task: newProps.task
+	    });
+	  },
+	
+	  // task.name is held in state and updated as user types
+	  handleType: function () {
+	    var currentTaskName = this.refs.childInput.value;
+	    this.state.task.name = currentTaskName;
+	
+	    // changes to new tasks are handled within component,
+	    // not communicated to the store
+	    if (!this.state.task.new) {
+	      this.storeUpdateTask();
+	    } else {
+	      this.setState({ task: this.state.task });
+	    }
+	  },
+	
+	  storeUpdateTask: function () {
+	    TaskActions.updateTaskInStore(this.state.task);
+	  },
+	
+	  // onBlur callback, calls ApiUtil to create task, update task,
+	  // or delete task if name is blank
+	  saveNameChange: function () {
+	    // do nothing if no changes have occurred OR task is new and name is blank
+	    if (!this.state.task) {
+	      return;
+	    } else if (this.state.task.persisted && this.state.task.name === this.props.task.name) {
+	      return;
+	    } else if (!this.state.task.name && !this.state.task.persisted) {
+	      return;
+	    }
+	
+	    if (this.state.task.new) {
+	      // else if not persisted, create the task in DB
+	      this.apiCreateTask(this.state.task.name);
+	    } else {
+	      this.apiUpdateTaskName(this.state.task.id, this.state.task.name);
+	    }
+	  },
+	
+	  // delete tasks with empty names if delete is pressed
+	  keyDownHandler: function (event) {
+	    if (event.which === 8 && this.state.task.name === "") {
+	      // delete if user clears out name of persisted task
+	      event.preventDefault();
+	      this.apiDeleteTask(this.state.task.id);
+	    }
+	  },
+	
+	  apiDeleteTask: function (id) {
+	    ApiUtil.deleteTask({
+	      id: id
+	    });
+	  },
+	
+	  apiCreateTask: function (name) {
+	    ApiUtil.createTask({
+	      name: name
+	    });
+	  },
+	
+	  apiUpdateTaskName: function (id, name) {
+	    ApiUtil.updateTask({
+	      id: this.state.task.id,
+	      name: this.state.task.name
+	    });
+	  },
+	
+	  apiCompleteTask: function () {
+	    ApiUtil.completeTask({
+	      id: this.state.task.id,
+	      completed: true
+	    });
+	  },
+	
+	  // routing to show TaskDetail pane
+	  clickToShowDetail: function () {
+	    if (!this.props.task) {
+	      return;
+	    }
+	    this.context.router.push("tasks/" + this.state.task.id);
+	  },
+	
+	  render: function () {
+	    var button, input;
+	    if (this.state.task) {
+	      button = React.createElement(
+	        'button',
+	        { className: 'complete-task-button',
+	          onClick: this.apiCompleteTask },
+	        React.createElement(
+	          'svg',
+	          { viewBox: '0 0 32 32', className: 'check-complete' },
+	          React.createElement('polygon', { points: '30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30' })
+	        )
+	      );
+	    }
+	
+	    var taskName, taskId;
+	
+	    if (!this.state.task) {
+	      taskName = null;
+	      taskId = $('.task-input').length + 835;
+	    } else {
+	      taskName = this.state.task.name;
+	      taskId = this.state.task.Id;
+	    }
+	
+	    input = React.createElement('input', {
+	      ref: 'childInput',
+	      type: 'text',
+	      className: 'task-input',
+	      value: taskName,
+	      id: taskId,
+	      autoFocus: this.props.focus,
+	      onChange: this.handleType,
+	      onBlur: this.saveNameChange,
+	      onMouseOut: this.saveNameChange,
+	      onKeyDown: this.keyDownHandler,
+	      onClick: this.clickToShowDetail
+	    });
+	
+	    return React.createElement(
+	      'li',
+	      { className: 'group task-index-item' },
+	      button,
+	      input
+	    );
+	  }
+	});
+	
+	module.exports = TaskIndexItem;
 
 /***/ }
 /******/ ]);
