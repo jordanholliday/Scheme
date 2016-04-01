@@ -67,4 +67,35 @@
   flex: 1;
   font-family: 'proxima_nova_bold', sans-serif;
   font-size: 24px;
+  overflow-y: hidden;
+}
+
+.task-detail
+  .task-description-block {
+  padding: 5px 30px;
+}
+
+.task-detail
+  .task-description-block
+  textarea {
+  padding: 5px 10px;
+  margin-top: 5px;
+  width: 410px;
+  float: right;
+  font-size: 14px;
+  resize: none;
+  border: 1px transparent solid;
+  border-radius: 3px;
+  transition: border-color;
+  transition-duration: .2s;
+  overflow: hidden;
+}
+
+.task-detail
+  .task-description-block
+  textarea:active,
+.task-detail
+  .task-description-block
+  textarea:hover  {
+  border-color: #CDCFD2;
 }

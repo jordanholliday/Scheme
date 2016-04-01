@@ -32064,6 +32064,7 @@
 	  componentWillReceiveProps: function (newProps) {
 	    this.setState({ task: TaskStore.find(newProps.params.taskId) });
 	
+	    // when task not found, go back TaskIndex
 	    this.routeToTaskIndexIfTaskNull();
 	  },
 	
@@ -32073,6 +32074,15 @@
 	
 	  componentWillUnmount: function () {
 	    this.taskStoreToken.remove();
+	  },
+	
+	  componentDidUpdate: function () {
+	    if (!this.refs.nameTextarea) {
+	      return;
+	    }
+	    // resize name & description textareas to fit new(?) contents
+	    this._resizeTextArea(this.refs.nameTextarea);
+	    this._resizeTextArea(this.refs.descriptionTextarea);
 	  },
 	
 	  getStateFromStore: function () {
@@ -32090,9 +32100,19 @@
 	    this.routeToTaskIndexIfTaskNull();
 	  },
 	
+	  _onChangeHandler: function () {
+	    this.storeUpdateTask();
+	  },
+	
 	  storeUpdateTask: function () {
 	    this.state.task.name = this.refs.nameTextarea.value;
+	    this.state.task.description = this.refs.descriptionTextarea.value;
 	    TaskActions.updateTaskInStore(this.state.task);
+	  },
+	
+	  _resizeTextArea: function (refsName) {
+	    $(refsName).height(20);
+	    $(refsName).height(refsName.scrollHeight);
 	  },
 	
 	  apiUpdateTask: function () {
@@ -32106,18 +32126,16 @@
 	    });
 	  },
 	
-	  apiUpdateTaskName: function () {
+	  persistTask: function () {
 	    if (!this.state.task) {
 	      return;
 	    }
-	
 	    if (!this.state.task.persisted) {
 	      this.apiUpdateTask();
 	    }
 	  },
 	
 	  apiCompleteTask: function () {
-	    debugger;
 	    ApiUtil.completeTask({
 	      id: this.state.task.id,
 	      completed: true
@@ -32149,17 +32167,23 @@
 	            )
 	          ),
 	          React.createElement('textarea', {
-	            className: 'task-name-input',
-	            onChange: this.storeUpdateTask,
-	            onBlur: this.apiUpdateTaskName,
-	            onMouseOut: this.apiUpdateTaskName,
+	            value: this.state.task.name,
 	            ref: 'nameTextarea',
-	            value: this.state.task.name })
+	            className: 'task-name-input',
+	            onChange: this._onChangeHandler,
+	            onBlur: this.persistTask,
+	            onMouseOut: this.persistTask })
 	        ),
 	        React.createElement(
-	          'p',
-	          null,
-	          this.state.task.description
+	          'div',
+	          { className: 'group task-description-block' },
+	          React.createElement('textarea', {
+	            value: this.state.task.description ? this.state.task.description : "",
+	            ref: 'descriptionTextarea',
+	            className: 'task-description-input',
+	            onChange: this._onChangeHandler,
+	            onBlur: this.persistTask,
+	            onMouseOut: this.persistTask })
 	        )
 	      );
 	    } else {

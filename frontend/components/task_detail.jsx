@@ -23,6 +23,7 @@ var TaskDetail = React.createClass({
   componentWillReceiveProps: function(newProps) {
     this.setState({task: TaskStore.find(newProps.params.taskId)});
 
+    // when task not found, go back TaskIndex
     this.routeToTaskIndexIfTaskNull();
   },
 
@@ -32,6 +33,13 @@ var TaskDetail = React.createClass({
 
   componentWillUnmount: function () {
     this.taskStoreToken.remove();
+  },
+
+  componentDidUpdate: function () {
+    if (!this.refs.nameTextarea) {return}
+    // resize name & description textareas to fit new(?) contents
+    this._resizeTextArea(this.refs.nameTextarea);
+    this._resizeTextArea(this.refs.descriptionTextarea);
   },
 
   getStateFromStore: function () {
@@ -49,9 +57,19 @@ var TaskDetail = React.createClass({
     this.routeToTaskIndexIfTaskNull();
   },
 
+  _onChangeHandler: function () {
+    this.storeUpdateTask();
+  },
+
   storeUpdateTask: function () {
     this.state.task.name = this.refs.nameTextarea.value;
+    this.state.task.description = this.refs.descriptionTextarea.value;
     TaskActions.updateTaskInStore(this.state.task);
+  },
+
+  _resizeTextArea: function (refsName) {
+    $(refsName).height( 20 );
+    $(refsName).height( refsName.scrollHeight );
   },
 
   apiUpdateTask: function () {
@@ -65,11 +83,10 @@ var TaskDetail = React.createClass({
     });
   },
 
-  apiUpdateTaskName: function () {
+  persistTask: function () {
     if (!this.state.task) {
       return;
     }
-
     if (!this.state.task.persisted) {
       this.apiUpdateTask();
     }
@@ -86,7 +103,9 @@ var TaskDetail = React.createClass({
     if (this.state.task) {
       return (
         <section className="task-detail">
+
           <div className="fpo">FPO FPO</div>
+
           <div className="group edit-pane-name-complete">
             <button
               className="complete-task-button"
@@ -95,16 +114,28 @@ var TaskDetail = React.createClass({
                 <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
               </svg>
             </button>
+
             <textarea
-              className="task-name-input"
-              onChange={this.storeUpdateTask}
-              onBlur={this.apiUpdateTaskName}
-              onMouseOut={this.apiUpdateTaskName}
+              value={this.state.task.name}
               ref="nameTextarea"
-              value={this.state.task.name}>
+              className="task-name-input"
+              onChange={this._onChangeHandler}
+              onBlur={this.persistTask}
+              onMouseOut={this.persistTask}>
             </textarea>
-            </div>
-          <p>{this.state.task.description}</p>
+          </div>
+
+          <div className="group task-description-block">
+            <textarea
+              value={this.state.task.description ? this.state.task.description : ""}
+              ref="descriptionTextarea"
+              className="task-description-input"
+              onChange={this._onChangeHandler}
+              onBlur={this.persistTask}
+              onMouseOut={this.persistTask}>
+
+            </textarea>
+          </div>
         </section>
       );
     } else {
