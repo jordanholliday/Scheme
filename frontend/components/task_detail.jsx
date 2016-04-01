@@ -13,8 +13,17 @@ var TaskDetail = React.createClass({
     return {task: TaskStore.find(this.props.params.taskId)}
   },
 
+  routeToTaskIndexIfTaskNull: function () {
+    // reroute to task list if no taskId in store matches :task_id in path
+    if (!this.state.task) {
+      this.context.router.push("/tasks")
+    }
+  },
+
   componentWillReceiveProps: function(newProps) {
     this.setState({task: TaskStore.find(newProps.params.taskId)});
+
+    this.routeToTaskIndexIfTaskNull();
   },
 
   componentDidMount: function () {
@@ -37,6 +46,7 @@ var TaskDetail = React.createClass({
 
   setStateFromStore: function () {
     this.setState(this.getStateFromStore());
+    this.routeToTaskIndexIfTaskNull();
   },
 
   storeUpdateTask: function () {

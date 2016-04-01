@@ -31856,16 +31856,20 @@
 	      };
 	    } else {
 	      return {
-	        task: null
+	        task: {
+	          name: null,
+	          id: TaskStore.all().length + 835,
+	          persisted: false,
+	          new: true
+	        }
 	      };
 	    }
 	  },
 	
 	  setStateFromStore: function () {
-	    if (this.props.task) {
-	      this.setState({ task: TaskStore.find(this.props.task.id) });
-	    } else {
-	      this.setState({ task: null });
+	    var taskInStore = TaskStore.find(this.state.task.id);
+	    if (taskInStore) {
+	      this.setState({ task: taskInStore });
 	    }
 	  },
 	
@@ -31887,7 +31891,14 @@
 	  handleType: function () {
 	    var currentTaskName = this.refs.childInput.value;
 	    this.state.task.name = currentTaskName;
-	    this.storeUpdateTask();
+	
+	    // changes to new tasks are handled within component,
+	    // not communicated to the store
+	    if (!this.state.task.new) {
+	      this.storeUpdateTask();
+	    } else {
+	      this.setState({ task: this.state.task });
+	    }
 	  },
 	
 	  storeUpdateTask: function () {
@@ -31900,25 +31911,23 @@
 	    // do nothing if no changes have occurred OR task is new and name is blank
 	    if (this.state.task.persisted && this.state.task.name === this.props.task.name) {
 	      return;
-	    } else if (this.state.task.name === null && !this.state.task.persisted) {
+	    } else if (!this.state.task.name && !this.state.task.persisted) {
 	      return;
 	    }
 	
-	    if (this.state.task.name === "") {
-	      // delete if user clears out name of persisted task
-	      this.apiDeleteTask(this.state.task.id);
-	    } else if (!this.state.task.persisted) {
-	      this.apiUpdateTaskName(this.state.task.id, this.state.task.name);
-	    } else {
+	    if (this.state.task.new) {
 	      // else if not persisted, create the task in DB
 	      this.apiCreateTask(this.state.task.name);
+	    } else {
+	      this.apiUpdateTaskName(this.state.task.id, this.state.task.name);
 	    }
 	  },
 	
 	  // delete tasks with empty names if delete is pressed
 	  keyDownHandler: function (event) {
-	    if (this.state.task.name === "" && event.which === 8) {
+	    if (event.which === 8 && this.state.task.name === "") {
 	      // delete if user clears out name of persisted task
+	      event.preventDefault();
 	      this.apiDeleteTask(this.state.task.id);
 	    }
 	  },
@@ -31957,6 +31966,10 @@
 	    this.context.router.push("tasks/" + this.state.task.id);
 	  },
 	
+	  catchUnload: function () {
+	    debugger;
+	  },
+	
 	  render: function () {
 	    var button, input;
 	    if (this.state.task) {
@@ -31993,7 +32006,8 @@
 	      onBlur: this.saveNameChange,
 	      onMouseOut: this.saveNameChange,
 	      onKeyDown: this.keyDownHandler,
-	      onClick: this.clickToShowDetail
+	      onClick: this.clickToShowDetail,
+	      beforeUnload: this.saveNameChange
 	    });
 	
 	    return React.createElement(
@@ -32045,8 +32059,17 @@
 	    return { task: TaskStore.find(this.props.params.taskId) };
 	  },
 	
+	  routeToTaskIndexIfTaskNull: function () {
+	    // reroute to task list if no taskId in store matches :task_id in path
+	    if (!this.state.task) {
+	      this.context.router.push("/tasks");
+	    }
+	  },
+	
 	  componentWillReceiveProps: function (newProps) {
 	    this.setState({ task: TaskStore.find(newProps.params.taskId) });
+	
+	    this.routeToTaskIndexIfTaskNull();
 	  },
 	
 	  componentDidMount: function () {
@@ -32069,6 +32092,7 @@
 	
 	  setStateFromStore: function () {
 	    this.setState(this.getStateFromStore());
+	    this.routeToTaskIndexIfTaskNull();
 	  },
 	
 	  storeUpdateTask: function () {

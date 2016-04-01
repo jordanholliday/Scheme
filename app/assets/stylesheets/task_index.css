@@ -6,7 +6,7 @@
 
 .task-index {
   /*flexes inside task-wrapper, along with the task-detail*/
-  flex: 1;
+  flex: 6;
   margin: 0 auto;
   max-width: 860px;
   min-height: 100vh;
@@ -46,7 +46,7 @@
 
 button.complete-task-button svg.check-complete {
   width: 12px;
-  margin: 3px 0 3px 3.5px;
+  margin: 4px 0 3px 3.5px;
   fill: #E1E2E4;
   transition: fill;
   transition-duration: .2s;
