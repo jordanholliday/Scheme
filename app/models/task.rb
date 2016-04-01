@@ -7,7 +7,7 @@ class Task < ActiveRecord::Base
   }
 
   belongs_to(
-    :user,
+    :creator,
     class_name: 'User',
     primary_key: :id,
     foreign_key: :creator_id

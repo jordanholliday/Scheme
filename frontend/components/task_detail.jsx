@@ -136,6 +136,11 @@ var TaskDetail = React.createClass({
 
             </textarea>
           </div>
+
+          <div className="group task-meta block">
+            <p><strong>{this.state.task.creator}</strong> created task. Today.</p>
+          </div>
+
         </section>
       );
     } else {

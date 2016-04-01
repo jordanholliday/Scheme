@@ -72,14 +72,13 @@
 
 .task-detail
   .task-description-block {
-  padding: 5px 30px;
+  padding: 10px 30px 20px;
 }
 
 .task-detail
   .task-description-block
   textarea {
   padding: 5px 10px;
-  margin-top: 5px;
   width: 410px;
   float: right;
   font-size: 14px;
@@ -99,3 +98,24 @@
   textarea:hover  {
   border-color: #CDCFD2;
 }
+
+.task-detail
+  .task-meta {
+    width: 410px;
+    float: right;
+    padding: 20px 40px;
+    border-top: 1px solid #E1E2E4;
+  }
+
+.task-detail
+  .task-meta
+  p {
+    font-size: 12px;
+    color: #898E95;
+  }
+
+  .task-detail
+    .task-meta
+    p strong {
+      font-family: 'proxima_nova_bold', sans-serif;
+    }

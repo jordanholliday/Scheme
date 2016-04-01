@@ -32184,6 +32184,20 @@
 	            onChange: this._onChangeHandler,
 	            onBlur: this.persistTask,
 	            onMouseOut: this.persistTask })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'group task-meta block' },
+	          React.createElement(
+	            'p',
+	            null,
+	            React.createElement(
+	              'strong',
+	              null,
+	              this.state.task.creator
+	            ),
+	            ' created task. Today.'
+	          )
 	        )
 	      );
 	    } else {
