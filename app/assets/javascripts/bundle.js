@@ -31966,10 +31966,6 @@
 	    this.context.router.push("tasks/" + this.state.task.id);
 	  },
 	
-	  catchUnload: function () {
-	    debugger;
-	  },
-	
 	  render: function () {
 	    var button, input;
 	    if (this.state.task) {
@@ -32006,8 +32002,7 @@
 	      onBlur: this.saveNameChange,
 	      onMouseOut: this.saveNameChange,
 	      onKeyDown: this.keyDownHandler,
-	      onClick: this.clickToShowDetail,
-	      beforeUnload: this.saveNameChange
+	      onClick: this.clickToShowDetail
 	    });
 	
 	    return React.createElement(
@@ -32121,6 +32116,14 @@
 	    }
 	  },
 	
+	  apiCompleteTask: function () {
+	    debugger;
+	    ApiUtil.completeTask({
+	      id: this.state.task.id,
+	      completed: true
+	    });
+	  },
+	
 	  render: function () {
 	    if (this.state.task) {
 	      return React.createElement(
@@ -32137,7 +32140,8 @@
 	          React.createElement(
 	            'button',
 	            {
-	              className: 'complete-task-button' },
+	              className: 'complete-task-button',
+	              onClick: this.apiCompleteTask },
 	            React.createElement(
 	              'svg',
 	              { viewBox: '0 0 32 32', className: 'check-complete' },

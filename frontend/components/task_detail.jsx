@@ -75,6 +75,13 @@ var TaskDetail = React.createClass({
     }
   },
 
+  apiCompleteTask: function () {
+    ApiUtil.completeTask({
+      id: this.state.task.id,
+      completed: true
+    })
+  },
+
   render: function () {
     if (this.state.task) {
       return (
@@ -82,7 +89,8 @@ var TaskDetail = React.createClass({
           <div className="fpo">FPO FPO</div>
           <div className="group edit-pane-name-complete">
             <button
-              className="complete-task-button">
+              className="complete-task-button"
+              onClick={this.apiCompleteTask}>
               <svg viewBox="0 0 32 32" className="check-complete">
                 <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
               </svg>
