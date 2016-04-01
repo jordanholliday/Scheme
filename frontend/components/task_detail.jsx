@@ -22,7 +22,7 @@ var TaskDetail = React.createClass({
   },
 
   componentWillUnmount: function () {
-    TaskStore.remove(this.taskStoreToken);
+    this.taskStoreToken.remove();
   },
 
   getStateFromStore: function () {
@@ -56,6 +56,10 @@ var TaskDetail = React.createClass({
   },
 
   apiUpdateTaskName: function () {
+    if (!this.state.task) {
+      return;
+    }
+
     if (!this.state.task.persisted) {
       this.apiUpdateTask();
     }

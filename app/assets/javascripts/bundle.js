@@ -25000,6 +25000,7 @@
 	  for (var j = 0; j < newTasks.length; j++) {
 	    var currentTask = newTasks[j];
 	    _tasks[currentTask.id] = currentTask;
+	    _tasks[currentTask.id].persisted = true;
 	  }
 	};
 	
@@ -31813,57 +31814,74 @@
 	  getInitialState: function () {
 	    if (this.props.task) {
 	      return {
-	        name: this.props.task.name,
-	        id: this.props.task.id,
-	        persisted: true
+	        task: this.props.task
 	      };
 	    } else {
 	      return {
-	        name: null,
-	        id: $('.task-input').length + 835,
-	        persisted: false
+	        task: null
 	      };
 	    }
 	  },
 	
+	  setStateFromStore: function () {
+	    if (this.props.task) {
+	      this.setState({ task: TaskStore.find(this.props.task.id) });
+	    } else {
+	      this.setState({ task: null });
+	    }
+	  },
+	
+	  componentDidMount: function () {
+	    this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.taskStoreToken.remove();
+	  },
+	
 	  componentWillReceiveProps: function (newProps) {
 	    this.setState({
-	      name: newProps.task.name
+	      task: newProps.task
 	    });
 	  },
 	
 	  // task.name is held in state and updated as user types
 	  handleType: function () {
 	    var currentTaskName = this.refs.childInput.value;
-	    this.setState({ name: currentTaskName });
+	    this.state.task.name = currentTaskName;
+	    this.storeUpdateTask();
+	  },
+	
+	  storeUpdateTask: function () {
+	    TaskActions.updateTaskInStore(this.state.task);
 	  },
 	
 	  // onBlur callback, calls ApiUtil to create task, update task,
 	  // or delete task if name is blank
 	  saveNameChange: function () {
 	    // do nothing if no changes have occurred OR task is new and name is blank
-	    if (this.state.persisted && this.state.name === this.props.task.name) {
+	    if (this.state.task.persisted && this.state.task.name === this.props.task.name) {
 	      return;
-	    } else if (this.state.name === null && !this.state.persisted) {
+	    } else if (this.state.task.name === null && !this.state.task.persisted) {
 	      return;
 	    }
 	
-	    if (this.state.name === "" && this.state.persisted) {
+	    if (this.state.task.name === "") {
 	      // delete if user clears out name of persisted task
-	      this.apiDeleteTask(this.props.task.id);
-	    } else if (this.state.persisted) {
-	      this.apiUpdateTaskName(this.props.task.id, this.state.name);
+	      this.apiDeleteTask(this.state.task.id);
+	    } else if (!this.state.task.persisted) {
+	      this.apiUpdateTaskName(this.state.task.id, this.state.task.name);
 	    } else {
 	      // else if not persisted, create the task in DB
-	      this.apiCreateTask(this.state.name);
+	      this.apiCreateTask(this.state.task.name);
 	    }
 	  },
 	
 	  // delete tasks with empty names if delete is pressed
 	  keyDownHandler: function (event) {
-	    if (this.state.name === "" && this.state.persisted) {
+	    if (this.state.task.name === "" && event.which === 8) {
 	      // delete if user clears out name of persisted task
-	      this.apiDeleteTask(this.props.task.id);
+	      this.apiDeleteTask(this.state.task.id);
 	    }
 	  },
 	
@@ -31881,32 +31899,32 @@
 	
 	  apiUpdateTaskName: function (id, name) {
 	    ApiUtil.updateTask({
-	      id: this.props.task.id,
-	      name: this.state.name
+	      id: this.state.task.id,
+	      name: this.state.task.name
 	    });
 	  },
 	
 	  apiCompleteTask: function () {
 	    ApiUtil.completeTask({
-	      id: this.props.task.id,
+	      id: this.state.task.id,
 	      completed: true
 	    });
 	  },
 	
+	  // routing to show TaskDetail pane
 	  clickToShowDetail: function () {
 	    if (!this.props.task) {
 	      return;
 	    }
-	    this.context.router.push("tasks/" + this.props.task.id);
+	    this.context.router.push("tasks/" + this.state.task.id);
 	  },
 	
 	  render: function () {
 	    var button, input;
-	    if (this.props.task) {
+	    if (this.state.task) {
 	      button = React.createElement(
 	        'button',
-	        {
-	          className: 'complete-task-button',
+	        { className: 'complete-task-button',
 	          onClick: this.apiCompleteTask },
 	        React.createElement(
 	          'svg',
@@ -31916,12 +31934,22 @@
 	      );
 	    }
 	
+	    var taskName, taskId;
+	
+	    if (!this.state.task) {
+	      taskName = null;
+	      taskId = $('.task-input').length + 835;
+	    } else {
+	      taskName = this.state.task.name;
+	      taskId = this.state.task.Id;
+	    }
+	
 	    input = React.createElement('input', {
 	      ref: 'childInput',
 	      type: 'text',
 	      className: 'task-input',
-	      value: this.state.name,
-	      id: this.state.id,
+	      value: taskName,
+	      id: taskId,
 	      autoFocus: this.props.focus,
 	      onChange: this.handleType,
 	      onBlur: this.saveNameChange,
@@ -31988,7 +32016,7 @@
 	  },
 	
 	  componentWillUnmount: function () {
-	    TaskStore.remove(this.taskStoreToken);
+	    this.taskStoreToken.remove();
 	  },
 	
 	  getStateFromStore: function () {
@@ -32022,6 +32050,10 @@
 	  },
 	
 	  apiUpdateTaskName: function () {
+	    if (!this.state.task) {
+	      return;
+	    }
+	
 	    if (!this.state.task.persisted) {
 	      this.apiUpdateTask();
 	    }

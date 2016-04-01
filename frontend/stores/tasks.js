@@ -19,6 +19,7 @@ var resetTasks = function (newTasks) {
   for (var j = 0; j < newTasks.length; j++) {
     var currentTask = newTasks[j];
     _tasks[currentTask.id] = currentTask;
+    _tasks[currentTask.id].persisted = true;
   }
 };
 
