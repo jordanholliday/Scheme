@@ -9,21 +9,21 @@ class Api::SessionsController < ApplicationController
   end
 
   def create
-    author = Author.find_by_credentials(
-      params[:name],
+    user = User.find_by_credentials(
+      params[:email],
       params[:password]
     )
 
-    if author && author.valid_password?(params[:password])
-      log_in!(author)
-      render json: author
+    if user && user.is_password?(params[:password])
+      login!(user)
+      render json: user
     else
       render json: { message: "Invalid credentials" }, status: 401
     end
   end
 
   def destroy
-    log_out!
+    logout!
 
     render json: {} # Need a valid json object for our AJAX success callback
   end

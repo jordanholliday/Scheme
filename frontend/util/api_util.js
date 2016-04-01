@@ -1,4 +1,5 @@
-var ApiActions = require('../actions/api_actions');
+var ApiActions = require('../actions/api_actions'),
+    SessionActions=require('../actions/session_actions');
 
 ApiUtil = {
   fetchTasks: function () {
@@ -76,16 +77,16 @@ ApiUtil = {
   },
 
   login: function(credentials, callback) {
-     $.ajax({
-       type: "POST",
-       url: "/api/session",
-       dataType: "json",
-       data: credentials,
-       success: function(currentUser) {
-         SessionActions.currentUserReceived(currentUser);
-         callback && callback();
-       }
-     });
+    $.ajax({
+      type: "POST",
+      url: "/api/session",
+      dataType: "json",
+      data: credentials,
+      success: function(currentUser) {
+       SessionActions.currentUserReceived(currentUser);
+       callback && callback();
+      }
+    });
    },
 
    logout: function() {

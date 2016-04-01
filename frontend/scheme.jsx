@@ -9,12 +9,13 @@ var React = require('react'),
     SessionStore = require('./stores/sessions'),
     App = require('./components/app'),
     TaskDetail = require('./components/task_detail'),
-    LoginForm = require('./components/login_form');
+    LoginForm = require('./components/login_form'),
+    RegistrationForm = require('./components/registration_form');
 
 var routes = (
   <Route path="/" component={App}>
-    <Route path="tasks" component={TaskIndex} onEnter={_requireLogIn}>
-      <Route path="tasks/:taskId" component={TaskDetail} />
+    <Route path="/tasks" component={TaskIndex} onEnter={_requireLogIn}>
+      <Route path="/tasks/:taskId" component={TaskDetail} />
     </Route>
 
     <Route path="/login" component={LoginForm} />

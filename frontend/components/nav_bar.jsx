@@ -1,10 +1,15 @@
 var React = require('react'),
-    ReactDOM = require('react-dom');
+    ReactDOM = require('react-dom'),
+    ApiUtil = require('../util/api_util');
 
 var NavBar = React.createClass({
   render: function () {
     return (
-      <header></header>
+      <header>
+        <span onClick={ApiUtil.logout}>
+          lOg oUt!
+        </span>
+      </header>
       );
   }
 });

@@ -1,5 +1,5 @@
-var AppDispatcher = require('../dispatcher/app_dispatcher');
-var SessionConstants = require('../constants/session_constants');
+var AppDispatcher = require('../dispatcher/dispatcher'),
+    SessionConstants = require('../constants/session_constants');
 
 var SessionActions = {
   currentUserReceived: function(currentUser) {
