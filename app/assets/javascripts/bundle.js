@@ -52,17 +52,20 @@
 	    IndexRoute = ReactRouter.IndexRoute,
 	    TaskIndex = __webpack_require__(217),
 	    ApiUtil = __webpack_require__(218),
+	    SessionStore = __webpack_require__(249),
 	    App = __webpack_require__(216),
-	    TaskDetail = __webpack_require__(246);
+	    TaskDetail = __webpack_require__(246),
+	    LoginForm = __webpack_require__(251);
 	
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(
 	    Route,
-	    { path: '/tasks', component: TaskIndex, onEnter: _requireLogIn },
-	    React.createElement(Route, { path: '/tasks/:taskId', component: TaskDetail })
-	  )
+	    { path: 'tasks', component: TaskIndex, onEnter: _requireLogIn },
+	    React.createElement(Route, { path: 'tasks/:taskId', component: TaskDetail })
+	  ),
+	  React.createElement(Route, { path: '/login', component: LoginForm })
 	);
 	
 	$(document).on('ready', function () {
@@ -73,21 +76,21 @@
 	  ), $('.root')[0]);
 	});
 	
-	var _requireLogIn = function (nextState, replace, asyncCompletionCallback) {
+	function _requireLogIn(nextState, replace, asyncCompletionCallback) {
 	  if (!SessionStore.currentUserHasBeenFetched()) {
 	    ApiUtil.fetchCurrentUser(_redirectIfNotLoggedIn);
 	  } else {
 	    _redirectIfNotLoggedIn();
 	  }
 	
-	  var _redirectIfNotLoggedIn = function () {
+	  function _redirectIfNotLoggedIn() {
 	    if (!SessionStore.isLoggedIn()) {
 	      replace('/login');
 	    }
 	
 	    asyncCompletionCallback();
-	  };
-	};
+	  }
+	}
 
 /***/ },
 /* 1 */
@@ -32317,6 +32320,81 @@
 	};
 	
 	module.exports = SessionConstants;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158);
+	
+	var LoginForm = React.createClass({
+	  displayName: 'LoginForm',
+	
+	
+	  contextTypes: function () {
+	    router: React.PropTypes.object.isRequired;
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      name: "",
+	      password: ""
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'auth-fullscreen' },
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Please Log in'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'name' },
+	          'Name'
+	        ),
+	        React.createElement('input', { onChange: this.updateName, type: 'text', value: this.state.name }),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'password' },
+	          'Password'
+	        ),
+	        React.createElement('input', { onChange: this.updatePassword, type: 'password', value: this.state.password }),
+	        React.createElement(
+	          'button',
+	          null,
+	          'Submit'
+	        )
+	      )
+	    );
+	  },
+	
+	  handleSubmit: function () {
+	    e.preventDefault();
+	
+	    var router = this.context.router;
+	    ApiUtil.login(this.state, function () {
+	      router.push('/tasks');
+	    });
+	  },
+	
+	  updateName: function (e) {
+	    this.setState({ name: e.currentTarget.value });
+	  },
+	
+	  updateName: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+	});
+	
+	module.exports = LoginForm;
 
 /***/ }
 /******/ ]);

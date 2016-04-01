@@ -22,11 +22,12 @@ class ApplicationController < ActionController::Base
     session[:session_token] = user.session_token
   end
 
-  def redirect_unless_logged_out
-    redirect_to user_url(current_user) if logged_in?
-  end
+  # Routing on front end, un-authed request will return empty responses
+  # def redirect_unless_logged_out
+  #   redirect_to user_url(current_user) if logged_in?
+  # end
 
-  def redirect_if_logged_out
-    redirect_to new_session_url unless logged_in?
-  end
+  # def redirect_if_logged_out
+  #   redirect_to new_session_url unless logged_in?
+  # end
 end
