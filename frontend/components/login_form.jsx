@@ -61,14 +61,14 @@ var LoginForm = React.createClass({
         </div>
 
         <footer className="group login">
-          <ul>
-            <li><a href="#">About Scheme</a></li>
-            <li><a href="http://jordanholliday.com">Blog</a></li>
-          </ul>
-          <div className="toggle-auth">
-            Don't have an account?
-             <a href="/login" className="button">Sign Up</a>
-          </div>
+         <ul>
+           <li><Link to="#">About Scheme</Link></li>
+           <li><a href="http://jordanholliday.com">Blog</a></li>
+         </ul>
+         <div className="toggle-auth">
+           New here?
+           <Link to="/register" className="button">Sign Up</Link>
+         </div>
         </footer>
       </div>
     )

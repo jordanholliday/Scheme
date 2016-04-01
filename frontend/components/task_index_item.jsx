@@ -10,6 +10,7 @@ var TaskIndexItem = React.createClass({
   },
 
   getInitialState: function () {
+    debugger
     if (this.props.task) {
       return {
         task: this.props.task
@@ -69,7 +70,9 @@ var TaskIndexItem = React.createClass({
   // or delete task if name is blank
   saveNameChange: function () {
     // do nothing if no changes have occurred OR task is new and name is blank
-    if (this.state.task.persisted && this.state.task.name === this.props.task.name) {
+    if (!this.state.task) {
+      return
+    } else if (this.state.task.persisted && this.state.task.name === this.props.task.name) {
       return
     } else if (!this.state.task.name && !this.state.task.persisted) {
       return

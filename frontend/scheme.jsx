@@ -19,6 +19,9 @@ var routes = (
     </Route>
 
     <Route path="/login" component={LoginForm} />
+
+    <Route path="/register" component={RegistrationForm} />
+
   </Route>
 );
 

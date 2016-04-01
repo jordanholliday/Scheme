@@ -76,6 +76,19 @@ ApiUtil = {
     });
   },
 
+  register: function(user_details, callback) {
+    $.ajax({
+      type: "POST",
+      url: "/api/users",
+      dataType: "json",
+      data: {user: user_details},
+      success: function(currentUser) {
+       SessionActions.currentUserReceived(currentUser);
+       callback && callback();
+      }
+    });
+   },
+
   login: function(credentials, callback) {
     $.ajax({
       type: "POST",

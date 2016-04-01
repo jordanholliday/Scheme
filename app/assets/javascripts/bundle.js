@@ -66,7 +66,8 @@
 	    { path: '/tasks', component: TaskIndex, onEnter: _requireLogIn },
 	    React.createElement(Route, { path: '/tasks/:taskId', component: TaskDetail })
 	  ),
-	  React.createElement(Route, { path: '/login', component: LoginForm })
+	  React.createElement(Route, { path: '/login', component: LoginForm }),
+	  React.createElement(Route, { path: '/register', component: RegistrationForm })
 	);
 	
 	$(document).on('ready', function () {
@@ -31781,6 +31782,19 @@
 	    });
 	  },
 	
+	  register: function (user_details, callback) {
+	    $.ajax({
+	      type: "POST",
+	      url: "/api/users",
+	      dataType: "json",
+	      data: { user: user_details },
+	      success: function (currentUser) {
+	        SessionActions.currentUserReceived(currentUser);
+	        callback && callback();
+	      }
+	    });
+	  },
+	
 	  login: function (credentials, callback) {
 	    $.ajax({
 	      type: "POST",
@@ -31865,6 +31879,7 @@
 	  },
 	
 	  getInitialState: function () {
+	    debugger;
 	    if (this.props.task) {
 	      return {
 	        task: this.props.task
@@ -31924,7 +31939,9 @@
 	  // or delete task if name is blank
 	  saveNameChange: function () {
 	    // do nothing if no changes have occurred OR task is new and name is blank
-	    if (this.state.task.persisted && this.state.task.name === this.props.task.name) {
+	    if (!this.state.task) {
+	      return;
+	    } else if (this.state.task.persisted && this.state.task.name === this.props.task.name) {
 	      return;
 	    } else if (!this.state.task.name && !this.state.task.persisted) {
 	      return;
@@ -32464,8 +32481,8 @@
 	            'li',
 	            null,
 	            React.createElement(
-	              'a',
-	              { href: '#' },
+	              Link,
+	              { to: '#' },
 	              'About Scheme'
 	            )
 	          ),
@@ -32482,10 +32499,10 @@
 	        React.createElement(
 	          'div',
 	          { className: 'toggle-auth' },
-	          'Don\'t have an account?',
+	          'New here?',
 	          React.createElement(
-	            'a',
-	            { href: '/login', className: 'button' },
+	            Link,
+	            { to: '/register', className: 'button' },
 	            'Sign Up'
 	          )
 	        )
@@ -32543,17 +32560,18 @@
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158);
 	
-	var LoginForm = React.createClass({
-	  displayName: 'LoginForm',
+	var RegistrationForm = React.createClass({
+	  displayName: 'RegistrationForm',
 	
 	
-	  contextTypes: function () {
-	    router: React.PropTypes.object.isRequired;
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
 	  },
 	
 	  getInitialState: function () {
 	    return {
 	      name: "",
+	      email: "",
 	      password: ""
 	    };
 	  },
@@ -32592,22 +32610,30 @@
 	            { className: 'input' },
 	            React.createElement(
 	              'label',
-	              { 'for': 'name' },
+	              { htmlFor: 'name' },
 	              'Full Name'
 	            ),
 	            React.createElement('br', null),
-	            React.createElement('input', { type: 'text', name: 'user[name]', id: 'name' })
+	            React.createElement('input', {
+	              type: 'text',
+	              name: 'user[name]',
+	              id: 'name',
+	              onChange: this.updateName })
 	          ),
 	          React.createElement(
 	            'div',
 	            { className: 'input' },
 	            React.createElement(
 	              'label',
-	              { 'for': 'email' },
+	              { htmlFor: 'email' },
 	              'Work Email'
 	            ),
 	            React.createElement('br', null),
-	            React.createElement('input', { type: 'email', name: 'user[email]', id: 'email' }),
+	            React.createElement('input', {
+	              type: 'email',
+	              name: 'user[email]',
+	              id: 'email',
+	              onChange: this.updateEmail }),
 	            React.createElement(
 	              'svg',
 	              { className: 'confirm', viewBox: '0 0 32 32' },
@@ -32619,11 +32645,15 @@
 	            { className: 'input password' },
 	            React.createElement(
 	              'label',
-	              { 'for': 'password' },
+	              { htmlFor: 'password' },
 	              'Password'
 	            ),
 	            React.createElement('br', null),
-	            React.createElement('input', { type: 'password', name: 'user[password]', id: 'password' })
+	            React.createElement('input', {
+	              type: 'password',
+	              name: 'user[password]',
+	              id: 'password',
+	              onChange: this.updatePassword })
 	          ),
 	          React.createElement(
 	            'div',
@@ -32646,8 +32676,8 @@
 	            'li',
 	            null,
 	            React.createElement(
-	              'a',
-	              { href: '#' },
+	              Link,
+	              { to: '#' },
 	              'About Scheme'
 	            )
 	          ),
@@ -32666,8 +32696,8 @@
 	          { className: 'toggle-auth' },
 	          'Got an account?',
 	          React.createElement(
-	            'a',
-	            { href: '/users/new', className: 'button' },
+	            Link,
+	            { to: '/login', className: 'button' },
 	            'Log In'
 	          )
 	        )
@@ -32675,11 +32705,10 @@
 	    );
 	  },
 	
-	  handleSubmit: function () {
-	    e.preventDefault();
-	
+	  handleSubmit: function (event) {
+	    event.preventDefault();
 	    var router = this.context.router;
-	    ApiUtil.login(this.state, function () {
+	    ApiUtil.register(this.state, function () {
 	      router.push('/tasks');
 	    });
 	  },
@@ -32688,7 +32717,11 @@
 	    this.setState({ name: e.currentTarget.value });
 	  },
 	
-	  updateName: function (e) {
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+	
+	  updatePassword: function (e) {
 	    this.setState({ password: e.currentTarget.value });
 	  }
 	});
