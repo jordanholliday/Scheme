@@ -52,29 +52,15 @@
 	    IndexRoute = ReactRouter.IndexRoute,
 	    TaskIndex = __webpack_require__(217),
 	    ApiUtil = __webpack_require__(218),
-	    NavBar = __webpack_require__(245),
+	    App = __webpack_require__(216),
 	    TaskDetail = __webpack_require__(246);
-	
-	var App = React.createClass({
-	  displayName: 'App',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'app' },
-	      React.createElement(NavBar, null),
-	      this.props.children
-	    );
-	  }
-	});
 	
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  React.createElement(IndexRoute, { component: TaskIndex }),
 	  React.createElement(
 	    Route,
-	    { path: '/tasks', component: TaskIndex },
+	    { path: '/tasks', component: TaskIndex, onEnter: _requireLogIn },
 	    React.createElement(Route, { path: '/tasks/:taskId', component: TaskDetail })
 	  )
 	);
@@ -86,6 +72,22 @@
 	    routes
 	  ), $('.root')[0]);
 	});
+	
+	var _requireLogIn = function (nextState, replace, asyncCompletionCallback) {
+	  if (!SessionStore.currentUserHasBeenFetched()) {
+	    ApiUtil.fetchCurrentUser(_redirectIfNotLoggedIn);
+	  } else {
+	    _redirectIfNotLoggedIn();
+	  }
+	
+	  var _redirectIfNotLoggedIn = function () {
+	    if (!SessionStore.isLoggedIn()) {
+	      replace('/login');
+	    }
+	
+	    asyncCompletionCallback();
+	  };
+	};
 
 /***/ },
 /* 1 */
@@ -24756,7 +24758,31 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 216 */,
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    SessionStore = __webpack_require__(249),
+	    NavBar = __webpack_require__(245);
+	ApiUtil = __webpack_require__(218);
+	
+	var App = React.createClass({
+	  displayName: 'App',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'app' },
+	      React.createElement(NavBar, null),
+	      this.props.children
+	    );
+	  }
+	});
+	
+	module.exports = App;
+
+/***/ },
 /* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32239,6 +32265,58 @@
 	};
 	
 	module.exports = TaskConstants;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(222).Store;
+	var SessionConstants = __webpack_require__(250);
+	var AppDispatcher = __webpack_require__(240);
+	
+	var SessionStore = new Store(AppDispatcher);
+	
+	var _currentUser;
+	var _currentUserHasBeenFetched = false;
+	
+	SessionStore.currentUser = function () {
+	  return _currentUser;
+	};
+	
+	SessionStore.isLoggedIn = function () {
+	  return !!_currentUser;
+	};
+	
+	SessionStore.currentUserHasBeenFetched = function () {
+	  return _currentUserHasBeenFetched;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case SessionConstants.CURRENT_USER_RECEIVED:
+	      _currentUser = payload.currentUser;
+	      _currentUserHasBeenFetched = true;
+	      SessionStore.__emitChange();
+	      break;
+	    case SessionConstants.LOGOUT:
+	      _currentUser = null;
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports) {
+
+	SessionConstants = {
+	  CURRENT_USER_RECEIVED: "CURRENT_USER_RECEIVED",
+	  LOGOUT: "LOGOUT"
+	};
+	
+	module.exports = SessionConstants;
 
 /***/ }
 /******/ ]);

@@ -6,27 +6,14 @@ var React = require('react'),
     IndexRoute = ReactRouter.IndexRoute,
     TaskIndex = require('./components/task_index'),
     ApiUtil = require('./util/api_util'),
-    NavBar = require('./components/nav_bar'),
+    App = require('./components/app'),
     TaskDetail = require('./components/task_detail');
-
-var App = React.createClass({
-  render: function () {
-    return (
-      <div className="app">
-        <NavBar />
-        {this.props.children}
-      </div>
-    );
-  }
-});
 
 var routes = (
   <Route path="/" component={App}>
-    <IndexRoute component={TaskIndex} />
-
-   <Route path="/tasks" component={TaskIndex} >
-     <Route path="/tasks/:taskId" component={TaskDetail} />
-   </Route>
+    <Route path="/tasks" component={TaskIndex} onEnter={_requireLogIn}>
+      <Route path="/tasks/:taskId" component={TaskDetail} />
+    </Route>
   </Route>
 );
 
@@ -34,4 +21,18 @@ $(document).on('ready', function () {
   ReactDOM.render(<Router>{routes}</Router>, $('.root')[0]);
 });
 
+var _requireLogIn = function (nextState, replace, asyncCompletionCallback) {
+  if (!SessionStore.currentUserHasBeenFetched()) {
+    ApiUtil.fetchCurrentUser(_redirectIfNotLoggedIn);
+  } else {
+    _redirectIfNotLoggedIn();
+  }
 
+  var _redirectIfNotLoggedIn = function () {
+    if (!SessionStore.isLoggedIn()) {
+      replace('/login');
+    }
+
+    asyncCompletionCallback();
+  }
+}
