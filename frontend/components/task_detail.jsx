@@ -138,7 +138,7 @@ var TaskDetail = React.createClass({
           </div>
 
           <div className="group task-meta block">
-            <p><strong>{this.state.task.creator}</strong> created task. Today.</p>
+            <p><strong>{this.state.task.creator}</strong> created task. {this.state.task.created}.</p>
           </div>
 
         </section>

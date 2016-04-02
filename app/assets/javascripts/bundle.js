@@ -32383,7 +32383,9 @@
 	              null,
 	              this.state.task.creator
 	            ),
-	            ' created task. Today.'
+	            ' created task. ',
+	            this.state.task.created,
+	            '.'
 	          )
 	        )
 	      );
