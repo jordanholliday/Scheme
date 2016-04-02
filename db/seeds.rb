@@ -18,6 +18,7 @@ User.all.each do |user|
       [Faker::Hacker.say_something_smart,
         Faker::Hacker.say_something_smart,
         Faker::Hacker.say_something_smart].join(" ")
+    task.assignee_id = User.pluck(:id).sample
     task.save!
   end
 end

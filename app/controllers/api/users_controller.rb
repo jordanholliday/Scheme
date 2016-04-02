@@ -1,5 +1,10 @@
 class Api::UsersController < ApplicationController
 
+  def index
+    @users = User.all
+    render :index
+  end
+
   def create
     @user = User.new(user_params)
 
@@ -13,6 +18,7 @@ class Api::UsersController < ApplicationController
           [Faker::Hacker.say_something_smart,
             Faker::Hacker.say_something_smart,
             Faker::Hacker.say_something_smart].join(" ")
+        task.assignee_id = User.pluck(:id).sample
         task.save!
       end
     else

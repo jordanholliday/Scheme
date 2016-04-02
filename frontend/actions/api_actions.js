@@ -14,6 +14,13 @@ ApiActions = {
       actionType: ApiConstants.RECEIVE_ONE_TASK,
       task: task
     });
+  },
+
+  receiveAllTeamUsers: function (teamUsers) {
+    AppDispatcher.dispatch({
+      actionType: ApiConstants.RECEIVE_ALL_TEAM_USERS,
+      teamUsers: teamUsers
+    });
   }
 };
 

@@ -1,0 +1,43 @@
+.task-options {
+  float: left;
+  padding: 0 0 7px 15px;
+  background: #fff;
+  color: #1B2432;
+  font-size: 14px;
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid #E1E2E4;
+}
+
+.task-options.fpo {
+  height: 50px;
+  border: none;
+}
+
+.task-options .current-assignee {
+  display: inline-block;
+  padding: 4px;
+}
+
+
+.task-options .current-assignee img {
+  float: left;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 1px inset;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.task-options .current-assignee label {
+  margin-left: 10px;
+  height: 30px;
+  line-height: 30px;
+}
+
+
+.task-options .current-assignee:hover {
+  border-radius: 19px;
+  transition: box-shadow .2s;
+  box-shadow: 0 0 0 3px #02ceff;
+  color: #02ceff;
+}

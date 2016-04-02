@@ -135,8 +135,23 @@ ApiUtil = {
        complete: function() {
          completion && completion();
        }
-     })
+     });
+   },
+
+   fetchTeamUsers: function() {
+     $.ajax({
+       type: "GET",
+       url: "/api/users",
+       dataType: "json",
+       success: function(teamUsers) {
+         ApiActions.receiveAllTeamUsers(teamUsers);
+       },
+       error: function() {
+         console.log("ApiUtil#fetchTeamUsers error");
+       }
+     });
    }
+
 
 };
 
