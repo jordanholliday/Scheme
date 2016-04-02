@@ -76,12 +76,23 @@ ApiUtil = {
     });
   },
 
-  register: function(user_details, callback) {
+  register: function(userDetails, callback) {
+    // create FormData object to transmit avatar url successfully
+    var newUser = new FormData();
+    newUser.append("user[name]", userDetails.name);
+    newUser.append("user[email]", userDetails.email);
+    newUser.append("user[password]", userDetails.password);
+    if (userDetails.avatar) {
+      newUser.append("user[avatar]", userDetails.avatar);
+    }
+
     $.ajax({
       type: "POST",
       url: "/api/users",
+      processData: false,
+      contentType: false,
       dataType: "json",
-      data: {user: user_details},
+      data: newUser,
       success: function(currentUser) {
        SessionActions.currentUserReceived(currentUser);
        callback && callback();

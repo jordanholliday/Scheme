@@ -77,24 +77,22 @@
   border-radius: 50%;
   border: 1px dashed #898E95;
   position: relative;
-  color: #02ceff;
+  color: #898E95;
   box-shadow: none;
   transition: .25s;
   transition-property: box-shadow, inherit;
   transition-timing-function: ease;
+  background-size: contain;
 }
 
-.auth-dialog form .upload-div:hover {
+.auth-dialog form .upload-div:hover,
+.auth-dialog form .upload-div-active {
   box-shadow: 0 0 0 2px #02ceff;
-  color: #02ceff;
   border: none;
 }
 
-.auth-dialog form .upload-div:hover p {
-  color: inherit;
-}
-
-.auth-dialog form .upload-div p {
+.auth-dialog form .upload-div:after {
+  content: "ADD PHOTO";
   font-family: 'proxima_nova_bold';
   position: absolute;
   top: 45%;
@@ -103,6 +101,11 @@
   color: #898E95;
   text-transform: uppercase;
   font-size: 12px;
+}
+
+.auth-dialog form .upload-div-active:after,
+.auth-dialog form .upload-div:hover:after {
+  color: #02ceff;
 }
 
 .auth-dialog .password:after {

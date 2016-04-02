@@ -1,5 +1,6 @@
 var React = require('react'),
-    ReactDOM = require('react-dom');
+    ReactDOM = require('react-dom'),
+    Dropzone = require('react-dropzone');
 
 var RegistrationForm = React.createClass({
 
@@ -11,7 +12,25 @@ var RegistrationForm = React.createClass({
     return {
       name: "",
       email: "",
-      password: ""
+      password: "",
+      avatar: null,
+      avatarFile: null
+    }
+  },
+
+  onDrop: function (file) {
+    document.getElementById("dropzone").style.backgroundImage = "url('" + file[0].preview + "')";
+    document.getElementById("dropzone").style.border = "1px solid transparent";
+    var reader = new FileReader();
+    var newAvatar = file[0];
+    reader.onloadend = function() {
+      this.setState({ avatar: reader.result, avatarFile: newAvatar});
+    }.bind(this);
+
+    if (newAvatar) {
+      reader.readAsDataURL(newAvatar);
+    } else {
+      this.setState({ avatar: null, avatarFile: null });
     }
   },
 
@@ -27,9 +46,15 @@ var RegistrationForm = React.createClass({
 
            <form onSubmit={this.handleSubmit}>
 
-             <div className="upload-div">
-               <p>Add Photo</p>
-             </div>
+            <Dropzone
+              onDrop={this.onDrop}
+              accept='application/pdf'
+              multiple={false}
+              disableClick={true}
+              className="upload-div"
+              activeClassName="upload-div-active"
+              id="dropzone">
+            </Dropzone>
 
              <div className="input">
                <label htmlFor="name">Full Name</label><br />

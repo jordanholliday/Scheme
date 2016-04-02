@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160330143134) do
+ActiveRecord::Schema.define(version: 20160402183906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,13 +34,16 @@ ActiveRecord::Schema.define(version: 20160330143134) do
   add_index "tasks", ["parent_id"], name: "index_tasks_on_parent_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",           null: false
-    t.string   "name",            null: false
-    t.string   "password_digest", null: false
-    t.string   "session_token",   null: false
-    t.string   "avatar_url"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "email",               null: false
+    t.string   "name",                null: false
+    t.string   "password_digest",     null: false
+    t.string   "session_token",       null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
 end
