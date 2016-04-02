@@ -2,7 +2,8 @@ var React = require('react'),
     ReactDOM = require('react-dom'),
     TaskStore = require('../stores/tasks'),
     TaskActions = require('../actions/task_actions'),
-    ApiUtil = require('../util/api_util.js');
+    ApiUtil = require('../util/api_util.js'),
+    TaskOptions = require('./task_options.jsx');
 
 var TaskDetail = React.createClass({
   contextTypes: {
@@ -104,7 +105,7 @@ var TaskDetail = React.createClass({
       return (
         <section className="task-detail">
 
-          <div className="fpo">FPO FPO</div>
+          <TaskOptions task={this.state.task} />
 
           <div className="group edit-pane-name-complete">
             <button
@@ -130,10 +131,10 @@ var TaskDetail = React.createClass({
               value={this.state.task.description ? this.state.task.description : ""}
               ref="descriptionTextarea"
               className="task-description-input"
+              placeholder="Description"
               onChange={this._onChangeHandler}
               onBlur={this.persistTask}
               onMouseOut={this.persistTask}>
-
             </textarea>
           </div>
 

@@ -18,9 +18,12 @@
 }
 
 .task-detail
-  .edit-pane-name-complete:hover {
+  .edit-pane-name-complete:hover,
+.task-detail
+  .edit-pane-name-complete:active {
   border: 1px solid #CDCFD2;
   border-radius: 3px;
+  box-shadow: #E1E2E4 0px 1px 0px 0px inset;
 }
 
 .task-detail
@@ -95,8 +98,13 @@
   textarea:active,
 .task-detail
   .task-description-block
-  textarea:hover  {
+  textarea:hover,
+.task-detail
+  .task-description-block
+  textarea:focus  {
   border-color: #CDCFD2;
+  box-shadow: #E1E2E4 0px 1px 0px 0px inset;
+
 }
 
 .task-detail

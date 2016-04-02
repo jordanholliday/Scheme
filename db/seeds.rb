@@ -11,7 +11,7 @@ require 'faker'
 Task.destroy_all
 
 User.all.each do |user|
-  10.times do
+  5.times do
     task = user.tasks.new
     task.name = Faker::Company.bs
     task.description =
