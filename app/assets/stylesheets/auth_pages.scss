@@ -11,8 +11,11 @@
 }
 
 .login-logo {
-  width: 170px;
+  width: 178px;
+  height: 40px;
   margin: 30px auto;
+  background-image: url(image_path('scheme_logo.png'));
+  background-size: cover;
 }
 
 .auth-dialog {

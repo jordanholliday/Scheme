@@ -18,9 +18,7 @@ var LoginForm = React.createClass({
     return (
       <div className="auth-fullscreen">
 
-        <div className="login-logo">
-          <img src="assets/scheme_logo.png" />
-        </div>
+        <div className="login-logo" />
 
         <div className="group auth-dialog login">
 
