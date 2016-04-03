@@ -1,0 +1,111 @@
+nav.splash-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 10px 0;
+  box-shadow: 0 1px 3px 0 rgba(27,36,50,.15);
+  z-index: 3;
+}
+
+nav.splash-page .container {
+  margin: auto;
+  width: 900px;
+}
+
+nav.splash-page .container .logo {
+  float: left;
+  height: 35px;
+  width: 135px;
+  background-image: url(image_path('scheme_logo_color.png'));
+  background-size: cover;
+}
+
+main {
+  color: #fff;
+  text-align: center;
+}
+
+main section.leader {
+  margin: 50px 0;
+  height: 570px;
+  position: relative;
+  background: #ff6d92;
+  z-index: 0;
+}
+
+/*background gradient for leader, complements primary bg color*/
+main section.leader:after {
+  background: radial-gradient(circle at center,rgba(255,185,0,.6) 10%,rgba(252,99,107,.9) 50%,rgba(255,109,146,0) 90%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  content: "";
+  display: block;
+}
+
+main section.leader h1 {
+  padding-top: 130px;
+  font-size: 65px;
+}
+
+main section.leader h2 {
+  display: block;
+  margin: 20px auto 55px;
+  max-width: 500px;
+  font-size: 22px;
+  line-height: 1.5;
+}
+
+main section.leader input {
+  box-sizing: border-box;
+  width: 300px;
+  height: 50px;
+  padding-left: 10px;
+  background: #fff;
+  border: 1px solid #B9BCC0;
+  text-align: left;
+  color: #1B2432;
+  z-index: 1;
+}
+
+main section.leader button {
+  height: 48px;
+  margin-left: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background: #6A67CE;
+  border: 1px solid #6A67CE;
+  z-index: 1;
+  transition: background, box-shadow, border;
+  transition-duration: .2s;
+}
+
+main section.leader button:hover {
+  background: #A177FF;
+  border-color: #A177FF;
+  box-shadow: #D0BBFF 0px 0px 0px 3px;
+}
+
+nav.splash-page button {
+  float: right;
+  box-sizing: border-box;
+  height: 33px;
+  padding-left: 13px;
+  padding-right: 13px;
+  background: #fff;
+  border: 2px solid #6A67CE;
+  color: #6A67CE;
+  transition: border-color, box-shadow, color;
+  transition-duration: .2s;
+}
+
+nav.splash-page button:hover {
+  border-color: #a177ff;
+  box-shadow: 0 0 0 3px #a177ff;
+  color: #a177ff;
+}

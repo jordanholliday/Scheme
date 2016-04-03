@@ -17,6 +17,7 @@
  *= require app.scss
  *= task_index
  *= require auth_pages
+ *= require splash_page
  */
 
 .fpo {
@@ -29,4 +30,12 @@
   height: 115px;
   display: block;
   font-family: 'proxima_nova_bold';
+}
+
+body input {
+  border-radius: 3px;
+}
+
+body button {
+  border-radius: 3px;
 }

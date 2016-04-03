@@ -2,7 +2,8 @@ var React = require('react'),
     ReactDOM = require('react-dom'),
     TaskStore = require('../stores/tasks'),
     ApiUtil = require('../util/api_util'),
-    TaskIndexItem = require('./task_index_item.jsx');
+    TaskIndexItem = require('./task_index_item.jsx'),
+    NavBar = require('./nav_bar');
 
 var TaskIndex = React.createClass({
   getInitialState: function () {
@@ -80,17 +81,20 @@ var TaskIndex = React.createClass({
     }
 
     return (
-      <div className="task-wrapper">
+      <div className="app">
+        <NavBar />
+        <div className="task-wrapper">
 
-        <section className="task-index">
-          <button onClick={this.showNewTaskForm}>Add Task</button>
-          <ul className="task-list-ul">
-            {allTasks}
-          </ul>
-        </section>
+          <section className="task-index">
+            <button onClick={this.showNewTaskForm}>Add Task</button>
+            <ul className="task-list-ul">
+              {allTasks}
+            </ul>
+          </section>
 
-        {this.props.children}
+          {this.props.children}
 
+        </div>
       </div>
     );
   }

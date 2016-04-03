@@ -10,18 +10,21 @@ var React = require('react'),
     App = require('./components/app'),
     TaskDetail = require('./components/task_detail'),
     LoginForm = require('./components/login_form'),
-    RegistrationForm = require('./components/registration_form');
+    RegistrationForm = require('./components/registration_form'),
+    SplashPage = require('./components/splash_page');
 
 var routes = (
   <Route path="/" component={App}>
-    <IndexRoute path="/register" component={RegistrationForm} />
+
+    <IndexRoute component={SplashPage} />
 
     <Route path="/tasks" component={TaskIndex} onEnter={_requireLogIn}>
       <Route path="/tasks/:taskId" component={TaskDetail} />
     </Route>
 
-    <Route path="/login" component={LoginForm} />
+    <Route path="/login" component={LoginForm} onEnter={_requireLogOut} />
 
+    <Route path="/register" component={RegistrationForm} onEnter={_requireLogOut} />
 
   </Route>
 );
@@ -30,12 +33,16 @@ $(document).on('ready', function () {
   ReactDOM.render(<Router>{routes}</Router>, $('.root')[0]);
 });
 
-function _requireLogIn (nextState, replace, asyncCompletionCallback) {
+function _checkSessionStore (redirectCallback) {
   if (!SessionStore.currentUserHasBeenFetched()) {
-    ApiUtil.fetchCurrentUser(_redirectIfNotLoggedIn);
+    ApiUtil.fetchCurrentUser(redirectCallback);
   } else {
-    _redirectIfNotLoggedIn();
+    redirectCallback();
   }
+}
+
+function _requireLogIn (nextState, replace, asyncCompletionCallback) {
+  _checkSessionStore(_redirectIfNotLoggedIn);
 
   function _redirectIfNotLoggedIn () {
     if (!SessionStore.isLoggedIn()) {
@@ -45,3 +52,18 @@ function _requireLogIn (nextState, replace, asyncCompletionCallback) {
     asyncCompletionCallback();
   }
 }
+
+function _requireLogOut (nextState, replace, asyncCompletionCallback) {
+  _checkSessionStore(_redirectIfLoggedIn);
+
+  function _redirectIfLoggedIn () {
+    if (SessionStore.isLoggedIn()) {
+      replace('/tasks');
+    }
+
+    asyncCompletionCallback();
+  }
+}
+
+
+

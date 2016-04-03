@@ -3,11 +3,11 @@
 
 .auth-fullscreen {
   background-image: linear-gradient(to top right,#fc7279 10%, #ff7b9c 65%, #ffc019 125%);
-  bottom: 0;
-  left: 0;
   position: absolute;
+  left: 0;
   right: 0;
   top: 0;
+  bottom: 0;
 }
 
 .login-logo {
@@ -179,7 +179,7 @@
 /* FOOTER ON LOGIN and REGISTRATION PAGES*/
 
 .auth-fullscreen footer {
-  margin: 15px auto 0px;
+  margin: 15px auto;
   color: #fff;
   font-size: 14px;
   line-height: 2.25;

@@ -9,9 +9,16 @@ var RegistrationForm = React.createClass({
   },
 
   getInitialState: function () {
+    var email;
+    if (this.props.location.state.email) {
+      email = this.props.location.state.email;
+    } else {
+      email = "";
+    }
+
     return {
       name: "",
-      email: "",
+      email: email,
       password: "",
       avatar: null,
       avatarFile: null
@@ -36,7 +43,7 @@ var RegistrationForm = React.createClass({
 
   render: function () {
     return (
-       <div className="auth-fullscreen">
+       <div className="group auth-fullscreen">
 
          <div className="login-logo" />
 
@@ -71,6 +78,7 @@ var RegistrationForm = React.createClass({
                   type="email"
                   name="user[email]"
                   id="email"
+                  value={this.state.email}
                   onChange={this.updateEmail}/>
                <svg className="confirm" viewBox="0 0 32 32">
                  <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>

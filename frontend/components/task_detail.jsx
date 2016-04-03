@@ -3,7 +3,7 @@ var React = require('react'),
     TaskStore = require('../stores/tasks'),
     TaskActions = require('../actions/task_actions'),
     ApiUtil = require('../util/api_util.js'),
-    TaskOptions = require('./task_options.jsx');
+    TaskOptions = require('./task_options');
 
 var TaskDetail = React.createClass({
   contextTypes: {
