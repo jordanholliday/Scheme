@@ -32732,7 +32732,7 @@
 	
 	  onDrop: function (file) {
 	    document.getElementById("dropzone").style.backgroundImage = "url('" + file[0].preview + "')";
-	    document.getElementById("dropzone").style.border = "1px solid transparent";
+	    document.getElementById("dropzone").className = "upload-div received";
 	    var reader = new FileReader();
 	    var newAvatar = file[0];
 	    reader.onloadend = function () {

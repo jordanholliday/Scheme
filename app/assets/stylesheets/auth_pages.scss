@@ -108,6 +108,15 @@
   color: #02ceff;
 }
 
+.auth-dialog form .upload-div.received {
+  box-shadow: 0 0 0 2px #02ceff;
+  border: none;
+}
+
+.auth-dialog form .upload-div.received:after {
+  content: none;
+}
+
 .auth-dialog .password:after {
   content: "Password must have 6 characters.";
   position: absolute;
