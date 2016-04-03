@@ -14,13 +14,14 @@ var React = require('react'),
 
 var routes = (
   <Route path="/" component={App}>
+    <IndexRoute path="/register" component={RegistrationForm} />
+
     <Route path="/tasks" component={TaskIndex} onEnter={_requireLogIn}>
       <Route path="/tasks/:taskId" component={TaskDetail} />
     </Route>
 
     <Route path="/login" component={LoginForm} />
 
-    <Route path="/register" component={RegistrationForm} />
 
   </Route>
 );
