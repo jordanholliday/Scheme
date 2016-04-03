@@ -32745,7 +32745,7 @@
 	
 	  getInitialState: function () {
 	    var email;
-	    if (this.props.location.state.email) {
+	    if (this.props.location.state && this.props.location.state.email) {
 	      email = this.props.location.state.email;
 	    } else {
 	      email = "";
