@@ -33246,6 +33246,14 @@
 	    });
 	  },
 	
+	  sendToLogin: function () {
+	    event.preventDefault();
+	    var router = this.context.router;
+	    router.push({
+	      pathname: '/login'
+	    });
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -33259,7 +33267,7 @@
 	          React.createElement('div', { className: 'logo' }),
 	          React.createElement(
 	            'button',
-	            { onClick: this.sendToRegistration },
+	            { onClick: this.sendToLogin },
 	            'Log In'
 	          )
 	        )

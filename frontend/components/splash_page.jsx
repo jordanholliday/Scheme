@@ -23,6 +23,14 @@ var SplashPage = React.createClass({
     })
   },
 
+  sendToLogin: function () {
+    event.preventDefault();
+    var router = this.context.router;
+    router.push({
+      pathname: '/login'
+    })
+  },
+
   render: function () {
     return (
       <div>
@@ -30,7 +38,7 @@ var SplashPage = React.createClass({
           <div className="container">
             <div className="logo">
             </div>
-            <button onClick={this.sendToRegistration}>Log In</button>
+            <button onClick={this.sendToLogin}>Log In</button>
           </div>
         </nav>
         <main>
