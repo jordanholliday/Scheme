@@ -52,8 +52,8 @@
 	    IndexRoute = ReactRouter.IndexRoute,
 	    TaskIndex = __webpack_require__(216),
 	    ApiUtil = __webpack_require__(241),
-	    SessionStore = __webpack_require__(247),
-	    App = __webpack_require__(248),
+	    SessionStore = __webpack_require__(248),
+	    App = __webpack_require__(249),
 	    TaskDetail = __webpack_require__(250),
 	    LoginForm = __webpack_require__(253),
 	    RegistrationForm = __webpack_require__(254),
@@ -24789,7 +24789,7 @@
 	    TaskStore = __webpack_require__(217),
 	    ApiUtil = __webpack_require__(241),
 	    TaskIndexItem = __webpack_require__(245),
-	    NavBar = __webpack_require__(249);
+	    NavBar = __webpack_require__(247);
 	
 	var TaskIndex = React.createClass({
 	  displayName: 'TaskIndex',
@@ -32162,6 +32162,32 @@
 /* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    ApiUtil = __webpack_require__(241);
+	
+	var NavBar = React.createClass({
+	  displayName: 'NavBar',
+	
+	  render: function () {
+	    return React.createElement(
+	      'header',
+	      null,
+	      React.createElement(
+	        'span',
+	        { onClick: ApiUtil.logout },
+	        'lOg oUt!'
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = NavBar;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var Store = __webpack_require__(218).Store;
 	var SessionConstants = __webpack_require__(244);
 	var AppDispatcher = __webpack_require__(236);
@@ -32200,13 +32226,13 @@
 	module.exports = SessionStore;
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    SessionStore = __webpack_require__(247),
-	    NavBar = __webpack_require__(249);
+	    SessionStore = __webpack_require__(248),
+	    NavBar = __webpack_require__(247);
 	ApiUtil = __webpack_require__(241), TaskStore = __webpack_require__(217);
 	
 	var App = React.createClass({
@@ -32249,32 +32275,6 @@
 	});
 	
 	module.exports = App;
-
-/***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158),
-	    ApiUtil = __webpack_require__(241);
-	
-	var NavBar = React.createClass({
-	  displayName: 'NavBar',
-	
-	  render: function () {
-	    return React.createElement(
-	      'header',
-	      null,
-	      React.createElement(
-	        'span',
-	        { onClick: ApiUtil.logout },
-	        'lOg oUt!'
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = NavBar;
 
 /***/ },
 /* 250 */
@@ -32472,7 +32472,8 @@
 	    return {
 	      teamUsers: null,
 	      assigneeId: this.props.task.assignee_id,
-	      deadline: this.props.task.deadline
+	      deadline: this.props.task.deadline,
+	      assigning: false
 	    };
 	  },
 	
@@ -32493,6 +32494,15 @@
 	  componentDidMount: function () {
 	    TeamUserStore.addListener(this.getStateFromStore);
 	    ApiUtil.fetchTeamUsers();
+	  },
+	
+	  setStateAssigning: function (e) {
+	    e.stopPropagation();
+	    if (this.state.assigning) {
+	      this.setState({ assigning: false });
+	    } else {
+	      this.setState({ assigning: true });
+	    };
 	  },
 	
 	  assigneeAvatar: function () {
@@ -32518,11 +32528,14 @@
 	    return assigneeName;
 	  },
 	
+	  assigneeInputClick: function (e) {
+	    e.stopPropagation();
+	  },
+	
 	  render: function () {
-	    return React.createElement(
-	      'section',
-	      { className: 'task-options' },
-	      React.createElement(
+	    var currentAssigneeDetail;
+	    if (this.assigneeName()) {
+	      currentAssigneeDetail = React.createElement(
 	        'div',
 	        { className: 'group current-assignee' },
 	        React.createElement('img', { src: this.assigneeAvatar() }),
@@ -32530,7 +32543,38 @@
 	          'label',
 	          null,
 	          this.assigneeName()
-	        )
+	        ),
+	        React.createElement('input', { type: 'text', value: this.assigneeName() })
+	      );
+	    } else {
+	      currentAssigneeDetail = React.createElement(
+	        'div',
+	        { className: 'group current-assignee unassigned' },
+	        React.createElement(
+	          'svg',
+	          { 'class': '', viewBox: '0 0 32 32' },
+	          React.createElement('path', { d: 'M20.073,18.606C22.599,16.669,24,12.995,24,9.412C24,4.214,21.054,0,16,0S8,4.214,8,9.412 c0,3.584,1.401,7.257,3.927,9.194C6.182,20.351,2,25.685,2,32h2c0-6.617,5.383-12,12-12s12,5.383,12,12h2 C30,25.685,25.818,20.351,20.073,18.606z M10,9.412C10,4.292,13.013,2,16,2s6,2.292,6,7.412C22,13.633,19.756,18,16,18 C12.244,18,10,13.633,10,9.412z' })
+	        ),
+	        React.createElement(
+	          'label',
+	          null,
+	          'Unassigned'
+	        ),
+	        React.createElement('input', {
+	          type: 'text',
+	          placeholder: this.assigneeName(),
+	          autoFocus: this.state.assigning ? true : false,
+	          onClick: this.assigneeInputClick })
+	      );
+	    }
+	
+	    return React.createElement(
+	      'section',
+	      { className: 'task-options' },
+	      React.createElement(
+	        'div',
+	        { onClick: this.setStateAssigning, className: this.state.assigning ? "assigning" : "not-assigning" },
+	        currentAssigneeDetail
 	      )
 	    );
 	  }

@@ -1,6 +1,6 @@
 .task-options {
   float: left;
-  padding: 0 0 7px 15px;
+  padding: 0 0 7px 0;
   background: #fff;
   color: #1B2432;
   font-size: 14px;
@@ -15,8 +15,14 @@
 }
 
 .task-options .current-assignee {
+  margin-left: 15px;
   display: inline-block;
   padding: 4px;
+}
+
+/*input field hidden until "assigning" selector applied*/
+.task-options .current-assignee input {
+  display: none;
 }
 
 
@@ -29,9 +35,14 @@
 }
 
 .task-options .current-assignee label {
-  margin-left: 10px;
+  display: block;
+  padding-left: 10px;
   height: 30px;
   line-height: 30px;
+  width: 70px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -41,3 +52,60 @@
   box-shadow: 0 0 0 3px #02ceff;
   color: #02ceff;
 }
+
+.task-options .current-assignee.unassigned {
+  padding: 2px;
+  border-radius: 17px;
+  border: 1px solid transparent;
+  transition: none;
+  color: #898E95;
+}
+
+.task-options .current-assignee.unassigned:hover {
+  border: 1px dashed #02ceff;
+  border-width: 1px;
+  box-shadow: none;
+  color: #02ceff;
+}
+
+.task-options .current-assignee.unassigned svg {
+  float: left;
+  padding: 5px;
+  width: 20px;
+  border: 1px dashed #B9BCC0;
+  border-radius: 50%;
+  fill: #B9BCC0;
+  transition: border-style, fill;
+  transition-duration: .2s;
+}
+
+.task-options .current-assignee.unassigned:hover svg {
+  border-style: solid;
+  fill: #02ceff;
+}
+
+.task-options .assigning .current-assignee input {
+  display: block;
+}
+
+.task-options .assigning .current-assignee label {
+  display: none;
+}
+
+.task-options .assigning .current-assignee,
+.task-options .assigning .current-assignee:hover {
+  margin-left: 0;
+  padding-left: 17px;
+  display: inline-block;
+  width: 200px;
+  border: 1px solid #B9BCC0;
+  border-radius: 3px;
+  color: #898E95;
+}
+
+.task-options .assigning .current-assignee svg,
+.task-options .assigning .current-assignee:hover svg {
+  border-style: dashed;
+  fill: #B9BCC0;
+}
+

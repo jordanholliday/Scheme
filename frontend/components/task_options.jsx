@@ -8,7 +8,8 @@ var TaskOptions = React.createClass({
     return {
       teamUsers: null,
       assigneeId: this.props.task.assignee_id,
-      deadline: this.props.task.deadline
+      deadline: this.props.task.deadline,
+      assigning: false
     };
   },
 
@@ -29,6 +30,15 @@ var TaskOptions = React.createClass({
   componentDidMount: function () {
     TeamUserStore.addListener(this.getStateFromStore);
     ApiUtil.fetchTeamUsers();
+  },
+
+  setStateAssigning: function (e) {
+    e.stopPropagation();
+    if (this.state.assigning) {
+      this.setState({assigning: false});
+    } else {
+      this.setState({assigning: true});
+    };
   },
 
   assigneeAvatar: function () {
@@ -54,12 +64,36 @@ var TaskOptions = React.createClass({
     return assigneeName;
   },
 
+  assigneeInputClick: function (e) {
+    e.stopPropagation();
+  },
+
   render: function () {
+    var currentAssigneeDetail;
+    if (this.assigneeName()) {
+      currentAssigneeDetail = <div className="group current-assignee">
+          <img src={this.assigneeAvatar()} />
+          <label>{this.assigneeName()}</label>
+          <input type="text" value={this.assigneeName()} />
+        </div>
+    } else {
+      currentAssigneeDetail = <div className="group current-assignee unassigned">
+            <svg class="" viewBox="0 0 32 32">
+              <path d="M20.073,18.606C22.599,16.669,24,12.995,24,9.412C24,4.214,21.054,0,16,0S8,4.214,8,9.412 c0,3.584,1.401,7.257,3.927,9.194C6.182,20.351,2,25.685,2,32h2c0-6.617,5.383-12,12-12s12,5.383,12,12h2 C30,25.685,25.818,20.351,20.073,18.606z M10,9.412C10,4.292,13.013,2,16,2s6,2.292,6,7.412C22,13.633,19.756,18,16,18 C12.244,18,10,13.633,10,9.412z"></path>
+            </svg>
+            <label>Unassigned</label>
+            <input
+              type="text"
+              placeholder={this.assigneeName()}
+              autoFocus={this.state.assigning ? true : false}
+              onClick={this.assigneeInputClick} />
+        </div>
+    }
+
     return (
         <section className="task-options">
-          <div className="group current-assignee">
-            <img src={this.assigneeAvatar()} />
-            <label>{this.assigneeName()}</label>
+          <div onClick={this.setStateAssigning} className={this.state.assigning ? "assigning" : "not-assigning"}>
+            {currentAssigneeDetail}
           </div>
         </section>
       );
