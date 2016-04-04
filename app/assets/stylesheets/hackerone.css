@@ -9,6 +9,7 @@
   CUSTOM STYLES AT BOTTOM
 */
 .date-picker {
+  color: #1B2432;
   overflow: hidden;
   background: #fff;
   font-size: 14px;
@@ -16,6 +17,7 @@
   height: 100%;
   border: 1px solid #aeaeae;
   border-radius: 4px;
+  padding: 10px;
 }
 .date-picker .dp-header {
   background: #f0f0f0;
@@ -45,9 +47,7 @@
   border-radius: 4px;
   margin: 2px;
 }
-.date-picker .dp-table .dp-cell:not(:first-child) {
-  border-left: 0 solid transparent;
-}
+
 .date-picker .dp-table .dp-cell.dp-weeknumber,
 .date-picker .dp-table .dp-cell.dp-weeknumber:hover {
   color: #8d8d8d;
@@ -198,9 +198,29 @@
   border-radius: 0px;
 }
 
-.date-picker .dp-table .dp-cell.dp-prev:last-of-type {
-  border-top-right-radius: 50%;
-  border-bottom-right-radius: 50%;
+.date-picker .dp-table .dp-row.dp-week-day-names {
+  color: #B9BCC0;
+  background: #fff;
+  border-color: #B9BCC0;
+  margin-bottom: 3px;
 }
 
+.date-picker .dp-header {
+  background: #fff;
+}
+
+.date-picker .dp-nav-table .dp-nav-cell.dp-cell {
+  border-width: 7px;
+  margin-top: 9px;
+}
+
+.date-picker .dp-table .dp-cell {
+  border: 1px solid transparent;
+}
+
+.date-picker .dp-table .dp-cell:hover {
+  background: #F8F8F9;
+  border: 1px solid #B9BCC0;
+  border-radius: 50%;
+}
 
