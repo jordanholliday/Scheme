@@ -34,8 +34,12 @@
 
 .task-options .current-assignee input {
   display: block;
+  width: 75px;
   height: 30px;
   padding-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .task-options .current-assignee:hover {
@@ -85,6 +89,11 @@
   border: 1px solid #B9BCC0;
   border-radius: 3px;
   color: #898E95;
+  box-shadow: none;
+}
+
+.task-options .assigning .current-assignee input {
+  width: 165px;
 }
 
 .task-options .assigning .current-assignee svg,
@@ -103,6 +112,7 @@
   border-radius: 3px;
   background: #fff;
   z-index: 2;
+  box-shadow: rgba(0, 0, 0, 0.298039) 0px 2px 3px 0px;
 }
 
 .team-user-div {

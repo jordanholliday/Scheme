@@ -1,7 +1,8 @@
 var React = require('react'),
     ReactDom = require('react-dom'),
     ApiUtil = require('../util/api_util.js'),
-    TeamUserStore = require('../stores/team_users');
+    TeamUserStore = require('../stores/team_users'),
+    DatePicker = require('react-date-picker');
 
 var TaskOptions = React.createClass({
   getInitialState: function () {
@@ -89,6 +90,11 @@ var TaskOptions = React.createClass({
     ApiUtil.updateTask(updatedTask);
   },
 
+  datePickerStartDate: function () {
+    var date = new Date();
+    return date.getFullYear() + "-";
+  },
+
   teamUserDropdown: function () {
     var teamUserLis = [];
     // first, check if there's input text to search by and filter with it if so
@@ -135,14 +141,13 @@ var TaskOptions = React.createClass({
           {this.state.assigning ? this.teamUserDropdown() : null}
         </div>
     } else {
-      currentAssigneeDetail = <div className="group current-assignee unassigned">
+      currentAssigneeDetail = <div className="group current-assignee unassigned" onClick={this.setStateAssigning}>
           <svg viewBox="0 0 32 32">
             <path d="M20.073,18.606C22.599,16.669,24,12.995,24,9.412C24,4.214,21.054,0,16,0S8,4.214,8,9.412 c0,3.584,1.401,7.257,3.927,9.194C6.182,20.351,2,25.685,2,32h2c0-6.617,5.383-12,12-12s12,5.383,12,12h2 C30,25.685,25.818,20.351,20.073,18.606z M10,9.412C10,4.292,13.013,2,16,2s6,2.292,6,7.412C22,13.633,19.756,18,16,18 C12.244,18,10,13.633,10,9.412z"></path>
           </svg>
           <input
             ref="assigneeInput"
             type="text"
-            value={this.assigneeName()}
             placeholder="Unassigned"
             onChange={this.updateAssigneeInput}
             onBlur={this.resetAssigneeInput} />
@@ -155,11 +160,14 @@ var TaskOptions = React.createClass({
           <div className={this.state.assigning ? "assigning" : "not-assigning"}>
             {currentAssigneeDetail}
           </div>
+          <OptionsDatePicker />
         </section>
       );
   }
 });
 
+
+// SUBCOMPONENT - Used in assignment selector above.
 var AssigneeDropdownLi = React.createClass({
 
   updateTaskAssignment: function () {
@@ -174,5 +182,19 @@ var AssigneeDropdownLi = React.createClass({
     </li>);
   }
 });
+
+var OptionsDatePicker = React.createClass({
+  render: function () {
+    return (
+      <DatePicker
+        minDate='2014-10-10'
+        maxDate='2016-10-10'
+        date='2015-10-10'
+        hideFooter={true}
+        weekDayNames={["SU", "MO", "TU", "WE", "TH", "FR", "SA"]}
+      />
+    );
+  }
+})
 
 module.exports = TaskOptions;
