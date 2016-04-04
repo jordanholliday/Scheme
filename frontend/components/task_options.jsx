@@ -23,7 +23,8 @@ var TaskOptions = React.createClass({
   componentWillReceiveProps: function (newProps) {
     this.setState({
       assigneeId: newProps.task.assignee_id,
-      deadline: newProps.task.deadline
+      deadline: newProps.task.deadline,
+      assigning: false
     });
   },
 
@@ -73,11 +74,19 @@ var TaskOptions = React.createClass({
   assigneeInputClick: function (e) {
   },
 
+  updateTaskAssignment: function (userId) {
+    var updatedTask = {
+      id: this.props.task.id,
+      assignee_id: userId
+    }
+    ApiUtil.updateTask(updatedTask);
+  },
+
   teamUserDropdown: function () {
     var teamUserLis = [];
     if (this.state.teamUsers) {
       for (var id in this.state.teamUsers) {
-        teamUserLis.push(<AssigneeDropdownLi teamUser={this.state.teamUsers[id]} />);
+        teamUserLis.push(<AssigneeDropdownLi teamUser={this.state.teamUsers[id]} changeHandler={this.updateTaskAssignment} />);
       }
     }
     return (
@@ -93,7 +102,7 @@ var TaskOptions = React.createClass({
       currentAssigneeDetail = <div className="group current-assignee">
           <img src={this.assigneeAvatar()} />
           <input type="text" ref="assigneeInput" placeholder={this.assigneeName()} />
-          {this.teamUserDropdown()}
+          {this.state.assigning ? this.teamUserDropdown() : null}
         </div>
     } else {
       currentAssigneeDetail = <div className="group current-assignee unassigned">
@@ -105,7 +114,7 @@ var TaskOptions = React.createClass({
               type="text"
               value={this.assigneeName()}
               placeholder="Unassigned" />
-              {this.teamUserDropdown()}
+              {this.state.assigning ? this.teamUserDropdown() : null}
         </div>
     }
 
@@ -120,8 +129,13 @@ var TaskOptions = React.createClass({
 });
 
 var AssigneeDropdownLi = React.createClass({
+
+  updateTaskAssignment: function () {
+    this.props.changeHandler(this.props.teamUser.id);
+  },
+
   render: function () {
-    return (<li className="group" >
+    return (<li className="group" onClick={this.updateTaskAssignment} >
       <img src={this.props.teamUser.avatar_url} />
       <label className="name">{this.props.teamUser.name}</label>
       <label className="email">{this.props.teamUser.email}</label>
