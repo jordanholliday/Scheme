@@ -17,12 +17,10 @@
 .task-options .current-assignee {
   margin-left: 15px;
   display: inline-block;
+  box-sizing: border-box;
   padding: 4px;
-}
-
-/*input field hidden until "assigning" selector applied*/
-.task-options .current-assignee input {
-  display: none;
+  border: 1px solid transparent;
+  position: relative;
 }
 
 
@@ -34,17 +32,11 @@
   border-radius: 50%;
 }
 
-.task-options .current-assignee label {
+.task-options .current-assignee input {
   display: block;
-  padding-left: 10px;
   height: 30px;
-  line-height: 30px;
-  width: 70px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding-left: 10px;
 }
-
 
 .task-options .current-assignee:hover {
   border-radius: 19px;
@@ -84,20 +76,12 @@
   fill: #02ceff;
 }
 
-.task-options .assigning .current-assignee input {
-  display: block;
-}
-
-.task-options .assigning .current-assignee label {
-  display: none;
-}
-
 .task-options .assigning .current-assignee,
 .task-options .assigning .current-assignee:hover {
   margin-left: 0;
   padding-left: 17px;
   display: inline-block;
-  width: 200px;
+  width: 230px;
   border: 1px solid #B9BCC0;
   border-radius: 3px;
   color: #898E95;
@@ -107,5 +91,55 @@
 .task-options .assigning .current-assignee:hover svg {
   border-style: dashed;
   fill: #B9BCC0;
+}
+
+.current-assignee .team-user-div {
+  position: absolute;
+  top: 100%;
+  /* -1px on left and right so borders line up with position: relative el*/
+  left: -1px;
+  right: -1px;
+  border: 1px solid #B9BCC0;
+  border-radius: 3px;
+  background: #fff;
+  z-index: 2;
+}
+
+.team-user-div {
+  padding: 3px 0;
+  max-height: 160px;
+  overflow-x: hidden;
+}
+
+.team-user-div li {
+  padding: 10px 0 10px 17px;
+  border-bottom: 1px solid #E1E2E4;
+}
+
+.team-user-div li:first-child {
+  border-top: 1px solid #E1E2E4;
+}
+
+.team-user-div li:hover {
+  color: #fff;
+  background: #41AED2;
+}
+
+.team-user-div li img {
+}
+
+.team-user-div li label {
+  float: left;
+  padding-left: 10px;
+  margin-top: 1px;
+  display: block;
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.team-user-div li label.email {
+  font-size: 11px;
 }
 
