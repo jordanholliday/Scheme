@@ -32496,8 +32496,12 @@
 	  },
 	
 	  componentDidMount: function () {
-	    TeamUserStore.addListener(this.getStateFromStore);
+	    this.teamStoreToken = TeamUserStore.addListener(this.getStateFromStore);
 	    ApiUtil.fetchTeamUsers();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.teamStoreToken.remove();
 	  },
 	
 	  componentDidUpdate: function () {
@@ -32554,9 +32558,12 @@
 	    ApiUtil.updateTask(updatedTask);
 	  },
 	
-	  datePickerStartDate: function () {
-	    var date = new Date();
-	    return date.getFullYear() + "-";
+	  updateTaskDeadline: function (date) {
+	    var updatedTask = {
+	      id: this.props.task.id,
+	      deadline: date
+	    };
+	    ApiUtil.updateTask(updatedTask);
 	  },
 	
 	  teamUserDropdown: function () {
@@ -32592,7 +32599,7 @@
 	    if (this.assigneeName()) {
 	      currentAssigneeDetail = React.createElement(
 	        'div',
-	        { className: 'group current-assignee', onClick: this.setStateAssigning },
+	        { className: 'group current-assignee-date', onClick: this.setStateAssigning },
 	        React.createElement('img', { src: this.assigneeAvatar() }),
 	        React.createElement('input', {
 	          type: 'text',
@@ -32605,7 +32612,7 @@
 	    } else {
 	      currentAssigneeDetail = React.createElement(
 	        'div',
-	        { className: 'group current-assignee unassigned', onClick: this.setStateAssigning },
+	        { className: 'group current-assignee-date unassigned', onClick: this.setStateAssigning },
 	        React.createElement(
 	          'svg',
 	          { viewBox: '0 0 32 32' },
@@ -32629,7 +32636,11 @@
 	        { className: this.state.assigning ? "assigning" : "not-assigning" },
 	        currentAssigneeDetail
 	      ),
-	      React.createElement(OptionsDatePicker, { deadline: this.props.task.deadline })
+	      React.createElement(
+	        'div',
+	        { className: this.state.assigning ? "assigning" : "not-assigning" },
+	        React.createElement(OptionsDatePicker, { deadline: this.props.task.deadline, changeHandler: this.updateTaskDeadline })
+	      )
 	    );
 	  }
 	});
@@ -32666,27 +32677,76 @@
 	  displayName: 'OptionsDatePicker',
 	
 	  getInitialState: function () {
-	    return { deadline: this.props.deadline };
+	    return { deadline: this.props.deadline, viewDate: this.props.deadline };
 	  },
 	
 	  componentWillReceiveProps: function (newProps) {
-	    debugger;
-	    this.setState({ deadline: newProps.deadline });
+	    this.setState({ deadline: newProps.deadline, viewDate: newProps.deadline });
 	  },
 	
-	  setDate: function (dateText) {
-	    console.log(Date.parse(dateText));
+	  setDeadline: function (dateText) {
+	    this.setState({ deadline: dateText });
+	    this.props.changeHandler(dateText);
+	  },
+	
+	  debugViewChange: function (dateText) {
+	    this.setState({ viewDate: dateText });
+	  },
+	
+	  calendarIcon: function () {
+	    return React.createElement(
+	      'svg',
+	      { className: 'calendar-icon', viewBox: '0 0 32 32', title: 'calendar' },
+	      React.createElement('rect', { x: '14', y: '14', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '18', y: '14', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '22', y: '14', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '6', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '10', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '14', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '18', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '22', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '6', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '10', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '14', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '18', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '22', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '6', y: '26', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '10', y: '26', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '14', y: '26', width: '2', height: '2' }),
+	      React.createElement('path', { d: 'M28,4h-2V2c0-1.105-0.895-2-2-2h-2c-1.105,0-2,0.895-2,2v2h-8V2c0-1.105-0.895-2-2-2H8C6.895,0,6,0.895,6,2v2H4    C2.895,4,2,4.895,2,6v24c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2V6C30,4.895,29.105,4,28,4z M22,2h2v6h-2V2z M8,2h2v6H8V2z     M28,30H4V12h24V30z' })
+	    );
+	  },
+	
+	  shortDeadline: function () {
+	    // prettify date for options bar
+	    return new Date(Date.parse(this.state.deadline)).toDateString().split(" ").slice(1).join(" ");
 	  },
 	
 	  render: function () {
-	    return React.createElement(DatePicker, {
-	      minDate: '2014-10-10',
-	      maxDate: '2016-10-10',
-	      date: this.props.deadline,
-	      hideFooter: true,
-	      weekDayNames: ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
-	      onChange: this.setDate
-	    });
+	    var car;
+	    return React.createElement(
+	      'div',
+	      { className: 'group current-assignee-date' },
+	      React.createElement(
+	        'div',
+	        { className: 'calendar-circle' },
+	        this.calendarIcon()
+	      ),
+	      React.createElement('input', {
+	        className: 'date-input', type: 'text', value: this.shortDeadline(), disabled: true
+	      }),
+	      React.createElement(DatePicker, {
+	        className: 'date-picker-component',
+	        minDate: '2015-10-10',
+	        maxDate: '2020-10-10',
+	        date: this.state.deadline,
+	        viewDate: this.state.viewDate ? this.state.viewDate : new Date(),
+	        hideFooter: true,
+	        weekDayNames: ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
+	        onChange: this.setDeadline,
+	        onViewDateChange: this.debugViewChange
+	      })
+	    );
 	  }
 	});
 	

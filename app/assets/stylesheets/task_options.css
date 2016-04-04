@@ -9,12 +9,17 @@
   border-bottom: 1px solid #E1E2E4;
 }
 
+.task-options .assigning,
+.task-options .not-assigning {
+  float: left;
+}
+
 .task-options.fpo {
   height: 50px;
   border: none;
 }
 
-.task-options .current-assignee {
+.task-options .current-assignee-date {
   margin-left: 15px;
   display: inline-block;
   box-sizing: border-box;
@@ -24,7 +29,7 @@
 }
 
 
-.task-options .current-assignee img {
+.task-options .current-assignee-date img {
   float: left;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 1px inset;
   width: 30px;
@@ -32,7 +37,7 @@
   border-radius: 50%;
 }
 
-.task-options .current-assignee input {
+.task-options .current-assignee-date input {
   display: block;
   width: 75px;
   height: 30px;
@@ -42,14 +47,14 @@
   text-overflow: ellipsis;
 }
 
-.task-options .current-assignee:hover {
+.task-options .current-assignee-date:hover {
   border-radius: 19px;
   transition: box-shadow .2s;
   box-shadow: 0 0 0 3px #02ceff;
   color: #02ceff;
 }
 
-.task-options .current-assignee.unassigned {
+.task-options .current-assignee-date.unassigned {
   padding: 2px;
   border-radius: 17px;
   border: 1px solid transparent;
@@ -57,14 +62,14 @@
   color: #898E95;
 }
 
-.task-options .current-assignee.unassigned:hover {
+.task-options .current-assignee-date.unassigned:hover {
   border: 1px dashed #02ceff;
   border-width: 1px;
   box-shadow: none;
   color: #02ceff;
 }
 
-.task-options .current-assignee.unassigned svg {
+.task-options .current-assignee-date svg {
   float: left;
   padding: 5px;
   width: 20px;
@@ -75,13 +80,13 @@
   transition-duration: .2s;
 }
 
-.task-options .current-assignee.unassigned:hover svg {
+.task-options .current-assignee-date.unassigned:hover svg {
   border-style: solid;
   fill: #02ceff;
 }
 
-.task-options .assigning .current-assignee,
-.task-options .assigning .current-assignee:hover {
+.task-options .assigning .current-assignee-date,
+.task-options .assigning .current-assignee-date:hover {
   margin-left: 0;
   padding-left: 18px;
   display: inline-block;
@@ -92,17 +97,17 @@
   box-shadow: none;
 }
 
-.task-options .assigning .current-assignee input {
+.task-options .assigning .current-assignee-date input {
   width: 165px;
 }
 
-.task-options .assigning .current-assignee svg,
-.task-options .assigning .current-assignee:hover svg {
+.task-options .assigning .current-assignee-date svg,
+.task-options .assigning .current-assignee-date:hover svg {
   border-style: dashed;
   fill: #B9BCC0;
 }
 
-.current-assignee .team-user-div {
+.current-assignee-date .team-user-div {
   position: absolute;
   top: 100%;
   /* -1px on left and right so borders line up with position: relative el*/
@@ -151,5 +156,58 @@
 
 .team-user-div li label.email {
   font-size: 11px;
+}
+
+/*DATE SELECTOR SPECIFIC STYLE HERE*/
+.task-options .current-assignee-date .calendar-div {
+  float: left;
+  width: 32px;
+  height: 32px;
+  border: 1px solid black;
+  border-radius: 50%;
+  text-align: center;
+}
+
+
+.task-options .current-assignee-date svg.calendar-icon {
+  width: 16px;
+  height: 16px;
+  padding: 5px 2px 3px 6px;
+  border: none;
+  border-radius: 0;
+  fill: #676D76;
+  transition: fill;
+  transition-duration: .2s;
+}
+
+.task-options .current-assignee-date .calendar-circle {
+  float: left;
+  border: 1px solid #676D76;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  transition: border-color;
+  transition-duration: .2s;
+}
+
+.task-options .current-assignee-date input.date-input {
+  float: left;
+  width: 120px;
+}
+
+.task-options .current-assignee-date:hover .calendar-circle {
+  border-color: #02ceff;
+}
+
+.task-options .current-assignee-date:hover svg.calendar-icon {
+  fill: #02ceff;
+}
+
+.task-options .current-assignee-date .date-picker-component {
+  position: absolute;
+  top: 115%;
+  left: 0%;
+  height: 265px;
 }
 
