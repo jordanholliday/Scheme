@@ -32629,7 +32629,7 @@
 	        { className: this.state.assigning ? "assigning" : "not-assigning" },
 	        currentAssigneeDetail
 	      ),
-	      React.createElement(OptionsDatePicker, null)
+	      React.createElement(OptionsDatePicker, { deadline: this.props.task.deadline })
 	    );
 	  }
 	});
@@ -32665,13 +32665,27 @@
 	var OptionsDatePicker = React.createClass({
 	  displayName: 'OptionsDatePicker',
 	
+	  getInitialState: function () {
+	    return { deadline: this.props.deadline };
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    debugger;
+	    this.setState({ deadline: newProps.deadline });
+	  },
+	
+	  setDate: function (dateText) {
+	    console.log(Date.parse(dateText));
+	  },
+	
 	  render: function () {
 	    return React.createElement(DatePicker, {
 	      minDate: '2014-10-10',
 	      maxDate: '2016-10-10',
-	      date: '2015-10-10',
+	      date: this.props.deadline,
 	      hideFooter: true,
-	      weekDayNames: ["SU", "MO", "TU", "WE", "TH", "FR", "SA"]
+	      weekDayNames: ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
+	      onChange: this.setDate
 	    });
 	  }
 	});

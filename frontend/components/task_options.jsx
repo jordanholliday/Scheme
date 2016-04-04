@@ -160,7 +160,7 @@ var TaskOptions = React.createClass({
           <div className={this.state.assigning ? "assigning" : "not-assigning"}>
             {currentAssigneeDetail}
           </div>
-          <OptionsDatePicker />
+          <OptionsDatePicker deadline={this.props.task.deadline} />
         </section>
       );
   }
@@ -184,14 +184,28 @@ var AssigneeDropdownLi = React.createClass({
 });
 
 var OptionsDatePicker = React.createClass({
+  getInitialState: function () {
+    return {deadline: this.props.deadline}
+  },
+
+  componentWillReceiveProps: function (newProps) {
+    debugger
+    this.setState({deadline: newProps.deadline})
+  },
+
+  setDate: function (dateText) {
+    console.log(Date.parse(dateText));
+  },
+
   render: function () {
     return (
       <DatePicker
         minDate='2014-10-10'
         maxDate='2016-10-10'
-        date='2015-10-10'
+        date={this.props.deadline}
         hideFooter={true}
         weekDayNames={["SU", "MO", "TU", "WE", "TH", "FR", "SA"]}
+        onChange={this.setDate}
       />
     );
   }
