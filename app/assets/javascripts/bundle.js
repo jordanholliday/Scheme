@@ -32473,7 +32473,8 @@
 	      teamUsers: null,
 	      assigneeId: this.props.task.assignee_id,
 	      deadline: this.props.task.deadline,
-	      assigning: false
+	      assigning: false,
+	      assigneeInput: ""
 	    };
 	  },
 	
@@ -32488,7 +32489,8 @@
 	    this.setState({
 	      assigneeId: newProps.task.assignee_id,
 	      deadline: newProps.task.deadline,
-	      assigning: false
+	      assigning: false,
+	      assigneeInput: ""
 	    });
 	  },
 	
@@ -32504,12 +32506,16 @@
 	  },
 	
 	  setStateAssigning: function (e) {
-	    e.stopPropagation();
 	    if (this.state.assigning) {
-	      this.setState({ assigning: false });
+	      this.setState({ assigning: false, assigneeInput: "" });
 	    } else {
-	      this.setState({ assigning: true, assigneeId: null });
+	      this.setState({ assigning: true });
 	    };
+	  },
+	
+	  resetAssigneeInput: function (e) {
+	    this.setStateAssigning(e);
+	    e.currentTarget.value = "";
 	  },
 	
 	  assigneeAvatar: function () {
@@ -32535,7 +32541,9 @@
 	    return assigneeName;
 	  },
 	
-	  assigneeInputClick: function (e) {},
+	  updateAssigneeInput: function (e) {
+	    this.setState({ assigneeInput: e.currentTarget.value });
+	  },
 	
 	  updateTaskAssignment: function (userId) {
 	    var updatedTask = {
@@ -32547,7 +32555,21 @@
 	
 	  teamUserDropdown: function () {
 	    var teamUserLis = [];
-	    if (this.state.teamUsers) {
+	    // first, check if there's input text to search by and filter with it if so
+	    if (this.state.teamUsers && this.state.assigneeInput.length > 0) {
+	      for (var id in this.state.teamUsers) {
+	        var usernameLowerCase = this.state.teamUsers[id].name.toLowerCase();
+	        var emailLowerCase = this.state.teamUsers[id].email.toLowerCase();
+	        var searchStrLowerCase = this.state.assigneeInput.toLowerCase();
+	        if (usernameLowerCase.search(searchStrLowerCase) !== -1 || emailLowerCase.search(searchStrLowerCase) !== -1) {
+	          teamUserLis.push(React.createElement(AssigneeDropdownLi, {
+	            teamUser: this.state.teamUsers[id],
+	            changeHandler: this.updateTaskAssignment,
+	            key: this.state.teamUsers[id].id }));
+	        }
+	      }
+	    } else {
+	      // if no input text, insert all teamUsers into dropdown
 	      for (var id in this.state.teamUsers) {
 	        teamUserLis.push(React.createElement(AssigneeDropdownLi, { teamUser: this.state.teamUsers[id], changeHandler: this.updateTaskAssignment }));
 	      }
@@ -32564,9 +32586,14 @@
 	    if (this.assigneeName()) {
 	      currentAssigneeDetail = React.createElement(
 	        'div',
-	        { className: 'group current-assignee' },
+	        { className: 'group current-assignee', onClick: this.setStateAssigning },
 	        React.createElement('img', { src: this.assigneeAvatar() }),
-	        React.createElement('input', { type: 'text', ref: 'assigneeInput', placeholder: this.assigneeName() }),
+	        React.createElement('input', {
+	          type: 'text',
+	          ref: 'assigneeInput',
+	          placeholder: this.assigneeName(),
+	          onChange: this.updateAssigneeInput,
+	          onBlur: this.resetAssigneeInput }),
 	        this.state.assigning ? this.teamUserDropdown() : null
 	      );
 	    } else {
@@ -32582,7 +32609,9 @@
 	          ref: 'assigneeInput',
 	          type: 'text',
 	          value: this.assigneeName(),
-	          placeholder: 'Unassigned' }),
+	          placeholder: 'Unassigned',
+	          onChange: this.updateAssigneeInput,
+	          onBlur: this.resetAssigneeInput }),
 	        this.state.assigning ? this.teamUserDropdown() : null
 	      );
 	    }
@@ -32592,7 +32621,7 @@
 	      { className: 'task-options' },
 	      React.createElement(
 	        'div',
-	        { onClick: this.setStateAssigning, className: this.state.assigning ? "assigning" : "not-assigning" },
+	        { className: this.state.assigning ? "assigning" : "not-assigning" },
 	        currentAssigneeDetail
 	      )
 	    );
@@ -32610,7 +32639,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'li',
-	      { className: 'group', onClick: this.updateTaskAssignment },
+	      { className: 'group', onMouseDown: this.updateTaskAssignment },
 	      React.createElement('img', { src: this.props.teamUser.avatar_url }),
 	      React.createElement(
 	        'label',

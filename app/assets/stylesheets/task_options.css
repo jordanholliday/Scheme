@@ -18,7 +18,7 @@
   margin-left: 15px;
   display: inline-block;
   box-sizing: border-box;
-  padding: 4px;
+  padding: 3px;
   border: 1px solid transparent;
   position: relative;
 }
@@ -79,7 +79,7 @@
 .task-options .assigning .current-assignee,
 .task-options .assigning .current-assignee:hover {
   margin-left: 0;
-  padding-left: 17px;
+  padding-left: 18px;
   display: inline-block;
   width: 230px;
   border: 1px solid #B9BCC0;

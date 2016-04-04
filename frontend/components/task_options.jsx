@@ -9,7 +9,8 @@ var TaskOptions = React.createClass({
       teamUsers: null,
       assigneeId: this.props.task.assignee_id,
       deadline: this.props.task.deadline,
-      assigning: false
+      assigning: false,
+      assigneeInput: ""
     };
   },
 
@@ -24,7 +25,8 @@ var TaskOptions = React.createClass({
     this.setState({
       assigneeId: newProps.task.assignee_id,
       deadline: newProps.task.deadline,
-      assigning: false
+      assigning: false,
+      assigneeInput: ""
     });
   },
 
@@ -40,12 +42,16 @@ var TaskOptions = React.createClass({
   },
 
   setStateAssigning: function (e) {
-    e.stopPropagation();
     if (this.state.assigning) {
-      this.setState({assigning: false});
+      this.setState({assigning: false, assigneeInput: ""});
     } else {
-      this.setState({assigning: true, assigneeId: null });
+      this.setState({assigning: true });
     };
+  },
+
+  resetAssigneeInput: function (e) {
+    this.setStateAssigning(e);
+    e.currentTarget.value = "";
   },
 
   assigneeAvatar: function () {
@@ -71,7 +77,8 @@ var TaskOptions = React.createClass({
     return assigneeName;
   },
 
-  assigneeInputClick: function (e) {
+  updateAssigneeInput: function (e) {
+    this.setState({assigneeInput: e.currentTarget.value });
   },
 
   updateTaskAssignment: function (userId) {
@@ -84,9 +91,27 @@ var TaskOptions = React.createClass({
 
   teamUserDropdown: function () {
     var teamUserLis = [];
-    if (this.state.teamUsers) {
+    // first, check if there's input text to search by and filter with it if so
+    if (this.state.teamUsers && this.state.assigneeInput.length > 0) {
       for (var id in this.state.teamUsers) {
-        teamUserLis.push(<AssigneeDropdownLi teamUser={this.state.teamUsers[id]} changeHandler={this.updateTaskAssignment} />);
+        var usernameLowerCase = this.state.teamUsers[id].name.toLowerCase();
+        var emailLowerCase = this.state.teamUsers[id].email.toLowerCase();
+        var searchStrLowerCase = this.state.assigneeInput.toLowerCase();
+        if (usernameLowerCase.search(searchStrLowerCase) !== -1 || emailLowerCase.search(searchStrLowerCase) !== -1) {
+          teamUserLis.push(
+            <AssigneeDropdownLi
+              teamUser={this.state.teamUsers[id]}
+              changeHandler={this.updateTaskAssignment}
+              key={this.state.teamUsers[id].id}  />
+          );
+        }
+      }
+    } else {
+    // if no input text, insert all teamUsers into dropdown
+      for (var id in this.state.teamUsers) {
+          teamUserLis.push(
+            <AssigneeDropdownLi teamUser={this.state.teamUsers[id]} changeHandler={this.updateTaskAssignment} />
+          );
       }
     }
     return (
@@ -99,28 +124,35 @@ var TaskOptions = React.createClass({
   render: function () {
     var currentAssigneeDetail;
     if (this.assigneeName()) {
-      currentAssigneeDetail = <div className="group current-assignee">
+      currentAssigneeDetail = <div className="group current-assignee" onClick={this.setStateAssigning}>
           <img src={this.assigneeAvatar()} />
-          <input type="text" ref="assigneeInput" placeholder={this.assigneeName()} />
+          <input
+            type="text"
+            ref="assigneeInput"
+            placeholder={this.assigneeName()}
+            onChange={this.updateAssigneeInput}
+            onBlur={this.resetAssigneeInput} />
           {this.state.assigning ? this.teamUserDropdown() : null}
         </div>
     } else {
       currentAssigneeDetail = <div className="group current-assignee unassigned">
-            <svg viewBox="0 0 32 32">
-              <path d="M20.073,18.606C22.599,16.669,24,12.995,24,9.412C24,4.214,21.054,0,16,0S8,4.214,8,9.412 c0,3.584,1.401,7.257,3.927,9.194C6.182,20.351,2,25.685,2,32h2c0-6.617,5.383-12,12-12s12,5.383,12,12h2 C30,25.685,25.818,20.351,20.073,18.606z M10,9.412C10,4.292,13.013,2,16,2s6,2.292,6,7.412C22,13.633,19.756,18,16,18 C12.244,18,10,13.633,10,9.412z"></path>
-            </svg>
-            <input
-              ref="assigneeInput"
-              type="text"
-              value={this.assigneeName()}
-              placeholder="Unassigned" />
-              {this.state.assigning ? this.teamUserDropdown() : null}
+          <svg viewBox="0 0 32 32">
+            <path d="M20.073,18.606C22.599,16.669,24,12.995,24,9.412C24,4.214,21.054,0,16,0S8,4.214,8,9.412 c0,3.584,1.401,7.257,3.927,9.194C6.182,20.351,2,25.685,2,32h2c0-6.617,5.383-12,12-12s12,5.383,12,12h2 C30,25.685,25.818,20.351,20.073,18.606z M10,9.412C10,4.292,13.013,2,16,2s6,2.292,6,7.412C22,13.633,19.756,18,16,18 C12.244,18,10,13.633,10,9.412z"></path>
+          </svg>
+          <input
+            ref="assigneeInput"
+            type="text"
+            value={this.assigneeName()}
+            placeholder="Unassigned"
+            onChange={this.updateAssigneeInput}
+            onBlur={this.resetAssigneeInput} />
+          {this.state.assigning ? this.teamUserDropdown() : null}
         </div>
-    }
+      }
 
     return (
         <section className="task-options">
-          <div onClick={this.setStateAssigning} className={this.state.assigning ? "assigning" : "not-assigning"}>
+          <div className={this.state.assigning ? "assigning" : "not-assigning"}>
             {currentAssigneeDetail}
           </div>
         </section>
@@ -135,7 +167,7 @@ var AssigneeDropdownLi = React.createClass({
   },
 
   render: function () {
-    return (<li className="group" onClick={this.updateTaskAssignment} >
+    return (<li className="group" onMouseDown={this.updateTaskAssignment} >
       <img src={this.props.teamUser.avatar_url} />
       <label className="name">{this.props.teamUser.name}</label>
       <label className="email">{this.props.teamUser.email}</label>
