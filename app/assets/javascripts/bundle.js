@@ -32167,7 +32167,7 @@
 	    ApiUtil = __webpack_require__(241),
 	    Modal = __webpack_require__(371);
 	
-	const customStyles = {
+	var customStyles = {
 	  content: {
 	    top: '50%',
 	    left: '50%',
@@ -32182,7 +32182,11 @@
 	  displayName: 'NavBar',
 	
 	  getInitialState: function () {
-	    return { showOmniBox: false, showInviteModal: true };
+	    return { showOmniBox: false, showInviteModal: false };
+	  },
+	
+	  componentWillMount: function () {
+	    Modal.setAppElement(document.body);
 	  },
 	
 	  toggleOmniBox: function (e) {
@@ -32190,23 +32194,27 @@
 	    this.setState({ showOmniBox: !this.state.showOmniBox });
 	  },
 	
-	  toggleInviteModal: function (e) {
+	  showInviteModal: function (e) {
 	    e.stopPropagation();
-	    this.setState({ showInviteModal: !this.state.showInviteModal });
+	    this.setState({ showInviteModal: true });
+	  },
+	
+	  hideInviteModal: function (e) {
+	    e.stopPropagation();
+	    this.setState({ showInviteModal: false });
 	  },
 	
 	  omniBoxRender: function () {
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(Modal, { isOpen: true }),
 	      React.createElement('div', { className: 'omni-box arrow' }),
 	      React.createElement(
 	        'ul',
 	        { className: 'omni-box' },
 	        React.createElement(
 	          'li',
-	          null,
+	          { onClick: this.showInviteModal },
 	          React.createElement(
 	            'svg',
 	            { viewBox: '0 0 32 32' },
@@ -32222,10 +32230,58 @@
 	    );
 	  },
 	
+	  modalRender: function () {
+	    return React.createElement(
+	      Modal,
+	      { isOpen: this.state.showInviteModal, style: customStyles },
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Hello'
+	      ),
+	      React.createElement(
+	        'button',
+	        { onClick: this.closeModal },
+	        'close'
+	      ),
+	      React.createElement(
+	        'div',
+	        null,
+	        'I am a modal'
+	      ),
+	      React.createElement(
+	        'form',
+	        null,
+	        React.createElement('input', null),
+	        React.createElement(
+	          'button',
+	          null,
+	          'tab navigation'
+	        ),
+	        React.createElement(
+	          'button',
+	          null,
+	          'stays'
+	        ),
+	        React.createElement(
+	          'button',
+	          null,
+	          'inside'
+	        ),
+	        React.createElement(
+	          'button',
+	          null,
+	          'the modal'
+	        )
+	      )
+	    );
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'header',
 	      null,
+	      this.modalRender(),
 	      React.createElement(
 	        'button',
 	        { className: 'omni-button', onClick: this.toggleOmniBox },
