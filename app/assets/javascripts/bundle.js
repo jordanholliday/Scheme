@@ -55,9 +55,9 @@
 	    SessionStore = __webpack_require__(248),
 	    App = __webpack_require__(249),
 	    TaskDetail = __webpack_require__(250),
-	    LoginForm = __webpack_require__(252),
-	    RegistrationForm = __webpack_require__(253),
-	    SplashPage = __webpack_require__(256);
+	    LoginForm = __webpack_require__(366),
+	    RegistrationForm = __webpack_require__(367),
+	    SplashPage = __webpack_require__(370);
 	
 	var routes = React.createElement(
 	  Route,
@@ -32164,22 +32164,85 @@
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    ApiUtil = __webpack_require__(241);
+	    ApiUtil = __webpack_require__(241),
+	    Modal = __webpack_require__(371);
+	
+	const customStyles = {
+	  content: {
+	    top: '50%',
+	    left: '50%',
+	    right: 'auto',
+	    bottom: 'auto',
+	    marginRight: '-50%',
+	    transform: 'translate(-50%, -50%)'
+	  }
+	};
 	
 	var NavBar = React.createClass({
-	    displayName: 'NavBar',
+	  displayName: 'NavBar',
 	
-	    render: function () {
-	        return React.createElement(
-	            'header',
+	  getInitialState: function () {
+	    return { showOmniBox: false, showInviteModal: true };
+	  },
+	
+	  toggleOmniBox: function (e) {
+	    e.stopPropagation();
+	    this.setState({ showOmniBox: !this.state.showOmniBox });
+	  },
+	
+	  toggleInviteModal: function (e) {
+	    e.stopPropagation();
+	    this.setState({ showInviteModal: !this.state.showInviteModal });
+	  },
+	
+	  omniBoxRender: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(Modal, { isOpen: true }),
+	      React.createElement('div', { className: 'omni-box arrow' }),
+	      React.createElement(
+	        'ul',
+	        { className: 'omni-box' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'svg',
+	            { viewBox: '0 0 32 32' },
+	            React.createElement('path', { d: 'M20.073,18.606C22.599,16.669,24,12.995,24,9.412C24,4.214,21.054,0,16,0S8,4.214,8,9.412 c0,3.584,1.401,7.257,3.927,9.194C6.182,20.351,2,25.685,2,32h2c0-6.617,5.383-12,12-12s12,5.383,12,12h2 C30,25.685,25.818,20.351,20.073,18.606z M10,9.412C10,4.292,13.013,2,16,2s6,2.292,6,7.412C22,13.633,19.756,18,16,18 C12.244,18,10,13.633,10,9.412z' })
+	          ),
+	          React.createElement(
+	            'label',
 	            null,
-	            React.createElement(
-	                'button',
-	                { onClick: ApiUtil.logout },
-	                'Log Out'
-	            )
-	        );
-	    }
+	            'Invite'
+	          )
+	        )
+	      )
+	    );
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'header',
+	      null,
+	      React.createElement(
+	        'button',
+	        { className: 'omni-button', onClick: this.toggleOmniBox },
+	        React.createElement(
+	          'svg',
+	          { viewBox: '0 0 32 32', 'data-reactid': '.1.3.0:$button.0' },
+	          React.createElement('polygon', { points: '28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18', 'data-reactid': '.1.3.0:$button.0.0' })
+	        )
+	      ),
+	      React.createElement(
+	        'button',
+	        { onClick: ApiUtil.logout },
+	        'Log Out'
+	      ),
+	      this.state.showOmniBox ? this.omniBoxRender() : null
+	    );
+	  }
 	});
 	
 	module.exports = NavBar;
@@ -32463,8 +32526,8 @@
 	var React = __webpack_require__(1),
 	    ReactDom = __webpack_require__(158),
 	    ApiUtil = __webpack_require__(241),
-	    TeamUserStore = __webpack_require__(257),
-	    DatePicker = __webpack_require__(258);
+	    TeamUserStore = __webpack_require__(252),
+	    DatePicker = __webpack_require__(253);
 	
 	var TaskOptions = React.createClass({
 	  displayName: 'TaskOptions',
@@ -32791,737 +32854,6 @@
 /* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158);
-	
-	var LoginForm = React.createClass({
-	  displayName: 'LoginForm',
-	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      email: "",
-	      password: ""
-	    };
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'auth-fullscreen' },
-	      React.createElement('div', { className: 'login-logo' }),
-	      React.createElement(
-	        'div',
-	        { className: 'group auth-dialog login' },
-	        React.createElement(
-	          'h1',
-	          null,
-	          'Log In'
-	        ),
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.handleSubmit },
-	          React.createElement(
-	            'div',
-	            { className: 'google-auth' },
-	            React.createElement(
-	              'button',
-	              null,
-	              'FPO Use Google Account'
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'separator' },
-	            'or'
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'input' },
-	            React.createElement(
-	              'label',
-	              { htmlFor: 'email' },
-	              'Email'
-	            ),
-	            React.createElement('br', null),
-	            React.createElement('input', {
-	              type: 'text',
-	              name: 'user[email]',
-	              id: 'email',
-	              onChange: this.updateEmail })
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'input' },
-	            React.createElement(
-	              'label',
-	              { htmlFor: 'password' },
-	              'Password'
-	            ),
-	            React.createElement('br', null),
-	            React.createElement('input', {
-	              type: 'password',
-	              name: 'user[password]',
-	              id: 'password',
-	              onChange: this.updatePassword })
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'submit' },
-	            React.createElement(
-	              'button',
-	              null,
-	              'Log In'
-	            )
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'footer',
-	        { className: 'group login' },
-	        React.createElement(
-	          'ul',
-	          null,
-	          React.createElement(
-	            'li',
-	            null,
-	            React.createElement(
-	              Link,
-	              { to: '#' },
-	              'About Scheme'
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            React.createElement(
-	              'a',
-	              { href: 'http://jordanholliday.com' },
-	              'Blog'
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'toggle-auth' },
-	          'New here?',
-	          React.createElement(
-	            Link,
-	            { to: '/register', className: 'button' },
-	            'Sign Up'
-	          )
-	        )
-	      )
-	    );
-	  },
-	
-	  handleSubmit: function (event) {
-	    event.preventDefault();
-	    var router = this.context.router;
-	    ApiUtil.login(this.state, function () {
-	      router.push('/tasks');
-	    });
-	  },
-	
-	  updateEmail: function (e) {
-	    this.setState({ email: e.currentTarget.value });
-	  },
-	
-	  updatePassword: function (e) {
-	    this.setState({ password: e.currentTarget.value });
-	  }
-	});
-	
-	module.exports = LoginForm;
-
-/***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158),
-	    Dropzone = __webpack_require__(254);
-	
-	var RegistrationForm = React.createClass({
-	  displayName: 'RegistrationForm',
-	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    var email;
-	    if (this.props.location.state && this.props.location.state.email) {
-	      email = this.props.location.state.email;
-	    } else {
-	      email = "";
-	    }
-	
-	    return {
-	      name: "",
-	      email: email,
-	      password: "",
-	      avatar: null,
-	      avatarFile: null
-	    };
-	  },
-	
-	  onDrop: function (file) {
-	    document.getElementById("dropzone").style.backgroundImage = "url('" + file[0].preview + "')";
-	    document.getElementById("dropzone").className = "upload-div received";
-	    var reader = new FileReader();
-	    var newAvatar = file[0];
-	    reader.onloadend = function () {
-	      this.setState({ avatar: reader.result, avatarFile: newAvatar });
-	    }.bind(this);
-	
-	    if (newAvatar) {
-	      reader.readAsDataURL(newAvatar);
-	    } else {
-	      this.setState({ avatar: null, avatarFile: null });
-	    }
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'group auth-fullscreen' },
-	      React.createElement('div', { className: 'login-logo' }),
-	      React.createElement(
-	        'div',
-	        { className: 'group auth-dialog' },
-	        React.createElement(
-	          'h1',
-	          null,
-	          'Please start by completing your profile.'
-	        ),
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.handleSubmit },
-	          React.createElement(Dropzone, {
-	            onDrop: this.onDrop,
-	            accept: 'application/pdf',
-	            multiple: false,
-	            disableClick: true,
-	            className: 'upload-div',
-	            activeClassName: 'upload-div-active',
-	            id: 'dropzone' }),
-	          React.createElement(
-	            'div',
-	            { className: 'input' },
-	            React.createElement(
-	              'label',
-	              { htmlFor: 'name' },
-	              'Full Name'
-	            ),
-	            React.createElement('br', null),
-	            React.createElement('input', {
-	              type: 'text',
-	              name: 'user[name]',
-	              id: 'name',
-	              onChange: this.updateName })
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'input' },
-	            React.createElement(
-	              'label',
-	              { htmlFor: 'email' },
-	              'Work Email'
-	            ),
-	            React.createElement('br', null),
-	            React.createElement('input', {
-	              type: 'email',
-	              name: 'user[email]',
-	              id: 'email',
-	              value: this.state.email,
-	              onChange: this.updateEmail }),
-	            React.createElement(
-	              'svg',
-	              { className: 'confirm', viewBox: '0 0 32 32' },
-	              React.createElement('polygon', { points: '30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30' })
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'input password' },
-	            React.createElement(
-	              'label',
-	              { htmlFor: 'password' },
-	              'Password'
-	            ),
-	            React.createElement('br', null),
-	            React.createElement('input', {
-	              type: 'password',
-	              name: 'user[password]',
-	              id: 'password',
-	              onChange: this.updatePassword })
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'submit' },
-	            React.createElement(
-	              'button',
-	              null,
-	              'Continue'
-	            )
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'footer',
-	        { className: 'group registration' },
-	        React.createElement(
-	          'ul',
-	          null,
-	          React.createElement(
-	            'li',
-	            null,
-	            React.createElement(
-	              Link,
-	              { to: '#' },
-	              'About Scheme'
-	            )
-	          ),
-	          React.createElement(
-	            'li',
-	            null,
-	            React.createElement(
-	              'a',
-	              { href: 'http://jordanholliday.com' },
-	              'Blog'
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'toggle-auth' },
-	          'Got an account?',
-	          React.createElement(
-	            Link,
-	            { to: '/login', className: 'button' },
-	            'Log In'
-	          )
-	        )
-	      )
-	    );
-	  },
-	
-	  handleSubmit: function (event) {
-	    event.preventDefault();
-	    var router = this.context.router;
-	    ApiUtil.register(this.state, function () {
-	      router.push('/tasks');
-	    });
-	  },
-	
-	  updateName: function (e) {
-	    this.setState({ name: e.currentTarget.value });
-	  },
-	
-	  updateEmail: function (e) {
-	    this.setState({ email: e.currentTarget.value });
-	  },
-	
-	  updatePassword: function (e) {
-	    this.setState({ password: e.currentTarget.value });
-	  }
-	});
-	
-	module.exports = RegistrationForm;
-
-/***/ },
-/* 254 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _attrAccept = __webpack_require__(255);
-	
-	var _attrAccept2 = _interopRequireDefault(_attrAccept);
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var supportMultiple = typeof document !== 'undefined' && document && document.createElement ? 'multiple' in document.createElement('input') : true;
-	
-	var Dropzone = (function (_React$Component) {
-	  _inherits(Dropzone, _React$Component);
-	
-	  function Dropzone(props, context) {
-	    _classCallCheck(this, Dropzone);
-	
-	    _React$Component.call(this, props, context);
-	    this.onClick = this.onClick.bind(this);
-	    this.onDragEnter = this.onDragEnter.bind(this);
-	    this.onDragLeave = this.onDragLeave.bind(this);
-	    this.onDragOver = this.onDragOver.bind(this);
-	    this.onDrop = this.onDrop.bind(this);
-	
-	    this.state = {
-	      isDragActive: false
-	    };
-	  }
-	
-	  Dropzone.prototype.componentDidMount = function componentDidMount() {
-	    this.enterCounter = 0;
-	  };
-	
-	  Dropzone.prototype.onDragEnter = function onDragEnter(e) {
-	    e.preventDefault();
-	
-	    // Count the dropzone and any children that are entered.
-	    ++this.enterCounter;
-	
-	    // This is tricky. During the drag even the dataTransfer.files is null
-	    // But Chrome implements some drag store, which is accesible via dataTransfer.items
-	    var dataTransferItems = e.dataTransfer && e.dataTransfer.items ? e.dataTransfer.items : [];
-	
-	    // Now we need to convert the DataTransferList to Array
-	    var allFilesAccepted = this.allFilesAccepted(Array.prototype.slice.call(dataTransferItems));
-	
-	    this.setState({
-	      isDragActive: allFilesAccepted,
-	      isDragReject: !allFilesAccepted
-	    });
-	
-	    if (this.props.onDragEnter) {
-	      this.props.onDragEnter.call(this, e);
-	    }
-	  };
-	
-	  Dropzone.prototype.onDragOver = function onDragOver(e) {
-	    e.preventDefault();
-	    e.stopPropagation();
-	    return false;
-	  };
-	
-	  Dropzone.prototype.onDragLeave = function onDragLeave(e) {
-	    e.preventDefault();
-	
-	    // Only deactivate once the dropzone and all children was left.
-	    if (--this.enterCounter > 0) {
-	      return;
-	    }
-	
-	    this.setState({
-	      isDragActive: false,
-	      isDragReject: false
-	    });
-	
-	    if (this.props.onDragLeave) {
-	      this.props.onDragLeave.call(this, e);
-	    }
-	  };
-	
-	  Dropzone.prototype.onDrop = function onDrop(e) {
-	    e.preventDefault();
-	
-	    // Reset the counter along with the drag on a drop.
-	    this.enterCounter = 0;
-	
-	    this.setState({
-	      isDragActive: false,
-	      isDragReject: false
-	    });
-	
-	    var droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
-	    var max = this.props.multiple ? droppedFiles.length : 1;
-	    var files = [];
-	
-	    for (var i = 0; i < max; i++) {
-	      var file = droppedFiles[i];
-	      // We might want to disable the preview creation to support big files
-	      if (!this.props.disablePreview) {
-	        file.preview = window.URL.createObjectURL(file);
-	      }
-	      files.push(file);
-	    }
-	
-	    if (this.props.onDrop) {
-	      this.props.onDrop.call(this, files, e);
-	    }
-	
-	    if (this.allFilesAccepted(files)) {
-	      if (this.props.onDropAccepted) {
-	        this.props.onDropAccepted.call(this, files, e);
-	      }
-	    } else {
-	      if (this.props.onDropRejected) {
-	        this.props.onDropRejected.call(this, files, e);
-	      }
-	    }
-	  };
-	
-	  Dropzone.prototype.onClick = function onClick() {
-	    if (!this.props.disableClick) {
-	      this.open();
-	    }
-	  };
-	
-	  Dropzone.prototype.allFilesAccepted = function allFilesAccepted(files) {
-	    var _this = this;
-	
-	    return files.every(function (file) {
-	      return _attrAccept2['default'](file, _this.props.accept);
-	    });
-	  };
-	
-	  Dropzone.prototype.open = function open() {
-	    this.fileInputEl.value = null;
-	    this.fileInputEl.click();
-	  };
-	
-	  Dropzone.prototype.render = function render() {
-	    var _this2 = this;
-	
-	    var _props = this.props;
-	    var accept = _props.accept;
-	    var activeClassName = _props.activeClassName;
-	    var inputProps = _props.inputProps;
-	    var multiple = _props.multiple;
-	    var name = _props.name;
-	    var rejectClassName = _props.rejectClassName;
-	
-	    var rest = _objectWithoutProperties(_props, ['accept', 'activeClassName', 'inputProps', 'multiple', 'name', 'rejectClassName']);
-	
-	    var activeStyle = // eslint-disable-line prefer-const
-	    rest.activeStyle;
-	    var className = rest.className;
-	    var rejectStyle = rest.rejectStyle;
-	    var style = rest.style;
-	
-	    var props = _objectWithoutProperties(rest, ['activeStyle', 'className', 'rejectStyle', 'style']);
-	
-	    var _state = this.state;
-	    var isDragActive = _state.isDragActive;
-	    var isDragReject = _state.isDragReject;
-	
-	    className = className || '';
-	
-	    if (isDragActive && activeClassName) {
-	      className += ' ' + activeClassName;
-	    }
-	    if (isDragReject && rejectClassName) {
-	      className += ' ' + rejectClassName;
-	    }
-	
-	    if (!className && !style && !activeStyle && !rejectStyle) {
-	      style = {
-	        width: 200,
-	        height: 200,
-	        borderWidth: 2,
-	        borderColor: '#666',
-	        borderStyle: 'dashed',
-	        borderRadius: 5
-	      };
-	      activeStyle = {
-	        borderStyle: 'solid',
-	        backgroundColor: '#eee'
-	      };
-	      rejectStyle = {
-	        borderStyle: 'solid',
-	        backgroundColor: '#ffdddd'
-	      };
-	    }
-	
-	    var appliedStyle = undefined;
-	    if (activeStyle && isDragActive) {
-	      appliedStyle = _extends({}, style, activeStyle);
-	    } else if (rejectStyle && isDragReject) {
-	      appliedStyle = _extends({}, style, rejectStyle);
-	    } else {
-	      appliedStyle = _extends({}, style);
-	    }
-	
-	    var inputAttributes = {
-	      accept: accept,
-	      type: 'file',
-	      style: { display: 'none' },
-	      multiple: supportMultiple && multiple,
-	      ref: function ref(el) {
-	        return _this2.fileInputEl = el;
-	      },
-	      onChange: this.onDrop
-	    };
-	
-	    if (name && name.length) {
-	      inputAttributes.name = name;
-	    }
-	
-	    return _react2['default'].createElement(
-	      'div',
-	      _extends({
-	        className: className,
-	        style: appliedStyle
-	      }, props, /* expand user provided props first so event handlers are never overridden */{
-	        onClick: this.onClick,
-	        onDragEnter: this.onDragEnter,
-	        onDragOver: this.onDragOver,
-	        onDragLeave: this.onDragLeave,
-	        onDrop: this.onDrop
-	      }),
-	      this.props.children,
-	      _react2['default'].createElement('input', _extends({}, inputProps, /* expand user provided inputProps first so inputAttributes override them */inputAttributes))
-	    );
-	  };
-	
-	  return Dropzone;
-	})(_react2['default'].Component);
-	
-	Dropzone.defaultProps = {
-	  disablePreview: false,
-	  disableClick: false,
-	  multiple: true
-	};
-	
-	Dropzone.propTypes = {
-	  onDrop: _react2['default'].PropTypes.func,
-	  onDropAccepted: _react2['default'].PropTypes.func,
-	  onDropRejected: _react2['default'].PropTypes.func,
-	  onDragEnter: _react2['default'].PropTypes.func,
-	  onDragLeave: _react2['default'].PropTypes.func,
-	
-	  children: _react2['default'].PropTypes.node,
-	  style: _react2['default'].PropTypes.object,
-	  activeStyle: _react2['default'].PropTypes.object,
-	  rejectStyle: _react2['default'].PropTypes.object,
-	  className: _react2['default'].PropTypes.string,
-	  activeClassName: _react2['default'].PropTypes.string,
-	  rejectClassName: _react2['default'].PropTypes.string,
-	
-	  disablePreview: _react2['default'].PropTypes.bool,
-	  disableClick: _react2['default'].PropTypes.bool,
-	
-	  inputProps: _react2['default'].PropTypes.object,
-	  multiple: _react2['default'].PropTypes.bool,
-	  accept: _react2['default'].PropTypes.string,
-	  name: _react2['default'].PropTypes.string
-	};
-	
-	exports['default'] = Dropzone;
-	module.exports = exports['default'];
-
-/***/ },
-/* 255 */
-/***/ function(module, exports) {
-
-	module.exports=function(t){function n(e){if(r[e])return r[e].exports;var o=r[e]={exports:{},id:e,loaded:!1};return t[e].call(o.exports,o,o.exports,n),o.loaded=!0,o.exports}var r={};return n.m=t,n.c=r,n.p="",n(0)}([function(t,n,r){"use strict";n.__esModule=!0,r(8),r(9),n["default"]=function(t,n){if(t&&n){var r=function(){var r=n.split(","),e=t.name||"",o=t.type||"",i=o.replace(/\/.*$/,"");return{v:r.some(function(t){var n=t.trim();return"."===n.charAt(0)?e.toLowerCase().endsWith(n.toLowerCase()):/\/\*$/.test(n)?i===n.replace(/\/.*$/,""):o===n})}}();if("object"==typeof r)return r.v}return!0},t.exports=n["default"]},function(t,n){var r=t.exports={version:"1.2.2"};"number"==typeof __e&&(__e=r)},function(t,n){var r=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=r)},function(t,n,r){var e=r(2),o=r(1),i=r(4),u=r(19),c="prototype",f=function(t,n){return function(){return t.apply(n,arguments)}},s=function(t,n,r){var a,p,l,d,y=t&s.G,h=t&s.P,v=y?e:t&s.S?e[n]||(e[n]={}):(e[n]||{})[c],x=y?o:o[n]||(o[n]={});y&&(r=n);for(a in r)p=!(t&s.F)&&v&&a in v,l=(p?v:r)[a],d=t&s.B&&p?f(l,e):h&&"function"==typeof l?f(Function.call,l):l,v&&!p&&u(v,a,l),x[a]!=l&&i(x,a,d),h&&((x[c]||(x[c]={}))[a]=l)};e.core=o,s.F=1,s.G=2,s.S=4,s.P=8,s.B=16,s.W=32,t.exports=s},function(t,n,r){var e=r(5),o=r(18);t.exports=r(22)?function(t,n,r){return e.setDesc(t,n,o(1,r))}:function(t,n,r){return t[n]=r,t}},function(t,n){var r=Object;t.exports={create:r.create,getProto:r.getPrototypeOf,isEnum:{}.propertyIsEnumerable,getDesc:r.getOwnPropertyDescriptor,setDesc:r.defineProperty,setDescs:r.defineProperties,getKeys:r.keys,getNames:r.getOwnPropertyNames,getSymbols:r.getOwnPropertySymbols,each:[].forEach}},function(t,n){var r=0,e=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++r+e).toString(36))}},function(t,n,r){var e=r(20)("wks"),o=r(2).Symbol;t.exports=function(t){return e[t]||(e[t]=o&&o[t]||(o||r(6))("Symbol."+t))}},function(t,n,r){r(26),t.exports=r(1).Array.some},function(t,n,r){r(25),t.exports=r(1).String.endsWith},function(t,n){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,n){var r={}.toString;t.exports=function(t){return r.call(t).slice(8,-1)}},function(t,n,r){var e=r(10);t.exports=function(t,n,r){if(e(t),void 0===n)return t;switch(r){case 1:return function(r){return t.call(n,r)};case 2:return function(r,e){return t.call(n,r,e)};case 3:return function(r,e,o){return t.call(n,r,e,o)}}return function(){return t.apply(n,arguments)}}},function(t,n){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t}},function(t,n,r){t.exports=function(t){var n=/./;try{"/./"[t](n)}catch(e){try{return n[r(7)("match")]=!1,!"/./"[t](n)}catch(o){}}return!0}},function(t,n){t.exports=function(t){try{return!!t()}catch(n){return!0}}},function(t,n){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,n,r){var e=r(16),o=r(11),i=r(7)("match");t.exports=function(t){var n;return e(t)&&(void 0!==(n=t[i])?!!n:"RegExp"==o(t))}},function(t,n){t.exports=function(t,n){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:n}}},function(t,n,r){var e=r(2),o=r(4),i=r(6)("src"),u="toString",c=Function[u],f=(""+c).split(u);r(1).inspectSource=function(t){return c.call(t)},(t.exports=function(t,n,r,u){"function"==typeof r&&(o(r,i,t[n]?""+t[n]:f.join(String(n))),"name"in r||(r.name=n)),t===e?t[n]=r:(u||delete t[n],o(t,n,r))})(Function.prototype,u,function(){return"function"==typeof this&&this[i]||c.call(this)})},function(t,n,r){var e=r(2),o="__core-js_shared__",i=e[o]||(e[o]={});t.exports=function(t){return i[t]||(i[t]={})}},function(t,n,r){var e=r(17),o=r(13);t.exports=function(t,n,r){if(e(n))throw TypeError("String#"+r+" doesn't accept regex!");return String(o(t))}},function(t,n,r){t.exports=!r(15)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,n){var r=Math.ceil,e=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?e:r)(t)}},function(t,n,r){var e=r(23),o=Math.min;t.exports=function(t){return t>0?o(e(t),9007199254740991):0}},function(t,n,r){"use strict";var e=r(3),o=r(24),i=r(21),u="endsWith",c=""[u];e(e.P+e.F*r(14)(u),"String",{endsWith:function(t){var n=i(this,t,u),r=arguments,e=r.length>1?r[1]:void 0,f=o(n.length),s=void 0===e?f:Math.min(o(e),f),a=String(t);return c?c.call(n,a,s):n.slice(s-a.length,s)===a}})},function(t,n,r){var e=r(5),o=r(3),i=r(1).Array||Array,u={},c=function(t,n){e.each.call(t.split(","),function(t){void 0==n&&t in i?u[t]=i[t]:t in[]&&(u[t]=r(12)(Function.call,[][t],n))})};c("pop,reverse,shift,keys,values,entries",1),c("indexOf,every,some,forEach,map,filter,find,findIndex,includes",3),c("join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill"),o(o.S,"Array",u)}]);
-
-/***/ },
-/* 256 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158);
-	
-	var SplashPage = React.createClass({
-	  displayName: 'SplashPage',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return { email: "" };
-	  },
-	
-	  updateEmail: function (e) {
-	    this.setState({ email: e.currentTarget.value });
-	  },
-	
-	  sendToRegistration: function () {
-	    event.preventDefault();
-	    var router = this.context.router;
-	    router.push({
-	      pathname: '/register',
-	      state: { email: this.state.email }
-	    });
-	  },
-	
-	  sendToLogin: function () {
-	    event.preventDefault();
-	    var router = this.context.router;
-	    router.push({
-	      pathname: '/login'
-	    });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'nav',
-	        { className: 'group splash-page' },
-	        React.createElement(
-	          'div',
-	          { className: 'container' },
-	          React.createElement('div', { className: 'logo' }),
-	          React.createElement(
-	            'button',
-	            { onClick: this.sendToLogin },
-	            'Log In'
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'main',
-	        null,
-	        React.createElement(
-	          'section',
-	          { className: 'leader' },
-	          React.createElement(
-	            'h1',
-	            null,
-	            'Stay Scheming'
-	          ),
-	          React.createElement(
-	            'h2',
-	            null,
-	            'Scheme is the second easiest way for teams to track their work—and get results.'
-	          ),
-	          React.createElement('input', {
-	            type: 'text',
-	            name: 'user[email]',
-	            id: 'email',
-	            onChange: this.updateEmail,
-	            placeholder: 'name@company.com' }),
-	          React.createElement(
-	            'button',
-	            { onClick: this.sendToRegistration },
-	            'Get Started for FREE'
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = SplashPage;
-
-/***/ },
-/* 257 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var Store = __webpack_require__(218).Store,
 	    AppDispatcher = __webpack_require__(236),
 	    ApiConstants = __webpack_require__(239);
@@ -33557,7 +32889,7 @@
 	module.exports = TeamUserStore;
 
 /***/ },
-/* 258 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33568,21 +32900,21 @@
 	
 	var React = __webpack_require__(1);
 	
-	var moment = __webpack_require__(259);
-	var assign = __webpack_require__(359);
-	var asConfig = __webpack_require__(360);
+	var moment = __webpack_require__(254);
+	var assign = __webpack_require__(354);
+	var asConfig = __webpack_require__(355);
 	
-	var MonthView = __webpack_require__(363);
-	var YearView = __webpack_require__(368);
-	var DecadeView = __webpack_require__(369);
-	var Header = __webpack_require__(370);
-	var toMoment = __webpack_require__(365);
+	var MonthView = __webpack_require__(358);
+	var YearView = __webpack_require__(363);
+	var DecadeView = __webpack_require__(364);
+	var Header = __webpack_require__(365);
+	var toMoment = __webpack_require__(360);
 	
 	var hasOwn = function hasOwn(obj, key) {
 	    return Object.prototype.hasOwnProperty.call(obj, key);
 	};
 	
-	var onEnter = __webpack_require__(366);
+	var onEnter = __webpack_require__(361);
 	
 	var Views = {
 	    month: MonthView,
@@ -34225,7 +33557,7 @@
 	module.exports = DatePicker;
 
 /***/ },
-/* 259 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -34579,7 +33911,7 @@
 	                module && module.exports) {
 	            try {
 	                oldLocale = globalLocale._abbr;
-	                __webpack_require__(261)("./" + name);
+	                __webpack_require__(256)("./" + name);
 	                // because defineLocale currently also sets the global locale, we
 	                // want to undo that for lazy loaded locales
 	                locale_locales__getSetGlobalLocale(oldLocale);
@@ -37916,10 +37248,10 @@
 	    return _moment;
 	
 	}));
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(260)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(255)(module)))
 
 /***/ },
-/* 260 */
+/* 255 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -37935,204 +37267,204 @@
 
 
 /***/ },
-/* 261 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 262,
-		"./af.js": 262,
-		"./ar": 263,
-		"./ar-ma": 264,
-		"./ar-ma.js": 264,
-		"./ar-sa": 265,
-		"./ar-sa.js": 265,
-		"./ar-tn": 266,
-		"./ar-tn.js": 266,
-		"./ar.js": 263,
-		"./az": 267,
-		"./az.js": 267,
-		"./be": 268,
-		"./be.js": 268,
-		"./bg": 269,
-		"./bg.js": 269,
-		"./bn": 270,
-		"./bn.js": 270,
-		"./bo": 271,
-		"./bo.js": 271,
-		"./br": 272,
-		"./br.js": 272,
-		"./bs": 273,
-		"./bs.js": 273,
-		"./ca": 274,
-		"./ca.js": 274,
-		"./cs": 275,
-		"./cs.js": 275,
-		"./cv": 276,
-		"./cv.js": 276,
-		"./cy": 277,
-		"./cy.js": 277,
-		"./da": 278,
-		"./da.js": 278,
-		"./de": 279,
-		"./de-at": 280,
-		"./de-at.js": 280,
-		"./de.js": 279,
-		"./dv": 281,
-		"./dv.js": 281,
-		"./el": 282,
-		"./el.js": 282,
-		"./en-au": 283,
-		"./en-au.js": 283,
-		"./en-ca": 284,
-		"./en-ca.js": 284,
-		"./en-gb": 285,
-		"./en-gb.js": 285,
-		"./en-ie": 286,
-		"./en-ie.js": 286,
-		"./en-nz": 287,
-		"./en-nz.js": 287,
-		"./eo": 288,
-		"./eo.js": 288,
-		"./es": 289,
-		"./es.js": 289,
-		"./et": 290,
-		"./et.js": 290,
-		"./eu": 291,
-		"./eu.js": 291,
-		"./fa": 292,
-		"./fa.js": 292,
-		"./fi": 293,
-		"./fi.js": 293,
-		"./fo": 294,
-		"./fo.js": 294,
-		"./fr": 295,
-		"./fr-ca": 296,
-		"./fr-ca.js": 296,
-		"./fr-ch": 297,
-		"./fr-ch.js": 297,
-		"./fr.js": 295,
-		"./fy": 298,
-		"./fy.js": 298,
-		"./gd": 299,
-		"./gd.js": 299,
-		"./gl": 300,
-		"./gl.js": 300,
-		"./he": 301,
-		"./he.js": 301,
-		"./hi": 302,
-		"./hi.js": 302,
-		"./hr": 303,
-		"./hr.js": 303,
-		"./hu": 304,
-		"./hu.js": 304,
-		"./hy-am": 305,
-		"./hy-am.js": 305,
-		"./id": 306,
-		"./id.js": 306,
-		"./is": 307,
-		"./is.js": 307,
-		"./it": 308,
-		"./it.js": 308,
-		"./ja": 309,
-		"./ja.js": 309,
-		"./jv": 310,
-		"./jv.js": 310,
-		"./ka": 311,
-		"./ka.js": 311,
-		"./kk": 312,
-		"./kk.js": 312,
-		"./km": 313,
-		"./km.js": 313,
-		"./ko": 314,
-		"./ko.js": 314,
-		"./lb": 315,
-		"./lb.js": 315,
-		"./lo": 316,
-		"./lo.js": 316,
-		"./lt": 317,
-		"./lt.js": 317,
-		"./lv": 318,
-		"./lv.js": 318,
-		"./me": 319,
-		"./me.js": 319,
-		"./mk": 320,
-		"./mk.js": 320,
-		"./ml": 321,
-		"./ml.js": 321,
-		"./mr": 322,
-		"./mr.js": 322,
-		"./ms": 323,
-		"./ms-my": 324,
-		"./ms-my.js": 324,
-		"./ms.js": 323,
-		"./my": 325,
-		"./my.js": 325,
-		"./nb": 326,
-		"./nb.js": 326,
-		"./ne": 327,
-		"./ne.js": 327,
-		"./nl": 328,
-		"./nl.js": 328,
-		"./nn": 329,
-		"./nn.js": 329,
-		"./pa-in": 330,
-		"./pa-in.js": 330,
-		"./pl": 331,
-		"./pl.js": 331,
-		"./pt": 332,
-		"./pt-br": 333,
-		"./pt-br.js": 333,
-		"./pt.js": 332,
-		"./ro": 334,
-		"./ro.js": 334,
-		"./ru": 335,
-		"./ru.js": 335,
-		"./se": 336,
-		"./se.js": 336,
-		"./si": 337,
-		"./si.js": 337,
-		"./sk": 338,
-		"./sk.js": 338,
-		"./sl": 339,
-		"./sl.js": 339,
-		"./sq": 340,
-		"./sq.js": 340,
-		"./sr": 341,
-		"./sr-cyrl": 342,
-		"./sr-cyrl.js": 342,
-		"./sr.js": 341,
-		"./sv": 343,
-		"./sv.js": 343,
-		"./sw": 344,
-		"./sw.js": 344,
-		"./ta": 345,
-		"./ta.js": 345,
-		"./te": 346,
-		"./te.js": 346,
-		"./th": 347,
-		"./th.js": 347,
-		"./tl-ph": 348,
-		"./tl-ph.js": 348,
-		"./tlh": 349,
-		"./tlh.js": 349,
-		"./tr": 350,
-		"./tr.js": 350,
-		"./tzl": 351,
-		"./tzl.js": 351,
-		"./tzm": 352,
-		"./tzm-latn": 353,
-		"./tzm-latn.js": 353,
-		"./tzm.js": 352,
-		"./uk": 354,
-		"./uk.js": 354,
-		"./uz": 355,
-		"./uz.js": 355,
-		"./vi": 356,
-		"./vi.js": 356,
-		"./zh-cn": 357,
-		"./zh-cn.js": 357,
-		"./zh-tw": 358,
-		"./zh-tw.js": 358
+		"./af": 257,
+		"./af.js": 257,
+		"./ar": 258,
+		"./ar-ma": 259,
+		"./ar-ma.js": 259,
+		"./ar-sa": 260,
+		"./ar-sa.js": 260,
+		"./ar-tn": 261,
+		"./ar-tn.js": 261,
+		"./ar.js": 258,
+		"./az": 262,
+		"./az.js": 262,
+		"./be": 263,
+		"./be.js": 263,
+		"./bg": 264,
+		"./bg.js": 264,
+		"./bn": 265,
+		"./bn.js": 265,
+		"./bo": 266,
+		"./bo.js": 266,
+		"./br": 267,
+		"./br.js": 267,
+		"./bs": 268,
+		"./bs.js": 268,
+		"./ca": 269,
+		"./ca.js": 269,
+		"./cs": 270,
+		"./cs.js": 270,
+		"./cv": 271,
+		"./cv.js": 271,
+		"./cy": 272,
+		"./cy.js": 272,
+		"./da": 273,
+		"./da.js": 273,
+		"./de": 274,
+		"./de-at": 275,
+		"./de-at.js": 275,
+		"./de.js": 274,
+		"./dv": 276,
+		"./dv.js": 276,
+		"./el": 277,
+		"./el.js": 277,
+		"./en-au": 278,
+		"./en-au.js": 278,
+		"./en-ca": 279,
+		"./en-ca.js": 279,
+		"./en-gb": 280,
+		"./en-gb.js": 280,
+		"./en-ie": 281,
+		"./en-ie.js": 281,
+		"./en-nz": 282,
+		"./en-nz.js": 282,
+		"./eo": 283,
+		"./eo.js": 283,
+		"./es": 284,
+		"./es.js": 284,
+		"./et": 285,
+		"./et.js": 285,
+		"./eu": 286,
+		"./eu.js": 286,
+		"./fa": 287,
+		"./fa.js": 287,
+		"./fi": 288,
+		"./fi.js": 288,
+		"./fo": 289,
+		"./fo.js": 289,
+		"./fr": 290,
+		"./fr-ca": 291,
+		"./fr-ca.js": 291,
+		"./fr-ch": 292,
+		"./fr-ch.js": 292,
+		"./fr.js": 290,
+		"./fy": 293,
+		"./fy.js": 293,
+		"./gd": 294,
+		"./gd.js": 294,
+		"./gl": 295,
+		"./gl.js": 295,
+		"./he": 296,
+		"./he.js": 296,
+		"./hi": 297,
+		"./hi.js": 297,
+		"./hr": 298,
+		"./hr.js": 298,
+		"./hu": 299,
+		"./hu.js": 299,
+		"./hy-am": 300,
+		"./hy-am.js": 300,
+		"./id": 301,
+		"./id.js": 301,
+		"./is": 302,
+		"./is.js": 302,
+		"./it": 303,
+		"./it.js": 303,
+		"./ja": 304,
+		"./ja.js": 304,
+		"./jv": 305,
+		"./jv.js": 305,
+		"./ka": 306,
+		"./ka.js": 306,
+		"./kk": 307,
+		"./kk.js": 307,
+		"./km": 308,
+		"./km.js": 308,
+		"./ko": 309,
+		"./ko.js": 309,
+		"./lb": 310,
+		"./lb.js": 310,
+		"./lo": 311,
+		"./lo.js": 311,
+		"./lt": 312,
+		"./lt.js": 312,
+		"./lv": 313,
+		"./lv.js": 313,
+		"./me": 314,
+		"./me.js": 314,
+		"./mk": 315,
+		"./mk.js": 315,
+		"./ml": 316,
+		"./ml.js": 316,
+		"./mr": 317,
+		"./mr.js": 317,
+		"./ms": 318,
+		"./ms-my": 319,
+		"./ms-my.js": 319,
+		"./ms.js": 318,
+		"./my": 320,
+		"./my.js": 320,
+		"./nb": 321,
+		"./nb.js": 321,
+		"./ne": 322,
+		"./ne.js": 322,
+		"./nl": 323,
+		"./nl.js": 323,
+		"./nn": 324,
+		"./nn.js": 324,
+		"./pa-in": 325,
+		"./pa-in.js": 325,
+		"./pl": 326,
+		"./pl.js": 326,
+		"./pt": 327,
+		"./pt-br": 328,
+		"./pt-br.js": 328,
+		"./pt.js": 327,
+		"./ro": 329,
+		"./ro.js": 329,
+		"./ru": 330,
+		"./ru.js": 330,
+		"./se": 331,
+		"./se.js": 331,
+		"./si": 332,
+		"./si.js": 332,
+		"./sk": 333,
+		"./sk.js": 333,
+		"./sl": 334,
+		"./sl.js": 334,
+		"./sq": 335,
+		"./sq.js": 335,
+		"./sr": 336,
+		"./sr-cyrl": 337,
+		"./sr-cyrl.js": 337,
+		"./sr.js": 336,
+		"./sv": 338,
+		"./sv.js": 338,
+		"./sw": 339,
+		"./sw.js": 339,
+		"./ta": 340,
+		"./ta.js": 340,
+		"./te": 341,
+		"./te.js": 341,
+		"./th": 342,
+		"./th.js": 342,
+		"./tl-ph": 343,
+		"./tl-ph.js": 343,
+		"./tlh": 344,
+		"./tlh.js": 344,
+		"./tr": 345,
+		"./tr.js": 345,
+		"./tzl": 346,
+		"./tzl.js": 346,
+		"./tzm": 347,
+		"./tzm-latn": 348,
+		"./tzm-latn.js": 348,
+		"./tzm.js": 347,
+		"./uk": 349,
+		"./uk.js": 349,
+		"./uz": 350,
+		"./uz.js": 350,
+		"./vi": 351,
+		"./vi.js": 351,
+		"./zh-cn": 352,
+		"./zh-cn.js": 352,
+		"./zh-tw": 353,
+		"./zh-tw.js": 353
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -38145,11 +37477,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 261;
+	webpackContext.id = 256;
 
 
 /***/ },
-/* 262 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38157,7 +37489,7 @@
 	//! author : Werner Mollentze : https://github.com/wernerm
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38226,7 +37558,7 @@
 	}));
 
 /***/ },
-/* 263 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38236,7 +37568,7 @@
 	//! Native plural forms: forabi https://github.com/forabi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38366,7 +37698,7 @@
 	}));
 
 /***/ },
-/* 264 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38375,7 +37707,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38429,7 +37761,7 @@
 	}));
 
 /***/ },
-/* 265 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38437,7 +37769,7 @@
 	//! author : Suhail Alkowaileet : https://github.com/xsoh
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38536,14 +37868,14 @@
 	}));
 
 /***/ },
-/* 266 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale  : Tunisian Arabic (ar-tn)
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38597,7 +37929,7 @@
 	}));
 
 /***/ },
-/* 267 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38605,7 +37937,7 @@
 	//! author : topchiyev : https://github.com/topchiyev
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38705,7 +38037,7 @@
 	}));
 
 /***/ },
-/* 268 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38715,7 +38047,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38843,7 +38175,7 @@
 	}));
 
 /***/ },
-/* 269 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38851,7 +38183,7 @@
 	//! author : Krasen Borisov : https://github.com/kraz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38937,7 +38269,7 @@
 	}));
 
 /***/ },
-/* 270 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38945,7 +38277,7 @@
 	//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39060,7 +38392,7 @@
 	}));
 
 /***/ },
-/* 271 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39068,7 +38400,7 @@
 	//! author : Thupten N. Chakrishar : https://github.com/vajradog
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39183,7 +38515,7 @@
 	}));
 
 /***/ },
-/* 272 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39191,7 +38523,7 @@
 	//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39294,7 +38626,7 @@
 	}));
 
 /***/ },
-/* 273 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39303,7 +38635,7 @@
 	//! based on (hr) translation by Bojan Marković
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39439,7 +38771,7 @@
 	}));
 
 /***/ },
-/* 274 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39447,7 +38779,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39522,7 +38854,7 @@
 	}));
 
 /***/ },
-/* 275 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39530,7 +38862,7 @@
 	//! author : petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39697,7 +39029,7 @@
 	}));
 
 /***/ },
-/* 276 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39705,7 +39037,7 @@
 	//! author : Anatoly Mironov : https://github.com/mirontoli
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39764,7 +39096,7 @@
 	}));
 
 /***/ },
-/* 277 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39772,7 +39104,7 @@
 	//! author : Robert Allen
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39847,7 +39179,7 @@
 	}));
 
 /***/ },
-/* 278 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39855,7 +39187,7 @@
 	//! author : Ulrik Nielsen : https://github.com/mrbase
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39911,7 +39243,7 @@
 	}));
 
 /***/ },
-/* 279 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39921,7 +39253,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39991,7 +39323,7 @@
 	}));
 
 /***/ },
-/* 280 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40002,7 +39334,7 @@
 	//! author : Mikolaj Dadela : https://github.com/mik01aj
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40072,7 +39404,7 @@
 	}));
 
 /***/ },
-/* 281 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40080,7 +39412,7 @@
 	//! author : Jawish Hameed : https://github.com/jawish
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40175,7 +39507,7 @@
 	}));
 
 /***/ },
-/* 282 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40183,7 +39515,7 @@
 	//! author : Aggelos Karalias : https://github.com/mehiel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40277,14 +39609,14 @@
 	}));
 
 /***/ },
-/* 283 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : australian english (en-au)
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40347,7 +39679,7 @@
 	}));
 
 /***/ },
-/* 284 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40355,7 +39687,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40414,7 +39746,7 @@
 	}));
 
 /***/ },
-/* 285 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40422,7 +39754,7 @@
 	//! author : Chris Gedrim : https://github.com/chrisgedrim
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40485,7 +39817,7 @@
 	}));
 
 /***/ },
-/* 286 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40493,7 +39825,7 @@
 	//! author : Chris Cartlidge : https://github.com/chriscartlidge
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40556,14 +39888,14 @@
 	}));
 
 /***/ },
-/* 287 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : New Zealand english (en-nz)
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40626,7 +39958,7 @@
 	}));
 
 /***/ },
-/* 288 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40636,7 +39968,7 @@
 	//!          Se ne, bonvolu korekti kaj avizi min por ke mi povas lerni!
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40703,7 +40035,7 @@
 	}));
 
 /***/ },
-/* 289 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40711,7 +40043,7 @@
 	//! author : Julio Napurí : https://github.com/julionc
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40786,7 +40118,7 @@
 	}));
 
 /***/ },
-/* 290 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40795,7 +40127,7 @@
 	//! improvements : Illimar Tambek : https://github.com/ragulka
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40870,7 +40202,7 @@
 	}));
 
 /***/ },
-/* 291 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40878,7 +40210,7 @@
 	//! author : Eneko Illarramendi : https://github.com/eillarra
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40938,7 +40270,7 @@
 	}));
 
 /***/ },
-/* 292 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40946,7 +40278,7 @@
 	//! author : Ebrahim Byagowi : https://github.com/ebraminio
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41047,7 +40379,7 @@
 	}));
 
 /***/ },
-/* 293 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41055,7 +40387,7 @@
 	//! author : Tarmo Aidantausta : https://github.com/bleadof
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41158,7 +40490,7 @@
 	}));
 
 /***/ },
-/* 294 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41166,7 +40498,7 @@
 	//! author : Ragnar Johannesen : https://github.com/ragnar123
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41222,7 +40554,7 @@
 	}));
 
 /***/ },
-/* 295 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41230,7 +40562,7 @@
 	//! author : John Fischer : https://github.com/jfroffice
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41288,7 +40620,7 @@
 	}));
 
 /***/ },
-/* 296 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41296,7 +40628,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41350,7 +40682,7 @@
 	}));
 
 /***/ },
-/* 297 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41358,7 +40690,7 @@
 	//! author : Gaspard Bucher : https://github.com/gaspard
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41416,7 +40748,7 @@
 	}));
 
 /***/ },
-/* 298 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41424,7 +40756,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41491,7 +40823,7 @@
 	}));
 
 /***/ },
-/* 299 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41499,7 +40831,7 @@
 	//! author : Jon Ashdown : https://github.com/jonashdown
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41571,7 +40903,7 @@
 	}));
 
 /***/ },
-/* 300 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41579,7 +40911,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41650,7 +40982,7 @@
 	}));
 
 /***/ },
-/* 301 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41660,7 +40992,7 @@
 	//! author : Tal Ater : https://github.com/TalAter
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41753,7 +41085,7 @@
 	}));
 
 /***/ },
-/* 302 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41761,7 +41093,7 @@
 	//! author : Mayank Singhal : https://github.com/mayanksinghal
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41880,7 +41212,7 @@
 	}));
 
 /***/ },
-/* 303 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41888,7 +41220,7 @@
 	//! author : Bojan Marković : https://github.com/bmarkovic
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42027,7 +41359,7 @@
 	}));
 
 /***/ },
-/* 304 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42035,7 +41367,7 @@
 	//! author : Adam Brunner : https://github.com/adambrunner
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42140,7 +41472,7 @@
 	}));
 
 /***/ },
-/* 305 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42148,7 +41480,7 @@
 	//! author : Armendarabyan : https://github.com/armendarabyan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42239,7 +41571,7 @@
 	}));
 
 /***/ },
-/* 306 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42248,7 +41580,7 @@
 	//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42326,7 +41658,7 @@
 	}));
 
 /***/ },
-/* 307 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42334,7 +41666,7 @@
 	//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42457,7 +41789,7 @@
 	}));
 
 /***/ },
-/* 308 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42466,7 +41798,7 @@
 	//! author: Mattia Larentis: https://github.com/nostalgiaz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42531,7 +41863,7 @@
 	}));
 
 /***/ },
-/* 309 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42539,7 +41871,7 @@
 	//! author : LI Long : https://github.com/baryon
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42611,7 +41943,7 @@
 	}));
 
 /***/ },
-/* 310 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42620,7 +41952,7 @@
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42698,7 +42030,7 @@
 	}));
 
 /***/ },
-/* 311 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42706,7 +42038,7 @@
 	//! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42791,7 +42123,7 @@
 	}));
 
 /***/ },
-/* 312 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42799,7 +42131,7 @@
 	//! authors : Nurlan Rakhimzhanov : https://github.com/nurlan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42882,7 +42214,7 @@
 	}));
 
 /***/ },
-/* 313 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42890,7 +42222,7 @@
 	//! author : Kruy Vanna : https://github.com/kruyvanna
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42944,7 +42276,7 @@
 	}));
 
 /***/ },
-/* 314 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42956,7 +42288,7 @@
 	//! - Jeeeyul Lee <jeeeyul@gmail.com>
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43016,7 +42348,7 @@
 	}));
 
 /***/ },
-/* 315 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43024,7 +42356,7 @@
 	//! author : mweimerskirch : https://github.com/mweimerskirch, David Raison : https://github.com/kwisatz
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43154,7 +42486,7 @@
 	}));
 
 /***/ },
-/* 316 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43162,7 +42494,7 @@
 	//! author : Ryan Hart : https://github.com/ryanhart2
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43227,7 +42559,7 @@
 	}));
 
 /***/ },
-/* 317 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43235,7 +42567,7 @@
 	//! author : Mindaugas Mozūras : https://github.com/mmozuras
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43346,7 +42678,7 @@
 	}));
 
 /***/ },
-/* 318 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43355,7 +42687,7 @@
 	//! author : Jānis Elmeris : https://github.com/JanisE
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43446,7 +42778,7 @@
 	}));
 
 /***/ },
-/* 319 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43454,7 +42786,7 @@
 	//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43559,7 +42891,7 @@
 	}));
 
 /***/ },
-/* 320 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43567,7 +42899,7 @@
 	//! author : Borislav Mickov : https://github.com/B0k0
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43653,7 +42985,7 @@
 	}));
 
 /***/ },
-/* 321 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43661,7 +42993,7 @@
 	//! author : Floyd Pink : https://github.com/floydpink
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43737,7 +43069,7 @@
 	}));
 
 /***/ },
-/* 322 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43746,7 +43078,7 @@
 	//! author : Vivek Athalye : https://github.com/vnathalye
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43899,7 +43231,7 @@
 	}));
 
 /***/ },
-/* 323 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43907,7 +43239,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43985,7 +43317,7 @@
 	}));
 
 /***/ },
-/* 324 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43993,7 +43325,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44071,7 +43403,7 @@
 	}));
 
 /***/ },
-/* 325 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44079,7 +43411,7 @@
 	//! author : Squar team, mysquar.com
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44168,7 +43500,7 @@
 	}));
 
 /***/ },
-/* 326 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44177,7 +43509,7 @@
 	//!           Sigurd Gartmann : https://github.com/sigurdga
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44233,7 +43565,7 @@
 	}));
 
 /***/ },
-/* 327 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44241,7 +43573,7 @@
 	//! author : suvash : https://github.com/suvash
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44358,7 +43690,7 @@
 	}));
 
 /***/ },
-/* 328 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44366,7 +43698,7 @@
 	//! author : Joris Röling : https://github.com/jjupiter
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44433,7 +43765,7 @@
 	}));
 
 /***/ },
-/* 329 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44441,7 +43773,7 @@
 	//! author : https://github.com/mechuwind
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44497,7 +43829,7 @@
 	}));
 
 /***/ },
-/* 330 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44505,7 +43837,7 @@
 	//! author : Harpreet Singh : https://github.com/harpreetkhalsagtbit
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44625,7 +43957,7 @@
 	}));
 
 /***/ },
-/* 331 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44633,7 +43965,7 @@
 	//! author : Rafal Hirsz : https://github.com/evoL
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44734,7 +44066,7 @@
 	}));
 
 /***/ },
-/* 332 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44742,7 +44074,7 @@
 	//! author : Jefferson : https://github.com/jalex79
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44802,7 +44134,7 @@
 	}));
 
 /***/ },
-/* 333 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44810,7 +44142,7 @@
 	//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44866,7 +44198,7 @@
 	}));
 
 /***/ },
-/* 334 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44875,7 +44207,7 @@
 	//! author : Valentin Agachi : https://github.com/avaly
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44944,7 +44276,7 @@
 	}));
 
 /***/ },
-/* 335 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44954,7 +44286,7 @@
 	//! author : Коренберг Марк : https://github.com/socketpair
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45116,7 +44448,7 @@
 	}));
 
 /***/ },
-/* 336 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45124,7 +44456,7 @@
 	//! authors : Bård Rolstad Henriksen : https://github.com/karamell
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45181,7 +44513,7 @@
 	}));
 
 /***/ },
-/* 337 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45189,7 +44521,7 @@
 	//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45255,7 +44587,7 @@
 	}));
 
 /***/ },
-/* 338 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45264,7 +44596,7 @@
 	//! based on work of petrbela : https://github.com/petrbela
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45409,7 +44741,7 @@
 	}));
 
 /***/ },
-/* 339 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45417,7 +44749,7 @@
 	//! author : Robert Sedovšek : https://github.com/sedovsek
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45573,7 +44905,7 @@
 	}));
 
 /***/ },
-/* 340 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45583,7 +44915,7 @@
 	//! author : Oerd Cukalla : https://github.com/oerd (fixes)
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45646,7 +44978,7 @@
 	}));
 
 /***/ },
-/* 341 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45654,7 +44986,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45758,7 +45090,7 @@
 	}));
 
 /***/ },
-/* 342 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45766,7 +45098,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45870,7 +45202,7 @@
 	}));
 
 /***/ },
-/* 343 */
+/* 338 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45878,7 +45210,7 @@
 	//! author : Jens Alm : https://github.com/ulmus
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -45941,7 +45273,7 @@
 	}));
 
 /***/ },
-/* 344 */
+/* 339 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -45949,7 +45281,7 @@
 	//! author : Fahad Kassim : https://github.com/fadsel
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46003,7 +45335,7 @@
 	}));
 
 /***/ },
-/* 345 */
+/* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46011,7 +45343,7 @@
 	//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46136,7 +45468,7 @@
 	}));
 
 /***/ },
-/* 346 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46144,7 +45476,7 @@
 	//! author : Krishna Chaitanya Thota : https://github.com/kcthota
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46228,7 +45560,7 @@
 	}));
 
 /***/ },
-/* 347 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46236,7 +45568,7 @@
 	//! author : Kridsada Thanabulpong : https://github.com/sirn
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46297,7 +45629,7 @@
 	}));
 
 /***/ },
-/* 348 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46305,7 +45637,7 @@
 	//! author : Dan Hagman
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46363,7 +45695,7 @@
 	}));
 
 /***/ },
-/* 349 */
+/* 344 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46371,7 +45703,7 @@
 	//! author : Dominika Kruk : https://github.com/amaranthrose
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46486,7 +45818,7 @@
 	}));
 
 /***/ },
-/* 350 */
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46495,7 +45827,7 @@
 	//!           Burak Yiğit Kaya: https://github.com/BYK
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46580,7 +45912,7 @@
 	}));
 
 /***/ },
-/* 351 */
+/* 346 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46588,7 +45920,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v with the help of Iustì Canun
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46675,7 +46007,7 @@
 	}));
 
 /***/ },
-/* 352 */
+/* 347 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46683,7 +46015,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46737,7 +46069,7 @@
 	}));
 
 /***/ },
-/* 353 */
+/* 348 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46745,7 +46077,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46799,7 +46131,7 @@
 	}));
 
 /***/ },
-/* 354 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46808,7 +46140,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -46949,7 +46281,7 @@
 	}));
 
 /***/ },
-/* 355 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -46957,7 +46289,7 @@
 	//! author : Sardor Muminov : https://github.com/muminoff
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47011,7 +46343,7 @@
 	}));
 
 /***/ },
-/* 356 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47019,7 +46351,7 @@
 	//! author : Bang Nguyen : https://github.com/bangnk
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47092,7 +46424,7 @@
 	}));
 
 /***/ },
-/* 357 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47101,7 +46433,7 @@
 	//! author : Zeno Zeng : https://github.com/zenozeng
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47223,7 +46555,7 @@
 	}));
 
 /***/ },
-/* 358 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -47231,7 +46563,7 @@
 	//! author : Ben : https://github.com/ben-lin
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(259)) :
+	    true ? factory(__webpack_require__(254)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -47328,7 +46660,7 @@
 	}));
 
 /***/ },
-/* 359 */
+/* 354 */
 /***/ function(module, exports) {
 
 	/* eslint-disable no-unused-vars */
@@ -47373,14 +46705,14 @@
 
 
 /***/ },
-/* 360 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var assign = __webpack_require__(359);
+	var assign = __webpack_require__(354);
 	
-	var CONFIG = __webpack_require__(361);
+	var CONFIG = __webpack_require__(356);
 	var KEYS = Object.keys(CONFIG);
 	
 	function copyList(src, target, list) {
@@ -47422,12 +46754,12 @@
 	};
 
 /***/ },
-/* 361 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var getWeekDayNames = __webpack_require__(362);
+	var getWeekDayNames = __webpack_require__(357);
 	
 	// console.log(getWeekDayNames())
 	
@@ -47481,12 +46813,12 @@
 	};
 
 /***/ },
-/* 362 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var moment = __webpack_require__(259);
+	var moment = __webpack_require__(254);
 	
 	var DEFAULT_WEEK_START_DAY = moment().startOf('week').format('d') * 1;
 	
@@ -47514,7 +46846,7 @@
 	};
 
 /***/ },
-/* 363 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47522,15 +46854,15 @@
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
 	var React = __webpack_require__(1);
-	var moment = __webpack_require__(259);
-	var assign = __webpack_require__(359);
+	var moment = __webpack_require__(254);
+	var assign = __webpack_require__(354);
 	
-	var FORMAT = __webpack_require__(364);
-	var asConfig = __webpack_require__(360);
-	var onEnter = __webpack_require__(366);
-	var toMoment = __webpack_require__(365);
+	var FORMAT = __webpack_require__(359);
+	var asConfig = __webpack_require__(355);
+	var onEnter = __webpack_require__(361);
+	var toMoment = __webpack_require__(360);
 	
-	var isInRange = __webpack_require__(367);
+	var isInRange = __webpack_require__(362);
 	
 	var TODAY;
 	
@@ -47902,13 +47234,13 @@
 	module.exports = MonthView;
 
 /***/ },
-/* 364 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var CONFIG = __webpack_require__(361);
-	var toMoment = __webpack_require__(365);
+	var CONFIG = __webpack_require__(356);
+	var toMoment = __webpack_require__(360);
 	
 	function f(mom, format) {
 	    return toMoment(mom).format(format);
@@ -47929,13 +47261,13 @@
 	};
 
 /***/ },
-/* 365 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var moment = __webpack_require__(259);
-	var CONFIG = __webpack_require__(361);
+	var moment = __webpack_require__(254);
+	var CONFIG = __webpack_require__(356);
 	
 	/**
 	 * This function will be used to convert a date to a moment.
@@ -47964,7 +47296,7 @@
 	};
 
 /***/ },
-/* 366 */
+/* 361 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47978,7 +47310,7 @@
 	};
 
 /***/ },
-/* 367 */
+/* 362 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -48004,7 +47336,7 @@
 	};
 
 /***/ },
-/* 368 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48012,14 +47344,14 @@
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
 	var React = __webpack_require__(1);
-	var moment = __webpack_require__(259);
+	var moment = __webpack_require__(254);
 	
-	var FORMAT = __webpack_require__(364);
-	var asConfig = __webpack_require__(360);
-	var toMoment = __webpack_require__(365);
-	var onEnter = __webpack_require__(366);
-	var assign = __webpack_require__(359);
-	var isInRange = __webpack_require__(367);
+	var FORMAT = __webpack_require__(359);
+	var asConfig = __webpack_require__(355);
+	var toMoment = __webpack_require__(360);
+	var onEnter = __webpack_require__(361);
+	var assign = __webpack_require__(354);
+	var isInRange = __webpack_require__(362);
 	
 	var TODAY;
 	
@@ -48154,7 +47486,7 @@
 	module.exports = YearView;
 
 /***/ },
-/* 369 */
+/* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48162,16 +47494,16 @@
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
 	var React = __webpack_require__(1);
-	var moment = __webpack_require__(259);
-	var assign = __webpack_require__(359);
+	var moment = __webpack_require__(254);
+	var assign = __webpack_require__(354);
 	
-	var FORMAT = __webpack_require__(364);
-	var asConfig = __webpack_require__(360);
-	var toMoment = __webpack_require__(365);
-	var onEnter = __webpack_require__(366);
-	var assign = __webpack_require__(359);
+	var FORMAT = __webpack_require__(359);
+	var asConfig = __webpack_require__(355);
+	var toMoment = __webpack_require__(360);
+	var onEnter = __webpack_require__(361);
+	var assign = __webpack_require__(354);
 	
-	var isInRange = __webpack_require__(367);
+	var isInRange = __webpack_require__(362);
 	
 	var TODAY;
 	
@@ -48325,14 +47657,14 @@
 	module.exports = DecadeView;
 
 /***/ },
-/* 370 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
 	var P = React.PropTypes;
-	var onEnter = __webpack_require__(366);
+	var onEnter = __webpack_require__(361);
 	
 	module.exports = React.createClass({
 	
@@ -48399,6 +47731,2661 @@
 	  }
 	
 	});
+
+/***/ },
+/* 366 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158);
+	
+	var LoginForm = React.createClass({
+	  displayName: 'LoginForm',
+	
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      email: "",
+	      password: ""
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'auth-fullscreen' },
+	      React.createElement('div', { className: 'login-logo' }),
+	      React.createElement(
+	        'div',
+	        { className: 'group auth-dialog login' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Log In'
+	        ),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'div',
+	            { className: 'google-auth' },
+	            React.createElement(
+	              'button',
+	              null,
+	              'FPO Use Google Account'
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'separator' },
+	            'or'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'input' },
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'email' },
+	              'Email'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement('input', {
+	              type: 'text',
+	              name: 'user[email]',
+	              id: 'email',
+	              onChange: this.updateEmail })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'input' },
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'password' },
+	              'Password'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement('input', {
+	              type: 'password',
+	              name: 'user[password]',
+	              id: 'password',
+	              onChange: this.updatePassword })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'submit' },
+	            React.createElement(
+	              'button',
+	              null,
+	              'Log In'
+	            )
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'footer',
+	        { className: 'group login' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              Link,
+	              { to: '#' },
+	              'About Scheme'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: 'http://jordanholliday.com' },
+	              'Blog'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'toggle-auth' },
+	          'New here?',
+	          React.createElement(
+	            Link,
+	            { to: '/register', className: 'button' },
+	            'Sign Up'
+	          )
+	        )
+	      )
+	    );
+	  },
+	
+	  handleSubmit: function (event) {
+	    event.preventDefault();
+	    var router = this.context.router;
+	    ApiUtil.login(this.state, function () {
+	      router.push('/tasks');
+	    });
+	  },
+	
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+	
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+	});
+	
+	module.exports = LoginForm;
+
+/***/ },
+/* 367 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    Dropzone = __webpack_require__(368);
+	
+	var RegistrationForm = React.createClass({
+	  displayName: 'RegistrationForm',
+	
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    var email;
+	    if (this.props.location.state && this.props.location.state.email) {
+	      email = this.props.location.state.email;
+	    } else {
+	      email = "";
+	    }
+	
+	    return {
+	      name: "",
+	      email: email,
+	      password: "",
+	      avatar: null,
+	      avatarFile: null
+	    };
+	  },
+	
+	  onDrop: function (file) {
+	    document.getElementById("dropzone").style.backgroundImage = "url('" + file[0].preview + "')";
+	    document.getElementById("dropzone").className = "upload-div received";
+	    var reader = new FileReader();
+	    var newAvatar = file[0];
+	    reader.onloadend = function () {
+	      this.setState({ avatar: reader.result, avatarFile: newAvatar });
+	    }.bind(this);
+	
+	    if (newAvatar) {
+	      reader.readAsDataURL(newAvatar);
+	    } else {
+	      this.setState({ avatar: null, avatarFile: null });
+	    }
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'group auth-fullscreen' },
+	      React.createElement('div', { className: 'login-logo' }),
+	      React.createElement(
+	        'div',
+	        { className: 'group auth-dialog' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Please start by completing your profile.'
+	        ),
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          React.createElement(Dropzone, {
+	            onDrop: this.onDrop,
+	            accept: 'application/pdf',
+	            multiple: false,
+	            disableClick: true,
+	            className: 'upload-div',
+	            activeClassName: 'upload-div-active',
+	            id: 'dropzone' }),
+	          React.createElement(
+	            'div',
+	            { className: 'input' },
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'name' },
+	              'Full Name'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement('input', {
+	              type: 'text',
+	              name: 'user[name]',
+	              id: 'name',
+	              onChange: this.updateName })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'input' },
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'email' },
+	              'Work Email'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement('input', {
+	              type: 'email',
+	              name: 'user[email]',
+	              id: 'email',
+	              value: this.state.email,
+	              onChange: this.updateEmail }),
+	            React.createElement(
+	              'svg',
+	              { className: 'confirm', viewBox: '0 0 32 32' },
+	              React.createElement('polygon', { points: '30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30' })
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'input password' },
+	            React.createElement(
+	              'label',
+	              { htmlFor: 'password' },
+	              'Password'
+	            ),
+	            React.createElement('br', null),
+	            React.createElement('input', {
+	              type: 'password',
+	              name: 'user[password]',
+	              id: 'password',
+	              onChange: this.updatePassword })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'submit' },
+	            React.createElement(
+	              'button',
+	              null,
+	              'Continue'
+	            )
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'footer',
+	        { className: 'group registration' },
+	        React.createElement(
+	          'ul',
+	          null,
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              Link,
+	              { to: '#' },
+	              'About Scheme'
+	            )
+	          ),
+	          React.createElement(
+	            'li',
+	            null,
+	            React.createElement(
+	              'a',
+	              { href: 'http://jordanholliday.com' },
+	              'Blog'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'toggle-auth' },
+	          'Got an account?',
+	          React.createElement(
+	            Link,
+	            { to: '/login', className: 'button' },
+	            'Log In'
+	          )
+	        )
+	      )
+	    );
+	  },
+	
+	  handleSubmit: function (event) {
+	    event.preventDefault();
+	    var router = this.context.router;
+	    ApiUtil.register(this.state, function () {
+	      router.push('/tasks');
+	    });
+	  },
+	
+	  updateName: function (e) {
+	    this.setState({ name: e.currentTarget.value });
+	  },
+	
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+	
+	  updatePassword: function (e) {
+	    this.setState({ password: e.currentTarget.value });
+	  }
+	});
+	
+	module.exports = RegistrationForm;
+
+/***/ },
+/* 368 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _attrAccept = __webpack_require__(369);
+	
+	var _attrAccept2 = _interopRequireDefault(_attrAccept);
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var supportMultiple = typeof document !== 'undefined' && document && document.createElement ? 'multiple' in document.createElement('input') : true;
+	
+	var Dropzone = (function (_React$Component) {
+	  _inherits(Dropzone, _React$Component);
+	
+	  function Dropzone(props, context) {
+	    _classCallCheck(this, Dropzone);
+	
+	    _React$Component.call(this, props, context);
+	    this.onClick = this.onClick.bind(this);
+	    this.onDragEnter = this.onDragEnter.bind(this);
+	    this.onDragLeave = this.onDragLeave.bind(this);
+	    this.onDragOver = this.onDragOver.bind(this);
+	    this.onDrop = this.onDrop.bind(this);
+	
+	    this.state = {
+	      isDragActive: false
+	    };
+	  }
+	
+	  Dropzone.prototype.componentDidMount = function componentDidMount() {
+	    this.enterCounter = 0;
+	  };
+	
+	  Dropzone.prototype.onDragEnter = function onDragEnter(e) {
+	    e.preventDefault();
+	
+	    // Count the dropzone and any children that are entered.
+	    ++this.enterCounter;
+	
+	    // This is tricky. During the drag even the dataTransfer.files is null
+	    // But Chrome implements some drag store, which is accesible via dataTransfer.items
+	    var dataTransferItems = e.dataTransfer && e.dataTransfer.items ? e.dataTransfer.items : [];
+	
+	    // Now we need to convert the DataTransferList to Array
+	    var allFilesAccepted = this.allFilesAccepted(Array.prototype.slice.call(dataTransferItems));
+	
+	    this.setState({
+	      isDragActive: allFilesAccepted,
+	      isDragReject: !allFilesAccepted
+	    });
+	
+	    if (this.props.onDragEnter) {
+	      this.props.onDragEnter.call(this, e);
+	    }
+	  };
+	
+	  Dropzone.prototype.onDragOver = function onDragOver(e) {
+	    e.preventDefault();
+	    e.stopPropagation();
+	    return false;
+	  };
+	
+	  Dropzone.prototype.onDragLeave = function onDragLeave(e) {
+	    e.preventDefault();
+	
+	    // Only deactivate once the dropzone and all children was left.
+	    if (--this.enterCounter > 0) {
+	      return;
+	    }
+	
+	    this.setState({
+	      isDragActive: false,
+	      isDragReject: false
+	    });
+	
+	    if (this.props.onDragLeave) {
+	      this.props.onDragLeave.call(this, e);
+	    }
+	  };
+	
+	  Dropzone.prototype.onDrop = function onDrop(e) {
+	    e.preventDefault();
+	
+	    // Reset the counter along with the drag on a drop.
+	    this.enterCounter = 0;
+	
+	    this.setState({
+	      isDragActive: false,
+	      isDragReject: false
+	    });
+	
+	    var droppedFiles = e.dataTransfer ? e.dataTransfer.files : e.target.files;
+	    var max = this.props.multiple ? droppedFiles.length : 1;
+	    var files = [];
+	
+	    for (var i = 0; i < max; i++) {
+	      var file = droppedFiles[i];
+	      // We might want to disable the preview creation to support big files
+	      if (!this.props.disablePreview) {
+	        file.preview = window.URL.createObjectURL(file);
+	      }
+	      files.push(file);
+	    }
+	
+	    if (this.props.onDrop) {
+	      this.props.onDrop.call(this, files, e);
+	    }
+	
+	    if (this.allFilesAccepted(files)) {
+	      if (this.props.onDropAccepted) {
+	        this.props.onDropAccepted.call(this, files, e);
+	      }
+	    } else {
+	      if (this.props.onDropRejected) {
+	        this.props.onDropRejected.call(this, files, e);
+	      }
+	    }
+	  };
+	
+	  Dropzone.prototype.onClick = function onClick() {
+	    if (!this.props.disableClick) {
+	      this.open();
+	    }
+	  };
+	
+	  Dropzone.prototype.allFilesAccepted = function allFilesAccepted(files) {
+	    var _this = this;
+	
+	    return files.every(function (file) {
+	      return _attrAccept2['default'](file, _this.props.accept);
+	    });
+	  };
+	
+	  Dropzone.prototype.open = function open() {
+	    this.fileInputEl.value = null;
+	    this.fileInputEl.click();
+	  };
+	
+	  Dropzone.prototype.render = function render() {
+	    var _this2 = this;
+	
+	    var _props = this.props;
+	    var accept = _props.accept;
+	    var activeClassName = _props.activeClassName;
+	    var inputProps = _props.inputProps;
+	    var multiple = _props.multiple;
+	    var name = _props.name;
+	    var rejectClassName = _props.rejectClassName;
+	
+	    var rest = _objectWithoutProperties(_props, ['accept', 'activeClassName', 'inputProps', 'multiple', 'name', 'rejectClassName']);
+	
+	    var activeStyle = // eslint-disable-line prefer-const
+	    rest.activeStyle;
+	    var className = rest.className;
+	    var rejectStyle = rest.rejectStyle;
+	    var style = rest.style;
+	
+	    var props = _objectWithoutProperties(rest, ['activeStyle', 'className', 'rejectStyle', 'style']);
+	
+	    var _state = this.state;
+	    var isDragActive = _state.isDragActive;
+	    var isDragReject = _state.isDragReject;
+	
+	    className = className || '';
+	
+	    if (isDragActive && activeClassName) {
+	      className += ' ' + activeClassName;
+	    }
+	    if (isDragReject && rejectClassName) {
+	      className += ' ' + rejectClassName;
+	    }
+	
+	    if (!className && !style && !activeStyle && !rejectStyle) {
+	      style = {
+	        width: 200,
+	        height: 200,
+	        borderWidth: 2,
+	        borderColor: '#666',
+	        borderStyle: 'dashed',
+	        borderRadius: 5
+	      };
+	      activeStyle = {
+	        borderStyle: 'solid',
+	        backgroundColor: '#eee'
+	      };
+	      rejectStyle = {
+	        borderStyle: 'solid',
+	        backgroundColor: '#ffdddd'
+	      };
+	    }
+	
+	    var appliedStyle = undefined;
+	    if (activeStyle && isDragActive) {
+	      appliedStyle = _extends({}, style, activeStyle);
+	    } else if (rejectStyle && isDragReject) {
+	      appliedStyle = _extends({}, style, rejectStyle);
+	    } else {
+	      appliedStyle = _extends({}, style);
+	    }
+	
+	    var inputAttributes = {
+	      accept: accept,
+	      type: 'file',
+	      style: { display: 'none' },
+	      multiple: supportMultiple && multiple,
+	      ref: function ref(el) {
+	        return _this2.fileInputEl = el;
+	      },
+	      onChange: this.onDrop
+	    };
+	
+	    if (name && name.length) {
+	      inputAttributes.name = name;
+	    }
+	
+	    return _react2['default'].createElement(
+	      'div',
+	      _extends({
+	        className: className,
+	        style: appliedStyle
+	      }, props, /* expand user provided props first so event handlers are never overridden */{
+	        onClick: this.onClick,
+	        onDragEnter: this.onDragEnter,
+	        onDragOver: this.onDragOver,
+	        onDragLeave: this.onDragLeave,
+	        onDrop: this.onDrop
+	      }),
+	      this.props.children,
+	      _react2['default'].createElement('input', _extends({}, inputProps, /* expand user provided inputProps first so inputAttributes override them */inputAttributes))
+	    );
+	  };
+	
+	  return Dropzone;
+	})(_react2['default'].Component);
+	
+	Dropzone.defaultProps = {
+	  disablePreview: false,
+	  disableClick: false,
+	  multiple: true
+	};
+	
+	Dropzone.propTypes = {
+	  onDrop: _react2['default'].PropTypes.func,
+	  onDropAccepted: _react2['default'].PropTypes.func,
+	  onDropRejected: _react2['default'].PropTypes.func,
+	  onDragEnter: _react2['default'].PropTypes.func,
+	  onDragLeave: _react2['default'].PropTypes.func,
+	
+	  children: _react2['default'].PropTypes.node,
+	  style: _react2['default'].PropTypes.object,
+	  activeStyle: _react2['default'].PropTypes.object,
+	  rejectStyle: _react2['default'].PropTypes.object,
+	  className: _react2['default'].PropTypes.string,
+	  activeClassName: _react2['default'].PropTypes.string,
+	  rejectClassName: _react2['default'].PropTypes.string,
+	
+	  disablePreview: _react2['default'].PropTypes.bool,
+	  disableClick: _react2['default'].PropTypes.bool,
+	
+	  inputProps: _react2['default'].PropTypes.object,
+	  multiple: _react2['default'].PropTypes.bool,
+	  accept: _react2['default'].PropTypes.string,
+	  name: _react2['default'].PropTypes.string
+	};
+	
+	exports['default'] = Dropzone;
+	module.exports = exports['default'];
+
+/***/ },
+/* 369 */
+/***/ function(module, exports) {
+
+	module.exports=function(t){function n(e){if(r[e])return r[e].exports;var o=r[e]={exports:{},id:e,loaded:!1};return t[e].call(o.exports,o,o.exports,n),o.loaded=!0,o.exports}var r={};return n.m=t,n.c=r,n.p="",n(0)}([function(t,n,r){"use strict";n.__esModule=!0,r(8),r(9),n["default"]=function(t,n){if(t&&n){var r=function(){var r=n.split(","),e=t.name||"",o=t.type||"",i=o.replace(/\/.*$/,"");return{v:r.some(function(t){var n=t.trim();return"."===n.charAt(0)?e.toLowerCase().endsWith(n.toLowerCase()):/\/\*$/.test(n)?i===n.replace(/\/.*$/,""):o===n})}}();if("object"==typeof r)return r.v}return!0},t.exports=n["default"]},function(t,n){var r=t.exports={version:"1.2.2"};"number"==typeof __e&&(__e=r)},function(t,n){var r=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=r)},function(t,n,r){var e=r(2),o=r(1),i=r(4),u=r(19),c="prototype",f=function(t,n){return function(){return t.apply(n,arguments)}},s=function(t,n,r){var a,p,l,d,y=t&s.G,h=t&s.P,v=y?e:t&s.S?e[n]||(e[n]={}):(e[n]||{})[c],x=y?o:o[n]||(o[n]={});y&&(r=n);for(a in r)p=!(t&s.F)&&v&&a in v,l=(p?v:r)[a],d=t&s.B&&p?f(l,e):h&&"function"==typeof l?f(Function.call,l):l,v&&!p&&u(v,a,l),x[a]!=l&&i(x,a,d),h&&((x[c]||(x[c]={}))[a]=l)};e.core=o,s.F=1,s.G=2,s.S=4,s.P=8,s.B=16,s.W=32,t.exports=s},function(t,n,r){var e=r(5),o=r(18);t.exports=r(22)?function(t,n,r){return e.setDesc(t,n,o(1,r))}:function(t,n,r){return t[n]=r,t}},function(t,n){var r=Object;t.exports={create:r.create,getProto:r.getPrototypeOf,isEnum:{}.propertyIsEnumerable,getDesc:r.getOwnPropertyDescriptor,setDesc:r.defineProperty,setDescs:r.defineProperties,getKeys:r.keys,getNames:r.getOwnPropertyNames,getSymbols:r.getOwnPropertySymbols,each:[].forEach}},function(t,n){var r=0,e=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++r+e).toString(36))}},function(t,n,r){var e=r(20)("wks"),o=r(2).Symbol;t.exports=function(t){return e[t]||(e[t]=o&&o[t]||(o||r(6))("Symbol."+t))}},function(t,n,r){r(26),t.exports=r(1).Array.some},function(t,n,r){r(25),t.exports=r(1).String.endsWith},function(t,n){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,n){var r={}.toString;t.exports=function(t){return r.call(t).slice(8,-1)}},function(t,n,r){var e=r(10);t.exports=function(t,n,r){if(e(t),void 0===n)return t;switch(r){case 1:return function(r){return t.call(n,r)};case 2:return function(r,e){return t.call(n,r,e)};case 3:return function(r,e,o){return t.call(n,r,e,o)}}return function(){return t.apply(n,arguments)}}},function(t,n){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t}},function(t,n,r){t.exports=function(t){var n=/./;try{"/./"[t](n)}catch(e){try{return n[r(7)("match")]=!1,!"/./"[t](n)}catch(o){}}return!0}},function(t,n){t.exports=function(t){try{return!!t()}catch(n){return!0}}},function(t,n){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,n,r){var e=r(16),o=r(11),i=r(7)("match");t.exports=function(t){var n;return e(t)&&(void 0!==(n=t[i])?!!n:"RegExp"==o(t))}},function(t,n){t.exports=function(t,n){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:n}}},function(t,n,r){var e=r(2),o=r(4),i=r(6)("src"),u="toString",c=Function[u],f=(""+c).split(u);r(1).inspectSource=function(t){return c.call(t)},(t.exports=function(t,n,r,u){"function"==typeof r&&(o(r,i,t[n]?""+t[n]:f.join(String(n))),"name"in r||(r.name=n)),t===e?t[n]=r:(u||delete t[n],o(t,n,r))})(Function.prototype,u,function(){return"function"==typeof this&&this[i]||c.call(this)})},function(t,n,r){var e=r(2),o="__core-js_shared__",i=e[o]||(e[o]={});t.exports=function(t){return i[t]||(i[t]={})}},function(t,n,r){var e=r(17),o=r(13);t.exports=function(t,n,r){if(e(n))throw TypeError("String#"+r+" doesn't accept regex!");return String(o(t))}},function(t,n,r){t.exports=!r(15)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,n){var r=Math.ceil,e=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?e:r)(t)}},function(t,n,r){var e=r(23),o=Math.min;t.exports=function(t){return t>0?o(e(t),9007199254740991):0}},function(t,n,r){"use strict";var e=r(3),o=r(24),i=r(21),u="endsWith",c=""[u];e(e.P+e.F*r(14)(u),"String",{endsWith:function(t){var n=i(this,t,u),r=arguments,e=r.length>1?r[1]:void 0,f=o(n.length),s=void 0===e?f:Math.min(o(e),f),a=String(t);return c?c.call(n,a,s):n.slice(s-a.length,s)===a}})},function(t,n,r){var e=r(5),o=r(3),i=r(1).Array||Array,u={},c=function(t,n){e.each.call(t.split(","),function(t){void 0==n&&t in i?u[t]=i[t]:t in[]&&(u[t]=r(12)(Function.call,[][t],n))})};c("pop,reverse,shift,keys,values,entries",1),c("indexOf,every,some,forEach,map,filter,find,findIndex,includes",3),c("join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill"),o(o.S,"Array",u)}]);
+
+/***/ },
+/* 370 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158);
+	
+	var SplashPage = React.createClass({
+	  displayName: 'SplashPage',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return { email: "" };
+	  },
+	
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+	
+	  sendToRegistration: function () {
+	    event.preventDefault();
+	    var router = this.context.router;
+	    router.push({
+	      pathname: '/register',
+	      state: { email: this.state.email }
+	    });
+	  },
+	
+	  sendToLogin: function () {
+	    event.preventDefault();
+	    var router = this.context.router;
+	    router.push({
+	      pathname: '/login'
+	    });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'nav',
+	        { className: 'group splash-page' },
+	        React.createElement(
+	          'div',
+	          { className: 'container' },
+	          React.createElement('div', { className: 'logo' }),
+	          React.createElement(
+	            'button',
+	            { onClick: this.sendToLogin },
+	            'Log In'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'main',
+	        null,
+	        React.createElement(
+	          'section',
+	          { className: 'leader' },
+	          React.createElement(
+	            'h1',
+	            null,
+	            'Stay Scheming'
+	          ),
+	          React.createElement(
+	            'h2',
+	            null,
+	            'Scheme is the second easiest way for teams to track their work—and get results.'
+	          ),
+	          React.createElement('input', {
+	            type: 'text',
+	            name: 'user[email]',
+	            id: 'email',
+	            onChange: this.updateEmail,
+	            placeholder: 'name@company.com' }),
+	          React.createElement(
+	            'button',
+	            { onClick: this.sendToRegistration },
+	            'Get Started for FREE'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SplashPage;
+
+/***/ },
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(372);
+	
+
+
+/***/ },
+/* 372 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(158);
+	var ExecutionEnvironment = __webpack_require__(373);
+	var ModalPortal = React.createFactory(__webpack_require__(374));
+	var ariaAppHider = __webpack_require__(389);
+	var elementClass = __webpack_require__(390);
+	var renderSubtreeIntoContainer = __webpack_require__(158).unstable_renderSubtreeIntoContainer;
+	
+	var SafeHTMLElement = ExecutionEnvironment.canUseDOM ? window.HTMLElement : {};
+	
+	var Modal = module.exports = React.createClass({
+	
+	  displayName: 'Modal',
+	  statics: {
+	    setAppElement: ariaAppHider.setElement,
+	    injectCSS: function() {
+	      "production" !== process.env.NODE_ENV
+	        && console.warn('React-Modal: injectCSS has been deprecated ' +
+	                        'and no longer has any effect. It will be removed in a later version');
+	    }
+	  },
+	
+	  propTypes: {
+	    isOpen: React.PropTypes.bool.isRequired,
+	    style: React.PropTypes.shape({
+	      content: React.PropTypes.object,
+	      overlay: React.PropTypes.object
+	    }),
+	    appElement: React.PropTypes.instanceOf(SafeHTMLElement),
+	    onRequestClose: React.PropTypes.func,
+	    closeTimeoutMS: React.PropTypes.number,
+	    ariaHideApp: React.PropTypes.bool
+	  },
+	
+	  getDefaultProps: function () {
+	    return {
+	      isOpen: false,
+	      ariaHideApp: true,
+	      closeTimeoutMS: 0
+	    };
+	  },
+	
+	  componentDidMount: function() {
+	    this.node = document.createElement('div');
+	    this.node.className = 'ReactModalPortal';
+	    document.body.appendChild(this.node);
+	    this.renderPortal(this.props);
+	  },
+	
+	  componentWillReceiveProps: function(newProps) {
+	    this.renderPortal(newProps);
+	  },
+	
+	  componentWillUnmount: function() {
+	    ReactDOM.unmountComponentAtNode(this.node);
+	    document.body.removeChild(this.node);
+	  },
+	
+	  renderPortal: function(props) {
+	    if (props.isOpen) {
+	      elementClass(document.body).add('ReactModal__Body--open');
+	    } else {
+	      elementClass(document.body).remove('ReactModal__Body--open');
+	    }
+	
+	    if (props.ariaHideApp) {
+	      ariaAppHider.toggle(props.isOpen, props.appElement);
+	    }
+	    sanitizeProps(props);
+	    this.portal = renderSubtreeIntoContainer(this, ModalPortal(props), this.node);
+	  },
+	
+	  render: function () {
+	    return React.DOM.noscript();
+	  }
+	});
+	
+	function sanitizeProps(props) {
+	  delete props.ref;
+	}
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 373 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	  Copyright (c) 2015 Jed Watson.
+	  Based on code that is Copyright 2013-2015, Facebook, Inc.
+	  All rights reserved.
+	*/
+	
+	(function () {
+		'use strict';
+	
+		var canUseDOM = !!(
+			typeof window !== 'undefined' &&
+			window.document &&
+			window.document.createElement
+		);
+	
+		var ExecutionEnvironment = {
+	
+			canUseDOM: canUseDOM,
+	
+			canUseWorkers: typeof Worker !== 'undefined',
+	
+			canUseEventListeners:
+				canUseDOM && !!(window.addEventListener || window.attachEvent),
+	
+			canUseViewport: canUseDOM && !!window.screen
+	
+		};
+	
+		if (true) {
+			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+				return ExecutionEnvironment;
+			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		} else if (typeof module !== 'undefined' && module.exports) {
+			module.exports = ExecutionEnvironment;
+		} else {
+			window.ExecutionEnvironment = ExecutionEnvironment;
+		}
+	
+	}());
+
+
+/***/ },
+/* 374 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var div = React.DOM.div;
+	var focusManager = __webpack_require__(375);
+	var scopeTab = __webpack_require__(377);
+	var Assign = __webpack_require__(378);
+	
+	
+	// so that our CSS is statically analyzable
+	var CLASS_NAMES = {
+	  overlay: {
+	    base: 'ReactModal__Overlay',
+	    afterOpen: 'ReactModal__Overlay--after-open',
+	    beforeClose: 'ReactModal__Overlay--before-close'
+	  },
+	  content: {
+	    base: 'ReactModal__Content',
+	    afterOpen: 'ReactModal__Content--after-open',
+	    beforeClose: 'ReactModal__Content--before-close'
+	  }
+	};
+	
+	var defaultStyles = {
+	  overlay: {
+	    position        : 'fixed',
+	    top             : 0,
+	    left            : 0,
+	    right           : 0,
+	    bottom          : 0,
+	    backgroundColor : 'rgba(255, 255, 255, 0.75)'
+	  },
+	  content: {
+	    position                : 'absolute',
+	    top                     : '40px',
+	    left                    : '40px',
+	    right                   : '40px',
+	    bottom                  : '40px',
+	    border                  : '1px solid #ccc',
+	    background              : '#fff',
+	    overflow                : 'auto',
+	    WebkitOverflowScrolling : 'touch',
+	    borderRadius            : '4px',
+	    outline                 : 'none',
+	    padding                 : '20px'
+	  }
+	};
+	
+	function stopPropagation(event) {
+	  event.stopPropagation();
+	}
+	
+	var ModalPortal = module.exports = React.createClass({
+	
+	  displayName: 'ModalPortal',
+	
+	  getDefaultProps: function() {
+	    return {
+	      style: {
+	        overlay: {},
+	        content: {}
+	      }
+	    };
+	  },
+	
+	  getInitialState: function() {
+	    return {
+	      afterOpen: false,
+	      beforeClose: false
+	    };
+	  },
+	
+	  componentDidMount: function() {
+	    // Focus needs to be set when mounting and already open
+	    if (this.props.isOpen) {
+	      this.setFocusAfterRender(true);
+	      this.open();
+	    }
+	  },
+	
+	  componentWillUnmount: function() {
+	    clearTimeout(this.closeTimer);
+	  },
+	
+	  componentWillReceiveProps: function(newProps) {
+	    // Focus only needs to be set once when the modal is being opened
+	    if (!this.props.isOpen && newProps.isOpen) {
+	      this.setFocusAfterRender(true);
+	      this.open();
+	    } else if (this.props.isOpen && !newProps.isOpen) {
+	      this.close();
+	    }
+	  },
+	
+	  componentDidUpdate: function () {
+	    if (this.focusAfterRender) {
+	      this.focusContent();
+	      this.setFocusAfterRender(false);
+	    }
+	  },
+	
+	  setFocusAfterRender: function (focus) {
+	    this.focusAfterRender = focus;
+	  },
+	
+	  open: function() {
+	    focusManager.setupScopedFocus(this.node);
+	    focusManager.markForFocusLater();
+	    this.setState({isOpen: true}, function() {
+	      this.setState({afterOpen: true});
+	    }.bind(this));
+	  },
+	
+	  close: function() {
+	    if (!this.ownerHandlesClose())
+	      return;
+	    if (this.props.closeTimeoutMS > 0)
+	      this.closeWithTimeout();
+	    else
+	      this.closeWithoutTimeout();
+	  },
+	
+	  focusContent: function() {
+	    this.refs.content.focus();
+	  },
+	
+	  closeWithTimeout: function() {
+	    this.setState({beforeClose: true}, function() {
+	      this.closeTimer = setTimeout(this.closeWithoutTimeout, this.props.closeTimeoutMS);
+	    }.bind(this));
+	  },
+	
+	  closeWithoutTimeout: function() {
+	    this.setState({
+	      afterOpen: false,
+	      beforeClose: false
+	    }, this.afterClose);
+	  },
+	
+	  afterClose: function() {
+	    focusManager.returnFocus();
+	    focusManager.teardownScopedFocus();
+	  },
+	
+	  handleKeyDown: function(event) {
+	    if (event.keyCode == 9 /*tab*/) scopeTab(this.refs.content, event);
+	    if (event.keyCode == 27 /*esc*/) this.requestClose();
+	  },
+	
+	  handleOverlayClick: function() {
+	    if (this.ownerHandlesClose())
+	      this.requestClose();
+	    else
+	      this.focusContent();
+	  },
+	
+	  requestClose: function() {
+	    if (this.ownerHandlesClose())
+	      this.props.onRequestClose();
+	  },
+	
+	  ownerHandlesClose: function() {
+	    return this.props.onRequestClose;
+	  },
+	
+	  shouldBeClosed: function() {
+	    return !this.props.isOpen && !this.state.beforeClose;
+	  },
+	
+	  buildClassName: function(which, additional) {
+	    var className = CLASS_NAMES[which].base;
+	    if (this.state.afterOpen)
+	      className += ' '+CLASS_NAMES[which].afterOpen;
+	    if (this.state.beforeClose)
+	      className += ' '+CLASS_NAMES[which].beforeClose;
+	    return additional ? className + ' ' + additional : className;
+	  },
+	
+	  render: function() {
+	    return this.shouldBeClosed() ? div() : (
+	      div({
+	        ref: "overlay",
+	        className: this.buildClassName('overlay', this.props.overlayClassName),
+	        style: Assign({}, defaultStyles.overlay, this.props.style.overlay || {}),
+	        onClick: this.handleOverlayClick
+	      },
+	        div({
+	          ref: "content",
+	          style: Assign({}, defaultStyles.content, this.props.style.content || {}),
+	          className: this.buildClassName('content', this.props.className),
+	          tabIndex: "-1",
+	          onClick: stopPropagation,
+	          onKeyDown: this.handleKeyDown
+	        },
+	          this.props.children
+	        )
+	      )
+	    );
+	  }
+	});
+
+
+/***/ },
+/* 375 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var findTabbable = __webpack_require__(376);
+	var modalElement = null;
+	var focusLaterElement = null;
+	var needToFocus = false;
+	
+	function handleBlur(event) {
+	  needToFocus = true;
+	}
+	
+	function handleFocus(event) {
+	  if (needToFocus) {
+	    needToFocus = false;
+	    if (!modalElement) {
+	      return;
+	    }
+	    // need to see how jQuery shims document.on('focusin') so we don't need the
+	    // setTimeout, firefox doesn't support focusin, if it did, we could focus
+	    // the element outside of a setTimeout. Side-effect of this implementation 
+	    // is that the document.body gets focus, and then we focus our element right 
+	    // after, seems fine.
+	    setTimeout(function() {
+	      if (modalElement.contains(document.activeElement))
+	        return;
+	      var el = (findTabbable(modalElement)[0] || modalElement);
+	      el.focus();
+	    }, 0);
+	  }
+	}
+	
+	exports.markForFocusLater = function() {
+	  focusLaterElement = document.activeElement;
+	};
+	
+	exports.returnFocus = function() {
+	  try {
+	    focusLaterElement.focus();
+	  }
+	  catch (e) {
+	    console.warn('You tried to return focus to '+focusLaterElement+' but it is not in the DOM anymore');
+	  }
+	  focusLaterElement = null;
+	};
+	
+	exports.setupScopedFocus = function(element) {
+	  modalElement = element;
+	
+	  if (window.addEventListener) {
+	    window.addEventListener('blur', handleBlur, false);
+	    document.addEventListener('focus', handleFocus, true);
+	  } else {
+	    window.attachEvent('onBlur', handleBlur);
+	    document.attachEvent('onFocus', handleFocus);
+	  }
+	};
+	
+	exports.teardownScopedFocus = function() {
+	  modalElement = null;
+	
+	  if (window.addEventListener) {
+	    window.removeEventListener('blur', handleBlur);
+	    document.removeEventListener('focus', handleFocus);
+	  } else {
+	    window.detachEvent('onBlur', handleBlur);
+	    document.detachEvent('onFocus', handleFocus);
+	  }
+	};
+	
+	
+
+
+/***/ },
+/* 376 */
+/***/ function(module, exports) {
+
+	/*!
+	 * Adapted from jQuery UI core
+	 *
+	 * http://jqueryui.com
+	 *
+	 * Copyright 2014 jQuery Foundation and other contributors
+	 * Released under the MIT license.
+	 * http://jquery.org/license
+	 *
+	 * http://api.jqueryui.com/category/ui-core/
+	 */
+	
+	function focusable(element, isTabIndexNotNaN) {
+	  var nodeName = element.nodeName.toLowerCase();
+	  return (/input|select|textarea|button|object/.test(nodeName) ?
+	    !element.disabled :
+	    "a" === nodeName ?
+	      element.href || isTabIndexNotNaN :
+	      isTabIndexNotNaN) && visible(element);
+	}
+	
+	function hidden(el) {
+	  return (el.offsetWidth <= 0 && el.offsetHeight <= 0) ||
+	    el.style.display === 'none';
+	}
+	
+	function visible(element) {
+	  while (element) {
+	    if (element === document.body) break;
+	    if (hidden(element)) return false;
+	    element = element.parentNode;
+	  }
+	  return true;
+	}
+	
+	function tabbable(element) {
+	  var tabIndex = element.getAttribute('tabindex');
+	  if (tabIndex === null) tabIndex = undefined;
+	  var isTabIndexNaN = isNaN(tabIndex);
+	  return (isTabIndexNaN || tabIndex >= 0) && focusable(element, !isTabIndexNaN);
+	}
+	
+	function findTabbableDescendants(element) {
+	  return [].slice.call(element.querySelectorAll('*'), 0).filter(function(el) {
+	    return tabbable(el);
+	  });
+	}
+	
+	module.exports = findTabbableDescendants;
+	
+
+
+/***/ },
+/* 377 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var findTabbable = __webpack_require__(376);
+	
+	module.exports = function(node, event) {
+	  var tabbable = findTabbable(node);
+	  var finalTabbable = tabbable[event.shiftKey ? 0 : tabbable.length - 1];
+	  var leavingFinalTabbable = (
+	    finalTabbable === document.activeElement ||
+	    // handle immediate shift+tab after opening with mouse
+	    node === document.activeElement
+	  );
+	  if (!leavingFinalTabbable) return;
+	  event.preventDefault();
+	  var target = tabbable[event.shiftKey ? tabbable.length - 1 : 0];
+	  target.focus();
+	};
+
+
+/***/ },
+/* 378 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var baseAssign = __webpack_require__(379),
+	    createAssigner = __webpack_require__(385),
+	    keys = __webpack_require__(381);
+	
+	/**
+	 * A specialized version of `_.assign` for customizing assigned values without
+	 * support for argument juggling, multiple sources, and `this` binding `customizer`
+	 * functions.
+	 *
+	 * @private
+	 * @param {Object} object The destination object.
+	 * @param {Object} source The source object.
+	 * @param {Function} customizer The function to customize assigned values.
+	 * @returns {Object} Returns `object`.
+	 */
+	function assignWith(object, source, customizer) {
+	  var index = -1,
+	      props = keys(source),
+	      length = props.length;
+	
+	  while (++index < length) {
+	    var key = props[index],
+	        value = object[key],
+	        result = customizer(value, source[key], key, object, source);
+	
+	    if ((result === result ? (result !== value) : (value === value)) ||
+	        (value === undefined && !(key in object))) {
+	      object[key] = result;
+	    }
+	  }
+	  return object;
+	}
+	
+	/**
+	 * Assigns own enumerable properties of source object(s) to the destination
+	 * object. Subsequent sources overwrite property assignments of previous sources.
+	 * If `customizer` is provided it is invoked to produce the assigned values.
+	 * The `customizer` is bound to `thisArg` and invoked with five arguments:
+	 * (objectValue, sourceValue, key, object, source).
+	 *
+	 * **Note:** This method mutates `object` and is based on
+	 * [`Object.assign`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.assign).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @alias extend
+	 * @category Object
+	 * @param {Object} object The destination object.
+	 * @param {...Object} [sources] The source objects.
+	 * @param {Function} [customizer] The function to customize assigned values.
+	 * @param {*} [thisArg] The `this` binding of `customizer`.
+	 * @returns {Object} Returns `object`.
+	 * @example
+	 *
+	 * _.assign({ 'user': 'barney' }, { 'age': 40 }, { 'user': 'fred' });
+	 * // => { 'user': 'fred', 'age': 40 }
+	 *
+	 * // using a customizer callback
+	 * var defaults = _.partialRight(_.assign, function(value, other) {
+	 *   return _.isUndefined(value) ? other : value;
+	 * });
+	 *
+	 * defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+	 * // => { 'user': 'barney', 'age': 36 }
+	 */
+	var assign = createAssigner(function(object, source, customizer) {
+	  return customizer
+	    ? assignWith(object, source, customizer)
+	    : baseAssign(object, source);
+	});
+	
+	module.exports = assign;
+
+
+/***/ },
+/* 379 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.2.0 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var baseCopy = __webpack_require__(380),
+	    keys = __webpack_require__(381);
+	
+	/**
+	 * The base implementation of `_.assign` without support for argument juggling,
+	 * multiple sources, and `customizer` functions.
+	 *
+	 * @private
+	 * @param {Object} object The destination object.
+	 * @param {Object} source The source object.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseAssign(object, source) {
+	  return source == null
+	    ? object
+	    : baseCopy(source, keys(source), object);
+	}
+	
+	module.exports = baseAssign;
+
+
+/***/ },
+/* 380 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/**
+	 * Copies properties of `source` to `object`.
+	 *
+	 * @private
+	 * @param {Object} source The object to copy properties from.
+	 * @param {Array} props The property names to copy.
+	 * @param {Object} [object={}] The object to copy properties to.
+	 * @returns {Object} Returns `object`.
+	 */
+	function baseCopy(source, props, object) {
+	  object || (object = {});
+	
+	  var index = -1,
+	      length = props.length;
+	
+	  while (++index < length) {
+	    var key = props[index];
+	    object[key] = source[key];
+	  }
+	  return object;
+	}
+	
+	module.exports = baseCopy;
+
+
+/***/ },
+/* 381 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.1.2 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var getNative = __webpack_require__(382),
+	    isArguments = __webpack_require__(383),
+	    isArray = __webpack_require__(384);
+	
+	/** Used to detect unsigned integer values. */
+	var reIsUint = /^\d+$/;
+	
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+	
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+	
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeKeys = getNative(Object, 'keys');
+	
+	/**
+	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+	
+	/**
+	 * The base implementation of `_.property` without support for deep paths.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseProperty(key) {
+	  return function(object) {
+	    return object == null ? undefined : object[key];
+	  };
+	}
+	
+	/**
+	 * Gets the "length" property value of `object`.
+	 *
+	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {*} Returns the "length" value.
+	 */
+	var getLength = baseProperty('length');
+	
+	/**
+	 * Checks if `value` is array-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(getLength(value));
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like index.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	 */
+	function isIndex(value, length) {
+	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+	  length = length == null ? MAX_SAFE_INTEGER : length;
+	  return value > -1 && value % 1 == 0 && value < length;
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+	
+	/**
+	 * A fallback implementation of `Object.keys` which creates an array of the
+	 * own enumerable property names of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 */
+	function shimKeys(object) {
+	  var props = keysIn(object),
+	      propsLength = props.length,
+	      length = propsLength && object.length;
+	
+	  var allowIndexes = !!length && isLength(length) &&
+	    (isArray(object) || isArguments(object));
+	
+	  var index = -1,
+	      result = [];
+	
+	  while (++index < propsLength) {
+	    var key = props[index];
+	    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
+	      result.push(key);
+	    }
+	  }
+	  return result;
+	}
+	
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	/**
+	 * Creates an array of the own enumerable property names of `object`.
+	 *
+	 * **Note:** Non-object values are coerced to objects. See the
+	 * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+	 * for more details.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 *   this.b = 2;
+	 * }
+	 *
+	 * Foo.prototype.c = 3;
+	 *
+	 * _.keys(new Foo);
+	 * // => ['a', 'b'] (iteration order is not guaranteed)
+	 *
+	 * _.keys('hi');
+	 * // => ['0', '1']
+	 */
+	var keys = !nativeKeys ? shimKeys : function(object) {
+	  var Ctor = object == null ? undefined : object.constructor;
+	  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
+	      (typeof object != 'function' && isArrayLike(object))) {
+	    return shimKeys(object);
+	  }
+	  return isObject(object) ? nativeKeys(object) : [];
+	};
+	
+	/**
+	 * Creates an array of the own and inherited enumerable property names of `object`.
+	 *
+	 * **Note:** Non-object values are coerced to objects.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Object
+	 * @param {Object} object The object to query.
+	 * @returns {Array} Returns the array of property names.
+	 * @example
+	 *
+	 * function Foo() {
+	 *   this.a = 1;
+	 *   this.b = 2;
+	 * }
+	 *
+	 * Foo.prototype.c = 3;
+	 *
+	 * _.keysIn(new Foo);
+	 * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+	 */
+	function keysIn(object) {
+	  if (object == null) {
+	    return [];
+	  }
+	  if (!isObject(object)) {
+	    object = Object(object);
+	  }
+	  var length = object.length;
+	  length = (length && isLength(length) &&
+	    (isArray(object) || isArguments(object)) && length) || 0;
+	
+	  var Ctor = object.constructor,
+	      index = -1,
+	      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+	      result = Array(length),
+	      skipIndexes = length > 0;
+	
+	  while (++index < length) {
+	    result[index] = (index + '');
+	  }
+	  for (var key in object) {
+	    if (!(skipIndexes && isIndex(key, length)) &&
+	        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+	      result.push(key);
+	    }
+	  }
+	  return result;
+	}
+	
+	module.exports = keys;
+
+
+/***/ },
+/* 382 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.9.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/** `Object#toString` result references. */
+	var funcTag = '[object Function]';
+	
+	/** Used to detect host constructors (Safari > 5). */
+	var reIsHostCtor = /^\[object .+?Constructor\]$/;
+	
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+	
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+	
+	/** Used to resolve the decompiled source of functions. */
+	var fnToString = Function.prototype.toString;
+	
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+	
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+	
+	/** Used to detect if a method is native. */
+	var reIsNative = RegExp('^' +
+	  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+	
+	/**
+	 * Gets the native function at `key` of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {string} key The key of the method to get.
+	 * @returns {*} Returns the function if it's native, else `undefined`.
+	 */
+	function getNative(object, key) {
+	  var value = object == null ? undefined : object[key];
+	  return isNative(value) ? value : undefined;
+	}
+	
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in older versions of Chrome and Safari which return 'function' for regexes
+	  // and Safari 8 equivalents which return 'object' for typed array constructors.
+	  return isObject(value) && objToString.call(value) == funcTag;
+	}
+	
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	/**
+	 * Checks if `value` is a native function.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+	 * @example
+	 *
+	 * _.isNative(Array.prototype.push);
+	 * // => true
+	 *
+	 * _.isNative(_);
+	 * // => false
+	 */
+	function isNative(value) {
+	  if (value == null) {
+	    return false;
+	  }
+	  if (isFunction(value)) {
+	    return reIsNative.test(fnToString.call(value));
+	  }
+	  return isObjectLike(value) && reIsHostCtor.test(value);
+	}
+	
+	module.exports = getNative;
+
+
+/***/ },
+/* 383 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.8 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modularize exports="npm" -o ./`
+	 * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/** Used as references for various `Number` constants. */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+	
+	/** `Object#toString` result references. */
+	var argsTag = '[object Arguments]',
+	    funcTag = '[object Function]',
+	    genTag = '[object GeneratorFunction]';
+	
+	/** Used for built-in method references. */
+	var objectProto = Object.prototype;
+	
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+	
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objectToString = objectProto.toString;
+	
+	/** Built-in value references. */
+	var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+	
+	/**
+	 * The base implementation of `_.property` without support for deep paths.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseProperty(key) {
+	  return function(object) {
+	    return object == null ? undefined : object[key];
+	  };
+	}
+	
+	/**
+	 * Gets the "length" property value of `object`.
+	 *
+	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {*} Returns the "length" value.
+	 */
+	var getLength = baseProperty('length');
+	
+	/**
+	 * Checks if `value` is likely an `arguments` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isArguments(function() { return arguments; }());
+	 * // => true
+	 *
+	 * _.isArguments([1, 2, 3]);
+	 * // => false
+	 */
+	function isArguments(value) {
+	  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
+	  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+	    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+	}
+	
+	/**
+	 * Checks if `value` is array-like. A value is considered array-like if it's
+	 * not a function and has a `value.length` that's an integer greater than or
+	 * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 * @example
+	 *
+	 * _.isArrayLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLike(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLike('abc');
+	 * // => true
+	 *
+	 * _.isArrayLike(_.noop);
+	 * // => false
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(getLength(value)) && !isFunction(value);
+	}
+	
+	/**
+	 * This method is like `_.isArrayLike` except that it also checks if `value`
+	 * is an object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
+	 * @example
+	 *
+	 * _.isArrayLikeObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject(document.body.children);
+	 * // => true
+	 *
+	 * _.isArrayLikeObject('abc');
+	 * // => false
+	 *
+	 * _.isArrayLikeObject(_.noop);
+	 * // => false
+	 */
+	function isArrayLikeObject(value) {
+	  return isObjectLike(value) && isArrayLike(value);
+	}
+	
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in Safari 8 which returns 'object' for typed array and weak map constructors,
+	  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+	  var tag = isObject(value) ? objectToString.call(value) : '';
+	  return tag == funcTag || tag == genTag;
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 * @example
+	 *
+	 * _.isLength(3);
+	 * // => true
+	 *
+	 * _.isLength(Number.MIN_VALUE);
+	 * // => false
+	 *
+	 * _.isLength(Infinity);
+	 * // => false
+	 *
+	 * _.isLength('3');
+	 * // => false
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' &&
+	    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+	
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(_.noop);
+	 * // => true
+	 *
+	 * _.isObject(null);
+	 * // => false
+	 */
+	function isObject(value) {
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	/**
+	 * Checks if `value` is object-like. A value is object-like if it's not `null`
+	 * and has a `typeof` result of "object".
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 * @example
+	 *
+	 * _.isObjectLike({});
+	 * // => true
+	 *
+	 * _.isObjectLike([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObjectLike(_.noop);
+	 * // => false
+	 *
+	 * _.isObjectLike(null);
+	 * // => false
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+	
+	module.exports = isArguments;
+
+
+/***/ },
+/* 384 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.4 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/** `Object#toString` result references. */
+	var arrayTag = '[object Array]',
+	    funcTag = '[object Function]';
+	
+	/** Used to detect host constructors (Safari > 5). */
+	var reIsHostCtor = /^\[object .+?Constructor\]$/;
+	
+	/**
+	 * Checks if `value` is object-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+	 */
+	function isObjectLike(value) {
+	  return !!value && typeof value == 'object';
+	}
+	
+	/** Used for native method references. */
+	var objectProto = Object.prototype;
+	
+	/** Used to resolve the decompiled source of functions. */
+	var fnToString = Function.prototype.toString;
+	
+	/** Used to check objects for own properties. */
+	var hasOwnProperty = objectProto.hasOwnProperty;
+	
+	/**
+	 * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+	 * of values.
+	 */
+	var objToString = objectProto.toString;
+	
+	/** Used to detect if a method is native. */
+	var reIsNative = RegExp('^' +
+	  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+	  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+	);
+	
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeIsArray = getNative(Array, 'isArray');
+	
+	/**
+	 * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+	
+	/**
+	 * Gets the native function at `key` of `object`.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @param {string} key The key of the method to get.
+	 * @returns {*} Returns the function if it's native, else `undefined`.
+	 */
+	function getNative(object, key) {
+	  var value = object == null ? undefined : object[key];
+	  return isNative(value) ? value : undefined;
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+	
+	/**
+	 * Checks if `value` is classified as an `Array` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isArray([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isArray(function() { return arguments; }());
+	 * // => false
+	 */
+	var isArray = nativeIsArray || function(value) {
+	  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
+	};
+	
+	/**
+	 * Checks if `value` is classified as a `Function` object.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+	 * @example
+	 *
+	 * _.isFunction(_);
+	 * // => true
+	 *
+	 * _.isFunction(/abc/);
+	 * // => false
+	 */
+	function isFunction(value) {
+	  // The use of `Object#toString` avoids issues with the `typeof` operator
+	  // in older versions of Chrome and Safari which return 'function' for regexes
+	  // and Safari 8 equivalents which return 'object' for typed array constructors.
+	  return isObject(value) && objToString.call(value) == funcTag;
+	}
+	
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	/**
+	 * Checks if `value` is a native function.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+	 * @example
+	 *
+	 * _.isNative(Array.prototype.push);
+	 * // => true
+	 *
+	 * _.isNative(_);
+	 * // => false
+	 */
+	function isNative(value) {
+	  if (value == null) {
+	    return false;
+	  }
+	  if (isFunction(value)) {
+	    return reIsNative.test(fnToString.call(value));
+	  }
+	  return isObjectLike(value) && reIsHostCtor.test(value);
+	}
+	
+	module.exports = isArray;
+
+
+/***/ },
+/* 385 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * lodash 3.1.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	var bindCallback = __webpack_require__(386),
+	    isIterateeCall = __webpack_require__(387),
+	    restParam = __webpack_require__(388);
+	
+	/**
+	 * Creates a function that assigns properties of source object(s) to a given
+	 * destination object.
+	 *
+	 * **Note:** This function is used to create `_.assign`, `_.defaults`, and `_.merge`.
+	 *
+	 * @private
+	 * @param {Function} assigner The function to assign values.
+	 * @returns {Function} Returns the new assigner function.
+	 */
+	function createAssigner(assigner) {
+	  return restParam(function(object, sources) {
+	    var index = -1,
+	        length = object == null ? 0 : sources.length,
+	        customizer = length > 2 ? sources[length - 2] : undefined,
+	        guard = length > 2 ? sources[2] : undefined,
+	        thisArg = length > 1 ? sources[length - 1] : undefined;
+	
+	    if (typeof customizer == 'function') {
+	      customizer = bindCallback(customizer, thisArg, 5);
+	      length -= 2;
+	    } else {
+	      customizer = typeof thisArg == 'function' ? thisArg : undefined;
+	      length -= (customizer ? 1 : 0);
+	    }
+	    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+	      customizer = length < 3 ? undefined : customizer;
+	      length = 1;
+	    }
+	    while (++index < length) {
+	      var source = sources[index];
+	      if (source) {
+	        assigner(object, source, customizer);
+	      }
+	    }
+	    return object;
+	  });
+	}
+	
+	module.exports = createAssigner;
+
+
+/***/ },
+/* 386 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/**
+	 * A specialized version of `baseCallback` which only supports `this` binding
+	 * and specifying the number of arguments to provide to `func`.
+	 *
+	 * @private
+	 * @param {Function} func The function to bind.
+	 * @param {*} thisArg The `this` binding of `func`.
+	 * @param {number} [argCount] The number of arguments to provide to `func`.
+	 * @returns {Function} Returns the callback.
+	 */
+	function bindCallback(func, thisArg, argCount) {
+	  if (typeof func != 'function') {
+	    return identity;
+	  }
+	  if (thisArg === undefined) {
+	    return func;
+	  }
+	  switch (argCount) {
+	    case 1: return function(value) {
+	      return func.call(thisArg, value);
+	    };
+	    case 3: return function(value, index, collection) {
+	      return func.call(thisArg, value, index, collection);
+	    };
+	    case 4: return function(accumulator, value, index, collection) {
+	      return func.call(thisArg, accumulator, value, index, collection);
+	    };
+	    case 5: return function(value, other, key, object, source) {
+	      return func.call(thisArg, value, other, key, object, source);
+	    };
+	  }
+	  return function() {
+	    return func.apply(thisArg, arguments);
+	  };
+	}
+	
+	/**
+	 * This method returns the first argument provided to it.
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Utility
+	 * @param {*} value Any value.
+	 * @returns {*} Returns `value`.
+	 * @example
+	 *
+	 * var object = { 'user': 'fred' };
+	 *
+	 * _.identity(object) === object;
+	 * // => true
+	 */
+	function identity(value) {
+	  return value;
+	}
+	
+	module.exports = bindCallback;
+
+
+/***/ },
+/* 387 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.0.9 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/** Used to detect unsigned integer values. */
+	var reIsUint = /^\d+$/;
+	
+	/**
+	 * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
+	 * of an array-like value.
+	 */
+	var MAX_SAFE_INTEGER = 9007199254740991;
+	
+	/**
+	 * The base implementation of `_.property` without support for deep paths.
+	 *
+	 * @private
+	 * @param {string} key The key of the property to get.
+	 * @returns {Function} Returns the new function.
+	 */
+	function baseProperty(key) {
+	  return function(object) {
+	    return object == null ? undefined : object[key];
+	  };
+	}
+	
+	/**
+	 * Gets the "length" property value of `object`.
+	 *
+	 * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+	 * that affects Safari on at least iOS 8.1-8.3 ARM64.
+	 *
+	 * @private
+	 * @param {Object} object The object to query.
+	 * @returns {*} Returns the "length" value.
+	 */
+	var getLength = baseProperty('length');
+	
+	/**
+	 * Checks if `value` is array-like.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+	 */
+	function isArrayLike(value) {
+	  return value != null && isLength(getLength(value));
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like index.
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+	 * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+	 */
+	function isIndex(value, length) {
+	  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+	  length = length == null ? MAX_SAFE_INTEGER : length;
+	  return value > -1 && value % 1 == 0 && value < length;
+	}
+	
+	/**
+	 * Checks if the provided arguments are from an iteratee call.
+	 *
+	 * @private
+	 * @param {*} value The potential iteratee value argument.
+	 * @param {*} index The potential iteratee index or key argument.
+	 * @param {*} object The potential iteratee object argument.
+	 * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+	 */
+	function isIterateeCall(value, index, object) {
+	  if (!isObject(object)) {
+	    return false;
+	  }
+	  var type = typeof index;
+	  if (type == 'number'
+	      ? (isArrayLike(object) && isIndex(index, object.length))
+	      : (type == 'string' && index in object)) {
+	    var other = object[index];
+	    return value === value ? (value === other) : (other !== other);
+	  }
+	  return false;
+	}
+	
+	/**
+	 * Checks if `value` is a valid array-like length.
+	 *
+	 * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
+	 *
+	 * @private
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+	 */
+	function isLength(value) {
+	  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+	}
+	
+	/**
+	 * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	 * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Lang
+	 * @param {*} value The value to check.
+	 * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	 * @example
+	 *
+	 * _.isObject({});
+	 * // => true
+	 *
+	 * _.isObject([1, 2, 3]);
+	 * // => true
+	 *
+	 * _.isObject(1);
+	 * // => false
+	 */
+	function isObject(value) {
+	  // Avoid a V8 JIT bug in Chrome 19-20.
+	  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	  var type = typeof value;
+	  return !!value && (type == 'object' || type == 'function');
+	}
+	
+	module.exports = isIterateeCall;
+
+
+/***/ },
+/* 388 */
+/***/ function(module, exports) {
+
+	/**
+	 * lodash 3.6.1 (Custom Build) <https://lodash.com/>
+	 * Build: `lodash modern modularize exports="npm" -o ./`
+	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
+	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+	 * Available under MIT license <https://lodash.com/license>
+	 */
+	
+	/** Used as the `TypeError` message for "Functions" methods. */
+	var FUNC_ERROR_TEXT = 'Expected a function';
+	
+	/* Native method references for those with the same name as other `lodash` methods. */
+	var nativeMax = Math.max;
+	
+	/**
+	 * Creates a function that invokes `func` with the `this` binding of the
+	 * created function and arguments from `start` and beyond provided as an array.
+	 *
+	 * **Note:** This method is based on the [rest parameter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters).
+	 *
+	 * @static
+	 * @memberOf _
+	 * @category Function
+	 * @param {Function} func The function to apply a rest parameter to.
+	 * @param {number} [start=func.length-1] The start position of the rest parameter.
+	 * @returns {Function} Returns the new function.
+	 * @example
+	 *
+	 * var say = _.restParam(function(what, names) {
+	 *   return what + ' ' + _.initial(names).join(', ') +
+	 *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
+	 * });
+	 *
+	 * say('hello', 'fred', 'barney', 'pebbles');
+	 * // => 'hello fred, barney, & pebbles'
+	 */
+	function restParam(func, start) {
+	  if (typeof func != 'function') {
+	    throw new TypeError(FUNC_ERROR_TEXT);
+	  }
+	  start = nativeMax(start === undefined ? (func.length - 1) : (+start || 0), 0);
+	  return function() {
+	    var args = arguments,
+	        index = -1,
+	        length = nativeMax(args.length - start, 0),
+	        rest = Array(length);
+	
+	    while (++index < length) {
+	      rest[index] = args[start + index];
+	    }
+	    switch (start) {
+	      case 0: return func.call(this, rest);
+	      case 1: return func.call(this, args[0], rest);
+	      case 2: return func.call(this, args[0], args[1], rest);
+	    }
+	    var otherArgs = Array(start + 1);
+	    index = -1;
+	    while (++index < start) {
+	      otherArgs[index] = args[index];
+	    }
+	    otherArgs[start] = rest;
+	    return func.apply(this, otherArgs);
+	  };
+	}
+	
+	module.exports = restParam;
+
+
+/***/ },
+/* 389 */
+/***/ function(module, exports) {
+
+	var _element = typeof document !== 'undefined' ? document.body : null;
+	
+	function setElement(element) {
+	  if (typeof element === 'string') {
+	    var el = document.querySelectorAll(element);
+	    element = 'length' in el ? el[0] : el;
+	  }
+	  _element = element || _element;
+	}
+	
+	function hide(appElement) {
+	  validateElement(appElement);
+	  (appElement || _element).setAttribute('aria-hidden', 'true');
+	}
+	
+	function show(appElement) {
+	  validateElement(appElement);
+	  (appElement || _element).removeAttribute('aria-hidden');
+	}
+	
+	function toggle(shouldHide, appElement) {
+	  if (shouldHide)
+	    hide(appElement);
+	  else
+	    show(appElement);
+	}
+	
+	function validateElement(appElement) {
+	  if (!appElement && !_element)
+	    throw new Error('react-modal: You must set an element with `Modal.setAppElement(el)` to make this accessible');
+	}
+	
+	function resetForTesting() {
+	  _element = document.body;
+	}
+	
+	exports.toggle = toggle;
+	exports.setElement = setElement;
+	exports.show = show;
+	exports.hide = hide;
+	exports.resetForTesting = resetForTesting;
+
+
+/***/ },
+/* 390 */
+/***/ function(module, exports) {
+
+	module.exports = function(opts) {
+	  return new ElementClass(opts)
+	}
+	
+	function indexOf(arr, prop) {
+	  if (arr.indexOf) return arr.indexOf(prop)
+	  for (var i = 0, len = arr.length; i < len; i++)
+	    if (arr[i] === prop) return i
+	  return -1
+	}
+	
+	function ElementClass(opts) {
+	  if (!(this instanceof ElementClass)) return new ElementClass(opts)
+	  var self = this
+	  if (!opts) opts = {}
+	
+	  // similar doing instanceof HTMLElement but works in IE8
+	  if (opts.nodeType) opts = {el: opts}
+	
+	  this.opts = opts
+	  this.el = opts.el || document.body
+	  if (typeof this.el !== 'object') this.el = document.querySelector(this.el)
+	}
+	
+	ElementClass.prototype.add = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (el.className === "") return el.className = className
+	  var classes = el.className.split(' ')
+	  if (indexOf(classes, className) > -1) return classes
+	  classes.push(className)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+	
+	ElementClass.prototype.remove = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (el.className === "") return
+	  var classes = el.className.split(' ')
+	  var idx = indexOf(classes, className)
+	  if (idx > -1) classes.splice(idx, 1)
+	  el.className = classes.join(' ')
+	  return classes
+	}
+	
+	ElementClass.prototype.has = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  var classes = el.className.split(' ')
+	  return indexOf(classes, className) > -1
+	}
+	
+	ElementClass.prototype.toggle = function(className) {
+	  var el = this.el
+	  if (!el) return
+	  if (this.has(className)) this.remove(className)
+	  else this.add(className)
+	}
+
 
 /***/ }
 /******/ ]);

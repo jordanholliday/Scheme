@@ -1,17 +1,16 @@
-.app header {
+.app > header {
   background: #fff;
-  height: 30px;
-  padding: 5px 0;
+  height: 40px;
   border-bottom: 1px solid #fff;
+  position: relative;
 }
 
 header button {
   float: right;
   box-sizing: border-box;
   height: 33px;
-  padding-left: 13px;
-  padding-right: 13px;
-  margin-right: 10px;
+  padding: 0 13px;
+  margin: 3px 10px 3px 0;
   background: #fff;
   border: 2px solid #6A67CE;
   color: #6A67CE;
@@ -24,4 +23,107 @@ header button:hover {
   border-color: #a177ff;
   box-shadow: 0 0 0 3px #a177ff;
   color: #a177ff;
+}
+
+
+header button.omni-button,
+header button.omni-button:hover {
+  position: relative;
+  margin: 8px 0 8px 240px;
+  padding: 0;
+  float: left;
+  border: none;
+  box-shadow: none;
+  box-sizing: border-box;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
+  box-shadow: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
+}
+
+/* hover state via after pseudo content*/
+header .omni-button:hover::before {
+  content: "";
+  display: block;
+  border: none;
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  opacity: 0.5;
+  background: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
+}
+
+header button.omni-button svg {
+  fill: #fff;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+header .omni-box {
+  position: absolute;
+  top: 110%;
+  left: 168px;
+  width: 160px;
+  padding: 3px 0;
+  border: 1px solid #A1A4AA;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.298039) 0px 2px 3px 0px;
+  background: #fff;
+  border-top: none;
+
+}
+
+header .omni-box.arrow {
+  position: absolute;
+  top: 93%;
+  left: 242px;
+  height: 14px;
+  width: 14px;
+  border: 1px solid #A1A4AA;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+  transform: rotate(45deg);
+  border-right: none;
+  border-bottom: none;
+}
+
+header .omni-box li {
+  padding: 0 15px;
+  height: 50px;
+  border: none;
+  color: #898E95;
+  font-size: 14px;
+}
+
+header .omni-box li:hover {
+  background: linear-gradient(45deg, #FC636B, #FF6D92 60%, #FFB900 115%);
+  color: #fff;
+}
+
+header .omni-box li svg {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 15px 0;
+  pointer-events: none;
+  fill: #B9BCC0;
+}
+
+header .omni-box li:hover svg {
+  fill: #fff;
+}
+
+header .omni-box li label{
+  float: left;
+  margin: 17px 0;
+  padding-left: 10px;
 }
