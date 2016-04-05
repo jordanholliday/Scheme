@@ -32520,11 +32520,21 @@
 	  },
 	
 	  setStatePickingDate: function (e) {
-	    if (this.state.PickingDate) {
+	    if (this.state.pickingDate) {
 	      this.setState({ pickingDate: false });
 	    } else {
 	      this.setState({ pickingDate: true, assigning: false });
 	    };
+	  },
+	
+	  setStatePickingDateTrue: function (e) {
+	    e.stopPropagation();
+	    this.setState({ pickingDate: true, assigning: false });
+	  },
+	
+	  setStatePickingDateFalse: function (e) {
+	    e.stopPropagation();
+	    this.setState({ pickingDate: false });
 	  },
 	
 	  resetAssigneeInput: function (e) {
@@ -32647,13 +32657,12 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        {
-	          className: this.state.pickingDate ? "assigning" : "not-assigning",
-	          onClick: this.setStatePickingDate },
+	        { className: this.state.pickingDate ? "assigning" : "not-assigning" },
 	        React.createElement(OptionsDatePicker, {
 	          deadline: this.props.task.deadline,
 	          pickingDate: this.state.pickingDate,
-	          changeHandler: this.updateTaskDeadline })
+	          changeHandler: this.updateTaskDeadline,
+	          inputClickHandler: this.setStatePickingDate })
 	      )
 	    );
 	  }
@@ -32708,7 +32717,6 @@
 	  },
 	
 	  handleViewChange: function (dateText) {
-	    debugger;
 	    this.setState({ viewDate: dateText });
 	  },
 	
@@ -32751,7 +32759,8 @@
 	      hideFooter: true,
 	      weekDayNames: ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
 	      onChange: this.setDeadline,
-	      onViewDateChange: this.handleViewChange
+	      onViewDateChange: this.handleViewChange,
+	      onMouseLeave: this.props.inputClickHandler
 	    });
 	  },
 	
@@ -32766,7 +32775,10 @@
 	        this.calendarIcon()
 	      ),
 	      React.createElement('input', {
-	        className: 'date-input', type: 'text', value: this.shortDeadline()
+	        className: 'date-input',
+	        type: 'text',
+	        value: this.shortDeadline(),
+	        onClick: this.props.inputClickHandler
 	      }),
 	      this.state.pickingDate ? this.datePickerComponent() : null
 	    );

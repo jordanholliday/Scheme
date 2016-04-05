@@ -21,6 +21,7 @@
 
 .task-options .current-assignee-date {
   margin-left: 15px;
+  margin-right: 5px;
   display: inline-block;
   box-sizing: border-box;
   padding: 3px;

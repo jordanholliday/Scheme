@@ -56,11 +56,21 @@ var TaskOptions = React.createClass({
   },
 
   setStatePickingDate: function (e) {
-    if (this.state.PickingDate) {
+    if (this.state.pickingDate) {
       this.setState({pickingDate: false});
     } else {
       this.setState({pickingDate: true , assigning: false});
     };
+  },
+
+  setStatePickingDateTrue: function (e) {
+    e.stopPropagation();
+    this.setState({pickingDate: true , assigning: false});
+  },
+
+  setStatePickingDateFalse: function (e) {
+    e.stopPropagation();
+    this.setState({pickingDate: false});
   },
 
   resetAssigneeInput: function (e) {
@@ -176,13 +186,12 @@ var TaskOptions = React.createClass({
           <div className={this.state.assigning ? "assigning" : "not-assigning"}>
             {currentAssigneeDetail}
           </div>
-          <div
-            className={this.state.pickingDate ? "assigning" : "not-assigning"}
-            onClick={this.setStatePickingDate}>
+          <div className={this.state.pickingDate ? "assigning" : "not-assigning"}>
             <OptionsDatePicker
               deadline={this.props.task.deadline}
               pickingDate={this.state.pickingDate}
-              changeHandler={this.updateTaskDeadline} />
+              changeHandler={this.updateTaskDeadline}
+              inputClickHandler={this.setStatePickingDate} />
           </div>
         </section>
       );
@@ -225,7 +234,6 @@ var OptionsDatePicker = React.createClass({
   },
 
   handleViewChange: function (dateText) {
-    debugger
     this.setState({viewDate: dateText});
   },
 
@@ -252,6 +260,7 @@ var OptionsDatePicker = React.createClass({
         weekDayNames={["SU", "MO", "TU", "WE", "TH", "FR", "SA"]}
         onChange={this.setDeadline}
         onViewDateChange={this.handleViewChange}
+        onMouseLeave={this.props.inputClickHandler}
       />
     );
   },
@@ -262,7 +271,10 @@ var OptionsDatePicker = React.createClass({
       <div className="group current-assignee-date">
         <div className="calendar-circle">{this.calendarIcon()}</div>
         <input
-          className="date-input" type="text" value={this.shortDeadline()}
+          className="date-input"
+          type="text"
+          value={this.shortDeadline()}
+          onClick={this.props.inputClickHandler}
         />
         {this.state.pickingDate ? this.datePickerComponent() : null}
       </div>
