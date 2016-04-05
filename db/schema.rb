@@ -11,10 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160402183906) do
+ActiveRecord::Schema.define(version: 20160405195325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "memberships", force: :cascade do |t|
+    t.integer  "member_id",  null: false
+    t.integer  "team_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "memberships", ["member_id", "team_id"], name: "index_memberships_on_member_id_and_team_id", unique: true, using: :btree
+  add_index "memberships", ["member_id"], name: "index_memberships_on_member_id", unique: true, using: :btree
 
   create_table "tasks", force: :cascade do |t|
     t.string   "name",                        null: false
@@ -32,6 +42,15 @@ ActiveRecord::Schema.define(version: 20160402183906) do
   add_index "tasks", ["assignee_id"], name: "index_tasks_on_assignee_id", using: :btree
   add_index "tasks", ["creator_id"], name: "index_tasks_on_creator_id", using: :btree
   add_index "tasks", ["parent_id"], name: "index_tasks_on_parent_id", using: :btree
+
+  create_table "teams", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.integer  "creator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "teams", ["creator_id"], name: "index_teams_on_creator_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",               null: false

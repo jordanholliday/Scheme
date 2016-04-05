@@ -8,8 +8,16 @@
 
 require 'faker'
 
+# empty existing data
 Task.destroy_all
+Membership.destroy_all
 
+# create a membership for each user to reference in next loop
+User.all.each do |user|
+  Membership.create!(member_id: user.id, team_id: rand(2) + 1)
+end
+
+# create tasks and assignments among teammates
 User.all.each do |user|
   10.times do
     task = Task.new
@@ -18,8 +26,8 @@ User.all.each do |user|
       [Faker::Hacker.say_something_smart,
         Faker::Hacker.say_something_smart,
         Faker::Hacker.say_something_smart].join(" ")
-    task.assignee_id = User.pluck(:id).sample
-    task.creator_id = user.id
+    task.assignee_id = user.teammates.pluck(:id).sample
+    task.creator_id = user.teammates.pluck(:id).sample
     task.deadline = Date.today + rand(14).days
     task.save!
   end

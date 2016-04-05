@@ -26,13 +26,6 @@ class Api::TasksController < ApplicationController
     @task = Task.find(params[:id])
     @task.update(task_params)
     render :show
-
-    # if @task.id == current_user.id
-    #   @task.update(task_params)
-    #   render :show
-    # else
-    #   redirect_to api_tasks_url
-    # end
   end
 
   def destroy
@@ -40,12 +33,6 @@ class Api::TasksController < ApplicationController
     task.destroy
 
     return_all_current_user_tasks
-
-    # if task.creator_id == current_user.id
-    #   task.destroy
-    # end
-
-    # redirect_to api_tasks_url
   end
 
   private
@@ -61,7 +48,7 @@ class Api::TasksController < ApplicationController
   end
 
   def return_all_current_user_tasks
-    @tasks = current_user.tasks.includes(:creator).where(completed: false)
+    @tasks = current_user.team_tasks.includes(:creator).where(completed: false)
     render :index
   end
 

@@ -13,6 +13,31 @@ class User < ActiveRecord::Base
     foreign_key: :creator_id
   )
 
+  has_one(
+    :membership,
+    class_name: 'Membership',
+    primary_key: :id,
+    foreign_key: :member_id
+  )
+
+  has_one(
+    :team,
+    through: :membership,
+    source: :team
+  )
+
+  has_many(
+    :teammates,
+    through: :team,
+    source: :members
+  )
+
+  has_many(
+    :team_tasks,
+    through: :team,
+    source: :tasks
+  )
+
 
   attr_reader :password
 

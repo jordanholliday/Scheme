@@ -245,7 +245,7 @@ var OptionsDatePicker = React.createClass({
 
   shortDeadline: function () {
     // prettify date for options bar
-    return new Date(Date.parse(this.state.deadline)).toDateString().split(" ").slice(1).join(" ")
+    return new Date(Date.parse(this.state.deadline)).toDateString().split(" ").slice(1).join(" ");
   },
 
   datePickerComponent: function () {

@@ -32193,7 +32193,7 @@
 	  displayName: 'NavBar',
 	
 	  getInitialState: function () {
-	    return { showOmniBox: false, showInviteModal: true, validInviteEmail: false };
+	    return { showOmniBox: false, showInviteModal: false, validInviteEmail: false };
 	  },
 	
 	  componentWillMount: function () {
