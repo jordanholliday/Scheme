@@ -1,7 +1,7 @@
 var ApiActions = require('../actions/api_actions'),
     SessionActions=require('../actions/session_actions');
 
-ApiUtil = {
+var ApiUtil = {
   fetchTasks: function () {
     $.ajax({
       type: 'GET',

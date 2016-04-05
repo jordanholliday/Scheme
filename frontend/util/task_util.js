@@ -7,7 +7,6 @@ var TaskUtil = {
       return dateWithYear.join(" ");
   },
 
-  // returns yesterday, today, tomorrow, Thursday (ie, this Thursday) etc.
   contextualDeadline: function (taskDeadline) {
     var dateWithYear;
     var deadlineDate = new Date(Date.parse(taskDeadline));

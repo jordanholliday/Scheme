@@ -2,7 +2,8 @@ var React = require('react'),
     ReactDOM = require('react-dom'),
     TaskStore = require('../stores/tasks');
     Link = require('react-router').Link,
-    TaskAction = require('../actions/task_actions');
+    TaskAction = require('../actions/task_actions'),
+    TaskUtil = require('../util/task_util.js');
 
 var TaskIndexItem = React.createClass({
   contextTypes: {
@@ -113,6 +114,14 @@ var TaskIndexItem = React.createClass({
     this.context.router.push("tasks/" + this.state.task.id)
   },
 
+  renderDeadline: function () {
+    return (
+      <div className="date-block">
+        {TaskUtil.contextualDeadline(this.state.task.deadline)}
+      </div>
+    )
+  },
+
   render: function () {
     var button,
         input;
@@ -154,6 +163,7 @@ var TaskIndexItem = React.createClass({
         <li className="group task-index-item">
           {button}
           {input}
+          {this.state.task && this.state.task.deadline ? this.renderDeadline() : null }
         </li>
     )
   }
