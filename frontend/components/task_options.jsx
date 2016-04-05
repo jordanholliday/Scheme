@@ -11,6 +11,7 @@ var TaskOptions = React.createClass({
       assigneeId: this.props.task.assignee_id,
       deadline: this.props.task.deadline,
       assigning: false,
+      pickingDate: false,
       assigneeInput: ""
     };
   },
@@ -50,7 +51,15 @@ var TaskOptions = React.createClass({
     if (this.state.assigning) {
       this.setState({assigning: false, assigneeInput: ""});
     } else {
-      this.setState({assigning: true });
+      this.setState({assigning: true, pickingDate: false });
+    };
+  },
+
+  setStatePickingDate: function (e) {
+    if (this.state.PickingDate) {
+      this.setState({pickingDate: false});
+    } else {
+      this.setState({pickingDate: true , assigning: false});
     };
   },
 
@@ -167,8 +176,13 @@ var TaskOptions = React.createClass({
           <div className={this.state.assigning ? "assigning" : "not-assigning"}>
             {currentAssigneeDetail}
           </div>
-          <div className={this.state.assigning ? "assigning" : "not-assigning"}>
-            <OptionsDatePicker deadline={this.props.task.deadline} changeHandler={this.updateTaskDeadline} />
+          <div
+            className={this.state.pickingDate ? "assigning" : "not-assigning"}
+            onClick={this.setStatePickingDate}>
+            <OptionsDatePicker
+              deadline={this.props.task.deadline}
+              pickingDate={this.state.pickingDate}
+              changeHandler={this.updateTaskDeadline} />
           </div>
         </section>
       );
@@ -198,7 +212,11 @@ var OptionsDatePicker = React.createClass({
   },
 
   componentWillReceiveProps: function (newProps) {
-    this.setState({deadline: newProps.deadline, viewDate: newProps.deadline});
+    this.setState({
+      deadline: newProps.deadline,
+      viewDate: newProps.deadline,
+      pickingDate: newProps.pickingDate
+    });
   },
 
   setDeadline: function (dateText) {
@@ -206,7 +224,8 @@ var OptionsDatePicker = React.createClass({
     this.props.changeHandler(dateText);
   },
 
-  debugViewChange: function (dateText) {
+  handleViewChange: function (dateText) {
+    debugger
     this.setState({viewDate: dateText});
   },
 
@@ -221,25 +240,31 @@ var OptionsDatePicker = React.createClass({
     return new Date(Date.parse(this.state.deadline)).toDateString().split(" ").slice(1).join(" ")
   },
 
+  datePickerComponent: function () {
+    return (
+      <DatePicker
+      className="date-picker-component"
+        minDate='2015-10-10'
+        maxDate='2020-10-10'
+        date={this.state.deadline}
+        viewDate={this.state.viewDate ? this.state.viewDate : new Date()}
+        hideFooter={true}
+        weekDayNames={["SU", "MO", "TU", "WE", "TH", "FR", "SA"]}
+        onChange={this.setDeadline}
+        onViewDateChange={this.handleViewChange}
+      />
+    );
+  },
+
   render: function () {
     var car;
     return (
       <div className="group current-assignee-date">
         <div className="calendar-circle">{this.calendarIcon()}</div>
         <input
-          className="date-input" type="text" value={this.shortDeadline()} disabled={true}
+          className="date-input" type="text" value={this.shortDeadline()}
         />
-        <DatePicker
-        className="date-picker-component"
-          minDate='2015-10-10'
-          maxDate='2020-10-10'
-          date={this.state.deadline}
-          viewDate={this.state.viewDate ? this.state.viewDate : new Date() }
-          hideFooter={true}
-          weekDayNames={["SU", "MO", "TU", "WE", "TH", "FR", "SA"]}
-          onChange={this.setDeadline}
-          onViewDateChange={this.debugViewChange}
-        />
+        {this.state.pickingDate ? this.datePickerComponent() : null}
       </div>
 
     );
