@@ -78,6 +78,18 @@ button.complete-task-button:hover svg.check-complete {
   flex: 1;
 }
 
+.task-index .task-index-item .date-block {
+  font-size: 12px;
+}
+
+.task-index .task-index-item .date-block.due-soon {
+  color: #37C597;
+}
+
+.task-index .task-index-item .date-block.past-due {
+  color: #FC636B;
+}
+
 .task-index .task-index-item.edit-task + li  {
   border-bottom-color: #1AAFD0;
 }

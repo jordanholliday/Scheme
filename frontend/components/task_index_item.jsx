@@ -101,7 +101,8 @@ var TaskIndexItem = React.createClass({
     })
   },
 
-  apiCompleteTask: function () {
+  apiCompleteTask: function (e) {
+    e.stopPropagation();
     ApiUtil.completeTask({
       id: this.state.task.id,
       completed: true
@@ -115,8 +116,16 @@ var TaskIndexItem = React.createClass({
   },
 
   renderDeadline: function () {
+    var res = TaskUtil.pastPresentOrFutureTask(this.state.task.deadline);
+    var dateClass= "";
+    if (res === -1) {
+      dateClass = " past-due";
+    } else if (res === 0) {
+      dateClass = " due-soon";
+    }
+
     return (
-      <div className="date-block">
+      <div className={"date-block" + dateClass}>
         {TaskUtil.contextualDeadline(this.state.task.deadline)}
       </div>
     )
@@ -156,11 +165,10 @@ var TaskIndexItem = React.createClass({
             onBlur={this.saveNameChange}
             onMouseOut={this.saveNameChange}
             onKeyDown={this.keyDownHandler}
-            onClick={this.clickToShowDetail}
            />
 
     return (
-        <li className="group task-index-item">
+        <li className="group task-index-item" onClick={this.clickToShowDetail}>
           {button}
           {input}
           {this.state.task && this.state.task.deadline ? this.renderDeadline() : null }

@@ -33,6 +33,24 @@ var TaskUtil = {
       dateWithYear = new Date(Date.parse(taskDeadline)).toDateString().split(" ").slice(1);
       return dateWithYear.join(" ");
     }
+  },
+
+  pastPresentOrFutureTask: function (taskDeadline) {
+    // Returns 0 for deadline === today OR tomorrow, -1 for past deadlines
+    // and 1 for tasks due beyond "tomorrow"
+    var deadlineDateObj = new Date(Date.parse(taskDeadline));
+    if (deadlineDateObj.toDateString() === Date.today().toDateString()) {
+      return 0;
+    }
+    else if (deadlineDateObj.toDateString() === Date.today().add(1).day().toDateString()) {
+      return 0;
+    }
+    else if (deadlineDateObj < Date.today()) {
+      return -1;
+    }
+    else {
+      return 1;
+    }
   }
 };
 
