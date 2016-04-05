@@ -6,9 +6,7 @@ var NavBar = React.createClass({
   render: function () {
     return (
       <header>
-        <span onClick={ApiUtil.logout}>
-          lOg oUt!
-        </span>
+          <button onClick={ApiUtil.logout}>Log Out</button>
       </header>
       );
   }

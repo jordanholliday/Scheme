@@ -32167,19 +32167,19 @@
 	    ApiUtil = __webpack_require__(241);
 	
 	var NavBar = React.createClass({
-	  displayName: 'NavBar',
+	    displayName: 'NavBar',
 	
-	  render: function () {
-	    return React.createElement(
-	      'header',
-	      null,
-	      React.createElement(
-	        'span',
-	        { onClick: ApiUtil.logout },
-	        'lOg oUt!'
-	      )
-	    );
-	  }
+	    render: function () {
+	        return React.createElement(
+	            'header',
+	            null,
+	            React.createElement(
+	                'button',
+	                { onClick: ApiUtil.logout },
+	                'Log Out'
+	            )
+	        );
+	    }
 	});
 	
 	module.exports = NavBar;
