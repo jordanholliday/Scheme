@@ -11,7 +11,7 @@ class Api::UsersController < ApplicationController
     if @user.save
       login!(@user)
       render json: @user
-      5.times do
+      4.times do
         task = @user.tasks.new
         task.name = Faker::Company.bs
         task.description =
@@ -19,6 +19,7 @@ class Api::UsersController < ApplicationController
             Faker::Hacker.say_something_smart,
             Faker::Hacker.say_something_smart].join(" ")
         task.assignee_id = User.pluck(:id).sample
+        task.deadline = Date.today + rand(14).days
         task.save!
       end
     else

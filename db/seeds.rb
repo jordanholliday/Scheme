@@ -11,14 +11,16 @@ require 'faker'
 Task.destroy_all
 
 User.all.each do |user|
-  5.times do
-    task = user.tasks.new
+  10.times do
+    task = Task.new
     task.name = Faker::Company.bs
     task.description =
       [Faker::Hacker.say_something_smart,
         Faker::Hacker.say_something_smart,
         Faker::Hacker.say_something_smart].join(" ")
     task.assignee_id = User.pluck(:id).sample
+    task.creator_id = user.id
+    task.deadline = Date.today + rand(14).days
     task.save!
   end
 end
