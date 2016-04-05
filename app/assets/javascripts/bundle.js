@@ -32169,12 +32169,23 @@
 	
 	var customStyles = {
 	  content: {
-	    top: '50%',
 	    left: '50%',
 	    right: 'auto',
 	    bottom: 'auto',
-	    marginRight: '-50%',
-	    transform: 'translate(-50%, -50%)'
+	    marginTop: '150px',
+	    transform: 'translateX(-50%)',
+	    border: '1px solid #A1A4AA',
+	    borderRadius: '3px',
+	    boxShadow: '0 2px 3px rgba(0,0,0,0.3)',
+	    padding: '0'
+	  },
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(103,109,118,0.6)'
 	  }
 	};
 	
@@ -32182,7 +32193,7 @@
 	  displayName: 'NavBar',
 	
 	  getInitialState: function () {
-	    return { showOmniBox: false, showInviteModal: false };
+	    return { showOmniBox: false, showInviteModal: true, validInviteEmail: false };
 	  },
 	
 	  componentWillMount: function () {
@@ -32196,12 +32207,36 @@
 	
 	  showInviteModal: function (e) {
 	    e.stopPropagation();
-	    this.setState({ showInviteModal: true });
+	    this.setState({ showInviteModal: true, showOmniBox: false });
 	  },
 	
 	  hideInviteModal: function (e) {
 	    e.stopPropagation();
-	    this.setState({ showInviteModal: false });
+	    this.refs.inviteEmailInput.value = "";
+	    this.setState({ showInviteModal: false, validInviteEmail: false });
+	  },
+	
+	  validateInviteEmail: function (e) {
+	    var inviteEmail = e.currentTarget.value;
+	
+	    if (!inviteEmail) {
+	      this.setState({ validInviteEmail: false });
+	      return;
+	    }
+	
+	    var atSignIndex = inviteEmail.indexOf("@");
+	    var dotIndex = inviteEmail.slice(atSignIndex + 1).indexOf(".");
+	
+	    if (atSignIndex > 0 && dotIndex > 0) {
+	      this.setState({ validInviteEmail: true });
+	    } else {
+	      this.setState({ validInviteEmail: false });
+	    }
+	  },
+	
+	  testDisabled: function (e) {
+	    e.preventDefault();
+	    console.log("it ran...");
 	  },
 	
 	  omniBoxRender: function () {
@@ -32233,45 +32268,48 @@
 	  modalRender: function () {
 	    return React.createElement(
 	      Modal,
-	      { isOpen: this.state.showInviteModal, style: customStyles },
+	      { className: 'invite-modal', isOpen: this.state.showInviteModal, style: customStyles },
 	      React.createElement(
-	        'h2',
-	        null,
-	        'Hello'
-	      ),
-	      React.createElement(
-	        'button',
-	        { onClick: this.closeModal },
-	        'close'
-	      ),
-	      React.createElement(
-	        'div',
-	        null,
-	        'I am a modal'
+	        'header',
+	        { className: 'group' },
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Invite Someone to Scheme'
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'close-modal', onClick: this.hideInviteModal },
+	          React.createElement(
+	            'svg',
+	            { viewBox: '0 0 32 32' },
+	            React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222', 'data-reactid': '.t.0.0:0.1.0.0' })
+	          )
+	        )
 	      ),
 	      React.createElement(
 	        'form',
 	        null,
-	        React.createElement('input', null),
 	        React.createElement(
-	          'button',
-	          null,
-	          'tab navigation'
+	          'div',
+	          { className: 'group' },
+	          React.createElement('input', { type: 'invite[email]', id: 'email', placeholder: 'name@company.com', ref: 'inviteEmailInput', onChange: this.validateInviteEmail }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'email' },
+	            'Email Address'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'p',
+	            null,
+	            'Your co-conspirator will get an email that gives them access to this team.'
+	          )
 	        ),
 	        React.createElement(
 	          'button',
-	          null,
-	          'stays'
-	        ),
-	        React.createElement(
-	          'button',
-	          null,
-	          'inside'
-	        ),
-	        React.createElement(
-	          'button',
-	          null,
-	          'the modal'
+	          { onClick: this.testDisabled, disabled: !this.state.validInviteEmail },
+	          'Invite'
 	        )
 	      )
 	    );

@@ -39,7 +39,6 @@ header button.omni-button:hover {
   width: 24px;
   border-radius: 50%;
   background: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
-  box-shadow: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
 }
 
 /* hover state via after pseudo content*/
@@ -127,3 +126,94 @@ header .omni-box li label{
   margin: 17px 0;
   padding-left: 10px;
 }
+
+.invite-modal header {
+  padding: 15px 0 15px 30px;
+  border-bottom: 1px solid #E1E2E4;
+}
+
+.invite-modal header h2 {
+  float: left;
+  font-family: 'proxima_nova_bold', sans-serif;
+  font-size: 24px;
+}
+
+.invite-modal header button,
+.invite-modal header button:hover {
+  margin: 0 5px 0 0;
+  height: 20px;
+  position: relative;
+  border: none;
+  box-shadow: none;
+}
+
+.invite-modal header button svg {
+  fill: #CDCFD2;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.invite-modal header button svg:hover {
+  fill: #02CEFF;
+}
+
+.invite-modal form {
+  padding: 15px 30px;
+}
+
+.invite-modal form label {
+  padding: 15px 10px;
+  text-transform: uppercase;
+  color: #898E95;
+  font-size: 12px;
+  float: right;
+}
+
+.invite-modal form input {
+  box-sizing: border-box;
+  border: 1px solid #CDCFD2;
+  padding: 10px 15px;
+  width: 350px;
+  float: right;
+  font-size: 14px;
+}
+
+.invite-modal form p {
+  float: right;
+  display: block;
+  max-width: 350px;
+  font-size: 12px;
+  color: #898E95;
+}
+
+.invite-modal form button {
+  float: right;
+  margin: 15px 0;
+  padding: 0 14px;
+  height: 40px;
+  color: #fff;
+  background: #1AAFD0;
+  border: 1px solid #1AAFD0;
+  font-size: 14px;
+  transition: border-color, background;
+  transition-duration: .2s;
+}
+
+.invite-modal form button:hover {
+  box-shadow: 0 0 0 3px #80E6FF;
+  background: #02CEFF;
+  border-color: #02CEFF;
+}
+
+.invite-modal form button:disabled,
+.invite-modal form button:disabled:hover {
+  color: #B9BCC0;
+  background: #EFF0F1;
+  border: 1px solid #E1E2E4;
+  box-shadow: none;
+}
+
