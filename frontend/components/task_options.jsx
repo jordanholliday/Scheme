@@ -2,7 +2,8 @@ var React = require('react'),
     ReactDom = require('react-dom'),
     ApiUtil = require('../util/api_util.js'),
     TeamUserStore = require('../stores/team_users'),
-    DatePicker = require('react-date-picker');
+    DatePicker = require('react-date-picker'),
+    TaskUtil = require('../util/task_util.js');
 
 var TaskOptions = React.createClass({
   getInitialState: function () {
@@ -245,7 +246,8 @@ var OptionsDatePicker = React.createClass({
 
   shortDeadline: function () {
     // prettify date for options bar
-    return new Date(Date.parse(this.state.deadline)).toDateString().split(" ").slice(1).join(" ");
+    // return new Date(Date.parse(this.state.deadline)).toDateString().split(" ").slice(1).join(" ");
+    return TaskUtil.contextualDeadline(this.state.deadline);
   },
 
   datePickerComponent: function () {

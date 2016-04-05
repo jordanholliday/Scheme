@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= date
 //= require jquery_ujs
 //= require bundle
 //= require_tree .
