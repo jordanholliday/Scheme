@@ -32091,19 +32091,33 @@
 	    this.context.router.push("tasks/" + this.state.task.id);
 	  },
 	
-	  renderDeadline: function () {
+	  setDateClass: function () {
 	    var res = TaskUtil.pastPresentOrFutureTask(this.state.task.deadline);
-	    var dateClass = "";
+	    this.state.task.dateClass = "";
 	    if (res === -1) {
-	      dateClass = " past-due";
+	      this.state.task.dateClass = " past-due";
 	    } else if (res === 0) {
-	      dateClass = " due-soon";
+	      this.state.task.dateClass = " due-soon";
+	    }
+	  },
+	
+	  setContextualDeadline: function () {
+	    this.state.task.contextualDeadline = TaskUtil.contextualDeadline(this.state.task.deadline);
+	  },
+	
+	  renderDeadline: function () {
+	    if (!this.state.task.dateClass) {
+	      this.setDateClass();
+	    }
+	
+	    if (!this.state.task.contextualDeadline) {
+	      this.setContextualDeadline();
 	    }
 	
 	    return React.createElement(
 	      'div',
-	      { className: "date-block" + dateClass },
-	      TaskUtil.contextualDeadline(this.state.task.deadline)
+	      { className: "date-block" + this.state.task.dateClass },
+	      this.state.task.contextualDeadline
 	    );
 	  },
 	
