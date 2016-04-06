@@ -34579,7 +34579,7 @@
 	  routeToTaskIndexIfTaskNull: function () {
 	    // need to rewrite this to point toward a project index (still to come)
 	    if (!this.state.task) {
-	      this.context.router.push("/tasks");
+	      this.context.router.push("/projects/" + this.props.params.projectId);
 	    }
 	  },
 	
@@ -51662,16 +51662,21 @@
 	var ProjectDrawer = React.createClass({
 	  displayName: 'ProjectDrawer',
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	
 	  getInitialState: function () {
 	    return {
 	      teammates: TeamUserStore.all(),
-	      teamName: TeamUserStore.teamName()
+	      teamName: TeamUserStore.teamName(),
+	      projects: ProjectStore.all()
 	    };
 	  },
 	
 	  componentDidMount: function () {
 	    this.teamUserStoreToken = TeamUserStore.addListener(this.updateTeammates);
+	    this.projectStoreToken = ProjectStore.addListener(this.updateProjects);
 	    ApiUtil.fetchTeamUsers();
 	  },
 	
@@ -51680,10 +51685,21 @@
 	  },
 	
 	  updateTeammates: function () {
+	    debugger;
 	    this.setState({
 	      teammates: TeamUserStore.all(),
 	      teamName: TeamUserStore.teamName()
 	    });
+	  },
+	
+	  updateProjects: function () {
+	    this.setState({
+	      projects: ProjectStore.all()
+	    });
+	  },
+	
+	  setSelectedProjectId: function (id) {
+	    this.setState({ selectedProjectId: id });
 	  },
 	
 	  renderDrawerHeader: function () {
@@ -51708,22 +51724,40 @@
 	    $.each(this.state.teammates, function (teammate) {
 	      teamUserLis.push(React.createElement(
 	        'li',
-	        null,
+	        { key: this.id },
 	        React.createElement('img', { src: this.avatar_url })
 	      ));
 	    });
 	
 	    return React.createElement(
 	      'ul',
-	      { className: 'teammate-list' },
+	      { className: 'group teammate-list' },
 	      teamUserLis
+	    );
+	  },
+	
+	  renderProjectLinks: function () {
+	    var allProjects = [];
+	    this.state.projects.forEach(function (project) {
+	      allProjects.push(React.createElement(ProjectLink, {
+	        project: project,
+	        key: project.id,
+	        setSelectedProjectId: this.setSelectedProjectId,
+	        selected: this.state.selectedProjectId === project.id
+	      }));
+	    }.bind(this));
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'project-links' },
+	      allProjects
 	    );
 	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      'section',
-	      { className: 'project-drawer' },
+	      { className: "project-drawer" },
 	      this.renderDrawerHeader(),
 	      React.createElement(
 	        'h2',
@@ -51735,7 +51769,41 @@
 	        'h3',
 	        null,
 	        'Projects'
-	      )
+	      ),
+	      this.renderProjectLinks()
+	    );
+	  }
+	});
+	
+	var ProjectLink = React.createClass({
+	  displayName: 'ProjectLink',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  projectLink: function () {
+	    if (this.props.selected) {
+	      return;
+	    }
+	    this.context.router.push("/projects/" + this.props.project.id);
+	    this.props.setSelectedProjectId(this.props.project.id);
+	  },
+	
+	  className: function () {
+	    var className;
+	    if (this.props.selected) {
+	      className = "selected";
+	    }
+	
+	    return className;
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'li',
+	      { className: this.className(), onClick: this.projectLink },
+	      this.props.project.name
 	    );
 	  }
 	});

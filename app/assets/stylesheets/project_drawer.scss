@@ -1,9 +1,8 @@
 .project-drawer {
   height: 100vh;
-  min-width: 215px;
-  max-width: 215px;
+  min-width: 245px;
+  max-width: 245px;
   background: #2E3C54;
-  padding: 0 15px;
   overflow-x: hidden;
 }
 
@@ -20,7 +19,7 @@
   top: 0;
 }
 .project-drawer li.close-drawer {
-  right: 0;
+  right: 15px;
   width: 16px;
   fill: #A2B4BC;
 }
@@ -30,7 +29,7 @@
 }
 
 .project-drawer li.drawer-logo {
-  left: 0;
+  left: 15px;
   height: 16px;
   width: 150px;
   background: image-url('scheme-logo-color-white-text.png');
@@ -41,7 +40,7 @@
 }
 
 .project-drawer ul.teammate-list {
-  /*width: 215px;*/
+  padding: 0 15px;
 }
 
 .project-drawer ul.teammate-list li {
@@ -57,13 +56,34 @@
 .project-drawer h2 {
   text-transform: uppercase;
   color: #fff;
-  padding: 30px 0 13px;
+  padding: 30px 15px 13px;
 }
 
-.project-drawer h2 {
+.project-drawer h3 {
+  margin: 0;
+  padding: 0 15px 5px;
+  color: #C1CCD1;
+  font-size: 12px;
+  font-family: 'proxima_nova_bold', sans-serif;
   text-transform: uppercase;
+}
+
+.project-drawer ul.project-links li {
+  padding: 0 15px;
+  height: 28px;
+  line-height: 28px;
+  color: #C1CCD1;
+  font-size: 14px;
+}
+
+.project-drawer ul.project-links li.selected {
+  background: #1B2432;
+}
+
+.project-drawer ul.project-links li:hover {
+  background: #179DBA;
+  background-origin: border-box;
   color: #fff;
-  padding: 30px 0 13px;
 }
 
 /*/* DRAWER TRANSITIONS*/

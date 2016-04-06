@@ -5,16 +5,21 @@ var React = require('react'),
     ApiUtil = require('../util/api_util');
 
 var ProjectDrawer = React.createClass({
+  contextTypes: {
+      router: React.PropTypes.object.isRequired
+  },
 
   getInitialState: function () {
     return {
       teammates: TeamUserStore.all(),
-      teamName: TeamUserStore.teamName()
+      teamName: TeamUserStore.teamName(),
+      projects: ProjectStore.all()
     }
   },
 
   componentDidMount: function () {
     this.teamUserStoreToken = TeamUserStore.addListener(this.updateTeammates);
+    this.projectStoreToken = ProjectStore.addListener(this.updateProjects);
     ApiUtil.fetchTeamUsers();
   },
 
@@ -23,10 +28,21 @@ var ProjectDrawer = React.createClass({
   },
 
   updateTeammates: function () {
+    debugger
     this.setState({
       teammates: TeamUserStore.all(),
       teamName: TeamUserStore.teamName()
     });
+  },
+
+  updateProjects: function () {
+    this.setState({
+      projects: ProjectStore.all()
+    });
+  },
+
+  setSelectedProjectId: function (id) {
+    this.setState({selectedProjectId: id})
   },
 
   renderDrawerHeader: function () {
@@ -43,26 +59,76 @@ var ProjectDrawer = React.createClass({
   renderTeammatesList: function () {
     var teamUserLis = [];
     $.each(this.state.teammates, function (teammate) {
-      teamUserLis.push(<li><img src={this.avatar_url}/></li>);
+      teamUserLis.push(<li key={this.id}>
+        <img src={this.avatar_url}/>
+      </li>);
     });
 
     return (
-      <ul className="teammate-list">
+      <ul className="group teammate-list">
         {teamUserLis}
       </ul>
     );
   },
 
+  renderProjectLinks: function () {
+    var allProjects = [];
+    this.state.projects.forEach(function (project) {
+      allProjects.push(<ProjectLink
+        project={project}
+        key={project.id}
+        setSelectedProjectId={this.setSelectedProjectId}
+        selected={this.state.selectedProjectId === project.id}
+      />);
+    }.bind(this))
+
+    return (
+      <ul className="project-links">
+        {allProjects}
+      </ul>
+    )
+  },
+
   render: function () {
     return (
-      <section className="project-drawer">
+      <section className={"project-drawer"}>
         {this.renderDrawerHeader()}
         <h2>{this.state.teamName}</h2>
         {this.renderTeammatesList()}
         <h3>Projects</h3>
+        {this.renderProjectLinks()}
       </section>
     );
   }
 });
+
+
+var ProjectLink = React.createClass({
+  contextTypes: {
+      router: React.PropTypes.object.isRequired
+  },
+
+  projectLink: function () {
+    if (this.props.selected) {return}
+    this.context.router.push("/projects/" + this.props.project.id);
+    this.props.setSelectedProjectId(this.props.project.id);
+  },
+
+  className: function () {
+    var className;
+    if (this.props.selected){
+      className = "selected";
+    }
+
+    return className;
+  },
+
+  render: function () {
+    return (<li className={this.className()} onClick={this.projectLink}>
+      {this.props.project.name}
+    </li>
+    )
+  }
+})
 
 module.exports = ProjectDrawer;

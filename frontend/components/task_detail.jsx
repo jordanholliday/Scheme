@@ -17,7 +17,7 @@ var TaskDetail = React.createClass({
   routeToTaskIndexIfTaskNull: function () {
     // need to rewrite this to point toward a project index (still to come)
     if (!this.state.task) {
-      this.context.router.push("/tasks")
+      this.context.router.push("/projects/" + this.props.params.projectId)
     }
   },
 
