@@ -8,7 +8,7 @@ var ApiUtil = {
       url: 'api/tasks',
       dataType: 'json',
       success: function (tasks) {
-        ApiActions.recieveAll(tasks);
+        ApiActions.receiveAll(tasks);
       },
       error: function () {
         console.log("ApiUtil#fetchTasks error");
@@ -68,7 +68,7 @@ var ApiUtil = {
       url: 'api/tasks/' + task.id,
       dataType: 'json',
       success: function (tasks) {
-        ApiActions.recieveAll(tasks);
+        ApiActions.receiveAll(tasks);
       },
       error: function () {
         console.log("ApiUtil#deleteTask error");
@@ -87,6 +87,34 @@ var ApiUtil = {
       },
       error: function () {
         console.log("ApiUtil#createInvite error");
+      }
+    });
+  },
+
+  fetchProjects: function () {
+    $.ajax({
+      type: 'GET',
+      url: 'api/projects',
+      dataType: 'json',
+      success: function (projects) {
+        ApiActions.receiveAllProjects(projects);
+      },
+      error: function () {
+        console.log("ApiUtil#fetchProjects error");
+      }
+    });
+  },
+
+  fetchProjectTasks: function (projectId) {
+    $.ajax({
+      type: 'GET',
+      url: 'api/tasks/project_tasks/' + projectId,
+      dataType: 'json',
+      success: function (tasks) {
+        ApiActions.receiveAll(tasks);
+      },
+      error: function () {
+        console.log("ApiUtil#fetchProjectTasks error");
       }
     });
   },

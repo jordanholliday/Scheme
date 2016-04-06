@@ -2,7 +2,7 @@ var ApiConstants = require('../constants/api_constants'),
     AppDispatcher = require('../dispatcher/dispatcher.js');
 
 ApiActions = {
-  recieveAll: function (tasks) {
+  receiveAll: function (tasks) {
     AppDispatcher.dispatch({
       actionType: ApiConstants.RECEIVE_TASKS,
       tasks: tasks
@@ -20,6 +20,13 @@ ApiActions = {
     AppDispatcher.dispatch({
       actionType: ApiConstants.RECEIVE_ALL_TEAM_USERS,
       teamUsers: teamUsers
+    });
+  },
+
+  receiveAllProjects: function (projects) {
+    AppDispatcher.dispatch({
+      actionType: ApiConstants.RECEIVE_ALL_PROJECTS,
+      projects: projects
     });
   }
 };

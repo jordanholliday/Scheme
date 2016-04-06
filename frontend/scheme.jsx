@@ -4,6 +4,7 @@ var React = require('react'),
     Router = ReactRouter.Router,
     Route = ReactRouter.Route,
     IndexRoute = ReactRouter.IndexRoute,
+    hashHistory = ReactRouter.hashHistory,
     TaskIndex = require('./components/task_index'),
     ApiUtil = require('./util/api_util'),
     SessionStore = require('./stores/sessions'),
@@ -11,15 +12,16 @@ var React = require('react'),
     TaskDetail = require('./components/task_detail'),
     LoginForm = require('./components/login_form'),
     RegistrationForm = require('./components/registration_form'),
-    SplashPage = require('./components/splash_page');
+    SplashPage = require('./components/splash_page'),
+    ProjectDetail = require('./components/project_detail');
 
 var routes = (
   <Route path="/" component={App}>
 
     <IndexRoute component={SplashPage} />
 
-    <Route path="/tasks" component={TaskIndex} onEnter={_requireLogIn}>
-      <Route path="/tasks/:taskId" component={TaskDetail} />
+    <Route path="/projects/:projectId" component={ProjectDetail} onEnter={_requireLogIn}>
+      <Route path="/projects/:projectId/:taskId" component={TaskDetail} />
     </Route>
 
     <Route path="/login" component={LoginForm} onEnter={_requireLogOut} />
@@ -29,8 +31,14 @@ var routes = (
   </Route>
 );
 
+var oldTaskRoutes = (
+  <Route path="/tasks" component={TaskIndex} onEnter={_requireLogIn}>
+    <Route path="/tasks/:taskId" component={TaskDetail} />
+  </Route>
+);
+
 $(document).on('ready', function () {
-  ReactDOM.render(<Router>{routes}</Router>, $('.root')[0]);
+  ReactDOM.render(<Router history={hashHistory}>{routes}</Router>, $('.root')[0]);
 });
 
 function _checkSessionStore (redirectCallback) {

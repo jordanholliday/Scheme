@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     resources :tasks, only: [:index, :show, :update, :create, :destroy]
     resource  :session, only: [:show, :create, :destroy]
     resources :invites, only: [:create]
+    resources :projects, only: [:create, :index, :show]
+
+    get 'tasks/project_tasks/:project_id', to: 'tasks#project_tasks'
   end
   # now handling auth on frontend, sessions nested under API
   # resource :session, only: [:new, :create, :destroy]

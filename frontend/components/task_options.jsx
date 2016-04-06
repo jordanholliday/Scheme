@@ -15,6 +15,7 @@ var TaskOptions = React.createClass({
       teamUsers: null,
       assigneeId: this.props.task.assignee_id,
       deadline: this.props.task.deadline,
+      projectId: this.props.task.project_id,
       assigning: false,
       pickingDate: false,
       assigneeInput: ""
@@ -33,7 +34,8 @@ var TaskOptions = React.createClass({
       assigneeId: newProps.task.assignee_id,
       deadline: newProps.task.deadline,
       assigning: false,
-      assigneeInput: ""
+      assigneeInput: "",
+      projectId: newProps.task.project_id
     });
   },
 
@@ -53,7 +55,7 @@ var TaskOptions = React.createClass({
   },
 
   closeTaskDetail: function () {
-    this.context.router.push("/tasks");
+    this.context.router.push("/projects/" + this.state.projectId);
   },
 
   setStateAssigning: function (e) {

@@ -2,17 +2,29 @@ var React = require('react'),
     ReactDOM = require('react-dom'),
     TaskStore = require('../stores/tasks'),
     ApiUtil = require('../util/api_util'),
-    TaskIndexItem = require('./task_index_item.jsx'),
-    NavBar = require('./nav_bar');
+    TaskIndexItem = require('./task_index_item.jsx');
 
 var TaskIndex = React.createClass({
+  contextTypes: {
+      router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function () {
     return this.getStateFromStore();
   },
 
+  projectId: function () {
+    return this.props.project.id;
+  },
+
   getStateFromStore: function () {
     // start by getting tasks from store
-    var returnState = {tasks: TaskStore.all()}
+    var returnState;
+    if (this.props.project) {
+      returnState = {tasks: TaskStore.all()};
+    } else {
+      returnState = {tasks: null};
+    }
     // Check if there are any tasks. If not, give a blank component
     // to edit. Check returnState, not this.state, as new this.state
     // will not be set yet.
@@ -29,9 +41,17 @@ var TaskIndex = React.createClass({
     this.setState(this.getStateFromStore());
   },
 
+  componentWillReceiveProps: function (newProps) {
+    if (!newProps.project) {
+      return;
+    } else if (!this.props.project || this.props.project.id !== newProps.project.id) {
+      ApiUtil.fetchProjectTasks(newProps.project.id);
+    }
+  },
+
   componentDidMount: function () {
     TaskStore.addListener(this.setStateFromStore);
-    ApiUtil.fetchTasks();
+    // ApiUtil.fetchProjectTasks();
   },
 
   showNewTaskForm: function () {
@@ -64,6 +84,7 @@ var TaskIndex = React.createClass({
           task={this.state.tasks[taskId]}
           key={taskId}
           focus={false}
+          projectId={this.props.project ? this.props.project.id : null}
         />);
       }.bind(this));
     }
@@ -76,26 +97,18 @@ var TaskIndex = React.createClass({
           className="edit-task"
           key="-1"
           focus={true}
+          projectId={this.props.project ? this.props.project.id : null}
         />
       );
     }
 
     return (
-      <div className="app">
-        <NavBar />
-        <div className="task-wrapper">
-
-          <section className="task-index">
-            <button onClick={this.showNewTaskForm}>Add Task</button>
-            <ul className="task-list-ul">
-              {allTasks}
-            </ul>
-          </section>
-
-          {this.props.children}
-
-        </div>
-      </div>
+      <section className="task-index">
+        <button onClick={this.showNewTaskForm}>Add Task</button>
+        <ul className="task-list-ul">
+          {allTasks}
+        </ul>
+      </section>
     );
   }
 });

@@ -39,6 +39,12 @@ class User < ActiveRecord::Base
     source: :tasks
   )
 
+  has_many(
+    :projects,
+    through: :team,
+    source: :projects
+  )
+
 
   attr_reader :password
 

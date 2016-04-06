@@ -50,6 +50,7 @@
 	    Router = ReactRouter.Router,
 	    Route = ReactRouter.Route,
 	    IndexRoute = ReactRouter.IndexRoute,
+	    hashHistory = ReactRouter.hashHistory,
 	    TaskIndex = __webpack_require__(216),
 	    ApiUtil = __webpack_require__(241),
 	    SessionStore = __webpack_require__(267),
@@ -57,7 +58,8 @@
 	    TaskDetail = __webpack_require__(269),
 	    LoginForm = __webpack_require__(387),
 	    RegistrationForm = __webpack_require__(388),
-	    SplashPage = __webpack_require__(391);
+	    SplashPage = __webpack_require__(391),
+	    ProjectDetail = __webpack_require__(393);
 	
 	var routes = React.createElement(
 	  Route,
@@ -65,17 +67,23 @@
 	  React.createElement(IndexRoute, { component: SplashPage }),
 	  React.createElement(
 	    Route,
-	    { path: '/tasks', component: TaskIndex, onEnter: _requireLogIn },
-	    React.createElement(Route, { path: '/tasks/:taskId', component: TaskDetail })
+	    { path: '/projects/:projectId', component: ProjectDetail, onEnter: _requireLogIn },
+	    React.createElement(Route, { path: '/projects/:projectId/:taskId', component: TaskDetail })
 	  ),
 	  React.createElement(Route, { path: '/login', component: LoginForm, onEnter: _requireLogOut }),
 	  React.createElement(Route, { path: '/register', component: RegistrationForm, onEnter: _requireLogOut })
 	);
 	
+	var oldTaskRoutes = React.createElement(
+	  Route,
+	  { path: '/tasks', component: TaskIndex, onEnter: _requireLogIn },
+	  React.createElement(Route, { path: '/tasks/:taskId', component: TaskDetail })
+	);
+	
 	$(document).on('ready', function () {
 	  ReactDOM.render(React.createElement(
 	    Router,
-	    null,
+	    { history: hashHistory },
 	    routes
 	  ), $('.root')[0]);
 	});
@@ -24788,19 +24796,31 @@
 	    ReactDOM = __webpack_require__(158),
 	    TaskStore = __webpack_require__(217),
 	    ApiUtil = __webpack_require__(241),
-	    TaskIndexItem = __webpack_require__(245),
-	    NavBar = __webpack_require__(246);
+	    TaskIndexItem = __webpack_require__(245);
 	
 	var TaskIndex = React.createClass({
 	  displayName: 'TaskIndex',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	
 	  getInitialState: function () {
 	    return this.getStateFromStore();
 	  },
 	
+	  projectId: function () {
+	    return this.props.project.id;
+	  },
+	
 	  getStateFromStore: function () {
 	    // start by getting tasks from store
-	    var returnState = { tasks: TaskStore.all() };
+	    var returnState;
+	    if (this.props.project) {
+	      returnState = { tasks: TaskStore.all() };
+	    } else {
+	      returnState = { tasks: null };
+	    }
 	    // Check if there are any tasks. If not, give a blank component
 	    // to edit. Check returnState, not this.state, as new this.state
 	    // will not be set yet.
@@ -24817,9 +24837,17 @@
 	    this.setState(this.getStateFromStore());
 	  },
 	
+	  componentWillReceiveProps: function (newProps) {
+	    if (!newProps.project) {
+	      return;
+	    } else if (!this.props.project || this.props.project.id !== newProps.project.id) {
+	      ApiUtil.fetchProjectTasks(newProps.project.id);
+	    }
+	  },
+	
 	  componentDidMount: function () {
 	    TaskStore.addListener(this.setStateFromStore);
-	    ApiUtil.fetchTasks();
+	    // ApiUtil.fetchProjectTasks();
 	  },
 	
 	  showNewTaskForm: function () {
@@ -24851,7 +24879,8 @@
 	        allTasks.push(React.createElement(TaskIndexItem, {
 	          task: this.state.tasks[taskId],
 	          key: taskId,
-	          focus: false
+	          focus: false,
+	          projectId: this.props.project ? this.props.project.id : null
 	        }));
 	      }.bind(this));
 	    }
@@ -24862,32 +24891,23 @@
 	        task: this.emptyTask(),
 	        className: 'edit-task',
 	        key: '-1',
-	        focus: true
+	        focus: true,
+	        projectId: this.props.project ? this.props.project.id : null
 	      }));
 	    }
 	
 	    return React.createElement(
-	      'div',
-	      { className: 'app' },
-	      React.createElement(NavBar, null),
+	      'section',
+	      { className: 'task-index' },
 	      React.createElement(
-	        'div',
-	        { className: 'task-wrapper' },
-	        React.createElement(
-	          'section',
-	          { className: 'task-index' },
-	          React.createElement(
-	            'button',
-	            { onClick: this.showNewTaskForm },
-	            'Add Task'
-	          ),
-	          React.createElement(
-	            'ul',
-	            { className: 'task-list-ul' },
-	            allTasks
-	          )
-	        ),
-	        this.props.children
+	        'button',
+	        { onClick: this.showNewTaskForm },
+	        'Add Task'
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'task-list-ul' },
+	        allTasks
 	      )
 	    );
 	  }
@@ -31724,7 +31744,8 @@
 	ApiConstants = {
 	  RECEIVE_TASKS: "RECEIVE_TASKS",
 	  RECEIVE_ONE_TASK: "RECEIVE_ONE_TASK",
-	  RECEIVE_ALL_TEAM_USERS: "RECEIVE_ALL_TEAM_USERS"
+	  RECEIVE_ALL_TEAM_USERS: "RECEIVE_ALL_TEAM_USERS",
+	  RECEIVE_ALL_PROJECTS: "RECEIVE_ALL_PROJECTS"
 	};
 	
 	module.exports = ApiConstants;
@@ -31753,7 +31774,7 @@
 	      url: 'api/tasks',
 	      dataType: 'json',
 	      success: function (tasks) {
-	        ApiActions.recieveAll(tasks);
+	        ApiActions.receiveAll(tasks);
 	      },
 	      error: function () {
 	        console.log("ApiUtil#fetchTasks error");
@@ -31813,7 +31834,7 @@
 	      url: 'api/tasks/' + task.id,
 	      dataType: 'json',
 	      success: function (tasks) {
-	        ApiActions.recieveAll(tasks);
+	        ApiActions.receiveAll(tasks);
 	      },
 	      error: function () {
 	        console.log("ApiUtil#deleteTask error");
@@ -31832,6 +31853,34 @@
 	      },
 	      error: function () {
 	        console.log("ApiUtil#createInvite error");
+	      }
+	    });
+	  },
+	
+	  fetchProjects: function () {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'api/projects',
+	      dataType: 'json',
+	      success: function (projects) {
+	        ApiActions.receiveAllProjects(projects);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#fetchProjects error");
+	      }
+	    });
+	  },
+	
+	  fetchProjectTasks: function (projectId) {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'api/tasks/project_tasks/' + projectId,
+	      dataType: 'json',
+	      success: function (tasks) {
+	        ApiActions.receiveAll(tasks);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#fetchProjectTasks error");
 	      }
 	    });
 	  },
@@ -31924,7 +31973,7 @@
 	    AppDispatcher = __webpack_require__(236);
 	
 	ApiActions = {
-	  recieveAll: function (tasks) {
+	  receiveAll: function (tasks) {
 	    AppDispatcher.dispatch({
 	      actionType: ApiConstants.RECEIVE_TASKS,
 	      tasks: tasks
@@ -31942,6 +31991,13 @@
 	    AppDispatcher.dispatch({
 	      actionType: ApiConstants.RECEIVE_ALL_TEAM_USERS,
 	      teamUsers: teamUsers
+	    });
+	  },
+	
+	  receiveAllProjects: function (projects) {
+	    AppDispatcher.dispatch({
+	      actionType: ApiConstants.RECEIVE_ALL_PROJECTS,
+	      projects: projects
 	    });
 	  }
 	};
@@ -32056,7 +32112,7 @@
 	
 	    if (this.state.task.new) {
 	      // else if not persisted, create the task in DB
-	      this.apiCreateTask(this.state.task.name);
+	      this.apiCreateTask({ name: this.state.task.name, project_id: this.props.projectId });
 	    } else {
 	      this.apiUpdateTaskName(this.state.task.id, this.state.task.name);
 	    }
@@ -32077,9 +32133,10 @@
 	    });
 	  },
 	
-	  apiCreateTask: function (name) {
+	  apiCreateTask: function (task) {
 	    ApiUtil.createTask({
-	      name: name
+	      name: task.name,
+	      project_id: task.project_id
 	    });
 	  },
 	
@@ -32103,7 +32160,12 @@
 	    if (!this.props.task) {
 	      return;
 	    }
-	    this.context.router.push("tasks/" + this.state.task.id);
+	    // if user is clicking and task isn't saved, go ahead & save
+	    if (!this.state.task.persisted) {
+	      this.apiCreateTask();
+	      return;
+	    }
+	    this.context.router.push("projects/" + this.props.projectId + "/" + this.state.task.id);
 	  },
 	
 	  setDateClass: function () {
@@ -34409,7 +34471,7 @@
 	  },
 	
 	  routeToTaskIndexIfTaskNull: function () {
-	    // reroute to task list if no taskId in store matches :task_id in path
+	    // need to rewrite this to point toward a project index (still to come)
 	    if (!this.state.task) {
 	      this.context.router.push("/tasks");
 	    }
@@ -34603,6 +34665,7 @@
 	      teamUsers: null,
 	      assigneeId: this.props.task.assignee_id,
 	      deadline: this.props.task.deadline,
+	      projectId: this.props.task.project_id,
 	      assigning: false,
 	      pickingDate: false,
 	      assigneeInput: ""
@@ -34621,7 +34684,8 @@
 	      assigneeId: newProps.task.assignee_id,
 	      deadline: newProps.task.deadline,
 	      assigning: false,
-	      assigneeInput: ""
+	      assigneeInput: "",
+	      projectId: newProps.task.project_id
 	    });
 	  },
 	
@@ -34641,7 +34705,7 @@
 	  },
 	
 	  closeTaskDetail: function () {
-	    this.context.router.push("/tasks");
+	    this.context.router.push("/projects/" + this.state.projectId);
 	  },
 	
 	  setStateAssigning: function (e) {
@@ -50600,6 +50664,127 @@
 	});
 	
 	module.exports = SplashPage;
+
+/***/ },
+/* 392 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(218).Store,
+	    AppDispatcher = __webpack_require__(236),
+	    ApiConstants = __webpack_require__(239);
+	
+	var _projects = {};
+	var _currentProject = null;
+	var ProjectStore = new Store(AppDispatcher);
+	
+	function _setCurrentProject(project) {
+	  _currentProject = project;
+	};
+	
+	var resetProjects = function (receivedProjects) {
+	  _projects = {};
+	  for (var j = 0; j < receivedProjects.length; j++) {
+	    var idxProject = receivedProjects[j];
+	    _projects[idxProject.id] = idxProject;
+	  }
+	
+	  _setCurrentProject(ProjectStore.all()[0]);
+	};
+	
+	ProjectStore.all = function () {
+	  var projectArr = [];
+	  for (var id in _projects) {
+	    projectArr.push(_projects[id]);
+	  }
+	
+	  return projectArr;
+	};
+	
+	ProjectStore.getCurrentProject = function () {
+	  return _currentProject;
+	};
+	
+	ProjectStore.findProject = function (id) {
+	  return _projects[id];
+	};
+	
+	ProjectStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case ApiConstants.RECEIVE_ALL_PROJECTS:
+	      resetProjects(payload.projects);
+	      ProjectStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	module.exports = ProjectStore;
+
+/***/ },
+/* 393 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    ProjectStore = __webpack_require__(392),
+	    ApiUtil = __webpack_require__(241),
+	    ProjectStore = __webpack_require__(392),
+	    NavBar = __webpack_require__(246),
+	    TaskIndex = __webpack_require__(216);
+	
+	var ProjectDetail = React.createClass({
+	  displayName: 'ProjectDetail',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  projectId: function () {
+	    return this.props.params.projectId;
+	  },
+	
+	  getInitialState: function () {
+	    // get projectId from route (router required above)
+	
+	    return { project: ProjectStore.findProject(this.projectId()) };
+	  },
+	
+	  componentDidMount: function () {
+	    this.projectStoreToken = ProjectStore.addListener(this.getProject);
+	    ApiUtil.fetchProjects();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.projectStoreToken.remove();
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ project: ProjectStore.findProject(newProps.params.projectId) });
+	  },
+	
+	  getProject: function () {
+	    this.setState({ project: ProjectStore.findProject(this.projectId()) });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'app' },
+	      React.createElement(NavBar, null),
+	      React.createElement(
+	        'section',
+	        { className: 'project-detail' },
+	        React.createElement(
+	          'div',
+	          { className: 'task-wrapper' },
+	          React.createElement(TaskIndex, { project: this.state.project ? this.state.project : null }),
+	          this.props.children
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ProjectDetail;
 
 /***/ }
 /******/ ]);

@@ -80,6 +80,7 @@ button.complete-task-button:hover svg.check-complete {
 
 .task-index .task-index-item .date-block {
   font-size: 12px;
+  line-height: 19px;
 }
 
 .task-index .task-index-item .date-block.due-soon {

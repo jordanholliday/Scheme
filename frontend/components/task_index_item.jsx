@@ -67,7 +67,7 @@ var TaskIndexItem = React.createClass({
 
     if (this.state.task.new) {
       // else if not persisted, create the task in DB
-     this.apiCreateTask(this.state.task.name);
+     this.apiCreateTask({name: this.state.task.name, project_id: this.props.projectId});
     } else {
       this.apiUpdateTaskName(this.state.task.id, this.state.task.name)
     }
@@ -88,9 +88,10 @@ var TaskIndexItem = React.createClass({
     })
   },
 
-  apiCreateTask: function (name) {
+  apiCreateTask: function (task) {
     ApiUtil.createTask({
-      name: name
+      name: task.name,
+      project_id: task.project_id
     })
   },
 
@@ -112,7 +113,12 @@ var TaskIndexItem = React.createClass({
   // routing to show TaskDetail pane
   clickToShowDetail: function () {
     if (!this.props.task) {return}
-    this.context.router.push("tasks/" + this.state.task.id)
+    // if user is clicking and task isn't saved, go ahead & save
+    if (!this.state.task.persisted) {
+      this.apiCreateTask();
+      return;
+    }
+    this.context.router.push("projects/" + this.props.projectId + "/" + this.state.task.id)
   },
 
   setDateClass: function () {

@@ -15,7 +15,7 @@ var TaskDetail = React.createClass({
   },
 
   routeToTaskIndexIfTaskNull: function () {
-    // reroute to task list if no taskId in store matches :task_id in path
+    // need to rewrite this to point toward a project index (still to come)
     if (!this.state.task) {
       this.context.router.push("/tasks")
     }

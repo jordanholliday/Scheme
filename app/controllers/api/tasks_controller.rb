@@ -4,6 +4,10 @@ class Api::TasksController < ApplicationController
     return_all_current_user_tasks
   end
 
+  def project_tasks
+    return_all_project_tasks
+  end
+
   def show
     @task = Task.find(params[:id])
 
@@ -43,12 +47,18 @@ class Api::TasksController < ApplicationController
       :deadline,
       :repeats,
       :assignee_id,
-      :completed
+      :completed,
+      :project_id
     )
   end
 
   def return_all_current_user_tasks
     @tasks = current_user.teammate_tasks.includes(:creator).where(completed: false)
+    render :index
+  end
+
+  def return_all_project_tasks
+    @tasks = Task.where(project_id: params[:project_id]).includes(:creator).where(completed: false)
     render :index
   end
 
