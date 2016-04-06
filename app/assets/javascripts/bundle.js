@@ -32283,11 +32283,21 @@
 	  displayName: 'NavBar',
 	
 	  getInitialState: function () {
-	    return { showOmniBox: false, showInviteModal: false, inputEmail: null, validInviteEmail: false };
+	    return {
+	      showOmniBox: false,
+	      showInviteModal: false,
+	      inputEmail: null,
+	      validInviteEmail: false,
+	      showHamburger: true
+	    };
 	  },
 	
 	  componentWillMount: function () {
 	    Modal.setAppElement(document.body);
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ showHamburger: newProps.showHamburger });
 	  },
 	
 	  toggleOmniBox: function (e) {
@@ -32356,6 +32366,10 @@
 	    );
 	  },
 	
+	  openDrawerHideHamburger: function () {
+	    this.props.showProjectDrawer();
+	  },
+	
 	  modalRender: function () {
 	    return React.createElement(
 	      Modal,
@@ -32374,7 +32388,7 @@
 	          React.createElement(
 	            'svg',
 	            { viewBox: '0 0 32 32' },
-	            React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222', 'data-reactid': '.t.0.0:0.1.0.0' })
+	            React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222' })
 	          )
 	        )
 	      ),
@@ -32409,13 +32423,13 @@
 	  hamburgerButtonRender: function () {
 	    return React.createElement(
 	      'button',
-	      { className: 'hamburger-button' },
+	      { className: 'hamburger-button', onMouseDown: this.props.showProjectDrawer },
 	      React.createElement(
 	        'svg',
 	        { viewBox: '0 0 32 32' },
-	        React.createElement('path', { d: 'M28,4H4C2.895,4,2,4.895,2,6v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,4.895,29.105,4,28,4z', 'data-reactid': '.1.0.0.0.0' }),
-	        React.createElement('path', { d: 'M28,24H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,24.895,29.105,24,28,24z', 'data-reactid': '.1.0.0.0.1' }),
-	        React.createElement('path', { d: 'M28,14H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,14.895,29.105,14,28,14z', 'data-reactid': '.1.0.0.0.2' })
+	        React.createElement('path', { d: 'M28,4H4C2.895,4,2,4.895,2,6v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,4.895,29.105,4,28,4z' }),
+	        React.createElement('path', { d: 'M28,24H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,24.895,29.105,24,28,24z' }),
+	        React.createElement('path', { d: 'M28,14H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,14.895,29.105,14,28,14z' })
 	      )
 	    );
 	  },
@@ -32425,22 +32439,26 @@
 	      'header',
 	      { className: 'group main-top-nav' },
 	      this.modalRender(),
-	      this.hamburgerButtonRender(),
+	      this.state.showHamburger ? this.hamburgerButtonRender() : null,
 	      React.createElement(
-	        'button',
-	        { className: 'omni-button', onClick: this.toggleOmniBox },
+	        'div',
+	        { className: 'omni-wrapper group' },
 	        React.createElement(
-	          'svg',
-	          { viewBox: '0 0 32 32', 'data-reactid': '.1.3.0:$button.0' },
-	          React.createElement('polygon', { points: '28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18', 'data-reactid': '.1.3.0:$button.0.0' })
-	        )
+	          'button',
+	          { className: 'omni-button', onClick: this.toggleOmniBox },
+	          React.createElement(
+	            'svg',
+	            { viewBox: '0 0 32 32' },
+	            React.createElement('polygon', { points: '28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18' })
+	          )
+	        ),
+	        this.state.showOmniBox ? this.omniBoxRender() : null
 	      ),
 	      React.createElement(
 	        'button',
 	        { onClick: ApiUtil.logout },
 	        'Log Out'
-	      ),
-	      this.state.showOmniBox ? this.omniBoxRender() : null
+	      )
 	    );
 	  }
 	});
@@ -34882,7 +34900,7 @@
 	        React.createElement(
 	          'svg',
 	          { viewBox: '0 0 32 32' },
-	          React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222', 'data-reactid': '.t.0.0:0.1.0.0' })
+	          React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222' })
 	        )
 	      )
 	    );
@@ -50785,17 +50803,17 @@
 	    this.setState({ project: ProjectStore.findProject(this.projectId()) });
 	  },
 	
-	  toggleProjectDrawer: function () {
-	    this.setState({ showProjectDrawer: !this.state.showProjectDrawer });
-	  },
-	
 	  showProjectDrawer: function () {
 	    this.setState({ showProjectDrawer: true });
 	  },
 	
+	  hideProjectDrawer: function () {
+	    this.setState({ showProjectDrawer: false });
+	  },
+	
 	  renderProjectDrawer: function () {
 	    if (this.state.showProjectDrawer) {
-	      return [React.createElement(ProjectDrawer, { ref: 'projectDrawer', key: 'project-drawer' })];
+	      return [React.createElement(ProjectDrawer, { ref: 'projectDrawer', key: 'project-drawer', hideProjectDrawer: this.hideProjectDrawer })];
 	    } else {
 	      return [];
 	    }
@@ -50813,7 +50831,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'non-drawer-content' },
-	        React.createElement(NavBar, { openDrawer: this.showProjectDrawer }),
+	        React.createElement(NavBar, { showProjectDrawer: this.showProjectDrawer, showHamburger: !this.state.showProjectDrawer }),
 	        React.createElement(
 	          'section',
 	          { className: 'project-detail' },
@@ -50841,8 +50859,30 @@
 	var ProjectDrawer = React.createClass({
 	  displayName: 'ProjectDrawer',
 	
+	
+	  renderDrawerHeader: function () {
+	    return React.createElement(
+	      'ul',
+	      { className: 'group' },
+	      React.createElement('li', { className: 'drawer-logo' }),
+	      React.createElement(
+	        'li',
+	        { className: 'close-drawer', onClick: this.props.hideProjectDrawer },
+	        React.createElement(
+	          'svg',
+	          { viewBox: '0 0 32 32' },
+	          React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222' })
+	        )
+	      )
+	    );
+	  },
+	
 	  render: function () {
-	    return React.createElement('section', { className: 'project-drawer' });
+	    return React.createElement(
+	      'section',
+	      { className: 'project-drawer' },
+	      this.renderDrawerHeader()
+	    );
 	  }
 	});
 	

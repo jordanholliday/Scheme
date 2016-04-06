@@ -205,7 +205,7 @@ var TaskOptions = React.createClass({
               inputClickHandler={this.setStatePickingDate} />
           </div>
           <button className="close-task-detail" onClick={this.closeTaskDetail}>
-            <svg viewBox="0 0 32 32"><polygon points="23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222" data-reactid=".t.0.0:0.1.0.0"></polygon></svg>
+            <svg viewBox="0 0 32 32"><polygon points="23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222"></polygon></svg>
           </button>
         </section>
       );

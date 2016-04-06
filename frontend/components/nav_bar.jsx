@@ -29,11 +29,21 @@ var customStyles = {
 
 var NavBar = React.createClass({
   getInitialState: function () {
-    return {showOmniBox: false, showInviteModal: false, inputEmail: null, validInviteEmail: false};
+    return {
+      showOmniBox: false,
+      showInviteModal: false,
+      inputEmail: null,
+      validInviteEmail: false,
+      showHamburger: true
+    };
   },
 
   componentWillMount: function () {
     Modal.setAppElement(document.body);
+  },
+
+  componentWillReceiveProps: function (newProps) {
+    this.setState({showHamburger: newProps.showHamburger});
   },
 
   toggleOmniBox: function (e) {
@@ -92,13 +102,17 @@ var NavBar = React.createClass({
       );
   },
 
+  openDrawerHideHamburger: function () {
+    this.props.showProjectDrawer();
+  },
+
   modalRender: function () {
     return (
       <Modal className="invite-modal" isOpen={this.state.showInviteModal} style={customStyles}>
         <header className="group">
           <h2>Invite Someone to Scheme</h2>
           <button className="close-modal" onClick={this.hideInviteModal}>
-            <svg viewBox="0 0 32 32"><polygon points="23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222" data-reactid=".t.0.0:0.1.0.0"></polygon></svg>
+            <svg viewBox="0 0 32 32"><polygon points="23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222" ></polygon></svg>
           </button>
         </header>
         <form>
@@ -116,9 +130,9 @@ var NavBar = React.createClass({
 
   hamburgerButtonRender: function () {
     return (
-      <button className="hamburger-button">
+      <button className="hamburger-button" onMouseDown={this.props.showProjectDrawer}>
         <svg viewBox="0 0 32 32">
-          <path d="M28,4H4C2.895,4,2,4.895,2,6v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,4.895,29.105,4,28,4z" data-reactid=".1.0.0.0.0"></path><path d="M28,24H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,24.895,29.105,24,28,24z" data-reactid=".1.0.0.0.1"></path><path d="M28,14H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,14.895,29.105,14,28,14z" data-reactid=".1.0.0.0.2"></path>
+          <path d="M28,4H4C2.895,4,2,4.895,2,6v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,4.895,29.105,4,28,4z"></path><path d="M28,24H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,24.895,29.105,24,28,24z"></path><path d="M28,14H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,14.895,29.105,14,28,14z"></path>
         </svg>
       </button>
     );
@@ -127,13 +141,19 @@ var NavBar = React.createClass({
   render: function () {
     return (
       <header className="group main-top-nav">
+
         {this.modalRender()}
-        {this.hamburgerButtonRender()}
-        <button className="omni-button" onClick={this.toggleOmniBox} >
-          <svg viewBox="0 0 32 32" data-reactid=".1.3.0:$button.0"><polygon points="28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18" data-reactid=".1.3.0:$button.0.0"></polygon></svg>
-        </button>
+        {this.state.showHamburger ? this.hamburgerButtonRender() : null}
+
+        <div className="omni-wrapper group">
+          <button className="omni-button" onClick={this.toggleOmniBox} >
+            <svg viewBox="0 0 32 32"><polygon points="28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18" ></polygon></svg>
+          </button>
+          {this.state.showOmniBox ? this.omniBoxRender() : null}
+        </div>
+
         <button onClick={ApiUtil.logout}>Log Out</button>
-        {this.state.showOmniBox ? this.omniBoxRender() : null}
+
       </header>
       );
   }

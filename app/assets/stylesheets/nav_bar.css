@@ -51,10 +51,19 @@ header button.hamburger-button svg {
   position: absolute;
 }
 
+header .omni-wrapper {
+  float: left;
+  height: 100%;
+  width: 225px;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
 header button.omni-button,
 header button.omni-button:hover {
   position: relative;
-  margin: 8px 0 8px 240px;
+  margin: 8px 0 8px 200px;
   padding: 0;
   float: left;
   border: none;
@@ -94,7 +103,7 @@ header button.omni-button svg {
 header .omni-box {
   position: absolute;
   top: 110%;
-  left: 168px;
+  left: 128px;
   width: 160px;
   padding: 3px 0;
   border: 1px solid #A1A4AA;
@@ -108,7 +117,7 @@ header .omni-box {
 header .omni-box.arrow {
   position: absolute;
   top: 93%;
-  left: 242px;
+  left: 202px;
   height: 14px;
   width: 14px;
   border: 1px solid #A1A4AA;

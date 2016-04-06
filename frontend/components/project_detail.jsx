@@ -43,17 +43,17 @@ var ProjectDetail = React.createClass({
     this.setState({project: ProjectStore.findProject(this.projectId())})
   },
 
-  toggleProjectDrawer: function () {
-    this.setState({showProjectDrawer: !this.state.showProjectDrawer});
-  },
-
   showProjectDrawer: function () {
     this.setState({showProjectDrawer: true});
   },
 
+  hideProjectDrawer: function () {
+    this.setState({showProjectDrawer: false});
+  },
+
   renderProjectDrawer: function () {
     if (this.state.showProjectDrawer){
-      return [<ProjectDrawer ref="projectDrawer" key="project-drawer" />];
+      return [<ProjectDrawer ref="projectDrawer" key="project-drawer" hideProjectDrawer={this.hideProjectDrawer} />];
     } else {
       return [];
     }
@@ -69,7 +69,7 @@ var ProjectDetail = React.createClass({
         </ReactCSSTransitionGroup>
 
         <div className="non-drawer-content">
-         <NavBar openDrawer={this.showProjectDrawer} />
+         <NavBar showProjectDrawer={this.showProjectDrawer} showHamburger={!this.state.showProjectDrawer} />
            <section className="project-detail">
            <div className="task-wrapper">
              <TaskIndex project={this.state.project ? this.state.project : null} />
