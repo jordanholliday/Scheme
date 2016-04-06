@@ -114,10 +114,21 @@ var NavBar = React.createClass({
     );
   },
 
+  hamburgerButtonRender: function () {
+    return (
+      <button className="hamburger-button">
+        <svg viewBox="0 0 32 32">
+          <path d="M28,4H4C2.895,4,2,4.895,2,6v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,4.895,29.105,4,28,4z" data-reactid=".1.0.0.0.0"></path><path d="M28,24H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,24.895,29.105,24,28,24z" data-reactid=".1.0.0.0.1"></path><path d="M28,14H4c-1.105,0-2,0.895-2,2v0c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2v0C30,14.895,29.105,14,28,14z" data-reactid=".1.0.0.0.2"></path>
+        </svg>
+      </button>
+    );
+  },
+
   render: function () {
     return (
-      <header>
-      {this.modalRender()}
+      <header className="group main-top-nav">
+        {this.modalRender()}
+        {this.hamburgerButtonRender()}
         <button className="omni-button" onClick={this.toggleOmniBox} >
           <svg viewBox="0 0 32 32" data-reactid=".1.3.0:$button.0"><polygon points="28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18" data-reactid=".1.3.0:$button.0.0"></polygon></svg>
         </button>

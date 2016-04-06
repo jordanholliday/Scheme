@@ -1,4 +1,5 @@
 .app {
+  display: flex;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -11,4 +12,22 @@
 
 .app textarea {
   resize: none;
+}
+
+.example-enter {
+  min-width: 0px;
+}
+
+.example-enter.example-enter-active {
+  min-width: 245px;
+  transition: min-width .25s
+}
+
+.example-leave {
+  opacity: 245px;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0px;
+  transition: min-width .25s
 }

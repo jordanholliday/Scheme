@@ -1,4 +1,4 @@
-.app > header {
+header.main-top-nav {
   background: #fff;
   height: 40px;
   border-bottom: 1px solid #fff;
@@ -25,6 +25,31 @@ header button:hover {
   color: #a177ff;
 }
 
+header button.hamburger-button {
+  float: left;
+  border: none;
+  border-right: 1px solid #EFF0F1;
+  box-shadow: none;
+  fill: #898E95;
+  width: 43px;
+  height: 41px;
+  margin: 0;
+  position: relative;
+  transition: background-color;
+  transition-duration: .2s;
+}
+
+header button.hamburger-button:hover {
+  background-color: rgba(239, 240, 241, 0.9)
+}
+
+header button.hamburger-button svg {
+  height: 16px;
+  width: 16px;
+  top: 12px;
+  left: 12px;
+  position: absolute;
+}
 
 header button.omni-button,
 header button.omni-button:hover {

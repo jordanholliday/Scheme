@@ -1,0 +1,31 @@
+.project-drawer {
+  height: 100vh;
+  min-width: 245px;
+  max-width: 245px;
+  background: #2E3C54;
+  transition: min-width;
+  transition-duration: .25s;
+}
+
+.non-drawer-content {
+  margin: auto;
+  width: 100%;
+}
+
+.drawer-transition-enter {
+  min-width: 0px;
+}
+
+.drawer-transition-enter.drawer-transition-enter-active {
+  min-width: 245px;
+  transition: min-width .2s linear;
+}
+
+.drawer-transition-leave {
+  min-width: 245px;
+}
+
+.drawer-transition-leave.drawer-transition-leave-active {
+  min-width: 0px;
+  transition: min-width .2s linear;
+}

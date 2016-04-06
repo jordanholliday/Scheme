@@ -19,6 +19,7 @@
     "babel-preset-react": "^6.5.0",
     "flux": "^2.1.1",
     "react": "^0.14.8",
+    "react-addons-css-transition-group": "^0.14.8",
     "react-date-picker": "^4.0.10",
     "react-dom": "^0.14.8",
     "react-dropzone": "^3.3.2",

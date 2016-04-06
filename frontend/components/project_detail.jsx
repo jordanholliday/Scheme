@@ -1,10 +1,12 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
+    ReactCSSTransitionGroup = require('react-addons-css-transition-group'),
     ProjectStore = require('../stores/projects'),
     ApiUtil = require('../util/api_util'),
     ProjectStore = require('../stores/projects'),
     NavBar = require('./nav_bar'),
-    TaskIndex = require('./task_index');
+    TaskIndex = require('./task_index'),
+    ProjectDrawer = require('./project_drawer');
 
 var ProjectDetail = React.createClass({
   contextTypes: {
@@ -18,7 +20,10 @@ var ProjectDetail = React.createClass({
   getInitialState: function () {
     // get projectId from route (router required above)
 
-    return {project: ProjectStore.findProject(this.projectId())}
+    return {
+        project: ProjectStore.findProject(this.projectId()),
+        showProjectDrawer: true
+      }
   },
 
   componentDidMount: function () {
@@ -38,18 +43,41 @@ var ProjectDetail = React.createClass({
     this.setState({project: ProjectStore.findProject(this.projectId())})
   },
 
+  toggleProjectDrawer: function () {
+    this.setState({showProjectDrawer: !this.state.showProjectDrawer});
+  },
+
+  showProjectDrawer: function () {
+    this.setState({showProjectDrawer: true});
+  },
+
+  renderProjectDrawer: function () {
+    if (this.state.showProjectDrawer){
+      return [<ProjectDrawer ref="projectDrawer" key="project-drawer" />];
+    } else {
+      return [];
+    }
+  },
+
+
   render: function () {
     return (
       <div className="app">
-        <NavBar />
-        <section className="project-detail">
 
-          <div className="task-wrapper">
-            <TaskIndex project={this.state.project ? this.state.project : null} />
-            {this.props.children}
-          </div>
+        <ReactCSSTransitionGroup transitionName="drawer-transition" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
+           {this.renderProjectDrawer()}
+        </ReactCSSTransitionGroup>
 
-        </section>
+        <div className="non-drawer-content">
+         <NavBar openDrawer={this.showProjectDrawer} />
+           <section className="project-detail">
+           <div className="task-wrapper">
+             <TaskIndex project={this.state.project ? this.state.project : null} />
+             {this.props.children}
+           </div>
+         </section>
+        </div>
+
       </div>
     );
   }
