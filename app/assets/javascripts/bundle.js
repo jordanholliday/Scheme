@@ -32265,6 +32265,7 @@
 	  apiCreateInvite: function (e) {
 	    e.preventDefault();
 	    ApiUtil.createInvite({ email: this.refs.inviteEmailInput.value });
+	    this.setState({ showInviteModal: false });
 	  },
 	
 	  omniBoxRender: function () {
