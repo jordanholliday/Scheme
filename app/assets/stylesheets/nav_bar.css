@@ -157,7 +157,7 @@ header .omni-box li label{
   pointer-events: none;
 }
 
-.invite-modal header button svg:hover {
+.invite-modal header button:hover svg {
   fill: #02CEFF;
 }
 

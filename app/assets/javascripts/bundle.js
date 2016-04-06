@@ -32247,11 +32247,6 @@
 	    }
 	  },
 	
-	  testDisabled: function (e) {
-	    e.preventDefault();
-	    console.log("it ran...");
-	  },
-	
 	  omniBoxRender: function () {
 	    return React.createElement(
 	      'div',
@@ -34539,11 +34534,7 @@
 	        )
 	      );
 	    } else {
-	      return React.createElement(
-	        'div',
-	        null,
-	        'loading...'
-	      );
+	      return React.createElement('div', null);
 	    }
 	  }
 	});
@@ -34581,6 +34572,10 @@
 	
 	var TaskOptions = React.createClass({
 	  displayName: 'TaskOptions',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	
 	  getInitialState: function () {
 	    return {
@@ -34622,6 +34617,10 @@
 	    if (this.state.assigning) {
 	      this.refs.assigneeInput.focus();
 	    }
+	  },
+	
+	  closeTaskDetail: function () {
+	    this.context.router.push("/tasks");
 	  },
 	
 	  setStateAssigning: function (e) {
@@ -34776,6 +34775,15 @@
 	          pickingDate: this.state.pickingDate,
 	          changeHandler: this.updateTaskDeadline,
 	          inputClickHandler: this.setStatePickingDate })
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'close-task-detail', onClick: this.closeTaskDetail },
+	        React.createElement(
+	          'svg',
+	          { viewBox: '0 0 32 32' },
+	          React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222', 'data-reactid': '.t.0.0:0.1.0.0' })
+	        )
 	      )
 	    );
 	  }

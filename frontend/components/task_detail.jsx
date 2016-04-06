@@ -147,7 +147,7 @@ var TaskDetail = React.createClass({
         </section>
       );
     } else {
-      return (<div>loading...</div>);
+      return (<div></div>);
     }
   }
 });

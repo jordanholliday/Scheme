@@ -70,11 +70,6 @@ var NavBar = React.createClass({
     }
   },
 
-  testDisabled: function (e) {
-    e.preventDefault();
-    console.log("it ran...");
-  },
-
   omniBoxRender: function () {
     return (
         <div>
