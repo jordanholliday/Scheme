@@ -31821,6 +31821,21 @@
 	    });
 	  },
 	
+	  createInvite: function (emailObj) {
+	    $.ajax({
+	      type: 'POST',
+	      url: 'api/invites',
+	      dataType: 'json',
+	      data: { invite: emailObj },
+	      success: function (response) {
+	        console.log(response);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#createInvite error");
+	      }
+	    });
+	  },
+	
 	  register: function (userDetails, callback) {
 	    // create FormData object to transmit avatar url successfully
 	    var newUser = new FormData();
@@ -32206,7 +32221,7 @@
 	  displayName: 'NavBar',
 	
 	  getInitialState: function () {
-	    return { showOmniBox: false, showInviteModal: false, validInviteEmail: false };
+	    return { showOmniBox: false, showInviteModal: false, inputEmail: null, validInviteEmail: false };
 	  },
 	
 	  componentWillMount: function () {
@@ -32245,6 +32260,11 @@
 	    } else {
 	      this.setState({ validInviteEmail: false });
 	    }
+	  },
+	
+	  apiCreateInvite: function (e) {
+	    e.preventDefault();
+	    ApiUtil.createInvite({ email: this.refs.inviteEmailInput.value });
 	  },
 	
 	  omniBoxRender: function () {
@@ -32316,7 +32336,7 @@
 	        ),
 	        React.createElement(
 	          'button',
-	          { onClick: this.testDisabled, disabled: !this.state.validInviteEmail },
+	          { onClick: this.apiCreateInvite, disabled: !this.state.validInviteEmail },
 	          'Invite'
 	        )
 	      )

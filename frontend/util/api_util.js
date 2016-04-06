@@ -76,6 +76,21 @@ var ApiUtil = {
     });
   },
 
+  createInvite: function (emailObj) {
+    $.ajax({
+      type: 'POST',
+      url: 'api/invites',
+      dataType: 'json',
+      data: {invite: emailObj},
+      success: function (response) {
+        console.log(response);
+      },
+      error: function () {
+        console.log("ApiUtil#createInvite error");
+      }
+    });
+  },
+
   register: function(userDetails, callback) {
     // create FormData object to transmit avatar url successfully
     var newUser = new FormData();

@@ -29,7 +29,7 @@ var customStyles = {
 
 var NavBar = React.createClass({
   getInitialState: function () {
-    return {showOmniBox: false, showInviteModal: false, validInviteEmail: false};
+    return {showOmniBox: false, showInviteModal: false, inputEmail: null, validInviteEmail: false};
   },
 
   componentWillMount: function () {
@@ -70,6 +70,11 @@ var NavBar = React.createClass({
     }
   },
 
+  apiCreateInvite: function (e) {
+    e.preventDefault();
+    ApiUtil.createInvite({email: this.refs.inviteEmailInput.value})
+  },
+
   omniBoxRender: function () {
     return (
         <div>
@@ -102,7 +107,7 @@ var NavBar = React.createClass({
             <br />
             <p>Your co-conspirator will get an email that gives them access to this team.</p>
           </div>
-          <button onClick={this.testDisabled} disabled={!this.state.validInviteEmail}>Invite</button>
+          <button onClick={this.apiCreateInvite} disabled={!this.state.validInviteEmail}>Invite</button>
         </form>
       </Modal>
     );
