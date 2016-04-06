@@ -3,6 +3,7 @@ var Store = require('flux/utils').Store,
     ApiConstants = require('../constants/api_constants');
 
 var _teamUsers = {};
+var _teamName;
 var TeamUserStore = new Store(AppDispatcher);
 
 TeamUserStore.findUser = function (userId) {
@@ -13,10 +14,15 @@ TeamUserStore.all = function () {
   return _teamUsers;
 };
 
+TeamUserStore.teamName = function () {
+  return _teamName;
+};
+
 var resetTeamUsers = function (receivedTeamUsers) {
   _teamUsers = {};
-  for (var j = 0; j < receivedTeamUsers.length; j++) {
-    var currentUser = receivedTeamUsers[j];
+  _teamName = receivedTeamUsers.team_name;
+  for (var j = 0; j < receivedTeamUsers.users.length; j++) {
+    var currentUser = receivedTeamUsers.users[j];
     _teamUsers[currentUser.id] = currentUser;
   }
 };

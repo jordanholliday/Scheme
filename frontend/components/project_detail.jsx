@@ -64,7 +64,7 @@ var ProjectDetail = React.createClass({
     return (
       <div className="app">
 
-        <ReactCSSTransitionGroup transitionName="drawer-transition" transitionEnterTimeout={250} transitionLeaveTimeout={250}>
+        <ReactCSSTransitionGroup transitionName="drawer-transition" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
            {this.renderProjectDrawer()}
         </ReactCSSTransitionGroup>
 
