@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   before_validation :ensure_session_token
   before_save :downcase_email_remove_whitespace
   validates :email, :name, :password_digest, :session_token, presence: true
+  validates :email, uniqueness: true
 
   has_attached_file :avatar
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
@@ -33,7 +34,7 @@ class User < ActiveRecord::Base
   )
 
   has_many(
-    :team_tasks,
+    :teammate_tasks,
     through: :team,
     source: :tasks
   )
@@ -64,6 +65,11 @@ class User < ActiveRecord::Base
   def reset_session_token!
     self.session_token = SecureRandom.urlsafe_base64
     save!
+  end
+
+  # return's tasks created by user & user's teammates
+  def all_team_tasks
+    self.teammate_tasks + self.tasks
   end
 
   private

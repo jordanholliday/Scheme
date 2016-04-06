@@ -48,7 +48,7 @@ class Api::TasksController < ApplicationController
   end
 
   def return_all_current_user_tasks
-    @tasks = current_user.team_tasks.includes(:creator).where(completed: false)
+    @tasks = current_user.teammate_tasks.includes(:creator).where(completed: false)
     render :index
   end
 
