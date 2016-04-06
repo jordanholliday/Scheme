@@ -11,10 +11,16 @@ require 'faker'
 # empty existing data
 Task.destroy_all
 Membership.destroy_all
+Team.destroy_all
+
+# Create teams
+Team.create!(name: "The Good Guys")
+Team.create!(name: "The Villains")
+
 
 # create a membership for each user to reference in next loop
 User.all.each do |user|
-  Membership.create!(member_id: user.id, team_id: rand(2) + 1)
+  Membership.create!(member_id: user.id, team_id: Team.all.pluck(:id).sample)
 end
 
 # create tasks and assignments among teammates
