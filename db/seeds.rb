@@ -43,5 +43,15 @@ User.all.each do |user|
     task.project_id = user.team.projects.pluck(:id).sample
     task.deadline = Date.today - 4.days + rand(14).days
     task.save!
+
+
+    # set order on tasks
+    task_project = task.project
+    # if project has an existing last task, set that as new task's previous task
+    task.previous_task_id = task_project.last_task_id if task_project.last_task_id
+    # in any case, set new task as project's last task
+    task_project.last_task_id = task.id
+    task.save!
+    task_project.save!
   end
 end

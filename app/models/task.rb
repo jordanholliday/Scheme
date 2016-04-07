@@ -12,4 +12,12 @@ class Task < ActiveRecord::Base
     primary_key: :id,
     foreign_key: :creator_id
   )
+
+  belongs_to :project
+
+  def <=>(task)
+    return -1 if !self.previous_task_id
+    return 1 if !task.previous_task_id
+    self.previous_task_id <=> task.previous_task_id
+  end
 end
