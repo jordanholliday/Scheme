@@ -12,7 +12,11 @@ class Project < ActiveRecord::Base
   has_many :tasks
 
   def self.reorder_tasks(move_task, in_front_of_task)
-    return "not same project" unless move_task.project == in_front_of_task.project
+    return unless move_task.project == in_front_of_task.project
+
+    return if move_task == in_front_of_task
+    return if move_task.next_task_id == in_front_of_task.id
+
     if move_task.next_task_id
       next_task = move_task.next_task
       next_task.previous_task_id = move_task.previous_task_id
@@ -29,6 +33,12 @@ class Project < ActiveRecord::Base
         this_project.last_task_id = previous_task.id
         this_project.save!
       end
+    end
+
+    if in_front_of_task.previous_task_id
+      new_previous = in_front_of_task.previous_task
+      new_previous.next_task_id = move_task.id
+      new_previous.save!
     end
 
     move_task.previous_task_id = in_front_of_task.previous_task_id

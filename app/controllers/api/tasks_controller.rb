@@ -8,6 +8,14 @@ class Api::TasksController < ApplicationController
     return_all_project_tasks(params[:project_id])
   end
 
+  def reorder
+    move_task = Task.includes(:project).find(params[:task_id])
+    in_front_of_task = Task.find(move_task.project.last_task_id)
+
+    Project.reorder_tasks(move_task, in_front_of_task)
+    return_all_project_tasks(move_task.project.id)
+  end
+
   def show
     @task = Task.find(params[:id])
 
@@ -22,6 +30,7 @@ class Api::TasksController < ApplicationController
     @task = current_user.tasks.new(task_params)
 
     if @task.save
+      add_new_task_to_project_order(@task)
       render :show
     end
   end
@@ -29,12 +38,18 @@ class Api::TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     @task.update(task_params)
+
+    if @task.completed
+      @task.connect_next_previous
+    end
+
     render :show
   end
 
   def destroy
     task = Task.find(params[:id])
     project_id = task.project_id
+    task.connect_next_previous
     task.destroy
 
     return_all_project_tasks(project_id)
@@ -59,8 +74,27 @@ class Api::TasksController < ApplicationController
   end
 
   def return_all_project_tasks(project_id)
-    @tasks = Task.where(project_id: project_id).includes(:creator).where(completed: false).sort
+    @tasks = Task.where(project_id: project_id).includes(:creator).where(completed: false)
     render :index
+  end
+
+  def add_new_task_to_project_order(task)
+    # set order on tasks
+    task_project = task.project
+
+    # if project has an existing last task, set that as new task's previous task
+    if task_project.last_task_id
+      task.previous_task_id = task_project.last_task_id
+      next_task = Task.find(task.previous_task_id)
+      next_task.next_task_id = task.id
+      next_task.save!
+    end
+
+    # in any case, set new task as project's last task
+    task_project.last_task_id = task.id
+
+    task.save!
+    task_project.save!
   end
 
 end

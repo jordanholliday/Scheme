@@ -31,7 +31,7 @@ end
 
 # create tasks and assignments among teammates
 User.all.each do |user|
-  10.times do
+  5.times do
     task = Task.new
     task.name = Faker::Company.bs
     task.description =

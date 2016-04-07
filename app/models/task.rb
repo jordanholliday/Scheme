@@ -15,7 +15,6 @@ class Task < ActiveRecord::Base
 
   belongs_to :project
 
-
   def previous_task
     return unless self.previous_task_id
     Task.find(self.previous_task_id)
@@ -24,5 +23,25 @@ class Task < ActiveRecord::Base
   def next_task
     return unless self.next_task_id
     Task.find(self.next_task_id)
+  end
+
+  def connect_next_previous
+    if self.next_task
+      the_next_task = self.next_task
+      the_next_task.previous_task_id = self.previous_task_id
+      the_next_task.save
+    end
+
+    if self.previous_task
+      the_previous_task = self.previous_task
+      the_previous_task.next_task_id = self.next_task_id
+      the_previous_task.save
+    end
+
+    if self.project.last_task_id == self.id
+      the_project = self.project
+      the_project.last_task_id = self.previous_task_id
+      the_project.save
+    end
   end
 end

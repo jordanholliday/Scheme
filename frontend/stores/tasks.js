@@ -1,13 +1,18 @@
 var Store = require('flux/utils').Store,
     AppDispatcher = require('../dispatcher/dispatcher.js'),
     ApiConstants = require('../constants/api_constants'),
-    TaskConstants = require('../constants/task_constants');
+    TaskConstants = require('../constants/task_constants'),
+    ProjectStore = require('./projects');
 
 var _tasks = {};
 var TaskStore = new Store(AppDispatcher);
 
 TaskStore.all = function () {
-  return _tasks;
+  var singleTaskId = Object.keys(_tasks)[0];
+  var projectId = _tasks[singleTaskId].project_id;
+  var lastTaskId = ProjectStore.findProject(projectId).last_task_id;
+
+  return sortTasks(_tasks, lastTaskId);
 };
 
 TaskStore.find = function (id) {
@@ -35,6 +40,17 @@ var receiveOneTask = function (task) {
 var receiveOneUnpersistedTask = function (task) {
   _tasks[task.id] = task;
   _tasks[task.id].persisted = false;
+};
+
+var sortTasks = function (tasksObj, lastTaskId) {
+  // start by inserting last task
+  var taskArr = [tasksObj[lastTaskId]];
+  // then insert the previous, previous, previous...
+  while (taskArr[0].previous_task_id) {
+    taskArr.unshift(tasksObj[taskArr[0].previous_task_id]);
+  }
+
+  return taskArr;
 };
 
 TaskStore.__onDispatch = function (payload) {

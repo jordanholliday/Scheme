@@ -24922,13 +24922,18 @@
 	var Store = __webpack_require__(218).Store,
 	    AppDispatcher = __webpack_require__(236),
 	    ApiConstants = __webpack_require__(239),
-	    TaskConstants = __webpack_require__(240);
+	    TaskConstants = __webpack_require__(240),
+	    ProjectStore = __webpack_require__(400);
 	
 	var _tasks = {};
 	var TaskStore = new Store(AppDispatcher);
 	
 	TaskStore.all = function () {
-	  return _tasks;
+	  var singleTaskId = Object.keys(_tasks)[0];
+	  var projectId = _tasks[singleTaskId].project_id;
+	  var lastTaskId = ProjectStore.findProject(projectId).last_task_id;
+	
+	  return sortTasks(_tasks, lastTaskId);
 	};
 	
 	TaskStore.find = function (id) {
@@ -24956,6 +24961,17 @@
 	var receiveOneUnpersistedTask = function (task) {
 	  _tasks[task.id] = task;
 	  _tasks[task.id].persisted = false;
+	};
+	
+	var sortTasks = function (tasksObj, lastTaskId) {
+	  // start by inserting last task
+	  var taskArr = [tasksObj[lastTaskId]];
+	  // then insert the previous, previous, previous...
+	  while (taskArr[0].previous_task_id) {
+	    taskArr.unshift(tasksObj[taskArr[0].previous_task_id]);
+	  }
+	
+	  return taskArr;
 	};
 	
 	TaskStore.__onDispatch = function (payload) {
@@ -31831,6 +31847,20 @@
 	    });
 	  },
 	
+	  moveTaskToBack: function (taskId) {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'api/tasks/reorder/' + taskId,
+	      dataType: 'json',
+	      success: function (tasks) {
+	        ApiActions.receiveAll(tasks);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#fetchProjectTasks error");
+	      }
+	    });
+	  },
+	
 	  deleteTask: function (task) {
 	    $.ajax({
 	      type: 'DELETE',
@@ -32230,7 +32260,14 @@
 	  },
 	
 	  renderDragHandle: function () {
-	    return React.createElement('div', { className: 'drag-handle' });
+	    return React.createElement('div', { className: 'drag-handle', onClick: this.moveToBack });
+	  },
+	
+	  moveToBack: function () {
+	    if (this.state.task.new) {
+	      return;
+	    }
+	    ApiUtil.moveTaskToBack(this.props.task.id);
 	  },
 	
 	  render: function () {

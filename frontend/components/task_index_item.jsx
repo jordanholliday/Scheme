@@ -155,7 +155,12 @@ var TaskIndexItem = React.createClass({
   },
 
   renderDragHandle: function () {
-    return (<div className="drag-handle"></div>);
+    return (<div className="drag-handle" onClick={this.moveToBack}></div>);
+  },
+
+  moveToBack: function () {
+    if (this.state.task.new) {return}
+    ApiUtil.moveTaskToBack(this.props.task.id);
   },
 
   render: function () {

@@ -63,6 +63,20 @@ var ApiUtil = {
     });
   },
 
+  moveTaskToBack: function (taskId) {
+    $.ajax({
+      type: 'GET',
+      url: 'api/tasks/reorder/' + taskId,
+      dataType: 'json',
+      success: function (tasks) {
+        ApiActions.receiveAll(tasks);
+      },
+      error: function () {
+        console.log("ApiUtil#fetchProjectTasks error");
+      }
+    });
+  },
+
   deleteTask: function (task) {
     $.ajax({
       type: 'DELETE',
