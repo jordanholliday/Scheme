@@ -28,6 +28,13 @@ ApiActions = {
       actionType: ApiConstants.RECEIVE_ALL_PROJECTS,
       projects: projects
     });
+  },
+
+  receiveOneProject: function (project) {
+    AppDispatcher.dispatch({
+      actionType: ApiConstants.RECEIVE_ONE_PROJECT,
+      project: project
+    });
   }
 };
 

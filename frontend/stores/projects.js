@@ -20,6 +20,10 @@ var resetProjects = function (receivedProjects) {
   _setCurrentProject(ProjectStore.all()[0]);
 };
 
+var receiveOneProject = function (project) {
+  _projects[project.id] = project;
+};
+
 ProjectStore.all = function () {
   var projectArr = [];
   for (var id in _projects) {
@@ -41,6 +45,10 @@ ProjectStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case ApiConstants.RECEIVE_ALL_PROJECTS:
       resetProjects(payload.projects);
+      ProjectStore.__emitChange();
+      break;
+    case ApiConstants.RECEIVE_ONE_PROJECT:
+      receiveOneProject(payload.project);
       ProjectStore.__emitChange();
       break;
   }

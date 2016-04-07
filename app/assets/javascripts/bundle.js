@@ -31746,7 +31746,8 @@
 	  RECEIVE_TASKS: "RECEIVE_TASKS",
 	  RECEIVE_ONE_TASK: "RECEIVE_ONE_TASK",
 	  RECEIVE_ALL_TEAM_USERS: "RECEIVE_ALL_TEAM_USERS",
-	  RECEIVE_ALL_PROJECTS: "RECEIVE_ALL_PROJECTS"
+	  RECEIVE_ALL_PROJECTS: "RECEIVE_ALL_PROJECTS",
+	  RECEIVE_ONE_PROJECT: "RECEIVE_ONE_PROJECT"
 	};
 	
 	module.exports = ApiConstants;
@@ -31856,6 +31857,21 @@
 	      },
 	      error: function () {
 	        console.log("ApiUtil#createInvite error");
+	      }
+	    });
+	  },
+	
+	  createProject: function (project) {
+	    $.ajax({
+	      type: 'POST',
+	      url: 'api/projects',
+	      dataType: 'json',
+	      data: { project: project },
+	      success: function (project) {
+	        ApiActions.receiveOneProject(project);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#createProject error");
 	      }
 	    });
 	  },
@@ -32001,6 +32017,13 @@
 	    AppDispatcher.dispatch({
 	      actionType: ApiConstants.RECEIVE_ALL_PROJECTS,
 	      projects: projects
+	    });
+	  },
+	
+	  receiveOneProject: function (project) {
+	    AppDispatcher.dispatch({
+	      actionType: ApiConstants.RECEIVE_ONE_PROJECT,
+	      project: project
 	    });
 	  }
 	};
@@ -35104,6 +35127,7 @@
 	
 	var _teamUsers = {};
 	var _teamName;
+	var _teamId;
 	var TeamUserStore = new Store(AppDispatcher);
 	
 	TeamUserStore.findUser = function (userId) {
@@ -35118,9 +35142,14 @@
 	  return _teamName;
 	};
 	
+	TeamUserStore.teamId = function () {
+	  return _teamId;
+	};
+	
 	var resetTeamUsers = function (receivedTeamUsers) {
 	  _teamUsers = {};
 	  _teamName = receivedTeamUsers.team_name;
+	  _teamId = receivedTeamUsers.team_id;
 	  for (var j = 0; j < receivedTeamUsers.users.length; j++) {
 	    var currentUser = receivedTeamUsers.users[j];
 	    _teamUsers[currentUser.id] = currentUser;
@@ -51634,6 +51663,10 @@
 	  _setCurrentProject(ProjectStore.all()[0]);
 	};
 	
+	var receiveOneProject = function (project) {
+	  _projects[project.id] = project;
+	};
+	
 	ProjectStore.all = function () {
 	  var projectArr = [];
 	  for (var id in _projects) {
@@ -51657,6 +51690,10 @@
 	      resetProjects(payload.projects);
 	      ProjectStore.__emitChange();
 	      break;
+	    case ApiConstants.RECEIVE_ONE_PROJECT:
+	      receiveOneProject(payload.project);
+	      ProjectStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -51670,7 +51707,8 @@
 	    ReactDOM = __webpack_require__(158),
 	    TeamUserStore = __webpack_require__(273),
 	    ProjectStore = __webpack_require__(400),
-	    ApiUtil = __webpack_require__(241);
+	    ApiUtil = __webpack_require__(241),
+	    SchemeModal = __webpack_require__(402);
 	
 	var ProjectDrawer = React.createClass({
 	  displayName: 'ProjectDrawer',
@@ -51683,7 +51721,8 @@
 	    return {
 	      teammates: TeamUserStore.all(),
 	      teamName: TeamUserStore.teamName(),
-	      projects: ProjectStore.all()
+	      projects: ProjectStore.all(),
+	      showNewProjectModal: false
 	    };
 	  },
 	
@@ -51698,6 +51737,18 @@
 	    this.projectStoreToken.remove();
 	  },
 	
+	  hideNewProjectModal: function () {
+	    this.setState({ showNewProjectModal: false });
+	  },
+	
+	  showNewProjectModal: function () {
+	    this.setState({ showNewProjectModal: true });
+	  },
+	
+	  validateNewProjectName: function (name) {
+	    return name.length > 0;
+	  },
+	
 	  updateTeammates: function () {
 	    this.setState({
 	      teammates: TeamUserStore.all(),
@@ -51707,7 +51758,31 @@
 	
 	  updateProjects: function () {
 	    this.setState({
-	      projects: ProjectStore.all()
+	      projects: ProjectStore.all(),
+	      showNewProjectModal: false
+	    });
+	  },
+	
+	  createProject: function (input) {
+	    var teamId = TeamUserStore.teamId();
+	    ApiUtil.createProject({
+	      name: input,
+	      team_id: teamId
+	    });
+	  },
+	
+	  renderNewProjectModal: function () {
+	    return React.createElement(SchemeModal, {
+	      showInviteModal: this.state.showNewProjectModal,
+	      modalHeader: 'New Project',
+	      hideInviteModal: this.hideNewProjectModal,
+	      inputLabel: 'Project Name',
+	      inputId: 'huh',
+	      inputPlaceholder: 'Get Rich or Die Trying',
+	      inputMicetype: "All members of " + this.state.teamName + " can view and edit this project.",
+	      inputSubmit: this.createProject,
+	      inputValidation: this.validateNewProjectName,
+	      submitButtonText: 'Create Project'
 	    });
 	  },
 	
@@ -51741,7 +51816,7 @@
 	    return React.createElement(
 	      'ul',
 	      { className: 'group teammate-list' },
-	      teamUserLis
+	      teamUserLis.slice(0, 6)
 	    );
 	  },
 	
@@ -51756,9 +51831,31 @@
 	    }.bind(this));
 	
 	    return React.createElement(
-	      'ul',
-	      { className: 'project-links' },
-	      allProjects
+	      'div',
+	      { className: 'project-list' },
+	      React.createElement(
+	        'div',
+	        { className: 'group project-list-header' },
+	        React.createElement(
+	          'h3',
+	          null,
+	          'Projects'
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.showNewProjectModal },
+	          React.createElement(
+	            'svg',
+	            { viewBox: '0 0 32 32' },
+	            React.createElement('polygon', { points: '28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18' })
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'project-links' },
+	        allProjects
+	      )
 	    );
 	  },
 	
@@ -51773,12 +51870,8 @@
 	        this.state.teamName
 	      ),
 	      this.renderTeammatesList(),
-	      React.createElement(
-	        'h3',
-	        null,
-	        'Projects'
-	      ),
-	      this.renderProjectLinks()
+	      this.renderProjectLinks(),
+	      this.state.showNewProjectModal ? this.renderNewProjectModal() : null
 	    );
 	  }
 	});
@@ -51816,6 +51909,134 @@
 	});
 	
 	module.exports = ProjectDrawer;
+
+/***/ },
+/* 402 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    ApiUtil = __webpack_require__(241),
+	    Modal = __webpack_require__(251);
+	
+	// For universal config of Scheme Modals
+	
+	var customStyles = {
+	  content: {
+	    left: '50%',
+	    right: 'auto',
+	    bottom: 'auto',
+	    marginTop: '150px',
+	    transform: 'translateX(-50%)',
+	    border: '1px solid #A1A4AA',
+	    borderRadius: '3px',
+	    boxShadow: '0 2px 3px rgba(0,0,0,0.3)',
+	    padding: '0'
+	  },
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(103,109,118,0.6)'
+	  }
+	};
+	
+	// Required props:
+	// -showInviteModal (boolean)
+	// modalHeader (string)
+	// hideInviteModal (fn)
+	// inputAttrs = {
+	//  label (string)
+	//  id (string)
+	//  placeholder (string)
+	//  ref (string)
+	//  validation (fn)
+	//  micetype (string)
+	// }
+	// submit (fn)
+	// validInput (boolean)
+	// submitButtonText (string)
+	
+	var SchemeModal = React.createClass({
+	  displayName: 'SchemeModal',
+	
+	
+	  getInitialState: function () {
+	    return { validInput: false };
+	  },
+	
+	  validateInput: function () {
+	    this.setState({ validInput: this.props.inputValidation(this.refs.inputField.value) });
+	  },
+	
+	  componentDidMount: function () {
+	    this.validateInput();
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    this.props.inputSubmit(this.refs.inputField.value);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      Modal,
+	      { className: 'scheme-modal', isOpen: this.props.showInviteModal, style: customStyles },
+	      React.createElement(
+	        'header',
+	        { className: 'group' },
+	        React.createElement(
+	          'h2',
+	          null,
+	          this.props.modalHeader
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'close-modal', onClick: this.props.hideInviteModal },
+	          React.createElement(
+	            'svg',
+	            { viewBox: '0 0 32 32' },
+	            React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222' })
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'form',
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'group' },
+	          React.createElement('input', {
+	            type: 'text',
+	            id: this.props.inputId,
+	            placeholder: this.props.inputPlaceholder,
+	            ref: 'inputField',
+	            onChange: this.validateInput }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'email' },
+	            this.props.inputLabel
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'p',
+	            null,
+	            this.props.inputMicetype
+	          )
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.handleSubmit, disabled: !this.state.validInput },
+	          this.props.submitButtonText
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SchemeModal;
 
 /***/ }
 /******/ ]);

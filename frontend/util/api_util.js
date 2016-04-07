@@ -93,6 +93,21 @@ var ApiUtil = {
     });
   },
 
+  createProject: function (project) {
+    $.ajax({
+      type: 'POST',
+      url: 'api/projects',
+      dataType: 'json',
+      data: {project: project},
+      success: function (project) {
+        ApiActions.receiveOneProject(project);
+      },
+      error: function () {
+        console.log("ApiUtil#createProject error");
+      }
+    });
+  },
+
   fetchProjects: function () {
     $.ajax({
       type: 'GET',

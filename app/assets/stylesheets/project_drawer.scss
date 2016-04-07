@@ -60,6 +60,8 @@
 }
 
 .project-drawer h3 {
+  display: block;
+  float: left;
   margin: 0;
   padding: 0 15px 5px;
   color: #C1CCD1;
@@ -84,6 +86,39 @@
   background: #179DBA;
   background-origin: border-box;
   color: #fff;
+}
+
+.project-list-header {
+  height: 19px;
+  line-height: 19px;
+  margin-bottom: 5px;
+}
+
+.project-list-header button {
+  float: right;
+  margin-right: 15px;
+  padding: 3px 2px 3px 4px;
+  width: 10px;
+  height: 10px;
+  fill: #A2B4BC;
+  border: 1px solid rgba(162,180,188,0.5);
+  border-radius: 50%;
+  box-shadow: none;
+  position: relative;
+  transition: box-shadow;
+  transition-duration: .2s;
+}
+
+.project-list-header button:hover {
+  fill: #fff;
+  border: 1px solid #fff;
+  box-shadow: #fff 0px 0px 0px 3px;
+}
+
+.project-list-header button svg {
+  position: absolute;
+  left: 3px;
+  top: 3px;
 }
 
 /*/* DRAWER TRANSITIONS*/

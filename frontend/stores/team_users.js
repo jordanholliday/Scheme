@@ -4,6 +4,7 @@ var Store = require('flux/utils').Store,
 
 var _teamUsers = {};
 var _teamName;
+var _teamId;
 var TeamUserStore = new Store(AppDispatcher);
 
 TeamUserStore.findUser = function (userId) {
@@ -18,9 +19,14 @@ TeamUserStore.teamName = function () {
   return _teamName;
 };
 
+TeamUserStore.teamId = function () {
+  return _teamId;
+};
+
 var resetTeamUsers = function (receivedTeamUsers) {
   _teamUsers = {};
   _teamName = receivedTeamUsers.team_name;
+  _teamId = receivedTeamUsers.team_id;
   for (var j = 0; j < receivedTeamUsers.users.length; j++) {
     var currentUser = receivedTeamUsers.users[j];
     _teamUsers[currentUser.id] = currentUser;

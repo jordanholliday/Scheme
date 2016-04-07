@@ -5,3 +5,4 @@ json.set! :users do
 end
 
 json.team_name current_user.team.name
+json.team_id current_user.team.id

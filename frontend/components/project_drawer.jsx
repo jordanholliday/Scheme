@@ -2,7 +2,8 @@ var React = require('react'),
     ReactDOM = require('react-dom'),
     TeamUserStore = require('../stores/team_users'),
     ProjectStore = require('../stores/projects.js'),
-    ApiUtil = require('../util/api_util');
+    ApiUtil = require('../util/api_util'),
+    SchemeModal = require('./scheme_modal');
 
 var ProjectDrawer = React.createClass({
   contextTypes: {
@@ -13,7 +14,8 @@ var ProjectDrawer = React.createClass({
     return {
       teammates: TeamUserStore.all(),
       teamName: TeamUserStore.teamName(),
-      projects: ProjectStore.all()
+      projects: ProjectStore.all(),
+      showNewProjectModal: false
     }
   },
 
@@ -28,6 +30,18 @@ var ProjectDrawer = React.createClass({
     this.projectStoreToken.remove();
   },
 
+  hideNewProjectModal: function () {
+    this.setState({showNewProjectModal: false});
+  },
+
+  showNewProjectModal: function () {
+    this.setState({showNewProjectModal: true});
+  },
+
+  validateNewProjectName: function (name) {
+    return name.length > 0;
+  },
+
   updateTeammates: function () {
     this.setState({
       teammates: TeamUserStore.all(),
@@ -37,8 +51,34 @@ var ProjectDrawer = React.createClass({
 
   updateProjects: function () {
     this.setState({
-      projects: ProjectStore.all()
+      projects: ProjectStore.all(),
+      showNewProjectModal: false
     });
+  },
+
+  createProject: function (input) {
+    var teamId = TeamUserStore.teamId();
+    ApiUtil.createProject({
+      name: input,
+      team_id: teamId
+    })
+  },
+
+  renderNewProjectModal: function () {
+    return (
+      <SchemeModal
+        showInviteModal={this.state.showNewProjectModal}
+        modalHeader="New Project"
+        hideInviteModal={this.hideNewProjectModal}
+        inputLabel="Project Name"
+        inputId="huh"
+        inputPlaceholder="Get Rich or Die Trying"
+        inputMicetype={"All members of " + this.state.teamName +" can view and edit this project."}
+        inputSubmit={this.createProject}
+        inputValidation={this.validateNewProjectName}
+        submitButtonText="Create Project"
+      />
+    );
   },
 
   renderDrawerHeader: function () {
@@ -62,7 +102,7 @@ var ProjectDrawer = React.createClass({
 
     return (
       <ul className="group teammate-list">
-        {teamUserLis}
+        {teamUserLis.slice(0,6)}
       </ul>
     );
   },
@@ -78,9 +118,22 @@ var ProjectDrawer = React.createClass({
     }.bind(this))
 
     return (
-      <ul className="project-links">
-        {allProjects}
-      </ul>
+      <div className="project-list">
+
+        <div className="group project-list-header">
+          <h3>Projects</h3>
+          <button onClick={this.showNewProjectModal}>
+            <svg viewBox="0 0 32 32">
+              <polygon points="28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18"></polygon>
+            </svg>
+          </button>
+        </div>
+
+        <ul className="project-links">
+          {allProjects}
+        </ul>
+
+      </div>
     )
   },
 
@@ -90,8 +143,8 @@ var ProjectDrawer = React.createClass({
         {this.renderDrawerHeader()}
         <h2>{this.state.teamName}</h2>
         {this.renderTeammatesList()}
-        <h3>Projects</h3>
         {this.renderProjectLinks()}
+        {this.state.showNewProjectModal ? this.renderNewProjectModal() : null}
       </section>
     );
   }
