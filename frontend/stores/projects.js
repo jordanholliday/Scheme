@@ -24,6 +24,10 @@ var receiveOneProject = function (project) {
   _projects[project.id] = project;
 };
 
+var updateLastTask = function (projectId, lastTaskId) {
+  _projects[projectId].last_task_id = lastTaskId;
+};
+
 ProjectStore.all = function () {
   var projectArr = [];
   for (var id in _projects) {
@@ -45,6 +49,17 @@ ProjectStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case ApiConstants.RECEIVE_ALL_PROJECTS:
       resetProjects(payload.projects);
+      ProjectStore.__emitChange();
+      break;
+    case ApiConstants.RECEIVE_ONE_TASK:
+      receiveOneProject(payload.task.project);
+      ProjectStore.__emitChange();
+      break;
+    case ApiConstants.RECEIVE_TASKS:
+      // update project's last task
+      var projectId = payload.tasks[0].project_id;
+      var lastTaskId = payload.tasks[0].project_last_task;
+      updateLastTask(projectId, lastTaskId);
       ProjectStore.__emitChange();
       break;
     case ApiConstants.RECEIVE_ONE_PROJECT:
