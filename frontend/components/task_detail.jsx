@@ -96,7 +96,8 @@ var TaskDetail = React.createClass({
   apiCompleteTask: function () {
     ApiUtil.completeTask({
       id: this.state.task.id,
-      completed: true
+      completed: true,
+      projectId: this.state.task.project_id
     })
   },
 
