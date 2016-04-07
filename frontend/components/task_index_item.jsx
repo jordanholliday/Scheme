@@ -152,7 +152,10 @@ var TaskIndexItem = React.createClass({
         {this.state.task.contextualDeadline}
       </div>
     )
+  },
 
+  renderDragHandle: function () {
+    return (<div className="drag-handle"></div>);
   },
 
   render: function () {
@@ -193,6 +196,7 @@ var TaskIndexItem = React.createClass({
 
     return (
         <li className="group task-index-item" onClick={this.clickToShowDetail}>
+          {this.renderDragHandle()}
           {button}
           {input}
           {this.state.task && this.state.task.deadline ? this.renderDeadline() : null }

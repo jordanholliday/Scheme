@@ -32229,6 +32229,10 @@
 	    );
 	  },
 	
+	  renderDragHandle: function () {
+	    return React.createElement('div', { className: 'drag-handle' });
+	  },
+	
 	  render: function () {
 	    var button, input;
 	    if (this.state.task) {
@@ -32270,6 +32274,7 @@
 	    return React.createElement(
 	      'li',
 	      { className: 'group task-index-item', onClick: this.clickToShowDetail },
+	      this.renderDragHandle(),
 	      button,
 	      input,
 	      this.state.task && this.state.task.deadline ? this.renderDeadline() : null
