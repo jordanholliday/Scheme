@@ -24867,7 +24867,8 @@
 	      name: null,
 	      id: -1,
 	      persisted: false,
-	      new: true
+	      new: true,
+	      projectId: this.props.project ? this.props.project.id : null
 	    };
 	  },
 	
@@ -31813,14 +31814,15 @@
 	  },
 	
 	  completeTask: function (task) {
-	    var fetchCallback = this.fetchTasks;
+	    var fetchCallback = this.fetchProjectTasks;
+	    var projectId = task.projectId;
 	    $.ajax({
 	      type: 'PATCH',
 	      url: 'api/tasks/' + task.id,
 	      dataType: 'json',
 	      data: { task: task },
 	      success: function () {
-	        fetchCallback();
+	        fetchCallback(projectId);
 	      },
 	      error: function () {
 	        console.log("ApiUtil#updateTask error");
@@ -32151,7 +32153,8 @@
 	    e.stopPropagation();
 	    ApiUtil.completeTask({
 	      id: this.state.task.id,
-	      completed: true
+	      completed: true,
+	      projectId: this.state.task.project_id
 	    });
 	  },
 	
@@ -32161,8 +32164,8 @@
 	      return;
 	    }
 	    // if user is clicking and task isn't saved, go ahead & save
-	    if (!this.state.task.persisted) {
-	      this.apiCreateTask();
+	    if (!this.state.task.persisted && this.state.task.name) {
+	      this.apiCreateTask(this.state.task);
 	      return;
 	    }
 	    this.context.router.push("projects/" + this.props.projectId + "/" + this.state.task.id);
@@ -51686,10 +51689,6 @@
 	
 	  componentWillUnmount: function () {
 	    this.teamUserStoreToken.remove();
-	  },
-	
-	  componentWillReceiveProps: function (newProps) {
-	    debugger;
 	  },
 	
 	  updateTeammates: function () {

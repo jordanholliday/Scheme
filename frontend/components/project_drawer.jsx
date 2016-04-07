@@ -27,10 +27,6 @@ var ProjectDrawer = React.createClass({
     this.teamUserStoreToken.remove();
   },
 
-  componentWillReceiveProps: function (newProps) {
-    debugger
-  },
-
   updateTeammates: function () {
     this.setState({
       teammates: TeamUserStore.all(),

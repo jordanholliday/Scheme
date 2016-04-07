@@ -47,14 +47,15 @@ var ApiUtil = {
   },
 
   completeTask: function (task) {
-    var fetchCallback = this.fetchTasks;
+    var fetchCallback = this.fetchProjectTasks;
+    var projectId = task.projectId;
     $.ajax({
       type: 'PATCH',
       url: 'api/tasks/' + task.id,
       dataType: 'json',
       data: {task: task},
       success: function () {
-        fetchCallback();
+        fetchCallback(projectId);
       },
       error: function () {
         console.log("ApiUtil#updateTask error");

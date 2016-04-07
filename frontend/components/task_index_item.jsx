@@ -106,7 +106,8 @@ var TaskIndexItem = React.createClass({
     e.stopPropagation();
     ApiUtil.completeTask({
       id: this.state.task.id,
-      completed: true
+      completed: true,
+      projectId: this.state.task.project_id
     })
   },
 
@@ -114,8 +115,8 @@ var TaskIndexItem = React.createClass({
   clickToShowDetail: function () {
     if (!this.props.task) {return}
     // if user is clicking and task isn't saved, go ahead & save
-    if (!this.state.task.persisted) {
-      this.apiCreateTask();
+    if (!this.state.task.persisted && this.state.task.name) {
+      this.apiCreateTask(this.state.task);
       return;
     }
     this.context.router.push("projects/" + this.props.projectId + "/" + this.state.task.id)

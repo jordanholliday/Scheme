@@ -5,7 +5,7 @@ class Api::TasksController < ApplicationController
   end
 
   def project_tasks
-    return_all_project_tasks
+    return_all_project_tasks(params[:project_id])
   end
 
   def show
@@ -34,9 +34,10 @@ class Api::TasksController < ApplicationController
 
   def destroy
     task = Task.find(params[:id])
+    project_id = task.project_id
     task.destroy
 
-    return_all_current_user_tasks
+    return_all_project_tasks(project_id)
   end
 
   private
@@ -57,8 +58,8 @@ class Api::TasksController < ApplicationController
     render :index
   end
 
-  def return_all_project_tasks
-    @tasks = Task.where(project_id: params[:project_id]).includes(:creator).where(completed: false)
+  def return_all_project_tasks(project_id)
+    @tasks = Task.where(project_id: project_id).includes(:creator).where(completed: false)
     render :index
   end
 

@@ -71,7 +71,8 @@ var TaskIndex = React.createClass({
       name: null,
       id: -1,
       persisted: false,
-      new: true
+      new: true,
+      projectId: this.props.project ? this.props.project.id : null
     }
   },
 
