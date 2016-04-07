@@ -47,10 +47,18 @@ User.all.each do |user|
 
     # set order on tasks
     task_project = task.project
+
     # if project has an existing last task, set that as new task's previous task
-    task.previous_task_id = task_project.last_task_id if task_project.last_task_id
+    if task_project.last_task_id
+      task.previous_task_id = task_project.last_task_id
+      next_task = Task.find(task.previous_task_id)
+      next_task.next_task_id = task.id
+      next_task.save!
+    end
+
     # in any case, set new task as project's last task
     task_project.last_task_id = task.id
+
     task.save!
     task_project.save!
   end

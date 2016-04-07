@@ -15,9 +15,14 @@ class Task < ActiveRecord::Base
 
   belongs_to :project
 
-  def <=>(task)
-    return -1 if !self.previous_task_id
-    return 1 if !task.previous_task_id
-    self.previous_task_id <=> task.previous_task_id
+
+  def previous_task
+    return unless self.previous_task_id
+    Task.find(self.previous_task_id)
+  end
+
+  def next_task
+    return unless self.next_task_id
+    Task.find(self.next_task_id)
   end
 end
