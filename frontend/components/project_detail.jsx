@@ -53,7 +53,11 @@ var ProjectDetail = React.createClass({
 
   renderProjectDrawer: function () {
     if (this.state.showProjectDrawer){
-      return [<ProjectDrawer ref="projectDrawer" key="project-drawer" hideProjectDrawer={this.hideProjectDrawer} />];
+      return [<ProjectDrawer
+        ref="projectDrawer"
+        key="project-drawer"
+        projectId={this.state.project ? this.state.project.id : null}
+        hideProjectDrawer={this.hideProjectDrawer} />];
     } else {
       return [];
     }

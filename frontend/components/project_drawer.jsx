@@ -27,8 +27,11 @@ var ProjectDrawer = React.createClass({
     this.teamUserStoreToken.remove();
   },
 
-  updateTeammates: function () {
+  componentWillReceiveProps: function (newProps) {
     debugger
+  },
+
+  updateTeammates: function () {
     this.setState({
       teammates: TeamUserStore.all(),
       teamName: TeamUserStore.teamName()
@@ -39,10 +42,6 @@ var ProjectDrawer = React.createClass({
     this.setState({
       projects: ProjectStore.all()
     });
-  },
-
-  setSelectedProjectId: function (id) {
-    this.setState({selectedProjectId: id})
   },
 
   renderDrawerHeader: function () {
@@ -77,8 +76,7 @@ var ProjectDrawer = React.createClass({
       allProjects.push(<ProjectLink
         project={project}
         key={project.id}
-        setSelectedProjectId={this.setSelectedProjectId}
-        selected={this.state.selectedProjectId === project.id}
+        selected={this.props.projectId === project.id}
       />);
     }.bind(this))
 
@@ -111,7 +109,6 @@ var ProjectLink = React.createClass({
   projectLink: function () {
     if (this.props.selected) {return}
     this.context.router.push("/projects/" + this.props.project.id);
-    this.props.setSelectedProjectId(this.props.project.id);
   },
 
   className: function () {

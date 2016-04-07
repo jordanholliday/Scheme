@@ -8,7 +8,7 @@ var ProjectStore = new Store(AppDispatcher);
 
 function _setCurrentProject (project) {
   _currentProject = project;
-};
+}
 
 var resetProjects = function (receivedProjects) {
   _projects = {};

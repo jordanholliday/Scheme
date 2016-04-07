@@ -50765,7 +50765,11 @@
 	
 	  renderProjectDrawer: function () {
 	    if (this.state.showProjectDrawer) {
-	      return [React.createElement(ProjectDrawer, { ref: 'projectDrawer', key: 'project-drawer', hideProjectDrawer: this.hideProjectDrawer })];
+	      return [React.createElement(ProjectDrawer, {
+	        ref: 'projectDrawer',
+	        key: 'project-drawer',
+	        projectId: this.state.project ? this.state.project.id : null,
+	        hideProjectDrawer: this.hideProjectDrawer })];
 	    } else {
 	      return [];
 	    }
@@ -51609,7 +51613,7 @@
 	
 	function _setCurrentProject(project) {
 	  _currentProject = project;
-	};
+	}
 	
 	var resetProjects = function (receivedProjects) {
 	  _projects = {};
@@ -51684,8 +51688,11 @@
 	    this.teamUserStoreToken.remove();
 	  },
 	
-	  updateTeammates: function () {
+	  componentWillReceiveProps: function (newProps) {
 	    debugger;
+	  },
+	
+	  updateTeammates: function () {
 	    this.setState({
 	      teammates: TeamUserStore.all(),
 	      teamName: TeamUserStore.teamName()
@@ -51696,10 +51703,6 @@
 	    this.setState({
 	      projects: ProjectStore.all()
 	    });
-	  },
-	
-	  setSelectedProjectId: function (id) {
-	    this.setState({ selectedProjectId: id });
 	  },
 	
 	  renderDrawerHeader: function () {
@@ -51742,8 +51745,7 @@
 	      allProjects.push(React.createElement(ProjectLink, {
 	        project: project,
 	        key: project.id,
-	        setSelectedProjectId: this.setSelectedProjectId,
-	        selected: this.state.selectedProjectId === project.id
+	        selected: this.props.projectId === project.id
 	      }));
 	    }.bind(this));
 	
@@ -51787,7 +51789,6 @@
 	      return;
 	    }
 	    this.context.router.push("/projects/" + this.props.project.id);
-	    this.props.setSelectedProjectId(this.props.project.id);
 	  },
 	
 	  className: function () {
