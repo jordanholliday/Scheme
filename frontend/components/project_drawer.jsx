@@ -25,6 +25,7 @@ var ProjectDrawer = React.createClass({
 
   componentWillUnmount: function () {
     this.teamUserStoreToken.remove();
+    this.projectStoreToken.remove();
   },
 
   updateTeammates: function () {

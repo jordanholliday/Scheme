@@ -68,6 +68,7 @@ var ApiUtil = {
       type: 'DELETE',
       url: 'api/tasks/' + task.id,
       dataType: 'json',
+      data: {task: task},
       success: function (tasks) {
         ApiActions.receiveAll(tasks);
       },

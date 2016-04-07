@@ -75,16 +75,17 @@ var TaskIndexItem = React.createClass({
 
   // delete tasks with empty names if delete is pressed
   keyDownHandler: function (event) {
-    if (event.which === 8 && this.state.task.name === "") {
-      // delete if user clears out name of persisted task
+    if (event.which === 8 && !this.state.task.new && this.state.task.name === "") {
+      // delete if user clears out name of PERSISTED (!this.state.task.new) task
       event.preventDefault();
-      this.apiDeleteTask(this.state.task.id)
+      this.apiDeleteTask(this.state.task)
     }
   },
 
-  apiDeleteTask: function (id) {
+  apiDeleteTask: function (task) {
     ApiUtil.deleteTask({
-      id: id
+      id: task.id,
+      project_id: task.project_id
     })
   },
 
@@ -103,6 +104,7 @@ var TaskIndexItem = React.createClass({
   },
 
   apiCompleteTask: function (e) {
+    if (!this.state.task.persisted) {return}
     e.stopPropagation();
     ApiUtil.completeTask({
       id: this.state.task.id,

@@ -12,11 +12,17 @@ require 'faker'
 Task.destroy_all
 Membership.destroy_all
 Team.destroy_all
+Project.destroy_all
 
 # Create teams
-Team.create!(name: "The Good Guys")
-Team.create!(name: "The Villains")
+team1 = Team.create!(name: "The Good Guys")
+team2 =Team.create!(name: "The Villains")
 
+# Create projects
+team1.projects.create!(name: "Hijack Shamoo")
+team1.projects.create!(name: "Thieve Hope Diamond")
+team2.projects.create!(name: "Perfect The Taco")
+team2.projects.create!(name: "Become Inhumanly Shredded")
 
 # create a membership for each user to reference in next loop
 User.all.each do |user|
@@ -34,7 +40,8 @@ User.all.each do |user|
         Faker::Hacker.say_something_smart].join(" ")
     task.assignee_id = user.teammates.pluck(:id).sample
     task.creator_id = user.teammates.pluck(:id).sample
-    task.deadline = Date.today + rand(14).days
+    task.project_id = user.team.projects.pluck(:id).sample
+    task.deadline = Date.today - 4.days + rand(14).days
     task.save!
   end
 end

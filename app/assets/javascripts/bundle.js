@@ -31835,6 +31835,7 @@
 	      type: 'DELETE',
 	      url: 'api/tasks/' + task.id,
 	      dataType: 'json',
+	      data: { task: task },
 	      success: function (tasks) {
 	        ApiActions.receiveAll(tasks);
 	      },
@@ -32122,16 +32123,17 @@
 	
 	  // delete tasks with empty names if delete is pressed
 	  keyDownHandler: function (event) {
-	    if (event.which === 8 && this.state.task.name === "") {
-	      // delete if user clears out name of persisted task
+	    if (event.which === 8 && !this.state.task.new && this.state.task.name === "") {
+	      // delete if user clears out name of PERSISTED (!this.state.task.new) task
 	      event.preventDefault();
-	      this.apiDeleteTask(this.state.task.id);
+	      this.apiDeleteTask(this.state.task);
 	    }
 	  },
 	
-	  apiDeleteTask: function (id) {
+	  apiDeleteTask: function (task) {
 	    ApiUtil.deleteTask({
-	      id: id
+	      id: task.id,
+	      project_id: task.project_id
 	    });
 	  },
 	
@@ -32150,6 +32152,9 @@
 	  },
 	
 	  apiCompleteTask: function (e) {
+	    if (!this.state.task.persisted) {
+	      return;
+	    }
 	    e.stopPropagation();
 	    ApiUtil.completeTask({
 	      id: this.state.task.id,
@@ -51690,6 +51695,7 @@
 	
 	  componentWillUnmount: function () {
 	    this.teamUserStoreToken.remove();
+	    this.projectStoreToken.remove();
 	  },
 	
 	  updateTeammates: function () {
