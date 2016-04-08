@@ -1,6 +1,7 @@
 .task-options {
   float: left;
-  padding: 0 0 7px 0;
+  padding: 0;
+  padding-bottom: 2px;
   background: #fff;
   color: #1B2432;
   font-size: 14px;

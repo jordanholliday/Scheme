@@ -1,5 +1,6 @@
 json.extract! task, :id, :name, :description, :deadline, :repeats, :completed, :parent_id, :assignee_id, :project_id, :next_task_id, :previous_task_id
 json.creator task.creator.name
+json.project_name task.project.name
 
 task_created_date = task.created_at.to_date
 

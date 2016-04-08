@@ -5,9 +5,28 @@
   background: #fff;
   margin-top: 15px;
   border-radius: 3px;
-  padding: 15px 20px;
+  padding: 10px 20px;
   color: #1B2432;
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
+  position: relative;
+}
+
+.task-detail
+  .task-project-name {
+    font-family: 'proxima_nova_bold';
+    color: #B9BCC0;
+    letter-spacing: .1px;
+    margin-top: 65px;
+    margin-left: 20px;
+  }
+
+.task-project-name h3 {
+  font-size: 14px;
+}
+
+.task-project-name h3:hover {
+  color: #02ceff;
+  text-decoration: underline;
 }
 
 .task-detail

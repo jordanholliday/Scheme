@@ -21,6 +21,10 @@ var TaskDetail = React.createClass({
     }
   },
 
+  redirectToTaskProject: function () {
+    this.context.router.push("/projects/" + this.props.params.projectId);
+  },
+
   componentWillReceiveProps: function(newProps) {
     this.setState({task: TaskStore.find(newProps.params.taskId)});
 
@@ -108,7 +112,9 @@ var TaskDetail = React.createClass({
 
           <TaskOptions task={this.state.task} />
 
-          <section className="task-options fpo">PROJECT NAME</section>
+          <section className="task-project-name">
+            <h3 onClick={this.redirectToTaskProject}>{this.state.task.project_name}</h3>
+          </section>
 
           <div className="group edit-pane-name-complete">
             <button

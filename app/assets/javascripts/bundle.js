@@ -44613,6 +44613,10 @@
 	    }
 	  },
 	
+	  redirectToTaskProject: function () {
+	    this.context.router.push("/projects/" + this.props.params.projectId);
+	  },
+	
 	  componentWillReceiveProps: function (newProps) {
 	    this.setState({ task: TaskStore.find(newProps.params.taskId) });
 	
@@ -44703,8 +44707,12 @@
 	        React.createElement(TaskOptions, { task: this.state.task }),
 	        React.createElement(
 	          'section',
-	          { className: 'task-options fpo' },
-	          'PROJECT NAME'
+	          { className: 'task-project-name' },
+	          React.createElement(
+	            'h3',
+	            { onClick: this.redirectToTaskProject },
+	            this.state.task.project_name
+	          )
 	        ),
 	        React.createElement(
 	          'div',

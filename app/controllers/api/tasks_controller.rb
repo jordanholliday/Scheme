@@ -74,7 +74,7 @@ class Api::TasksController < ApplicationController
   end
 
   def return_all_project_tasks(project_id)
-    @tasks = Task.where(project_id: project_id).includes(:creator).where(completed: false)
+    @tasks = Task.where(project_id: project_id).includes(:creator, :project).where(completed: false)
     if @tasks.empty?
       render json: {}
     else
