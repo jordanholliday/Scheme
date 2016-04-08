@@ -113,7 +113,7 @@
 	
 	  function _redirectIfLoggedIn() {
 	    if (SessionStore.isLoggedIn()) {
-	      replace('/projects');
+	      replace('/projects/0');
 	    }
 	
 	    asyncCompletionCallback();
