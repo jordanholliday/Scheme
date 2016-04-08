@@ -9,8 +9,8 @@ class Api::TasksController < ApplicationController
   end
 
   def reorder
-    move_task = Task.includes(:project).find(params[:task_id])
-    in_front_of_task = Task.find(move_task.project.last_task_id)
+    move_task = Task.find(params[:id])
+    in_front_of_task = Task.find(params[:in_front_of_task_id])
 
     Project.reorder_tasks(move_task, in_front_of_task)
     return_all_project_tasks(move_task.project.id)

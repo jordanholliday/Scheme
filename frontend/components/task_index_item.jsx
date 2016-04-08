@@ -6,17 +6,22 @@ var React = require('react'),
     TaskUtil = require('../util/task_util.js'),
     DropTarget = require('react-dnd').DropTarget,
     DragSource = require('react-dnd').DragSource,
-    flow = flow = require('lodash.flow');
+    flow = require('lodash.flow'),
+    ApiUtil = require('../util/api_util');
 
 var taskIndexItemSource = {
   beginDrag: function (props) {
-    return {};
+    return {
+      id: props.task.id,
+      name: props.task.name
+    };
   }
 };
 
 var taskIndexItemTarget = {
-  drop: function (props) {
-    console.log(props);
+  drop: function (props, monitor, component) {
+    console.log(monitor.getItem().name + " in front of " + props.task.name);
+    ApiUtil.reorderTasks(monitor.getItem().id, props.task.id);
     return {};
   },
 

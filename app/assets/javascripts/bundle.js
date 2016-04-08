@@ -31929,11 +31929,28 @@
 	    });
 	  },
 	
-	  moveTaskToBack: function (taskId) {
+	  // moveTaskToBack: function (taskId) {
+	  //   $.ajax({
+	  //     type: 'GET',
+	  //     url: 'api/tasks/reorder/' + taskId,
+	  //     dataType: 'json',
+	  //     success: function (tasks) {
+	  //       ApiActions.receiveAll(tasks);
+	  //     },
+	  //     error: function () {
+	  //       console.log("ApiUtil#fetchProjectTasks error");
+	  //     }
+	  //   });
+	  // },
+	
+	  reorderTasks: function (moveTaskId, inFrontOfTaskId) {
 	    $.ajax({
-	      type: 'GET',
-	      url: 'api/tasks/reorder/' + taskId,
+	      type: 'PATCH',
+	      url: 'api/tasks/reorder/' + moveTaskId,
 	      dataType: 'json',
+	      data: {
+	        in_front_of_task_id: inFrontOfTaskId
+	      },
 	      success: function (tasks) {
 	        ApiActions.receiveAll(tasks);
 	      },
@@ -32184,17 +32201,21 @@
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    TaskStore = __webpack_require__(217);
-	Link = __webpack_require__(159).Link, TaskAction = __webpack_require__(247), TaskUtil = __webpack_require__(248), DropTarget = __webpack_require__(249).DropTarget, DragSource = __webpack_require__(249).DragSource, flow = flow = __webpack_require__(606);
+	Link = __webpack_require__(159).Link, TaskAction = __webpack_require__(247), TaskUtil = __webpack_require__(248), DropTarget = __webpack_require__(249).DropTarget, DragSource = __webpack_require__(249).DragSource, flow = __webpack_require__(606), ApiUtil = __webpack_require__(242);
 	
 	var taskIndexItemSource = {
 	  beginDrag: function (props) {
-	    return {};
+	    return {
+	      id: props.task.id,
+	      name: props.task.name
+	    };
 	  }
 	};
 	
 	var taskIndexItemTarget = {
-	  drop: function (props) {
-	    console.log(props);
+	  drop: function (props, monitor, component) {
+	    console.log(monitor.getItem().name + " in front of " + props.task.name);
+	    ApiUtil.reorderTasks(monitor.getItem().id, props.task.id);
 	    return {};
 	  }
 	

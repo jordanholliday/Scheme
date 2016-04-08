@@ -63,11 +63,28 @@ var ApiUtil = {
     });
   },
 
-  moveTaskToBack: function (taskId) {
+  // moveTaskToBack: function (taskId) {
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: 'api/tasks/reorder/' + taskId,
+  //     dataType: 'json',
+  //     success: function (tasks) {
+  //       ApiActions.receiveAll(tasks);
+  //     },
+  //     error: function () {
+  //       console.log("ApiUtil#fetchProjectTasks error");
+  //     }
+  //   });
+  // },
+
+  reorderTasks: function (moveTaskId, inFrontOfTaskId) {
     $.ajax({
-      type: 'GET',
-      url: 'api/tasks/reorder/' + taskId,
+      type: 'PATCH',
+      url: 'api/tasks/reorder/' + moveTaskId,
       dataType: 'json',
+      data: {
+        in_front_of_task_id: inFrontOfTaskId
+      },
       success: function (tasks) {
         ApiActions.receiveAll(tasks);
       },
