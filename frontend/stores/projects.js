@@ -52,10 +52,12 @@ ProjectStore.__onDispatch = function (payload) {
       ProjectStore.__emitChange();
       break;
     case ApiConstants.RECEIVE_ONE_TASK:
+      // update project
       receiveOneProject(payload.task.project);
       ProjectStore.__emitChange();
       break;
     case ApiConstants.RECEIVE_TASKS:
+      if (!payload.tasks[0]) {break}
       // update project's last task
       var projectId = payload.tasks[0].project_id;
       var lastTaskId = payload.tasks[0].project_last_task;

@@ -50,6 +50,7 @@ class Api::UsersController < ApplicationController
     else
       team = Team.create(creator_id: user.id, name: user.name + "'s Workspace")
       Membership.create(member_id: user.id, team_id: team.id)
+      team.projects.create(name: user.name + "'s Tasks")
       seed_tasks_for_user(user)
     end
   end

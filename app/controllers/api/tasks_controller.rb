@@ -75,7 +75,11 @@ class Api::TasksController < ApplicationController
 
   def return_all_project_tasks(project_id)
     @tasks = Task.where(project_id: project_id).includes(:creator).where(completed: false)
-    render :index
+    if @tasks.empty?
+      render json: {}
+    else
+      render :index
+    end
   end
 
   def add_new_task_to_project_order(task)

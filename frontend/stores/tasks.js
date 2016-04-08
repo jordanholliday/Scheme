@@ -9,6 +9,7 @@ var TaskStore = new Store(AppDispatcher);
 
 TaskStore.all = function () {
   var singleTaskId = Object.keys(_tasks)[0];
+  if (!singleTaskId) {return []};
   var projectId = _tasks[singleTaskId].project_id;
   var lastTaskId = ProjectStore.findProject(projectId).last_task_id;
 

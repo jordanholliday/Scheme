@@ -2,9 +2,9 @@
   display: flex;
   position: absolute;
   top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
+  bottom: 0;
   background-image: image-url('mineral.jpg');
   /* hide overflow since task container is set to height 100%*/
   overflow: hidden;
@@ -20,4 +20,16 @@
 
 .project-detail {
   padding: 0 15px;
+}
+
+.root {
+  height: 100%;
+}
+
+.scheme-body {
+  height: 100%;
+}
+
+.app-component-wrapper {
+  height: 100%;
 }

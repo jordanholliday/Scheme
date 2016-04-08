@@ -20,7 +20,6 @@ var taskIndexItemSource = {
 
 var taskIndexItemTarget = {
   drop: function (props, monitor, component) {
-    console.log(monitor.getItem().name + " in front of " + props.task.name);
     ApiUtil.reorderTasks(monitor.getItem().id, props.task.id);
     return {};
   },
@@ -197,13 +196,7 @@ var TaskIndexItem = React.createClass({
   },
 
   renderDragHandle: function () {
-    return (<div className="drag-handle" onClick={this.moveToBack}></div>);
-  },
-
-  moveToBack: function (e) {
-    e.stopPropagation();
-    if (this.state.task.new) {return}
-    ApiUtil.moveTaskToBack(this.props.task.id);
+    return (<div className="drag-handle"></div>);
   },
 
   render: function () {

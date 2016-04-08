@@ -66,7 +66,7 @@ function _requireLogOut (nextState, replace, asyncCompletionCallback) {
 
   function _redirectIfLoggedIn () {
     if (SessionStore.isLoggedIn()) {
-      replace('/tasks');
+      replace('/projects');
     }
 
     asyncCompletionCallback();

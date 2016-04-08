@@ -108,7 +108,7 @@ var TaskDetail = React.createClass({
 
           <TaskOptions task={this.state.task} />
 
-          <section className="task-options fpo"></section>
+          <section className="task-options fpo">PROJECT NAME</section>
 
           <div className="group edit-pane-name-complete">
             <button

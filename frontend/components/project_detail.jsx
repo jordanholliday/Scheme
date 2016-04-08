@@ -22,12 +22,12 @@ var ProjectDetail = React.createClass({
 
     return {
         project: ProjectStore.findProject(this.projectId()),
-        showProjectDrawer: true
+        showProjectDrawer: false
       }
   },
 
   componentDidMount: function () {
-    this.projectStoreToken =ProjectStore.addListener(this.getProject);
+    this.projectStoreToken =ProjectStore.addListener(this.getProjectOrRedirect);
     ApiUtil.fetchProjects();
   },
 
@@ -39,8 +39,15 @@ var ProjectDetail = React.createClass({
     this.setState({project: ProjectStore.findProject(newProps.params.projectId)})
   },
 
-  getProject: function () {
-    this.setState({project: ProjectStore.findProject(this.projectId())})
+  getProjectOrRedirect: function () {
+    // if params.projectId doesn't corresnpond to existing project,
+    // re-route to first project in store. Need to replace with proper 404
+    var paramsProject = ProjectStore.findProject(this.projectId())
+    if (paramsProject) {
+      this.setState({project: ProjectStore.findProject(this.projectId())})
+    } else {
+      this.context.router.push("/projects/" + ProjectStore.all()[0].id);
+    }
   },
 
   showProjectDrawer: function () {

@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   top: 0;
-  bottom: 0;
+  height: 100%;
 }
 
 .login-logo {
@@ -117,7 +117,7 @@
   content: none;
 }
 
-.auth-dialog .password:after {
+.auth-dialog .password.error:after {
   content: "Password must have 6 characters.";
   position: absolute;
   left: 0;
@@ -128,7 +128,8 @@
   width: 310px;
   }
 
-.auth-dialog .submit button {
+.auth-dialog .submit button:disabled,
+.auth-dialog .submit button:disabled:hover {
   float: right;
   margin: 30px 0 15px;
   height: 40px;
@@ -139,6 +140,7 @@
   border: 1px solid;
   border-color: #E1E2E4;
   border-radius: 3px;
+  box-shadow: none;
 }
 
 .auth-dialog .submit button {
@@ -147,14 +149,16 @@
   height: 40px;
   padding: 0 15px;
   font-size: 14px;
-  background: #EFF0F1;
-  color: #898E95;
-  border: 1px solid;
-  border-color: #E1E2E4;
-  border-radius: 3px;
+  border: 1px solid #1AAFD0;
+  background-color: #1AAFD0;
+  color: #fff;
 }
-
 .auth-dialog .submit button:hover {
+  float: right;
+  margin: 30px 0 15px;
+  height: 40px;
+  padding: 0 15px;
+  font-size: 14px;
   background-color: #02CEFF;
   color: #fff;
   border: #02CEFF 1px solid;

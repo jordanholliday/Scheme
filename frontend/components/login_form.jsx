@@ -1,5 +1,6 @@
 var React = require('react'),
-    ReactDOM = require('react-dom');
+    ReactDOM = require('react-dom'),
+    FormUtil = require('../util/form_util');
 
 var LoginForm = React.createClass({
 
@@ -12,6 +13,14 @@ var LoginForm = React.createClass({
       email: "",
       password: ""
     }
+  },
+
+  renderValidCheckmark: function () {
+    return (
+      <svg className="confirm" viewBox="0 0 32 32">
+        <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
+      </svg>
+    );
   },
 
   render: function () {
@@ -41,6 +50,7 @@ var LoginForm = React.createClass({
                 name="user[email]"
                 id="email"
                 onChange={this.updateEmail} />
+              {this.state.emailValid ? this.renderValidCheckmark() : null}
             </div>
 
             <div className="input">
@@ -50,10 +60,11 @@ var LoginForm = React.createClass({
                 name="user[password]"
                 id="password"
                 onChange={this.updatePassword}/>
+              {this.state.passwordValid ? this.renderValidCheckmark() : null}
             </div>
 
             <div className="submit">
-              <button>Log In</button>
+              <button disabled={!this.validateForm()}>Log In</button>
             </div>
           </form>
         </div>
@@ -76,16 +87,28 @@ var LoginForm = React.createClass({
     event.preventDefault();
     var router = this.context.router;
     ApiUtil.login(this.state, function () {
-      router.push('/tasks')
+      router.push('/projects/0')
     })
   },
 
   updateEmail: function (e) {
-    this.setState({ email: e.currentTarget.value });
+    var input = e.currentTarget.value;
+    this.setState({
+      emailValid: FormUtil.validateEmail(input),
+      email: input
+    });
   },
 
   updatePassword: function (e) {
-    this.setState({ password: e.currentTarget.value });
+    var input = e.currentTarget.value;
+    this.setState({
+      password: input,
+      passwordValid: FormUtil.validateLength(input, 6)
+    });
+  },
+
+  validateForm: function () {
+    return this.state.emailValid && this.state.passwordValid;
   }
 });
 

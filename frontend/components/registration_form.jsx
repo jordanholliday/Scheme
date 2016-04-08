@@ -1,6 +1,7 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
-    Dropzone = require('react-dropzone');
+    Dropzone = require('react-dropzone'),
+    FormUtil = require('../util/form_util');
 
 var RegistrationForm = React.createClass({
 
@@ -25,6 +26,10 @@ var RegistrationForm = React.createClass({
     }
   },
 
+  componentDidMount: function () {
+    this.setState({emailValid: FormUtil.validateEmail(this.refs.emailInput.value)});
+  },
+
   onDrop: function (file) {
     document.getElementById("dropzone").style.backgroundImage = "url('" + file[0].preview + "')";
     document.getElementById("dropzone").className = "upload-div received";
@@ -39,6 +44,14 @@ var RegistrationForm = React.createClass({
     } else {
       this.setState({ avatar: null, avatarFile: null });
     }
+  },
+
+  renderValidCheckmark: function () {
+    return (
+      <svg className="confirm" viewBox="0 0 32 32">
+        <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
+      </svg>
+    );
   },
 
   render: function () {
@@ -70,6 +83,7 @@ var RegistrationForm = React.createClass({
                   name="user[name]"
                   id="name"
                   onChange={this.updateName} />
+                {this.state.nameValid ? this.renderValidCheckmark() : null}
              </div>
 
              <div className="input">
@@ -78,24 +92,25 @@ var RegistrationForm = React.createClass({
                   type="email"
                   name="user[email]"
                   id="email"
+                  ref="emailInput"
                   value={this.state.email}
-                  onChange={this.updateEmail}/>
-               <svg className="confirm" viewBox="0 0 32 32">
-                 <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
-               </svg>
+                  onChange={this.updateEmail}
+                  onBlur={this.showEmailError}/>
+               {this.state.emailValid ? this.renderValidCheckmark() : null}
              </div>
 
-             <div className="input password">
+             <div className={this.state.passwordValid ? "input password" : "input password error"}>
                <label htmlFor="password">Password</label><br />
                <input
                   type="password"
                   name="user[password]"
                   id="password"
                   onChange={this.updatePassword}/>
+                {this.state.passwordValid ? this.renderValidCheckmark() : null}
              </div>
 
              <div className="submit">
-               <button>Continue</button>
+               <button disabled={!this.validateForm()}>Continue</button>
              </div>
            </form>
          </div>
@@ -118,21 +133,42 @@ var RegistrationForm = React.createClass({
     event.preventDefault();
     var router = this.context.router;
     ApiUtil.register(this.state, function () {
-      router.push('/tasks')
+      router.push('/projects/0')
     })
   },
 
   updateName: function (e) {
-    this.setState({ name: e.currentTarget.value });
+    var input = e.currentTarget.value;
+    this.setState({
+      name: input,
+      nameValid: FormUtil.validateLength(input, 1)
+     });
+
+    this.validateForm();
   },
 
   updateEmail: function (e) {
-    this.setState({ email: e.currentTarget.value });
+    var input = e.currentTarget.value;
+    this.setState({
+      emailValid: FormUtil.validateEmail(input),
+      email: input
+    });
+
+    this.validateForm();
   },
 
   updatePassword: function (e) {
-    this.setState({ password: e.currentTarget.value });
+    var input = e.currentTarget.value;
+    this.setState({
+      password: input,
+      passwordValid: FormUtil.validateLength(input, 6)
+    });
+  },
+
+  validateForm: function () {
+    return this.state.nameValid && this.state.emailValid && this.state.passwordValid;
   }
+
 });
 
 module.exports = RegistrationForm;

@@ -52,8 +52,12 @@ var TaskIndex = React.createClass({
   },
 
   componentDidMount: function () {
-    TaskStore.addListener(this.setStateFromStore);
+    this.taskStoreToken =TaskStore.addListener(this.setStateFromStore);
     // ApiUtil.fetchProjectTasks();
+  },
+
+  componentWillUnmount: function () {
+    this.taskStoreToken.remove();
   },
 
   showNewTaskForm: function () {
