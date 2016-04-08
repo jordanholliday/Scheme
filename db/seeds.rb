@@ -13,6 +13,7 @@ Task.destroy_all
 Membership.destroy_all
 Team.destroy_all
 Project.destroy_all
+Invite.destroy_all
 
 # Create teams
 team1 = Team.create!(name: "The Good Guys")
