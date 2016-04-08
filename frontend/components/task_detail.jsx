@@ -111,7 +111,6 @@ var TaskDetail = React.createClass({
         <section className="task-detail">
 
           <TaskOptions task={this.state.task} />
-
           <section className="task-project-name">
             <h3 onClick={this.redirectToTaskProject}>{this.state.task.project_name}</h3>
           </section>

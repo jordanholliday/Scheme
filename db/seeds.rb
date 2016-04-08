@@ -19,7 +19,7 @@ Invite.destroy_all
 team1 = Team.create!(name: "The Good Guys")
 
 # Create projects
-team1.projects.create!(name: "Hijack Shamoo")
+team1.projects.create!(name: "Steal Shamoo")
 team1.projects.create!(name: "Become Inhumanly Shredded")
 
 # create a membership for each user to reference in next loop
