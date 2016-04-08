@@ -60041,7 +60041,6 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'auth-fullscreen' },
-	      this.renderWalkenModal(),
 	      React.createElement('div', { className: 'login-logo' }),
 	      React.createElement(
 	        'div',
@@ -60351,7 +60350,7 @@
 	          ),
 	          React.createElement(
 	            'div',
-	            { className: this.state.passwordValid ? "input password" : "input password error" },
+	            { className: 'input password' },
 	            React.createElement(
 	              'label',
 	              { htmlFor: 'password' },

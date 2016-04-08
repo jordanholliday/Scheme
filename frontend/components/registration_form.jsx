@@ -141,7 +141,7 @@ var RegistrationForm = React.createClass({
                {this.state.emailValid ? this.renderValidCheckmark() : null}
              </div>
 
-             <div className={this.state.passwordValid ? "input password" : "input password error"}>
+             <div className="input password">
                <label htmlFor="password">Password</label><br />
                <input
                   type="password"
