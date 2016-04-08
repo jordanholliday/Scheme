@@ -1,7 +1,30 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     Dropzone = require('react-dropzone'),
-    FormUtil = require('../util/form_util');
+    FormUtil = require('../util/form_util'),
+    Modal = require('react-modal');
+
+var customStyles = {
+  content : {
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginTop: '150px',
+    transform: 'translateX(-50%)',
+    border: '1px solid #A1A4AA',
+    borderRadius: '3px',
+    boxShadow: '0 2px 3px rgba(0,0,0,0.3)',
+    padding: '0'
+  },
+  overlay : {
+     position: 'fixed',
+     top: 0,
+     left: 0,
+     right: 0,
+     bottom: 0,
+     backgroundColor: 'rgba(103,109,118,0.6)'
+   }
+};
 
 var RegistrationForm = React.createClass({
 
@@ -26,6 +49,10 @@ var RegistrationForm = React.createClass({
     }
   },
 
+  componentWillMount: function () {
+    Modal.setAppElement(document.body);
+  },
+
   componentDidMount: function () {
     this.setState({emailValid: FormUtil.validateEmail(this.refs.emailInput.value)});
   },
@@ -46,6 +73,10 @@ var RegistrationForm = React.createClass({
     }
   },
 
+  toggleWalkenModal: function (e) {
+    this.setState({walkenModalOpen: !this.state.walkenModalOpen});
+  },
+
   renderValidCheckmark: function () {
     return (
       <svg className="confirm" viewBox="0 0 32 32">
@@ -54,11 +85,22 @@ var RegistrationForm = React.createClass({
     );
   },
 
+  renderWalkenModal: function () {
+    return (
+      <Modal className="scheme-modal" isOpen={this.state.walkenModalOpen} style={customStyles}>
+        <p onClick={this.toggleWalkenModal}>CLOSE CLOSE<br />CLOSE CLOSE </p>
+        <img src="http://i.imgur.com/FrTo1Uw.jpg" />
+      </Modal>
+    );
+  },
+
   render: function () {
     return (
        <div className="group auth-fullscreen">
 
-         <div className="login-logo" />
+         {this.renderWalkenModal()}
+
+         <div className="login-logo" onClick={this.toggleWalkenModal}/>
 
          <div className="group auth-dialog">
 
@@ -138,6 +180,7 @@ var RegistrationForm = React.createClass({
   },
 
   updateName: function (e) {
+    e.stopPropagation();
     var input = e.currentTarget.value;
     this.setState({
       name: input,
@@ -148,6 +191,7 @@ var RegistrationForm = React.createClass({
   },
 
   updateEmail: function (e) {
+    e.stopPropagation();
     var input = e.currentTarget.value;
     this.setState({
       emailValid: FormUtil.validateEmail(input),
@@ -158,6 +202,7 @@ var RegistrationForm = React.createClass({
   },
 
   updatePassword: function (e) {
+    e.stopPropagation();
     var input = e.currentTarget.value;
     this.setState({
       password: input,

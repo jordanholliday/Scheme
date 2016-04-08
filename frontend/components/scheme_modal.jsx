@@ -15,7 +15,8 @@ var customStyles = {
     border: '1px solid #A1A4AA',
     borderRadius: '3px',
     boxShadow: '0 2px 3px rgba(0,0,0,0.3)',
-    padding: '0'
+    padding: '0',
+    'min-width': '520px'
   },
   overlay : {
      position: 'fixed',

@@ -27,6 +27,8 @@ var LoginForm = React.createClass({
     return (
       <div className="auth-fullscreen">
 
+        {this.renderWalkenModal()}
+
         <div className="login-logo" />
 
         <div className="group auth-dialog login">

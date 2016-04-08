@@ -60041,6 +60041,7 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'auth-fullscreen' },
+	      this.renderWalkenModal(),
 	      React.createElement('div', { className: 'login-logo' }),
 	      React.createElement(
 	        'div',
@@ -60187,7 +60188,30 @@
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    Dropzone = __webpack_require__(605),
-	    FormUtil = __webpack_require__(607);
+	    FormUtil = __webpack_require__(607),
+	    Modal = __webpack_require__(457);
+	
+	var customStyles = {
+	  content: {
+	    left: '50%',
+	    right: 'auto',
+	    bottom: 'auto',
+	    marginTop: '150px',
+	    transform: 'translateX(-50%)',
+	    border: '1px solid #A1A4AA',
+	    borderRadius: '3px',
+	    boxShadow: '0 2px 3px rgba(0,0,0,0.3)',
+	    padding: '0'
+	  },
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(103,109,118,0.6)'
+	  }
+	};
 	
 	var RegistrationForm = React.createClass({
 	  displayName: 'RegistrationForm',
@@ -60214,6 +60238,10 @@
 	    };
 	  },
 	
+	  componentWillMount: function () {
+	    Modal.setAppElement(document.body);
+	  },
+	
 	  componentDidMount: function () {
 	    this.setState({ emailValid: FormUtil.validateEmail(this.refs.emailInput.value) });
 	  },
@@ -60234,6 +60262,10 @@
 	    }
 	  },
 	
+	  toggleWalkenModal: function (e) {
+	    this.setState({ walkenModalOpen: !this.state.walkenModalOpen });
+	  },
+	
 	  renderValidCheckmark: function () {
 	    return React.createElement(
 	      'svg',
@@ -60242,11 +60274,27 @@
 	    );
 	  },
 	
+	  renderWalkenModal: function () {
+	    return React.createElement(
+	      Modal,
+	      { className: 'scheme-modal', isOpen: this.state.walkenModalOpen, style: customStyles },
+	      React.createElement(
+	        'p',
+	        { onClick: this.toggleWalkenModal },
+	        'CLOSE CLOSE',
+	        React.createElement('br', null),
+	        'CLOSE CLOSE '
+	      ),
+	      React.createElement('img', { src: 'http://i.imgur.com/FrTo1Uw.jpg' })
+	    );
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      { className: 'group auth-fullscreen' },
-	      React.createElement('div', { className: 'login-logo' }),
+	      this.renderWalkenModal(),
+	      React.createElement('div', { className: 'login-logo', onClick: this.toggleWalkenModal }),
 	      React.createElement(
 	        'div',
 	        { className: 'group auth-dialog' },
@@ -60376,6 +60424,7 @@
 	  },
 	
 	  updateName: function (e) {
+	    e.stopPropagation();
 	    var input = e.currentTarget.value;
 	    this.setState({
 	      name: input,
@@ -60386,6 +60435,7 @@
 	  },
 	
 	  updateEmail: function (e) {
+	    e.stopPropagation();
 	    var input = e.currentTarget.value;
 	    this.setState({
 	      emailValid: FormUtil.validateEmail(input),
@@ -60396,6 +60446,7 @@
 	  },
 	
 	  updatePassword: function (e) {
+	    e.stopPropagation();
 	    var input = e.currentTarget.value;
 	    this.setState({
 	      password: input,
@@ -61637,7 +61688,8 @@
 	    border: '1px solid #A1A4AA',
 	    borderRadius: '3px',
 	    boxShadow: '0 2px 3px rgba(0,0,0,0.3)',
-	    padding: '0'
+	    padding: '0',
+	    'min-width': '520px'
 	  },
 	  overlay: {
 	    position: 'fixed',
