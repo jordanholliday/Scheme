@@ -16,28 +16,26 @@ Project.destroy_all
 
 # Create teams
 team1 = Team.create!(name: "The Good Guys")
-team2 =Team.create!(name: "The Villains")
 
 # Create projects
 team1.projects.create!(name: "Hijack Shamoo")
-team1.projects.create!(name: "Thieve Hope Diamond")
-team2.projects.create!(name: "Perfect The Taco")
-team2.projects.create!(name: "Become Inhumanly Shredded")
+team1.projects.create!(name: "Become Inhumanly Shredded")
 
 # create a membership for each user to reference in next loop
 User.all.each do |user|
-  Membership.create!(member_id: user.id, team_id: Team.all.pluck(:id).sample)
+  Membership.create!(member_id: user.id, team_id: team1.id)
 end
 
 # create tasks and assignments among teammates
 User.all.each do |user|
-  5.times do
+  10.times do
     task = Task.new
     task.name = Faker::Company.bs
+    task.name = task.name.slice(0,1).capitalize + task.name.slice(1..-1)
     task.description =
       [Faker::Hacker.say_something_smart,
         Faker::Hacker.say_something_smart,
-        Faker::Hacker.say_something_smart].join(" ")
+        Faker::Hacker.say_something_smart].join("\n\n")
     task.assignee_id = user.teammates.pluck(:id).sample
     task.creator_id = user.teammates.pluck(:id).sample
     task.project_id = user.team.projects.pluck(:id).sample
