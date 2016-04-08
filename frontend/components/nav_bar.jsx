@@ -3,7 +3,6 @@ var React = require('react'),
     ApiUtil = require('../util/api_util'),
     Modal = require('react-modal');
 
-
 var customStyles = {
   content : {
     left: '50%',

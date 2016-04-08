@@ -116,13 +116,15 @@ button.complete-task-button:hover svg.check-complete {
 
 .drag-handle {
   float: left;
-  height: 18px;
-  width: 18px;
+  margin-top: 2px;
+  height: 14px;
+  width: 14px;
   background-image: image-url('potato-black.png');
   background-size: contain;
+  fill: #E1E2E4;
 }
 
 .drag-handle:hover,
 .drag-handle:active {
-  background-image: image-url('potato-green.png');
+  background-image: image-url('potato-red.png');
 }
