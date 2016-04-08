@@ -3,11 +3,48 @@ var React = require('react'),
     TaskStore = require('../stores/tasks');
     Link = require('react-router').Link,
     TaskAction = require('../actions/task_actions'),
-    TaskUtil = require('../util/task_util.js');
+    TaskUtil = require('../util/task_util.js'),
+    DropTarget = require('react-dnd').DropTarget,
+    DragSource = require('react-dnd').DragSource,
+    flow = flow = require('lodash.flow');
+
+var taskIndexItemSource = {
+  beginDrag: function (props) {
+    return {};
+  }
+};
+
+var taskIndexItemTarget = {
+  drop: function (props) {
+    console.log(props);
+    return {};
+  },
+
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  };
+}
+
+function collectTarget(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget()
+  };
+}
+
 
 var TaskIndexItem = React.createClass({
   contextTypes: {
-      router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired
+  },
+
+  propTypes: {
+    connectDragSource: React.PropTypes.func.isRequired,
+    isDragging: React.PropTypes.bool.isRequired,
+    connectDragSource: React.PropTypes.func.isRequired
   },
 
   getInitialState: function () {
@@ -158,7 +195,8 @@ var TaskIndexItem = React.createClass({
     return (<div className="drag-handle" onClick={this.moveToBack}></div>);
   },
 
-  moveToBack: function () {
+  moveToBack: function (e) {
+    e.stopPropagation();
     if (this.state.task.new) {return}
     ApiUtil.moveTaskToBack(this.props.task.id);
   },
@@ -199,15 +237,25 @@ var TaskIndexItem = React.createClass({
             onKeyDown={this.keyDownHandler}
            />
 
-    return (
+    var connectDragSource = this.props.connectDragSource;
+    var isDragging = this.props.isDragging;
+    var connectDropTarget = this.props.connectDropTarget;
+
+    return connectDragSource(connectDropTarget(
         <li className="group task-index-item" onClick={this.clickToShowDetail}>
           {this.renderDragHandle()}
           {button}
           {input}
           {this.state.task && this.state.task.deadline ? this.renderDeadline() : null }
         </li>
-    )
+    ))
   }
 });
 
-module.exports = TaskIndexItem;
+// module.exports = TaskIndexItem;
+// module.exports = DragSource("indexItem", taskIndexItemSource, collect)(TaskIndexItem);
+
+module.exports = flow(
+  DragSource("indexItem", taskIndexItemSource, collect),
+  DropTarget("indexItem", taskIndexItemTarget, collectTarget)
+)(TaskIndexItem);

@@ -2,7 +2,9 @@ var React = require('react'),
     ReactDOM = require('react-dom'),
     TaskStore = require('../stores/tasks'),
     ApiUtil = require('../util/api_util'),
-    TaskIndexItem = require('./task_index_item.jsx');
+    TaskIndexItem = require('./task_index_item.jsx'),
+    DragDropContext = require('react-dnd').DragDropContext,
+    HTML5Backend = require('react-dnd-html5-backend');
 
 var TaskIndex = React.createClass({
   contextTypes: {
@@ -113,4 +115,6 @@ var TaskIndex = React.createClass({
     );
   }
 });
-module.exports = TaskIndex;
+
+// module.exports = TaskIndex;
+module.exports = DragDropContext(HTML5Backend)(TaskIndex);
