@@ -15,6 +15,8 @@ class Task < ActiveRecord::Base
 
   belongs_to :project
 
+  has_many :task_comments
+
   def previous_task
     return unless self.previous_task_id
     Task.find(self.previous_task_id)

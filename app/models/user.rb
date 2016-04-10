@@ -45,6 +45,8 @@ class User < ActiveRecord::Base
     source: :projects
   )
 
+  has_many :task_comments
+
 
   attr_reader :password
 

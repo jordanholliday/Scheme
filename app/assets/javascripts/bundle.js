@@ -57,9 +57,9 @@
 	    App = __webpack_require__(455),
 	    TaskDetail = __webpack_require__(477),
 	    LoginForm = __webpack_require__(592),
-	    RegistrationForm = __webpack_require__(593),
-	    SplashPage = __webpack_require__(594),
-	    ProjectDetail = __webpack_require__(595);
+	    RegistrationForm = __webpack_require__(594),
+	    SplashPage = __webpack_require__(597),
+	    ProjectDetail = __webpack_require__(598);
 	
 	var routes = React.createElement(
 	  Route,
@@ -24942,9 +24942,10 @@
 	    return [];
 	  };
 	  var projectId = _tasks[singleTaskId].project_id;
-	  var lastTaskId = ProjectStore.findProject(projectId).last_task_id;
-	
-	  return sortTasks(_tasks, lastTaskId);
+	  if (ProjectStore.findProject(projectId)) {
+	    var lastTaskId = ProjectStore.findProject(projectId).last_task_id;
+	    return sortTasks(_tasks, lastTaskId);
+	  }
 	};
 	
 	TaskStore.find = function (id) {
@@ -31817,7 +31818,9 @@
 	};
 	
 	var receiveOneProject = function (project) {
-	  _projects[project.id] = project;
+	  if (project) {
+	    _projects[project.id] = project;
+	  }
 	};
 	
 	var updateLastTask = function (projectId, lastTaskId) {
@@ -31886,6 +31889,20 @@
 	      dataType: 'json',
 	      success: function (tasks) {
 	        ApiActions.receiveAll(tasks);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#fetchTasks error");
+	      }
+	    });
+	  },
+	
+	  fetchOneTask: function (id) {
+	    $.ajax({
+	      type: 'GET',
+	      url: 'api/tasks/' + id,
+	      dataType: 'json',
+	      success: function (task) {
+	        ApiActions.receiveOneTask(task);
 	      },
 	      error: function () {
 	        console.log("ApiUtil#fetchTasks error");
@@ -44619,9 +44636,10 @@
 	
 	  componentWillReceiveProps: function (newProps) {
 	    this.setState({ task: TaskStore.find(newProps.params.taskId) });
-	
 	    // when task not found, go back TaskIndex
 	    this.routeToTaskIndexIfTaskNull();
+	
+	    ApiUtil.fetchOneTask(this.props.params.taskId);
 	  },
 	
 	  componentDidMount: function () {
@@ -44645,6 +44663,7 @@
 	    if (!this.state.task) {
 	      return { task: TaskStore.find(this.props.params.taskId) };
 	    } else {
+	      debugger;
 	      return {
 	        task: TaskStore.find(this.state.task.id)
 	      };
@@ -60012,7 +60031,7 @@
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    FormUtil = __webpack_require__(607);
+	    FormUtil = __webpack_require__(593);
 	
 	var LoginForm = React.createClass({
 	  displayName: 'LoginForm',
@@ -60182,12 +60201,46 @@
 
 /***/ },
 /* 593 */
+/***/ function(module, exports) {
+
+	var FormUtil = {
+	
+	  validateEmail: function (emailInput) {
+	
+	    if (!emailInput) {
+	      return false;
+	    }
+	
+	    var atSignIndex = emailInput.indexOf("@");
+	    var dotIndex = emailInput.slice(atSignIndex + 1).indexOf(".");
+	
+	    if (atSignIndex > 0 && dotIndex > 0) {
+	      return true;
+	    } else {
+	      return false;
+	    }
+	  },
+	
+	  validateLength: function (input, minChar) {
+	    return input.length >= minChar;
+	  },
+	
+	  validateForm: function () {
+	    return this.state.nameValid && this.state.emailValid && this.state.passwordValid;
+	  }
+	
+	};
+	
+	module.exports = FormUtil;
+
+/***/ },
+/* 594 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    Dropzone = __webpack_require__(605),
-	    FormUtil = __webpack_require__(607),
+	    Dropzone = __webpack_require__(595),
+	    FormUtil = __webpack_require__(593),
 	    Modal = __webpack_require__(457);
 	
 	var customStyles = {
@@ -60462,1341 +60515,7 @@
 	module.exports = RegistrationForm;
 
 /***/ },
-/* 594 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158);
-	
-	var SplashPage = React.createClass({
-	  displayName: 'SplashPage',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return { email: "" };
-	  },
-	
-	  updateEmail: function (e) {
-	    this.setState({ email: e.currentTarget.value });
-	  },
-	
-	  sendToRegistration: function () {
-	    event.preventDefault();
-	    var router = this.context.router;
-	    router.push({
-	      pathname: '/register',
-	      state: { email: this.state.email }
-	    });
-	  },
-	
-	  sendToLogin: function () {
-	    event.preventDefault();
-	    var router = this.context.router;
-	    router.push({
-	      pathname: '/login'
-	    });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'nav',
-	        { className: 'group splash-page' },
-	        React.createElement(
-	          'div',
-	          { className: 'container' },
-	          React.createElement('div', { className: 'logo' }),
-	          React.createElement(
-	            'button',
-	            { onClick: this.sendToLogin },
-	            'Log In'
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'main',
-	        null,
-	        React.createElement(
-	          'section',
-	          { className: 'leader' },
-	          React.createElement(
-	            'h1',
-	            null,
-	            'Stay Scheming'
-	          ),
-	          React.createElement(
-	            'h2',
-	            null,
-	            'Scheme is the second easiest way for teams to track their work—and get results.'
-	          ),
-	          React.createElement('input', {
-	            type: 'text',
-	            name: 'user[email]',
-	            id: 'email',
-	            onChange: this.updateEmail,
-	            placeholder: 'name@company.com' }),
-	          React.createElement(
-	            'button',
-	            { onClick: this.sendToRegistration },
-	            'Get Started for FREE'
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = SplashPage;
-
-/***/ },
 /* 595 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158),
-	    ReactCSSTransitionGroup = __webpack_require__(596),
-	    ProjectStore = __webpack_require__(241),
-	    ApiUtil = __webpack_require__(242),
-	    ProjectStore = __webpack_require__(241),
-	    NavBar = __webpack_require__(456),
-	    TaskIndex = __webpack_require__(216),
-	    ProjectDrawer = __webpack_require__(603);
-	
-	var ProjectDetail = React.createClass({
-	  displayName: 'ProjectDetail',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  projectId: function () {
-	    return this.props.params.projectId;
-	  },
-	
-	  getInitialState: function () {
-	    // get projectId from route (router required above)
-	
-	    return {
-	      project: ProjectStore.findProject(this.projectId()),
-	      showProjectDrawer: false
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.projectStoreToken = ProjectStore.addListener(this.getProjectOrRedirect);
-	    ApiUtil.fetchProjects();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.projectStoreToken.remove();
-	  },
-	
-	  componentWillReceiveProps: function (newProps) {
-	    this.setState({ project: ProjectStore.findProject(newProps.params.projectId) });
-	  },
-	
-	  getProjectOrRedirect: function () {
-	    // if params.projectId doesn't corresnpond to existing project,
-	    // re-route to first project in store. Need to replace with proper 404
-	    var paramsProject = ProjectStore.findProject(this.projectId());
-	    if (paramsProject) {
-	      this.setState({ project: ProjectStore.findProject(this.projectId()) });
-	    } else {
-	      this.context.router.push("/projects/" + ProjectStore.all()[0].id);
-	    }
-	  },
-	
-	  showProjectDrawer: function () {
-	    this.setState({ showProjectDrawer: true });
-	  },
-	
-	  hideProjectDrawer: function () {
-	    this.setState({ showProjectDrawer: false });
-	  },
-	
-	  renderProjectDrawer: function () {
-	    if (this.state.showProjectDrawer) {
-	      return [React.createElement(ProjectDrawer, {
-	        ref: 'projectDrawer',
-	        key: 'project-drawer',
-	        projectId: this.state.project ? this.state.project.id : null,
-	        hideProjectDrawer: this.hideProjectDrawer })];
-	    } else {
-	      return [];
-	    }
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'app' },
-	      React.createElement(
-	        ReactCSSTransitionGroup,
-	        { transitionName: 'drawer-transition', transitionEnterTimeout: 500, transitionLeaveTimeout: 500 },
-	        this.renderProjectDrawer()
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'non-drawer-content' },
-	        React.createElement(NavBar, { showProjectDrawer: this.showProjectDrawer, showHamburger: !this.state.showProjectDrawer }),
-	        React.createElement(
-	          'section',
-	          { className: 'project-detail' },
-	          React.createElement(
-	            'div',
-	            { className: 'task-wrapper' },
-	            React.createElement(TaskIndex, { project: this.state.project ? this.state.project : null }),
-	            this.props.children
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ProjectDetail;
-
-/***/ },
-/* 596 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(597);
-
-/***/ },
-/* 597 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @typechecks
-	 * @providesModule ReactCSSTransitionGroup
-	 */
-	
-	'use strict';
-	
-	var React = __webpack_require__(2);
-	
-	var assign = __webpack_require__(39);
-	
-	var ReactTransitionGroup = __webpack_require__(598);
-	var ReactCSSTransitionGroupChild = __webpack_require__(600);
-	
-	function createTransitionTimeoutPropValidator(transitionType) {
-	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
-	  var enabledPropName = 'transition' + transitionType;
-	
-	  return function (props) {
-	    // If the transition is enabled
-	    if (props[enabledPropName]) {
-	      // If no timeout duration is provided
-	      if (props[timeoutPropName] == null) {
-	        return new Error(timeoutPropName + ' wasn\'t supplied to ReactCSSTransitionGroup: ' + 'this can cause unreliable animations and won\'t be supported in ' + 'a future version of React. See ' + 'https://fb.me/react-animation-transition-group-timeout for more ' + 'information.');
-	
-	        // If the duration isn't a number
-	      } else if (typeof props[timeoutPropName] !== 'number') {
-	          return new Error(timeoutPropName + ' must be a number (in milliseconds)');
-	        }
-	    }
-	  };
-	}
-	
-	var ReactCSSTransitionGroup = React.createClass({
-	  displayName: 'ReactCSSTransitionGroup',
-	
-	  propTypes: {
-	    transitionName: ReactCSSTransitionGroupChild.propTypes.name,
-	
-	    transitionAppear: React.PropTypes.bool,
-	    transitionEnter: React.PropTypes.bool,
-	    transitionLeave: React.PropTypes.bool,
-	    transitionAppearTimeout: createTransitionTimeoutPropValidator('Appear'),
-	    transitionEnterTimeout: createTransitionTimeoutPropValidator('Enter'),
-	    transitionLeaveTimeout: createTransitionTimeoutPropValidator('Leave')
-	  },
-	
-	  getDefaultProps: function () {
-	    return {
-	      transitionAppear: false,
-	      transitionEnter: true,
-	      transitionLeave: true
-	    };
-	  },
-	
-	  _wrapChild: function (child) {
-	    // We need to provide this childFactory so that
-	    // ReactCSSTransitionGroupChild can receive updates to name, enter, and
-	    // leave while it is leaving.
-	    return React.createElement(ReactCSSTransitionGroupChild, {
-	      name: this.props.transitionName,
-	      appear: this.props.transitionAppear,
-	      enter: this.props.transitionEnter,
-	      leave: this.props.transitionLeave,
-	      appearTimeout: this.props.transitionAppearTimeout,
-	      enterTimeout: this.props.transitionEnterTimeout,
-	      leaveTimeout: this.props.transitionLeaveTimeout
-	    }, child);
-	  },
-	
-	  render: function () {
-	    return React.createElement(ReactTransitionGroup, assign({}, this.props, { childFactory: this._wrapChild }));
-	  }
-	});
-	
-	module.exports = ReactCSSTransitionGroup;
-
-/***/ },
-/* 598 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactTransitionGroup
-	 */
-	
-	'use strict';
-	
-	var React = __webpack_require__(2);
-	var ReactTransitionChildMapping = __webpack_require__(599);
-	
-	var assign = __webpack_require__(39);
-	var emptyFunction = __webpack_require__(15);
-	
-	var ReactTransitionGroup = React.createClass({
-	  displayName: 'ReactTransitionGroup',
-	
-	  propTypes: {
-	    component: React.PropTypes.any,
-	    childFactory: React.PropTypes.func
-	  },
-	
-	  getDefaultProps: function () {
-	    return {
-	      component: 'span',
-	      childFactory: emptyFunction.thatReturnsArgument
-	    };
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      children: ReactTransitionChildMapping.getChildMapping(this.props.children)
-	    };
-	  },
-	
-	  componentWillMount: function () {
-	    this.currentlyTransitioningKeys = {};
-	    this.keysToEnter = [];
-	    this.keysToLeave = [];
-	  },
-	
-	  componentDidMount: function () {
-	    var initialChildMapping = this.state.children;
-	    for (var key in initialChildMapping) {
-	      if (initialChildMapping[key]) {
-	        this.performAppear(key);
-	      }
-	    }
-	  },
-	
-	  componentWillReceiveProps: function (nextProps) {
-	    var nextChildMapping = ReactTransitionChildMapping.getChildMapping(nextProps.children);
-	    var prevChildMapping = this.state.children;
-	
-	    this.setState({
-	      children: ReactTransitionChildMapping.mergeChildMappings(prevChildMapping, nextChildMapping)
-	    });
-	
-	    var key;
-	
-	    for (key in nextChildMapping) {
-	      var hasPrev = prevChildMapping && prevChildMapping.hasOwnProperty(key);
-	      if (nextChildMapping[key] && !hasPrev && !this.currentlyTransitioningKeys[key]) {
-	        this.keysToEnter.push(key);
-	      }
-	    }
-	
-	    for (key in prevChildMapping) {
-	      var hasNext = nextChildMapping && nextChildMapping.hasOwnProperty(key);
-	      if (prevChildMapping[key] && !hasNext && !this.currentlyTransitioningKeys[key]) {
-	        this.keysToLeave.push(key);
-	      }
-	    }
-	
-	    // If we want to someday check for reordering, we could do it here.
-	  },
-	
-	  componentDidUpdate: function () {
-	    var keysToEnter = this.keysToEnter;
-	    this.keysToEnter = [];
-	    keysToEnter.forEach(this.performEnter);
-	
-	    var keysToLeave = this.keysToLeave;
-	    this.keysToLeave = [];
-	    keysToLeave.forEach(this.performLeave);
-	  },
-	
-	  performAppear: function (key) {
-	    this.currentlyTransitioningKeys[key] = true;
-	
-	    var component = this.refs[key];
-	
-	    if (component.componentWillAppear) {
-	      component.componentWillAppear(this._handleDoneAppearing.bind(this, key));
-	    } else {
-	      this._handleDoneAppearing(key);
-	    }
-	  },
-	
-	  _handleDoneAppearing: function (key) {
-	    var component = this.refs[key];
-	    if (component.componentDidAppear) {
-	      component.componentDidAppear();
-	    }
-	
-	    delete this.currentlyTransitioningKeys[key];
-	
-	    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children);
-	
-	    if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
-	      // This was removed before it had fully appeared. Remove it.
-	      this.performLeave(key);
-	    }
-	  },
-	
-	  performEnter: function (key) {
-	    this.currentlyTransitioningKeys[key] = true;
-	
-	    var component = this.refs[key];
-	
-	    if (component.componentWillEnter) {
-	      component.componentWillEnter(this._handleDoneEntering.bind(this, key));
-	    } else {
-	      this._handleDoneEntering(key);
-	    }
-	  },
-	
-	  _handleDoneEntering: function (key) {
-	    var component = this.refs[key];
-	    if (component.componentDidEnter) {
-	      component.componentDidEnter();
-	    }
-	
-	    delete this.currentlyTransitioningKeys[key];
-	
-	    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children);
-	
-	    if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
-	      // This was removed before it had fully entered. Remove it.
-	      this.performLeave(key);
-	    }
-	  },
-	
-	  performLeave: function (key) {
-	    this.currentlyTransitioningKeys[key] = true;
-	
-	    var component = this.refs[key];
-	    if (component.componentWillLeave) {
-	      component.componentWillLeave(this._handleDoneLeaving.bind(this, key));
-	    } else {
-	      // Note that this is somewhat dangerous b/c it calls setState()
-	      // again, effectively mutating the component before all the work
-	      // is done.
-	      this._handleDoneLeaving(key);
-	    }
-	  },
-	
-	  _handleDoneLeaving: function (key) {
-	    var component = this.refs[key];
-	
-	    if (component.componentDidLeave) {
-	      component.componentDidLeave();
-	    }
-	
-	    delete this.currentlyTransitioningKeys[key];
-	
-	    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children);
-	
-	    if (currentChildMapping && currentChildMapping.hasOwnProperty(key)) {
-	      // This entered again before it fully left. Add it again.
-	      this.performEnter(key);
-	    } else {
-	      this.setState(function (state) {
-	        var newChildren = assign({}, state.children);
-	        delete newChildren[key];
-	        return { children: newChildren };
-	      });
-	    }
-	  },
-	
-	  render: function () {
-	    // TODO: we could get rid of the need for the wrapper node
-	    // by cloning a single child
-	    var childrenToRender = [];
-	    for (var key in this.state.children) {
-	      var child = this.state.children[key];
-	      if (child) {
-	        // You may need to apply reactive updates to a child as it is leaving.
-	        // The normal React way to do it won't work since the child will have
-	        // already been removed. In case you need this behavior you can provide
-	        // a childFactory function to wrap every child, even the ones that are
-	        // leaving.
-	        childrenToRender.push(React.cloneElement(this.props.childFactory(child), { ref: key, key: key }));
-	      }
-	    }
-	    return React.createElement(this.props.component, this.props, childrenToRender);
-	  }
-	});
-	
-	module.exports = ReactTransitionGroup;
-
-/***/ },
-/* 599 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @typechecks static-only
-	 * @providesModule ReactTransitionChildMapping
-	 */
-	
-	'use strict';
-	
-	var flattenChildren = __webpack_require__(116);
-	
-	var ReactTransitionChildMapping = {
-	  /**
-	   * Given `this.props.children`, return an object mapping key to child. Just
-	   * simple syntactic sugar around flattenChildren().
-	   *
-	   * @param {*} children `this.props.children`
-	   * @return {object} Mapping of key to child
-	   */
-	  getChildMapping: function (children) {
-	    if (!children) {
-	      return children;
-	    }
-	    return flattenChildren(children);
-	  },
-	
-	  /**
-	   * When you're adding or removing children some may be added or removed in the
-	   * same render pass. We want to show *both* since we want to simultaneously
-	   * animate elements in and out. This function takes a previous set of keys
-	   * and a new set of keys and merges them with its best guess of the correct
-	   * ordering. In the future we may expose some of the utilities in
-	   * ReactMultiChild to make this easy, but for now React itself does not
-	   * directly have this concept of the union of prevChildren and nextChildren
-	   * so we implement it here.
-	   *
-	   * @param {object} prev prev children as returned from
-	   * `ReactTransitionChildMapping.getChildMapping()`.
-	   * @param {object} next next children as returned from
-	   * `ReactTransitionChildMapping.getChildMapping()`.
-	   * @return {object} a key set that contains all keys in `prev` and all keys
-	   * in `next` in a reasonable order.
-	   */
-	  mergeChildMappings: function (prev, next) {
-	    prev = prev || {};
-	    next = next || {};
-	
-	    function getValueForKey(key) {
-	      if (next.hasOwnProperty(key)) {
-	        return next[key];
-	      } else {
-	        return prev[key];
-	      }
-	    }
-	
-	    // For each key of `next`, the list of keys to insert before that key in
-	    // the combined list
-	    var nextKeysPending = {};
-	
-	    var pendingKeys = [];
-	    for (var prevKey in prev) {
-	      if (next.hasOwnProperty(prevKey)) {
-	        if (pendingKeys.length) {
-	          nextKeysPending[prevKey] = pendingKeys;
-	          pendingKeys = [];
-	        }
-	      } else {
-	        pendingKeys.push(prevKey);
-	      }
-	    }
-	
-	    var i;
-	    var childMapping = {};
-	    for (var nextKey in next) {
-	      if (nextKeysPending.hasOwnProperty(nextKey)) {
-	        for (i = 0; i < nextKeysPending[nextKey].length; i++) {
-	          var pendingNextKey = nextKeysPending[nextKey][i];
-	          childMapping[nextKeysPending[nextKey][i]] = getValueForKey(pendingNextKey);
-	        }
-	      }
-	      childMapping[nextKey] = getValueForKey(nextKey);
-	    }
-	
-	    // Finally, add the keys which didn't appear before any key in `next`
-	    for (i = 0; i < pendingKeys.length; i++) {
-	      childMapping[pendingKeys[i]] = getValueForKey(pendingKeys[i]);
-	    }
-	
-	    return childMapping;
-	  }
-	};
-	
-	module.exports = ReactTransitionChildMapping;
-
-/***/ },
-/* 600 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @typechecks
-	 * @providesModule ReactCSSTransitionGroupChild
-	 */
-	
-	'use strict';
-	
-	var React = __webpack_require__(2);
-	var ReactDOM = __webpack_require__(3);
-	
-	var CSSCore = __webpack_require__(601);
-	var ReactTransitionEvents = __webpack_require__(602);
-	
-	var onlyChild = __webpack_require__(156);
-	
-	// We don't remove the element from the DOM until we receive an animationend or
-	// transitionend event. If the user screws up and forgets to add an animation
-	// their node will be stuck in the DOM forever, so we detect if an animation
-	// does not start and if it doesn't, we just call the end listener immediately.
-	var TICK = 17;
-	
-	var ReactCSSTransitionGroupChild = React.createClass({
-	  displayName: 'ReactCSSTransitionGroupChild',
-	
-	  propTypes: {
-	    name: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.shape({
-	      enter: React.PropTypes.string,
-	      leave: React.PropTypes.string,
-	      active: React.PropTypes.string
-	    }), React.PropTypes.shape({
-	      enter: React.PropTypes.string,
-	      enterActive: React.PropTypes.string,
-	      leave: React.PropTypes.string,
-	      leaveActive: React.PropTypes.string,
-	      appear: React.PropTypes.string,
-	      appearActive: React.PropTypes.string
-	    })]).isRequired,
-	
-	    // Once we require timeouts to be specified, we can remove the
-	    // boolean flags (appear etc.) and just accept a number
-	    // or a bool for the timeout flags (appearTimeout etc.)
-	    appear: React.PropTypes.bool,
-	    enter: React.PropTypes.bool,
-	    leave: React.PropTypes.bool,
-	    appearTimeout: React.PropTypes.number,
-	    enterTimeout: React.PropTypes.number,
-	    leaveTimeout: React.PropTypes.number
-	  },
-	
-	  transition: function (animationType, finishCallback, userSpecifiedDelay) {
-	    var node = ReactDOM.findDOMNode(this);
-	
-	    if (!node) {
-	      if (finishCallback) {
-	        finishCallback();
-	      }
-	      return;
-	    }
-	
-	    var className = this.props.name[animationType] || this.props.name + '-' + animationType;
-	    var activeClassName = this.props.name[animationType + 'Active'] || className + '-active';
-	    var timeout = null;
-	
-	    var endListener = function (e) {
-	      if (e && e.target !== node) {
-	        return;
-	      }
-	
-	      clearTimeout(timeout);
-	
-	      CSSCore.removeClass(node, className);
-	      CSSCore.removeClass(node, activeClassName);
-	
-	      ReactTransitionEvents.removeEndEventListener(node, endListener);
-	
-	      // Usually this optional callback is used for informing an owner of
-	      // a leave animation and telling it to remove the child.
-	      if (finishCallback) {
-	        finishCallback();
-	      }
-	    };
-	
-	    CSSCore.addClass(node, className);
-	
-	    // Need to do this to actually trigger a transition.
-	    this.queueClass(activeClassName);
-	
-	    // If the user specified a timeout delay.
-	    if (userSpecifiedDelay) {
-	      // Clean-up the animation after the specified delay
-	      timeout = setTimeout(endListener, userSpecifiedDelay);
-	      this.transitionTimeouts.push(timeout);
-	    } else {
-	      // DEPRECATED: this listener will be removed in a future version of react
-	      ReactTransitionEvents.addEndEventListener(node, endListener);
-	    }
-	  },
-	
-	  queueClass: function (className) {
-	    this.classNameQueue.push(className);
-	
-	    if (!this.timeout) {
-	      this.timeout = setTimeout(this.flushClassNameQueue, TICK);
-	    }
-	  },
-	
-	  flushClassNameQueue: function () {
-	    if (this.isMounted()) {
-	      this.classNameQueue.forEach(CSSCore.addClass.bind(CSSCore, ReactDOM.findDOMNode(this)));
-	    }
-	    this.classNameQueue.length = 0;
-	    this.timeout = null;
-	  },
-	
-	  componentWillMount: function () {
-	    this.classNameQueue = [];
-	    this.transitionTimeouts = [];
-	  },
-	
-	  componentWillUnmount: function () {
-	    if (this.timeout) {
-	      clearTimeout(this.timeout);
-	    }
-	    this.transitionTimeouts.forEach(function (timeout) {
-	      clearTimeout(timeout);
-	    });
-	  },
-	
-	  componentWillAppear: function (done) {
-	    if (this.props.appear) {
-	      this.transition('appear', done, this.props.appearTimeout);
-	    } else {
-	      done();
-	    }
-	  },
-	
-	  componentWillEnter: function (done) {
-	    if (this.props.enter) {
-	      this.transition('enter', done, this.props.enterTimeout);
-	    } else {
-	      done();
-	    }
-	  },
-	
-	  componentWillLeave: function (done) {
-	    if (this.props.leave) {
-	      this.transition('leave', done, this.props.leaveTimeout);
-	    } else {
-	      done();
-	    }
-	  },
-	
-	  render: function () {
-	    return onlyChild(this.props.children);
-	  }
-	});
-	
-	module.exports = ReactCSSTransitionGroupChild;
-
-/***/ },
-/* 601 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule CSSCore
-	 * @typechecks
-	 */
-	
-	'use strict';
-	
-	var invariant = __webpack_require__(13);
-	
-	/**
-	 * The CSSCore module specifies the API (and implements most of the methods)
-	 * that should be used when dealing with the display of elements (via their
-	 * CSS classes and visibility on screen. It is an API focused on mutating the
-	 * display and not reading it as no logical state should be encoded in the
-	 * display of elements.
-	 */
-	
-	var CSSCore = {
-	
-	  /**
-	   * Adds the class passed in to the element if it doesn't already have it.
-	   *
-	   * @param {DOMElement} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @return {DOMElement} the element passed in
-	   */
-	  addClass: function (element, className) {
-	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.addClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : undefined;
-	
-	    if (className) {
-	      if (element.classList) {
-	        element.classList.add(className);
-	      } else if (!CSSCore.hasClass(element, className)) {
-	        element.className = element.className + ' ' + className;
-	      }
-	    }
-	    return element;
-	  },
-	
-	  /**
-	   * Removes the class passed in from the element
-	   *
-	   * @param {DOMElement} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @return {DOMElement} the element passed in
-	   */
-	  removeClass: function (element, className) {
-	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.removeClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : undefined;
-	
-	    if (className) {
-	      if (element.classList) {
-	        element.classList.remove(className);
-	      } else if (CSSCore.hasClass(element, className)) {
-	        element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1').replace(/\s+/g, ' ') // multiple spaces to one
-	        .replace(/^\s*|\s*$/g, ''); // trim the ends
-	      }
-	    }
-	    return element;
-	  },
-	
-	  /**
-	   * Helper to add or remove a class from an element based on a condition.
-	   *
-	   * @param {DOMElement} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @param {*} bool condition to whether to add or remove the class
-	   * @return {DOMElement} the element passed in
-	   */
-	  conditionClass: function (element, className, bool) {
-	    return (bool ? CSSCore.addClass : CSSCore.removeClass)(element, className);
-	  },
-	
-	  /**
-	   * Tests whether the element has the class specified.
-	   *
-	   * @param {DOMNode|DOMWindow} element the element to set the class on
-	   * @param {string} className the CSS className
-	   * @return {boolean} true if the element has the class, false if not
-	   */
-	  hasClass: function (element, className) {
-	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSS.hasClass takes only a single class name.') : invariant(false) : undefined;
-	    if (element.classList) {
-	      return !!className && element.classList.contains(className);
-	    }
-	    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
-	  }
-	
-	};
-	
-	module.exports = CSSCore;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 602 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactTransitionEvents
-	 */
-	
-	'use strict';
-	
-	var ExecutionEnvironment = __webpack_require__(9);
-	
-	/**
-	 * EVENT_NAME_MAP is used to determine which event fired when a
-	 * transition/animation ends, based on the style property used to
-	 * define that event.
-	 */
-	var EVENT_NAME_MAP = {
-	  transitionend: {
-	    'transition': 'transitionend',
-	    'WebkitTransition': 'webkitTransitionEnd',
-	    'MozTransition': 'mozTransitionEnd',
-	    'OTransition': 'oTransitionEnd',
-	    'msTransition': 'MSTransitionEnd'
-	  },
-	
-	  animationend: {
-	    'animation': 'animationend',
-	    'WebkitAnimation': 'webkitAnimationEnd',
-	    'MozAnimation': 'mozAnimationEnd',
-	    'OAnimation': 'oAnimationEnd',
-	    'msAnimation': 'MSAnimationEnd'
-	  }
-	};
-	
-	var endEvents = [];
-	
-	function detectEvents() {
-	  var testEl = document.createElement('div');
-	  var style = testEl.style;
-	
-	  // On some platforms, in particular some releases of Android 4.x,
-	  // the un-prefixed "animation" and "transition" properties are defined on the
-	  // style object but the events that fire will still be prefixed, so we need
-	  // to check if the un-prefixed events are useable, and if not remove them
-	  // from the map
-	  if (!('AnimationEvent' in window)) {
-	    delete EVENT_NAME_MAP.animationend.animation;
-	  }
-	
-	  if (!('TransitionEvent' in window)) {
-	    delete EVENT_NAME_MAP.transitionend.transition;
-	  }
-	
-	  for (var baseEventName in EVENT_NAME_MAP) {
-	    var baseEvents = EVENT_NAME_MAP[baseEventName];
-	    for (var styleName in baseEvents) {
-	      if (styleName in style) {
-	        endEvents.push(baseEvents[styleName]);
-	        break;
-	      }
-	    }
-	  }
-	}
-	
-	if (ExecutionEnvironment.canUseDOM) {
-	  detectEvents();
-	}
-	
-	// We use the raw {add|remove}EventListener() call because EventListener
-	// does not know how to remove event listeners and we really should
-	// clean up. Also, these events are not triggered in older browsers
-	// so we should be A-OK here.
-	
-	function addEventListener(node, eventName, eventListener) {
-	  node.addEventListener(eventName, eventListener, false);
-	}
-	
-	function removeEventListener(node, eventName, eventListener) {
-	  node.removeEventListener(eventName, eventListener, false);
-	}
-	
-	var ReactTransitionEvents = {
-	  addEndEventListener: function (node, eventListener) {
-	    if (endEvents.length === 0) {
-	      // If CSS transitions are not supported, trigger an "end animation"
-	      // event immediately.
-	      window.setTimeout(eventListener, 0);
-	      return;
-	    }
-	    endEvents.forEach(function (endEvent) {
-	      addEventListener(node, endEvent, eventListener);
-	    });
-	  },
-	
-	  removeEndEventListener: function (node, eventListener) {
-	    if (endEvents.length === 0) {
-	      return;
-	    }
-	    endEvents.forEach(function (endEvent) {
-	      removeEventListener(node, endEvent, eventListener);
-	    });
-	  }
-	};
-	
-	module.exports = ReactTransitionEvents;
-
-/***/ },
-/* 603 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158),
-	    TeamUserStore = __webpack_require__(479),
-	    ProjectStore = __webpack_require__(241),
-	    ApiUtil = __webpack_require__(242),
-	    SchemeModal = __webpack_require__(604);
-	
-	var ProjectDrawer = React.createClass({
-	  displayName: 'ProjectDrawer',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      teammates: TeamUserStore.all(),
-	      teamName: TeamUserStore.teamName(),
-	      projects: ProjectStore.all(),
-	      showNewProjectModal: false
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.teamUserStoreToken = TeamUserStore.addListener(this.updateTeammates);
-	    this.projectStoreToken = ProjectStore.addListener(this.updateProjects);
-	    ApiUtil.fetchTeamUsers();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.teamUserStoreToken.remove();
-	    this.projectStoreToken.remove();
-	  },
-	
-	  hideNewProjectModal: function () {
-	    this.setState({ showNewProjectModal: false });
-	  },
-	
-	  showNewProjectModal: function () {
-	    this.setState({ showNewProjectModal: true });
-	  },
-	
-	  validateNewProjectName: function (name) {
-	    return name.length > 0;
-	  },
-	
-	  updateTeammates: function () {
-	    this.setState({
-	      teammates: TeamUserStore.all(),
-	      teamName: TeamUserStore.teamName()
-	    });
-	  },
-	
-	  updateProjects: function () {
-	    this.setState({
-	      projects: ProjectStore.all(),
-	      showNewProjectModal: false
-	    });
-	  },
-	
-	  createProject: function (input) {
-	    var teamId = TeamUserStore.teamId();
-	    ApiUtil.createProject({
-	      name: input,
-	      team_id: teamId
-	    });
-	  },
-	
-	  renderNewProjectModal: function () {
-	    return React.createElement(SchemeModal, {
-	      showInviteModal: this.state.showNewProjectModal,
-	      modalHeader: 'New Project',
-	      hideInviteModal: this.hideNewProjectModal,
-	      inputLabel: 'Project Name',
-	      inputId: 'huh',
-	      inputPlaceholder: 'Get Rich or Die Trying',
-	      inputMicetype: "All members of " + this.state.teamName + " can view and edit this project.",
-	      inputSubmit: this.createProject,
-	      inputValidation: this.validateNewProjectName,
-	      submitButtonText: 'Create Project'
-	    });
-	  },
-	
-	  renderDrawerHeader: function () {
-	    return React.createElement(
-	      'ul',
-	      { className: 'drawer-header group' },
-	      React.createElement('li', { className: 'drawer-logo' }),
-	      React.createElement(
-	        'li',
-	        { className: 'close-drawer', onClick: this.props.hideProjectDrawer },
-	        React.createElement(
-	          'svg',
-	          { viewBox: '0 0 32 32' },
-	          React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222' })
-	        )
-	      )
-	    );
-	  },
-	
-	  renderTeammatesList: function () {
-	    var teamUserLis = [];
-	    $.each(this.state.teammates, function (teammate) {
-	      teamUserLis.push(React.createElement(
-	        'li',
-	        { key: this.id },
-	        React.createElement('img', { src: this.avatar_url })
-	      ));
-	    });
-	
-	    return React.createElement(
-	      'ul',
-	      { className: 'group teammate-list' },
-	      teamUserLis.slice(0, 6)
-	    );
-	  },
-	
-	  renderProjectLinks: function () {
-	    var allProjects = [];
-	    this.state.projects.forEach(function (project) {
-	      allProjects.push(React.createElement(ProjectLink, {
-	        project: project,
-	        key: project.id,
-	        selected: this.props.projectId === project.id
-	      }));
-	    }.bind(this));
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'project-list' },
-	      React.createElement(
-	        'div',
-	        { className: 'group project-list-header' },
-	        React.createElement(
-	          'h3',
-	          null,
-	          'Projects'
-	        ),
-	        React.createElement(
-	          'button',
-	          { onClick: this.showNewProjectModal },
-	          React.createElement(
-	            'svg',
-	            { viewBox: '0 0 32 32' },
-	            React.createElement('polygon', { points: '28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18' })
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'ul',
-	        { className: 'project-links' },
-	        allProjects
-	      )
-	    );
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'section',
-	      { className: "project-drawer" },
-	      this.renderDrawerHeader(),
-	      React.createElement(
-	        'h2',
-	        null,
-	        this.state.teamName
-	      ),
-	      this.renderTeammatesList(),
-	      this.renderProjectLinks(),
-	      this.state.showNewProjectModal ? this.renderNewProjectModal() : null
-	    );
-	  }
-	});
-	
-	var ProjectLink = React.createClass({
-	  displayName: 'ProjectLink',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  projectLink: function () {
-	    if (this.props.selected) {
-	      return;
-	    }
-	    this.context.router.push("/projects/" + this.props.project.id);
-	  },
-	
-	  className: function () {
-	    var className;
-	    if (this.props.selected) {
-	      className = "selected";
-	    }
-	
-	    return className;
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'li',
-	      { className: this.className(), onClick: this.projectLink },
-	      this.props.project.name
-	    );
-	  }
-	});
-	
-	module.exports = ProjectDrawer;
-
-/***/ },
-/* 604 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158),
-	    ApiUtil = __webpack_require__(242),
-	    Modal = __webpack_require__(457);
-	
-	// For universal config of Scheme Modals
-	
-	var customStyles = {
-	  content: {
-	    left: '50%',
-	    right: 'auto',
-	    bottom: 'auto',
-	    marginTop: '150px',
-	    transform: 'translateX(-50%)',
-	    border: '1px solid #A1A4AA',
-	    borderRadius: '3px',
-	    boxShadow: '0 2px 3px rgba(0,0,0,0.3)',
-	    padding: '0',
-	    'min-width': '520px'
-	  },
-	  overlay: {
-	    position: 'fixed',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(103,109,118,0.6)'
-	  }
-	};
-	
-	// Required props:
-	// -showInviteModal (boolean)
-	// modalHeader (string)
-	// hideInviteModal (fn)
-	// inputAttrs = {
-	//  label (string)
-	//  id (string)
-	//  placeholder (string)
-	//  ref (string)
-	//  validation (fn)
-	//  micetype (string)
-	// }
-	// submit (fn)
-	// validInput (boolean)
-	// submitButtonText (string)
-	
-	var SchemeModal = React.createClass({
-	  displayName: 'SchemeModal',
-	
-	
-	  getInitialState: function () {
-	    return { validInput: false };
-	  },
-	
-	  validateInput: function () {
-	    this.setState({ validInput: this.props.inputValidation(this.refs.inputField.value) });
-	  },
-	
-	  componentDidMount: function () {
-	    this.validateInput();
-	  },
-	
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    this.props.inputSubmit(this.refs.inputField.value);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      Modal,
-	      { className: 'scheme-modal', isOpen: this.props.showInviteModal, style: customStyles },
-	      React.createElement(
-	        'header',
-	        { className: 'group' },
-	        React.createElement(
-	          'h2',
-	          null,
-	          this.props.modalHeader
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'close-modal', onClick: this.props.hideInviteModal },
-	          React.createElement(
-	            'svg',
-	            { viewBox: '0 0 32 32' },
-	            React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222' })
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'form',
-	        null,
-	        React.createElement(
-	          'div',
-	          { className: 'group' },
-	          React.createElement('input', {
-	            type: 'text',
-	            id: this.props.inputId,
-	            placeholder: this.props.inputPlaceholder,
-	            ref: 'inputField',
-	            onChange: this.validateInput }),
-	          React.createElement(
-	            'label',
-	            { htmlFor: 'email' },
-	            this.props.inputLabel
-	          ),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'p',
-	            null,
-	            this.props.inputMicetype
-	          )
-	        ),
-	        React.createElement(
-	          'button',
-	          { onClick: this.handleSubmit, disabled: !this.state.validInput },
-	          this.props.submitButtonText
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = SchemeModal;
-
-/***/ },
-/* 605 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -61813,7 +60532,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var _attrAccept = __webpack_require__(606);
+	var _attrAccept = __webpack_require__(596);
 	
 	var _attrAccept2 = _interopRequireDefault(_attrAccept);
 	
@@ -62081,44 +60800,1344 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 606 */
+/* 596 */
 /***/ function(module, exports) {
 
 	module.exports=function(t){function n(e){if(r[e])return r[e].exports;var o=r[e]={exports:{},id:e,loaded:!1};return t[e].call(o.exports,o,o.exports,n),o.loaded=!0,o.exports}var r={};return n.m=t,n.c=r,n.p="",n(0)}([function(t,n,r){"use strict";n.__esModule=!0,r(8),r(9),n["default"]=function(t,n){if(t&&n){var r=function(){var r=n.split(","),e=t.name||"",o=t.type||"",i=o.replace(/\/.*$/,"");return{v:r.some(function(t){var n=t.trim();return"."===n.charAt(0)?e.toLowerCase().endsWith(n.toLowerCase()):/\/\*$/.test(n)?i===n.replace(/\/.*$/,""):o===n})}}();if("object"==typeof r)return r.v}return!0},t.exports=n["default"]},function(t,n){var r=t.exports={version:"1.2.2"};"number"==typeof __e&&(__e=r)},function(t,n){var r=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=r)},function(t,n,r){var e=r(2),o=r(1),i=r(4),u=r(19),c="prototype",f=function(t,n){return function(){return t.apply(n,arguments)}},s=function(t,n,r){var a,p,l,d,y=t&s.G,h=t&s.P,v=y?e:t&s.S?e[n]||(e[n]={}):(e[n]||{})[c],x=y?o:o[n]||(o[n]={});y&&(r=n);for(a in r)p=!(t&s.F)&&v&&a in v,l=(p?v:r)[a],d=t&s.B&&p?f(l,e):h&&"function"==typeof l?f(Function.call,l):l,v&&!p&&u(v,a,l),x[a]!=l&&i(x,a,d),h&&((x[c]||(x[c]={}))[a]=l)};e.core=o,s.F=1,s.G=2,s.S=4,s.P=8,s.B=16,s.W=32,t.exports=s},function(t,n,r){var e=r(5),o=r(18);t.exports=r(22)?function(t,n,r){return e.setDesc(t,n,o(1,r))}:function(t,n,r){return t[n]=r,t}},function(t,n){var r=Object;t.exports={create:r.create,getProto:r.getPrototypeOf,isEnum:{}.propertyIsEnumerable,getDesc:r.getOwnPropertyDescriptor,setDesc:r.defineProperty,setDescs:r.defineProperties,getKeys:r.keys,getNames:r.getOwnPropertyNames,getSymbols:r.getOwnPropertySymbols,each:[].forEach}},function(t,n){var r=0,e=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++r+e).toString(36))}},function(t,n,r){var e=r(20)("wks"),o=r(2).Symbol;t.exports=function(t){return e[t]||(e[t]=o&&o[t]||(o||r(6))("Symbol."+t))}},function(t,n,r){r(26),t.exports=r(1).Array.some},function(t,n,r){r(25),t.exports=r(1).String.endsWith},function(t,n){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,n){var r={}.toString;t.exports=function(t){return r.call(t).slice(8,-1)}},function(t,n,r){var e=r(10);t.exports=function(t,n,r){if(e(t),void 0===n)return t;switch(r){case 1:return function(r){return t.call(n,r)};case 2:return function(r,e){return t.call(n,r,e)};case 3:return function(r,e,o){return t.call(n,r,e,o)}}return function(){return t.apply(n,arguments)}}},function(t,n){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t}},function(t,n,r){t.exports=function(t){var n=/./;try{"/./"[t](n)}catch(e){try{return n[r(7)("match")]=!1,!"/./"[t](n)}catch(o){}}return!0}},function(t,n){t.exports=function(t){try{return!!t()}catch(n){return!0}}},function(t,n){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,n,r){var e=r(16),o=r(11),i=r(7)("match");t.exports=function(t){var n;return e(t)&&(void 0!==(n=t[i])?!!n:"RegExp"==o(t))}},function(t,n){t.exports=function(t,n){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:n}}},function(t,n,r){var e=r(2),o=r(4),i=r(6)("src"),u="toString",c=Function[u],f=(""+c).split(u);r(1).inspectSource=function(t){return c.call(t)},(t.exports=function(t,n,r,u){"function"==typeof r&&(o(r,i,t[n]?""+t[n]:f.join(String(n))),"name"in r||(r.name=n)),t===e?t[n]=r:(u||delete t[n],o(t,n,r))})(Function.prototype,u,function(){return"function"==typeof this&&this[i]||c.call(this)})},function(t,n,r){var e=r(2),o="__core-js_shared__",i=e[o]||(e[o]={});t.exports=function(t){return i[t]||(i[t]={})}},function(t,n,r){var e=r(17),o=r(13);t.exports=function(t,n,r){if(e(n))throw TypeError("String#"+r+" doesn't accept regex!");return String(o(t))}},function(t,n,r){t.exports=!r(15)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,n){var r=Math.ceil,e=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?e:r)(t)}},function(t,n,r){var e=r(23),o=Math.min;t.exports=function(t){return t>0?o(e(t),9007199254740991):0}},function(t,n,r){"use strict";var e=r(3),o=r(24),i=r(21),u="endsWith",c=""[u];e(e.P+e.F*r(14)(u),"String",{endsWith:function(t){var n=i(this,t,u),r=arguments,e=r.length>1?r[1]:void 0,f=o(n.length),s=void 0===e?f:Math.min(o(e),f),a=String(t);return c?c.call(n,a,s):n.slice(s-a.length,s)===a}})},function(t,n,r){var e=r(5),o=r(3),i=r(1).Array||Array,u={},c=function(t,n){e.each.call(t.split(","),function(t){void 0==n&&t in i?u[t]=i[t]:t in[]&&(u[t]=r(12)(Function.call,[][t],n))})};c("pop,reverse,shift,keys,values,entries",1),c("indexOf,every,some,forEach,map,filter,find,findIndex,includes",3),c("join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill"),o(o.S,"Array",u)}]);
 
 /***/ },
-/* 607 */
-/***/ function(module, exports) {
+/* 597 */
+/***/ function(module, exports, __webpack_require__) {
 
-	var FormUtil = {
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158);
 	
-	  validateEmail: function (emailInput) {
+	var SplashPage = React.createClass({
+	  displayName: 'SplashPage',
 	
-	    if (!emailInput) {
-	      return false;
-	    }
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
 	
-	    var atSignIndex = emailInput.indexOf("@");
-	    var dotIndex = emailInput.slice(atSignIndex + 1).indexOf(".");
+	  getInitialState: function () {
+	    return { email: "" };
+	  },
 	
-	    if (atSignIndex > 0 && dotIndex > 0) {
-	      return true;
+	  updateEmail: function (e) {
+	    this.setState({ email: e.currentTarget.value });
+	  },
+	
+	  sendToRegistration: function () {
+	    event.preventDefault();
+	    var router = this.context.router;
+	    router.push({
+	      pathname: '/register',
+	      state: { email: this.state.email }
+	    });
+	  },
+	
+	  sendToLogin: function () {
+	    event.preventDefault();
+	    var router = this.context.router;
+	    router.push({
+	      pathname: '/login'
+	    });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'nav',
+	        { className: 'group splash-page' },
+	        React.createElement(
+	          'div',
+	          { className: 'container' },
+	          React.createElement('div', { className: 'logo' }),
+	          React.createElement(
+	            'button',
+	            { onClick: this.sendToLogin },
+	            'Log In'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'main',
+	        null,
+	        React.createElement(
+	          'section',
+	          { className: 'leader' },
+	          React.createElement(
+	            'h1',
+	            null,
+	            'Stay Scheming'
+	          ),
+	          React.createElement(
+	            'h2',
+	            null,
+	            'Scheme is the second easiest way for teams to track their work—and get results.'
+	          ),
+	          React.createElement('input', {
+	            type: 'text',
+	            name: 'user[email]',
+	            id: 'email',
+	            onChange: this.updateEmail,
+	            placeholder: 'name@company.com' }),
+	          React.createElement(
+	            'button',
+	            { onClick: this.sendToRegistration },
+	            'Get Started for FREE'
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SplashPage;
+
+/***/ },
+/* 598 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    ReactCSSTransitionGroup = __webpack_require__(599),
+	    ProjectStore = __webpack_require__(241),
+	    ApiUtil = __webpack_require__(242),
+	    ProjectStore = __webpack_require__(241),
+	    NavBar = __webpack_require__(456),
+	    TaskIndex = __webpack_require__(216),
+	    ProjectDrawer = __webpack_require__(606);
+	
+	var ProjectDetail = React.createClass({
+	  displayName: 'ProjectDetail',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  projectId: function () {
+	    return this.props.params.projectId;
+	  },
+	
+	  getInitialState: function () {
+	    // get projectId from route (router required above)
+	
+	    return {
+	      project: ProjectStore.findProject(this.projectId()),
+	      showProjectDrawer: false
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.projectStoreToken = ProjectStore.addListener(this.getProjectOrRedirect);
+	    ApiUtil.fetchProjects();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.projectStoreToken.remove();
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ project: ProjectStore.findProject(newProps.params.projectId) });
+	  },
+	
+	  getProjectOrRedirect: function () {
+	    // if params.projectId doesn't corresnpond to existing project,
+	    // re-route to first project in store. Need to replace with proper 404
+	    var paramsProject = ProjectStore.findProject(this.projectId());
+	    if (paramsProject) {
+	      this.setState({ project: ProjectStore.findProject(this.projectId()) });
 	    } else {
-	      return false;
+	      this.context.router.push("/projects/" + ProjectStore.all()[0].id);
 	    }
 	  },
 	
-	  validateLength: function (input, minChar) {
-	    return input.length >= minChar;
+	  showProjectDrawer: function () {
+	    this.setState({ showProjectDrawer: true });
 	  },
 	
-	  validateForm: function () {
-	    return this.state.nameValid && this.state.emailValid && this.state.passwordValid;
+	  hideProjectDrawer: function () {
+	    this.setState({ showProjectDrawer: false });
+	  },
+	
+	  renderProjectDrawer: function () {
+	    if (this.state.showProjectDrawer) {
+	      return [React.createElement(ProjectDrawer, {
+	        ref: 'projectDrawer',
+	        key: 'project-drawer',
+	        projectId: this.state.project ? this.state.project.id : null,
+	        hideProjectDrawer: this.hideProjectDrawer })];
+	    } else {
+	      return [];
+	    }
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'app' },
+	      React.createElement(
+	        ReactCSSTransitionGroup,
+	        { transitionName: 'drawer-transition', transitionEnterTimeout: 500, transitionLeaveTimeout: 500 },
+	        this.renderProjectDrawer()
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'non-drawer-content' },
+	        React.createElement(NavBar, { showProjectDrawer: this.showProjectDrawer, showHamburger: !this.state.showProjectDrawer }),
+	        React.createElement(
+	          'section',
+	          { className: 'project-detail' },
+	          React.createElement(
+	            'div',
+	            { className: 'task-wrapper' },
+	            React.createElement(TaskIndex, { project: this.state.project ? this.state.project : null }),
+	            this.props.children
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ProjectDetail;
+
+/***/ },
+/* 599 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(600);
+
+/***/ },
+/* 600 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @typechecks
+	 * @providesModule ReactCSSTransitionGroup
+	 */
+	
+	'use strict';
+	
+	var React = __webpack_require__(2);
+	
+	var assign = __webpack_require__(39);
+	
+	var ReactTransitionGroup = __webpack_require__(601);
+	var ReactCSSTransitionGroupChild = __webpack_require__(603);
+	
+	function createTransitionTimeoutPropValidator(transitionType) {
+	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
+	  var enabledPropName = 'transition' + transitionType;
+	
+	  return function (props) {
+	    // If the transition is enabled
+	    if (props[enabledPropName]) {
+	      // If no timeout duration is provided
+	      if (props[timeoutPropName] == null) {
+	        return new Error(timeoutPropName + ' wasn\'t supplied to ReactCSSTransitionGroup: ' + 'this can cause unreliable animations and won\'t be supported in ' + 'a future version of React. See ' + 'https://fb.me/react-animation-transition-group-timeout for more ' + 'information.');
+	
+	        // If the duration isn't a number
+	      } else if (typeof props[timeoutPropName] !== 'number') {
+	          return new Error(timeoutPropName + ' must be a number (in milliseconds)');
+	        }
+	    }
+	  };
+	}
+	
+	var ReactCSSTransitionGroup = React.createClass({
+	  displayName: 'ReactCSSTransitionGroup',
+	
+	  propTypes: {
+	    transitionName: ReactCSSTransitionGroupChild.propTypes.name,
+	
+	    transitionAppear: React.PropTypes.bool,
+	    transitionEnter: React.PropTypes.bool,
+	    transitionLeave: React.PropTypes.bool,
+	    transitionAppearTimeout: createTransitionTimeoutPropValidator('Appear'),
+	    transitionEnterTimeout: createTransitionTimeoutPropValidator('Enter'),
+	    transitionLeaveTimeout: createTransitionTimeoutPropValidator('Leave')
+	  },
+	
+	  getDefaultProps: function () {
+	    return {
+	      transitionAppear: false,
+	      transitionEnter: true,
+	      transitionLeave: true
+	    };
+	  },
+	
+	  _wrapChild: function (child) {
+	    // We need to provide this childFactory so that
+	    // ReactCSSTransitionGroupChild can receive updates to name, enter, and
+	    // leave while it is leaving.
+	    return React.createElement(ReactCSSTransitionGroupChild, {
+	      name: this.props.transitionName,
+	      appear: this.props.transitionAppear,
+	      enter: this.props.transitionEnter,
+	      leave: this.props.transitionLeave,
+	      appearTimeout: this.props.transitionAppearTimeout,
+	      enterTimeout: this.props.transitionEnterTimeout,
+	      leaveTimeout: this.props.transitionLeaveTimeout
+	    }, child);
+	  },
+	
+	  render: function () {
+	    return React.createElement(ReactTransitionGroup, assign({}, this.props, { childFactory: this._wrapChild }));
+	  }
+	});
+	
+	module.exports = ReactCSSTransitionGroup;
+
+/***/ },
+/* 601 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactTransitionGroup
+	 */
+	
+	'use strict';
+	
+	var React = __webpack_require__(2);
+	var ReactTransitionChildMapping = __webpack_require__(602);
+	
+	var assign = __webpack_require__(39);
+	var emptyFunction = __webpack_require__(15);
+	
+	var ReactTransitionGroup = React.createClass({
+	  displayName: 'ReactTransitionGroup',
+	
+	  propTypes: {
+	    component: React.PropTypes.any,
+	    childFactory: React.PropTypes.func
+	  },
+	
+	  getDefaultProps: function () {
+	    return {
+	      component: 'span',
+	      childFactory: emptyFunction.thatReturnsArgument
+	    };
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      children: ReactTransitionChildMapping.getChildMapping(this.props.children)
+	    };
+	  },
+	
+	  componentWillMount: function () {
+	    this.currentlyTransitioningKeys = {};
+	    this.keysToEnter = [];
+	    this.keysToLeave = [];
+	  },
+	
+	  componentDidMount: function () {
+	    var initialChildMapping = this.state.children;
+	    for (var key in initialChildMapping) {
+	      if (initialChildMapping[key]) {
+	        this.performAppear(key);
+	      }
+	    }
+	  },
+	
+	  componentWillReceiveProps: function (nextProps) {
+	    var nextChildMapping = ReactTransitionChildMapping.getChildMapping(nextProps.children);
+	    var prevChildMapping = this.state.children;
+	
+	    this.setState({
+	      children: ReactTransitionChildMapping.mergeChildMappings(prevChildMapping, nextChildMapping)
+	    });
+	
+	    var key;
+	
+	    for (key in nextChildMapping) {
+	      var hasPrev = prevChildMapping && prevChildMapping.hasOwnProperty(key);
+	      if (nextChildMapping[key] && !hasPrev && !this.currentlyTransitioningKeys[key]) {
+	        this.keysToEnter.push(key);
+	      }
+	    }
+	
+	    for (key in prevChildMapping) {
+	      var hasNext = nextChildMapping && nextChildMapping.hasOwnProperty(key);
+	      if (prevChildMapping[key] && !hasNext && !this.currentlyTransitioningKeys[key]) {
+	        this.keysToLeave.push(key);
+	      }
+	    }
+	
+	    // If we want to someday check for reordering, we could do it here.
+	  },
+	
+	  componentDidUpdate: function () {
+	    var keysToEnter = this.keysToEnter;
+	    this.keysToEnter = [];
+	    keysToEnter.forEach(this.performEnter);
+	
+	    var keysToLeave = this.keysToLeave;
+	    this.keysToLeave = [];
+	    keysToLeave.forEach(this.performLeave);
+	  },
+	
+	  performAppear: function (key) {
+	    this.currentlyTransitioningKeys[key] = true;
+	
+	    var component = this.refs[key];
+	
+	    if (component.componentWillAppear) {
+	      component.componentWillAppear(this._handleDoneAppearing.bind(this, key));
+	    } else {
+	      this._handleDoneAppearing(key);
+	    }
+	  },
+	
+	  _handleDoneAppearing: function (key) {
+	    var component = this.refs[key];
+	    if (component.componentDidAppear) {
+	      component.componentDidAppear();
+	    }
+	
+	    delete this.currentlyTransitioningKeys[key];
+	
+	    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children);
+	
+	    if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
+	      // This was removed before it had fully appeared. Remove it.
+	      this.performLeave(key);
+	    }
+	  },
+	
+	  performEnter: function (key) {
+	    this.currentlyTransitioningKeys[key] = true;
+	
+	    var component = this.refs[key];
+	
+	    if (component.componentWillEnter) {
+	      component.componentWillEnter(this._handleDoneEntering.bind(this, key));
+	    } else {
+	      this._handleDoneEntering(key);
+	    }
+	  },
+	
+	  _handleDoneEntering: function (key) {
+	    var component = this.refs[key];
+	    if (component.componentDidEnter) {
+	      component.componentDidEnter();
+	    }
+	
+	    delete this.currentlyTransitioningKeys[key];
+	
+	    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children);
+	
+	    if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
+	      // This was removed before it had fully entered. Remove it.
+	      this.performLeave(key);
+	    }
+	  },
+	
+	  performLeave: function (key) {
+	    this.currentlyTransitioningKeys[key] = true;
+	
+	    var component = this.refs[key];
+	    if (component.componentWillLeave) {
+	      component.componentWillLeave(this._handleDoneLeaving.bind(this, key));
+	    } else {
+	      // Note that this is somewhat dangerous b/c it calls setState()
+	      // again, effectively mutating the component before all the work
+	      // is done.
+	      this._handleDoneLeaving(key);
+	    }
+	  },
+	
+	  _handleDoneLeaving: function (key) {
+	    var component = this.refs[key];
+	
+	    if (component.componentDidLeave) {
+	      component.componentDidLeave();
+	    }
+	
+	    delete this.currentlyTransitioningKeys[key];
+	
+	    var currentChildMapping = ReactTransitionChildMapping.getChildMapping(this.props.children);
+	
+	    if (currentChildMapping && currentChildMapping.hasOwnProperty(key)) {
+	      // This entered again before it fully left. Add it again.
+	      this.performEnter(key);
+	    } else {
+	      this.setState(function (state) {
+	        var newChildren = assign({}, state.children);
+	        delete newChildren[key];
+	        return { children: newChildren };
+	      });
+	    }
+	  },
+	
+	  render: function () {
+	    // TODO: we could get rid of the need for the wrapper node
+	    // by cloning a single child
+	    var childrenToRender = [];
+	    for (var key in this.state.children) {
+	      var child = this.state.children[key];
+	      if (child) {
+	        // You may need to apply reactive updates to a child as it is leaving.
+	        // The normal React way to do it won't work since the child will have
+	        // already been removed. In case you need this behavior you can provide
+	        // a childFactory function to wrap every child, even the ones that are
+	        // leaving.
+	        childrenToRender.push(React.cloneElement(this.props.childFactory(child), { ref: key, key: key }));
+	      }
+	    }
+	    return React.createElement(this.props.component, this.props, childrenToRender);
+	  }
+	});
+	
+	module.exports = ReactTransitionGroup;
+
+/***/ },
+/* 602 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @typechecks static-only
+	 * @providesModule ReactTransitionChildMapping
+	 */
+	
+	'use strict';
+	
+	var flattenChildren = __webpack_require__(116);
+	
+	var ReactTransitionChildMapping = {
+	  /**
+	   * Given `this.props.children`, return an object mapping key to child. Just
+	   * simple syntactic sugar around flattenChildren().
+	   *
+	   * @param {*} children `this.props.children`
+	   * @return {object} Mapping of key to child
+	   */
+	  getChildMapping: function (children) {
+	    if (!children) {
+	      return children;
+	    }
+	    return flattenChildren(children);
+	  },
+	
+	  /**
+	   * When you're adding or removing children some may be added or removed in the
+	   * same render pass. We want to show *both* since we want to simultaneously
+	   * animate elements in and out. This function takes a previous set of keys
+	   * and a new set of keys and merges them with its best guess of the correct
+	   * ordering. In the future we may expose some of the utilities in
+	   * ReactMultiChild to make this easy, but for now React itself does not
+	   * directly have this concept of the union of prevChildren and nextChildren
+	   * so we implement it here.
+	   *
+	   * @param {object} prev prev children as returned from
+	   * `ReactTransitionChildMapping.getChildMapping()`.
+	   * @param {object} next next children as returned from
+	   * `ReactTransitionChildMapping.getChildMapping()`.
+	   * @return {object} a key set that contains all keys in `prev` and all keys
+	   * in `next` in a reasonable order.
+	   */
+	  mergeChildMappings: function (prev, next) {
+	    prev = prev || {};
+	    next = next || {};
+	
+	    function getValueForKey(key) {
+	      if (next.hasOwnProperty(key)) {
+	        return next[key];
+	      } else {
+	        return prev[key];
+	      }
+	    }
+	
+	    // For each key of `next`, the list of keys to insert before that key in
+	    // the combined list
+	    var nextKeysPending = {};
+	
+	    var pendingKeys = [];
+	    for (var prevKey in prev) {
+	      if (next.hasOwnProperty(prevKey)) {
+	        if (pendingKeys.length) {
+	          nextKeysPending[prevKey] = pendingKeys;
+	          pendingKeys = [];
+	        }
+	      } else {
+	        pendingKeys.push(prevKey);
+	      }
+	    }
+	
+	    var i;
+	    var childMapping = {};
+	    for (var nextKey in next) {
+	      if (nextKeysPending.hasOwnProperty(nextKey)) {
+	        for (i = 0; i < nextKeysPending[nextKey].length; i++) {
+	          var pendingNextKey = nextKeysPending[nextKey][i];
+	          childMapping[nextKeysPending[nextKey][i]] = getValueForKey(pendingNextKey);
+	        }
+	      }
+	      childMapping[nextKey] = getValueForKey(nextKey);
+	    }
+	
+	    // Finally, add the keys which didn't appear before any key in `next`
+	    for (i = 0; i < pendingKeys.length; i++) {
+	      childMapping[pendingKeys[i]] = getValueForKey(pendingKeys[i]);
+	    }
+	
+	    return childMapping;
+	  }
+	};
+	
+	module.exports = ReactTransitionChildMapping;
+
+/***/ },
+/* 603 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @typechecks
+	 * @providesModule ReactCSSTransitionGroupChild
+	 */
+	
+	'use strict';
+	
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(3);
+	
+	var CSSCore = __webpack_require__(604);
+	var ReactTransitionEvents = __webpack_require__(605);
+	
+	var onlyChild = __webpack_require__(156);
+	
+	// We don't remove the element from the DOM until we receive an animationend or
+	// transitionend event. If the user screws up and forgets to add an animation
+	// their node will be stuck in the DOM forever, so we detect if an animation
+	// does not start and if it doesn't, we just call the end listener immediately.
+	var TICK = 17;
+	
+	var ReactCSSTransitionGroupChild = React.createClass({
+	  displayName: 'ReactCSSTransitionGroupChild',
+	
+	  propTypes: {
+	    name: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.shape({
+	      enter: React.PropTypes.string,
+	      leave: React.PropTypes.string,
+	      active: React.PropTypes.string
+	    }), React.PropTypes.shape({
+	      enter: React.PropTypes.string,
+	      enterActive: React.PropTypes.string,
+	      leave: React.PropTypes.string,
+	      leaveActive: React.PropTypes.string,
+	      appear: React.PropTypes.string,
+	      appearActive: React.PropTypes.string
+	    })]).isRequired,
+	
+	    // Once we require timeouts to be specified, we can remove the
+	    // boolean flags (appear etc.) and just accept a number
+	    // or a bool for the timeout flags (appearTimeout etc.)
+	    appear: React.PropTypes.bool,
+	    enter: React.PropTypes.bool,
+	    leave: React.PropTypes.bool,
+	    appearTimeout: React.PropTypes.number,
+	    enterTimeout: React.PropTypes.number,
+	    leaveTimeout: React.PropTypes.number
+	  },
+	
+	  transition: function (animationType, finishCallback, userSpecifiedDelay) {
+	    var node = ReactDOM.findDOMNode(this);
+	
+	    if (!node) {
+	      if (finishCallback) {
+	        finishCallback();
+	      }
+	      return;
+	    }
+	
+	    var className = this.props.name[animationType] || this.props.name + '-' + animationType;
+	    var activeClassName = this.props.name[animationType + 'Active'] || className + '-active';
+	    var timeout = null;
+	
+	    var endListener = function (e) {
+	      if (e && e.target !== node) {
+	        return;
+	      }
+	
+	      clearTimeout(timeout);
+	
+	      CSSCore.removeClass(node, className);
+	      CSSCore.removeClass(node, activeClassName);
+	
+	      ReactTransitionEvents.removeEndEventListener(node, endListener);
+	
+	      // Usually this optional callback is used for informing an owner of
+	      // a leave animation and telling it to remove the child.
+	      if (finishCallback) {
+	        finishCallback();
+	      }
+	    };
+	
+	    CSSCore.addClass(node, className);
+	
+	    // Need to do this to actually trigger a transition.
+	    this.queueClass(activeClassName);
+	
+	    // If the user specified a timeout delay.
+	    if (userSpecifiedDelay) {
+	      // Clean-up the animation after the specified delay
+	      timeout = setTimeout(endListener, userSpecifiedDelay);
+	      this.transitionTimeouts.push(timeout);
+	    } else {
+	      // DEPRECATED: this listener will be removed in a future version of react
+	      ReactTransitionEvents.addEndEventListener(node, endListener);
+	    }
+	  },
+	
+	  queueClass: function (className) {
+	    this.classNameQueue.push(className);
+	
+	    if (!this.timeout) {
+	      this.timeout = setTimeout(this.flushClassNameQueue, TICK);
+	    }
+	  },
+	
+	  flushClassNameQueue: function () {
+	    if (this.isMounted()) {
+	      this.classNameQueue.forEach(CSSCore.addClass.bind(CSSCore, ReactDOM.findDOMNode(this)));
+	    }
+	    this.classNameQueue.length = 0;
+	    this.timeout = null;
+	  },
+	
+	  componentWillMount: function () {
+	    this.classNameQueue = [];
+	    this.transitionTimeouts = [];
+	  },
+	
+	  componentWillUnmount: function () {
+	    if (this.timeout) {
+	      clearTimeout(this.timeout);
+	    }
+	    this.transitionTimeouts.forEach(function (timeout) {
+	      clearTimeout(timeout);
+	    });
+	  },
+	
+	  componentWillAppear: function (done) {
+	    if (this.props.appear) {
+	      this.transition('appear', done, this.props.appearTimeout);
+	    } else {
+	      done();
+	    }
+	  },
+	
+	  componentWillEnter: function (done) {
+	    if (this.props.enter) {
+	      this.transition('enter', done, this.props.enterTimeout);
+	    } else {
+	      done();
+	    }
+	  },
+	
+	  componentWillLeave: function (done) {
+	    if (this.props.leave) {
+	      this.transition('leave', done, this.props.leaveTimeout);
+	    } else {
+	      done();
+	    }
+	  },
+	
+	  render: function () {
+	    return onlyChild(this.props.children);
+	  }
+	});
+	
+	module.exports = ReactCSSTransitionGroupChild;
+
+/***/ },
+/* 604 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule CSSCore
+	 * @typechecks
+	 */
+	
+	'use strict';
+	
+	var invariant = __webpack_require__(13);
+	
+	/**
+	 * The CSSCore module specifies the API (and implements most of the methods)
+	 * that should be used when dealing with the display of elements (via their
+	 * CSS classes and visibility on screen. It is an API focused on mutating the
+	 * display and not reading it as no logical state should be encoded in the
+	 * display of elements.
+	 */
+	
+	var CSSCore = {
+	
+	  /**
+	   * Adds the class passed in to the element if it doesn't already have it.
+	   *
+	   * @param {DOMElement} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @return {DOMElement} the element passed in
+	   */
+	  addClass: function (element, className) {
+	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.addClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : undefined;
+	
+	    if (className) {
+	      if (element.classList) {
+	        element.classList.add(className);
+	      } else if (!CSSCore.hasClass(element, className)) {
+	        element.className = element.className + ' ' + className;
+	      }
+	    }
+	    return element;
+	  },
+	
+	  /**
+	   * Removes the class passed in from the element
+	   *
+	   * @param {DOMElement} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @return {DOMElement} the element passed in
+	   */
+	  removeClass: function (element, className) {
+	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSSCore.removeClass takes only a single class name. "%s" contains ' + 'multiple classes.', className) : invariant(false) : undefined;
+	
+	    if (className) {
+	      if (element.classList) {
+	        element.classList.remove(className);
+	      } else if (CSSCore.hasClass(element, className)) {
+	        element.className = element.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)', 'g'), '$1').replace(/\s+/g, ' ') // multiple spaces to one
+	        .replace(/^\s*|\s*$/g, ''); // trim the ends
+	      }
+	    }
+	    return element;
+	  },
+	
+	  /**
+	   * Helper to add or remove a class from an element based on a condition.
+	   *
+	   * @param {DOMElement} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @param {*} bool condition to whether to add or remove the class
+	   * @return {DOMElement} the element passed in
+	   */
+	  conditionClass: function (element, className, bool) {
+	    return (bool ? CSSCore.addClass : CSSCore.removeClass)(element, className);
+	  },
+	
+	  /**
+	   * Tests whether the element has the class specified.
+	   *
+	   * @param {DOMNode|DOMWindow} element the element to set the class on
+	   * @param {string} className the CSS className
+	   * @return {boolean} true if the element has the class, false if not
+	   */
+	  hasClass: function (element, className) {
+	    !!/\s/.test(className) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'CSS.hasClass takes only a single class name.') : invariant(false) : undefined;
+	    if (element.classList) {
+	      return !!className && element.classList.contains(className);
+	    }
+	    return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1;
 	  }
 	
 	};
 	
-	module.exports = FormUtil;
+	module.exports = CSSCore;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 605 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactTransitionEvents
+	 */
+	
+	'use strict';
+	
+	var ExecutionEnvironment = __webpack_require__(9);
+	
+	/**
+	 * EVENT_NAME_MAP is used to determine which event fired when a
+	 * transition/animation ends, based on the style property used to
+	 * define that event.
+	 */
+	var EVENT_NAME_MAP = {
+	  transitionend: {
+	    'transition': 'transitionend',
+	    'WebkitTransition': 'webkitTransitionEnd',
+	    'MozTransition': 'mozTransitionEnd',
+	    'OTransition': 'oTransitionEnd',
+	    'msTransition': 'MSTransitionEnd'
+	  },
+	
+	  animationend: {
+	    'animation': 'animationend',
+	    'WebkitAnimation': 'webkitAnimationEnd',
+	    'MozAnimation': 'mozAnimationEnd',
+	    'OAnimation': 'oAnimationEnd',
+	    'msAnimation': 'MSAnimationEnd'
+	  }
+	};
+	
+	var endEvents = [];
+	
+	function detectEvents() {
+	  var testEl = document.createElement('div');
+	  var style = testEl.style;
+	
+	  // On some platforms, in particular some releases of Android 4.x,
+	  // the un-prefixed "animation" and "transition" properties are defined on the
+	  // style object but the events that fire will still be prefixed, so we need
+	  // to check if the un-prefixed events are useable, and if not remove them
+	  // from the map
+	  if (!('AnimationEvent' in window)) {
+	    delete EVENT_NAME_MAP.animationend.animation;
+	  }
+	
+	  if (!('TransitionEvent' in window)) {
+	    delete EVENT_NAME_MAP.transitionend.transition;
+	  }
+	
+	  for (var baseEventName in EVENT_NAME_MAP) {
+	    var baseEvents = EVENT_NAME_MAP[baseEventName];
+	    for (var styleName in baseEvents) {
+	      if (styleName in style) {
+	        endEvents.push(baseEvents[styleName]);
+	        break;
+	      }
+	    }
+	  }
+	}
+	
+	if (ExecutionEnvironment.canUseDOM) {
+	  detectEvents();
+	}
+	
+	// We use the raw {add|remove}EventListener() call because EventListener
+	// does not know how to remove event listeners and we really should
+	// clean up. Also, these events are not triggered in older browsers
+	// so we should be A-OK here.
+	
+	function addEventListener(node, eventName, eventListener) {
+	  node.addEventListener(eventName, eventListener, false);
+	}
+	
+	function removeEventListener(node, eventName, eventListener) {
+	  node.removeEventListener(eventName, eventListener, false);
+	}
+	
+	var ReactTransitionEvents = {
+	  addEndEventListener: function (node, eventListener) {
+	    if (endEvents.length === 0) {
+	      // If CSS transitions are not supported, trigger an "end animation"
+	      // event immediately.
+	      window.setTimeout(eventListener, 0);
+	      return;
+	    }
+	    endEvents.forEach(function (endEvent) {
+	      addEventListener(node, endEvent, eventListener);
+	    });
+	  },
+	
+	  removeEndEventListener: function (node, eventListener) {
+	    if (endEvents.length === 0) {
+	      return;
+	    }
+	    endEvents.forEach(function (endEvent) {
+	      removeEventListener(node, endEvent, eventListener);
+	    });
+	  }
+	};
+	
+	module.exports = ReactTransitionEvents;
+
+/***/ },
+/* 606 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    TeamUserStore = __webpack_require__(479),
+	    ProjectStore = __webpack_require__(241),
+	    ApiUtil = __webpack_require__(242),
+	    SchemeModal = __webpack_require__(607);
+	
+	var ProjectDrawer = React.createClass({
+	  displayName: 'ProjectDrawer',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      teammates: TeamUserStore.all(),
+	      teamName: TeamUserStore.teamName(),
+	      projects: ProjectStore.all(),
+	      showNewProjectModal: false
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.teamUserStoreToken = TeamUserStore.addListener(this.updateTeammates);
+	    this.projectStoreToken = ProjectStore.addListener(this.updateProjects);
+	    ApiUtil.fetchTeamUsers();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.teamUserStoreToken.remove();
+	    this.projectStoreToken.remove();
+	  },
+	
+	  hideNewProjectModal: function () {
+	    this.setState({ showNewProjectModal: false });
+	  },
+	
+	  showNewProjectModal: function () {
+	    this.setState({ showNewProjectModal: true });
+	  },
+	
+	  validateNewProjectName: function (name) {
+	    return name.length > 0;
+	  },
+	
+	  updateTeammates: function () {
+	    this.setState({
+	      teammates: TeamUserStore.all(),
+	      teamName: TeamUserStore.teamName()
+	    });
+	  },
+	
+	  updateProjects: function () {
+	    this.setState({
+	      projects: ProjectStore.all(),
+	      showNewProjectModal: false
+	    });
+	  },
+	
+	  createProject: function (input) {
+	    var teamId = TeamUserStore.teamId();
+	    ApiUtil.createProject({
+	      name: input,
+	      team_id: teamId
+	    });
+	  },
+	
+	  renderNewProjectModal: function () {
+	    return React.createElement(SchemeModal, {
+	      showInviteModal: this.state.showNewProjectModal,
+	      modalHeader: 'New Project',
+	      hideInviteModal: this.hideNewProjectModal,
+	      inputLabel: 'Project Name',
+	      inputId: 'huh',
+	      inputPlaceholder: 'Get Rich or Die Trying',
+	      inputMicetype: "All members of " + this.state.teamName + " can view and edit this project.",
+	      inputSubmit: this.createProject,
+	      inputValidation: this.validateNewProjectName,
+	      submitButtonText: 'Create Project'
+	    });
+	  },
+	
+	  renderDrawerHeader: function () {
+	    return React.createElement(
+	      'ul',
+	      { className: 'drawer-header group' },
+	      React.createElement('li', { className: 'drawer-logo' }),
+	      React.createElement(
+	        'li',
+	        { className: 'close-drawer', onClick: this.props.hideProjectDrawer },
+	        React.createElement(
+	          'svg',
+	          { viewBox: '0 0 32 32' },
+	          React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222' })
+	        )
+	      )
+	    );
+	  },
+	
+	  renderTeammatesList: function () {
+	    var teamUserLis = [];
+	    $.each(this.state.teammates, function (teammate) {
+	      teamUserLis.push(React.createElement(
+	        'li',
+	        { key: this.id },
+	        React.createElement('img', { src: this.avatar_url })
+	      ));
+	    });
+	
+	    return React.createElement(
+	      'ul',
+	      { className: 'group teammate-list' },
+	      teamUserLis.slice(0, 6)
+	    );
+	  },
+	
+	  renderProjectLinks: function () {
+	    var allProjects = [];
+	    this.state.projects.forEach(function (project) {
+	      allProjects.push(React.createElement(ProjectLink, {
+	        project: project,
+	        key: project.id,
+	        selected: this.props.projectId === project.id
+	      }));
+	    }.bind(this));
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'project-list' },
+	      React.createElement(
+	        'div',
+	        { className: 'group project-list-header' },
+	        React.createElement(
+	          'h3',
+	          null,
+	          'Projects'
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.showNewProjectModal },
+	          React.createElement(
+	            'svg',
+	            { viewBox: '0 0 32 32' },
+	            React.createElement('polygon', { points: '28,14 18,14 18,4 14,4 14,14 4,14 4,18 14,18 14,28 18,28 18,18 28,18' })
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'project-links' },
+	        allProjects
+	      )
+	    );
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'section',
+	      { className: "project-drawer" },
+	      this.renderDrawerHeader(),
+	      React.createElement(
+	        'h2',
+	        null,
+	        this.state.teamName
+	      ),
+	      this.renderTeammatesList(),
+	      this.renderProjectLinks(),
+	      this.state.showNewProjectModal ? this.renderNewProjectModal() : null
+	    );
+	  }
+	});
+	
+	var ProjectLink = React.createClass({
+	  displayName: 'ProjectLink',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  projectLink: function () {
+	    if (this.props.selected) {
+	      return;
+	    }
+	    this.context.router.push("/projects/" + this.props.project.id);
+	  },
+	
+	  className: function () {
+	    var className;
+	    if (this.props.selected) {
+	      className = "selected";
+	    }
+	
+	    return className;
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'li',
+	      { className: this.className(), onClick: this.projectLink },
+	      this.props.project.name
+	    );
+	  }
+	});
+	
+	module.exports = ProjectDrawer;
+
+/***/ },
+/* 607 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    ApiUtil = __webpack_require__(242),
+	    Modal = __webpack_require__(457);
+	
+	// For universal config of Scheme Modals
+	
+	var customStyles = {
+	  content: {
+	    left: '50%',
+	    right: 'auto',
+	    bottom: 'auto',
+	    marginTop: '150px',
+	    transform: 'translateX(-50%)',
+	    border: '1px solid #A1A4AA',
+	    borderRadius: '3px',
+	    boxShadow: '0 2px 3px rgba(0,0,0,0.3)',
+	    padding: '0',
+	    'min-width': '520px'
+	  },
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(103,109,118,0.6)'
+	  }
+	};
+	
+	// Required props:
+	// -showInviteModal (boolean)
+	// modalHeader (string)
+	// hideInviteModal (fn)
+	// inputAttrs = {
+	//  label (string)
+	//  id (string)
+	//  placeholder (string)
+	//  ref (string)
+	//  validation (fn)
+	//  micetype (string)
+	// }
+	// submit (fn)
+	// validInput (boolean)
+	// submitButtonText (string)
+	
+	var SchemeModal = React.createClass({
+	  displayName: 'SchemeModal',
+	
+	
+	  getInitialState: function () {
+	    return { validInput: false };
+	  },
+	
+	  validateInput: function () {
+	    this.setState({ validInput: this.props.inputValidation(this.refs.inputField.value) });
+	  },
+	
+	  componentDidMount: function () {
+	    this.validateInput();
+	  },
+	
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    this.props.inputSubmit(this.refs.inputField.value);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      Modal,
+	      { className: 'scheme-modal', isOpen: this.props.showInviteModal, style: customStyles },
+	      React.createElement(
+	        'header',
+	        { className: 'group' },
+	        React.createElement(
+	          'h2',
+	          null,
+	          this.props.modalHeader
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'close-modal', onClick: this.props.hideInviteModal },
+	          React.createElement(
+	            'svg',
+	            { viewBox: '0 0 32 32' },
+	            React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222' })
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'form',
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'group' },
+	          React.createElement('input', {
+	            type: 'text',
+	            id: this.props.inputId,
+	            placeholder: this.props.inputPlaceholder,
+	            ref: 'inputField',
+	            onChange: this.validateInput }),
+	          React.createElement(
+	            'label',
+	            { htmlFor: 'email' },
+	            this.props.inputLabel
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'p',
+	            null,
+	            this.props.inputMicetype
+	          )
+	        ),
+	        React.createElement(
+	          'button',
+	          { onClick: this.handleSubmit, disabled: !this.state.validInput },
+	          this.props.submitButtonText
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SchemeModal;
 
 /***/ }
 /******/ ]);

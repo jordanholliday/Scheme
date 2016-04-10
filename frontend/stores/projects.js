@@ -21,7 +21,9 @@ var resetProjects = function (receivedProjects) {
 };
 
 var receiveOneProject = function (project) {
-  _projects[project.id] = project;
+  if (project) {
+    _projects[project.id] = project;
+  }
 };
 
 var updateLastTask = function (projectId, lastTaskId) {

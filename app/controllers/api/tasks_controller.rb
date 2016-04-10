@@ -17,13 +17,9 @@ class Api::TasksController < ApplicationController
   end
 
   def show
-    @task = Task.find(params[:id])
+    @task = Task.includes(:task_comments).find(params[:id])
 
-    if @task.id == current_user.id
-      render :show
-    else
-      redirect_to api_tasks_url
-    end
+    render :show
   end
 
   def create

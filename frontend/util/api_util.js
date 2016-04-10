@@ -16,6 +16,20 @@ var ApiUtil = {
     });
   },
 
+  fetchOneTask: function (id) {
+    $.ajax({
+      type: 'GET',
+      url: 'api/tasks/' + id,
+      dataType: 'json',
+      success: function (task) {
+        ApiActions.receiveOneTask(task)
+      },
+      error: function () {
+        console.log("ApiUtil#fetchTasks error");
+      }
+    });
+  },
+
   createTask: function (task) {
     $.ajax({
       type: 'POST',

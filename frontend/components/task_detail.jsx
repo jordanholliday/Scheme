@@ -27,9 +27,10 @@ var TaskDetail = React.createClass({
 
   componentWillReceiveProps: function(newProps) {
     this.setState({task: TaskStore.find(newProps.params.taskId)});
-
     // when task not found, go back TaskIndex
     this.routeToTaskIndexIfTaskNull();
+
+    ApiUtil.fetchOneTask(this.props.params.taskId);
   },
 
   componentDidMount: function () {
@@ -51,6 +52,7 @@ var TaskDetail = React.createClass({
     if (!this.state.task) {
       return {task: TaskStore.find(this.props.params.taskId)}
     } else {
+      debugger
       return {
         task: TaskStore.find(this.state.task.id)
       }

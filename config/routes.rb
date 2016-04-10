@@ -9,11 +9,9 @@ Rails.application.routes.draw do
     resource  :session, only: [:show, :create, :destroy]
     resources :invites, only: [:create]
     resources :projects, only: [:create, :index, :show]
+    resources :comments, only: [:create, :delete]
 
     get 'tasks/project_tasks/:project_id', to: 'tasks#project_tasks'
     patch 'tasks/reorder/:id', to: 'tasks#reorder'
   end
-  # now handling auth on frontend, sessions nested under API
-  # resource :session, only: [:new, :create, :destroy]
-
 end
