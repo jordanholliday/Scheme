@@ -46,14 +46,17 @@ var TaskIndex = React.createClass({
   componentWillReceiveProps: function (newProps) {
     if (!newProps.project) {
       return;
-    } else if (!this.props.project || this.props.project.id !== newProps.project.id) {
+    } else if (this.props.projectId !== newProps.projectId) {
       ApiUtil.fetchProjectTasks(newProps.project.id);
     }
   },
 
+  componentWillMount: function () {
+    ApiUtil.fetchProjectTasks(this.props.projectId);
+  },
+
   componentDidMount: function () {
-    this.taskStoreToken =TaskStore.addListener(this.setStateFromStore);
-    // ApiUtil.fetchProjectTasks();
+    this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
   },
 
   componentWillUnmount: function () {

@@ -8,7 +8,7 @@ var _teamId;
 var TeamUserStore = new Store(AppDispatcher);
 
 TeamUserStore.findUser = function (userId) {
-  return _teamUsers[id];
+  return _teamUsers[userId];
 };
 
 TeamUserStore.all = function () {

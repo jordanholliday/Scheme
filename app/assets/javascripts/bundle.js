@@ -24842,14 +24842,17 @@
 	  componentWillReceiveProps: function (newProps) {
 	    if (!newProps.project) {
 	      return;
-	    } else if (!this.props.project || this.props.project.id !== newProps.project.id) {
+	    } else if (this.props.projectId !== newProps.projectId) {
 	      ApiUtil.fetchProjectTasks(newProps.project.id);
 	    }
 	  },
 	
+	  componentWillMount: function () {
+	    ApiUtil.fetchProjectTasks(this.props.projectId);
+	  },
+	
 	  componentDidMount: function () {
 	    this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
-	    // ApiUtil.fetchProjectTasks();
 	  },
 	
 	  componentWillUnmount: function () {
@@ -24966,6 +24969,7 @@
 	};
 	
 	var receiveOneTask = function (task) {
+	  // clear out excess project data
 	  task.project = null;
 	  _tasks[task.id] = task;
 	  _tasks[task.id].persisted = true;
@@ -44610,7 +44614,8 @@
 	    TaskStore = __webpack_require__(217),
 	    TaskActions = __webpack_require__(247),
 	    ApiUtil = __webpack_require__(242),
-	    TaskOptions = __webpack_require__(478);
+	    TaskOptions = __webpack_require__(478),
+	    TaskComment = __webpack_require__(608);
 	
 	var TaskDetail = React.createClass({
 	  displayName: 'TaskDetail',
@@ -44644,6 +44649,7 @@
 	
 	  componentDidMount: function () {
 	    this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
+	    ApiUtil.fetchOneTask(this.props.params.taskId);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -44663,7 +44669,6 @@
 	    if (!this.state.task) {
 	      return { task: TaskStore.find(this.props.params.taskId) };
 	    } else {
-	      debugger;
 	      return {
 	        task: TaskStore.find(this.state.task.id)
 	      };
@@ -44716,6 +44721,23 @@
 	      completed: true,
 	      projectId: this.state.task.project_id
 	    });
+	  },
+	
+	  renderComments: function () {
+	    var commentsArr = [];
+	    if (this.state.task.comments.length === 0) {
+	      return null;
+	    } else {
+	      this.state.task.comments.forEach(function (comment) {
+	        commentsArr.push(React.createElement(TaskComment, { comment: comment, key: comment.id }));
+	      });
+	    }
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      commentsArr
+	    );
 	  },
 	
 	  render: function () {
@@ -44782,7 +44804,8 @@
 	            this.state.task.created,
 	            '.'
 	          )
-	        )
+	        ),
+	        this.state.task.comments ? this.renderComments() : null
 	      );
 	    } else {
 	      return React.createElement('div', null);
@@ -45109,6 +45132,10 @@
 	    return TaskUtil.contextualDeadline(this.state.deadline);
 	  },
 	
+	  onChangePlaceholder: function () {
+	    null;
+	  },
+	
 	  datePickerComponent: function () {
 	    return React.createElement(DatePicker, {
 	      className: 'date-picker-component',
@@ -45138,7 +45165,8 @@
 	        className: 'date-input',
 	        type: 'text',
 	        value: this.shortDeadline(),
-	        onClick: this.props.inputClickHandler
+	        onClick: this.props.inputClickHandler,
+	        onChange: this.onChangePlaceholder
 	      }),
 	      this.state.pickingDate ? this.datePickerComponent() : null
 	    );
@@ -45161,7 +45189,7 @@
 	var TeamUserStore = new Store(AppDispatcher);
 	
 	TeamUserStore.findUser = function (userId) {
-	  return _teamUsers[id];
+	  return _teamUsers[userId];
 	};
 	
 	TeamUserStore.all = function () {
@@ -60931,9 +60959,12 @@
 	    };
 	  },
 	
+	  componentWillMount: function () {
+	    ApiUtil.fetchProjects();
+	  },
+	
 	  componentDidMount: function () {
 	    this.projectStoreToken = ProjectStore.addListener(this.getProjectOrRedirect);
-	    ApiUtil.fetchProjects();
 	  },
 	
 	  componentWillUnmount: function () {
@@ -60994,7 +61025,9 @@
 	          React.createElement(
 	            'div',
 	            { className: 'task-wrapper' },
-	            React.createElement(TaskIndex, { project: this.state.project ? this.state.project : null }),
+	            React.createElement(TaskIndex, {
+	              project: this.state.project ? this.state.project : null,
+	              projectId: this.props.params.projectId }),
 	            this.props.children
 	          )
 	        )
@@ -62138,6 +62171,65 @@
 	});
 	
 	module.exports = SchemeModal;
+
+/***/ },
+/* 608 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    TeamUserStore = __webpack_require__(479);
+	
+	var TaskComment = React.createClass({
+	  displayName: 'TaskComment',
+	
+	  getInitialState: function () {
+	    return this.getStateFromTeamUserStore();
+	  },
+	
+	  getStateFromTeamUserStore: function () {
+	    debugger;
+	    var commentAuthor = TeamUserStore.findUser(this.props.comment.user_id);
+	    if (commentAuthor) {
+	      return {
+	        authorName: commentAuthor.name,
+	        authorAvatarUrl: commentAuthor.avatar_url
+	      };
+	    } else {
+	      return {};
+	    }
+	  },
+	
+	  setStateFromTeamUserStore: function () {
+	    this.setState(this.getStateFromTeamUserStore());
+	  },
+	
+	  componentDidMount: function () {
+	    this.teamUserStoreToken = TeamUserStore.addListener(this.setStateFromTeamUserStore);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.teamUserStoreToken.remove();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'p',
+	        null,
+	        this.state.authorName ? this.state.authorName : null
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        this.props.comment.body
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = TaskComment;
 
 /***/ }
 /******/ ]);

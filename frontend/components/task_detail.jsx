@@ -3,7 +3,8 @@ var React = require('react'),
     TaskStore = require('../stores/tasks'),
     TaskActions = require('../actions/task_actions'),
     ApiUtil = require('../util/api_util.js'),
-    TaskOptions = require('./task_options');
+    TaskOptions = require('./task_options'),
+    TaskComment = require('./task_comment');
 
 var TaskDetail = React.createClass({
   contextTypes: {
@@ -35,6 +36,7 @@ var TaskDetail = React.createClass({
 
   componentDidMount: function () {
     this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
+    ApiUtil.fetchOneTask(this.props.params.taskId);
   },
 
   componentWillUnmount: function () {
@@ -52,7 +54,6 @@ var TaskDetail = React.createClass({
     if (!this.state.task) {
       return {task: TaskStore.find(this.props.params.taskId)}
     } else {
-      debugger
       return {
         task: TaskStore.find(this.state.task.id)
       }
@@ -107,6 +108,23 @@ var TaskDetail = React.createClass({
     })
   },
 
+  renderComments: function () {
+    var commentsArr = [];
+    if (this.state.task.comments.length === 0) {
+      return null;
+    } else {
+      this.state.task.comments.forEach( function (comment) {
+        commentsArr.push(<TaskComment comment={comment} key={comment.id} />);
+      });
+    }
+
+    return (
+      <div>
+        {commentsArr}
+      </div>
+    );
+  },
+
   render: function () {
     if (this.state.task) {
       return (
@@ -152,6 +170,7 @@ var TaskDetail = React.createClass({
             <p><strong>{this.state.task.creator}</strong> created task. {this.state.task.created}.</p>
           </div>
 
+          {this.state.task.comments ? this.renderComments() : null}
         </section>
       );
     } else {

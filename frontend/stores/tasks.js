@@ -35,6 +35,7 @@ var resetTasks = function (newTasks) {
 };
 
 var receiveOneTask = function (task) {
+  // clear out excess project data
   task.project = null;
   _tasks[task.id] = task;
   _tasks[task.id].persisted = true;

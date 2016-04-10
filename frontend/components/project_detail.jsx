@@ -26,9 +26,12 @@ var ProjectDetail = React.createClass({
       }
   },
 
-  componentDidMount: function () {
-    this.projectStoreToken =ProjectStore.addListener(this.getProjectOrRedirect);
+  componentWillMount: function () {
     ApiUtil.fetchProjects();
+  },
+
+  componentDidMount: function () {
+    this.projectStoreToken=ProjectStore.addListener(this.getProjectOrRedirect);
   },
 
   componentWillUnmount: function () {
@@ -83,7 +86,9 @@ var ProjectDetail = React.createClass({
          <NavBar showProjectDrawer={this.showProjectDrawer} showHamburger={!this.state.showProjectDrawer} />
            <section className="project-detail">
            <div className="task-wrapper">
-             <TaskIndex project={this.state.project ? this.state.project : null} />
+             <TaskIndex
+              project={this.state.project ? this.state.project : null}
+              projectId={this.props.params.projectId} />
              {this.props.children}
            </div>
          </section>

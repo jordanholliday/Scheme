@@ -266,6 +266,10 @@ var OptionsDatePicker = React.createClass({
     return TaskUtil.contextualDeadline(this.state.deadline);
   },
 
+  onChangePlaceholder: function () {
+    null;
+  },
+
   datePickerComponent: function () {
     return (
       <DatePicker
@@ -293,6 +297,7 @@ var OptionsDatePicker = React.createClass({
           type="text"
           value={this.shortDeadline()}
           onClick={this.props.inputClickHandler}
+          onChange={this.onChangePlaceholder}
         />
         {this.state.pickingDate ? this.datePickerComponent() : null}
       </div>
