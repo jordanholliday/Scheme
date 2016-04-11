@@ -19,7 +19,7 @@ Scheme is a clone of Asana, a popular team-wide task management app. Scheme was 
 ### Technical Details
 Scheme users can prioritize tasks by dragging and dropping them into the desired order.
 
-Task order is maintained in linked-list data structure. Each task knows the IDs of its `next` and `previous` tasks, and every project knows its `last_task_id`. To assemble the tasks in the correct order and avoid n+1 queries, Scheme retrieves an unordered group of tasks within a project, hashes them by ID, and then references the `next_task_id`s to create an array of tasks in the user’s designated order.
+Task order is maintained in a linked-list data structure. Each task knows the IDs of its `next` and `previous` tasks, and every project knows its `last_task_id`. To assemble the tasks in the correct order and avoid n+1 queries, Scheme retrieves an unordered group of tasks within a project, hashes them by ID, and then references the `next_task_id`s to create an array of tasks in the user’s designated order.
 
 ```
 var sortTasks = function (tasksObj, lastTaskId) {
@@ -34,7 +34,7 @@ var sortTasks = function (tasksObj, lastTaskId) {
 };
 ```
 
-Thanks to the linked-list structure, re-ordering tasks within a project requires updating only 3–5 task records at a time. Re-ordering remains an O(1) time operation no matter how many tasks a project includes.
+Thanks to the linked-list structure, re-ordering tasks within a project is an O(1) time operation, and requires updating only 3-5 task records, no matter how many tasks a project includes.
 
 ### Features
 * Add / delete / complete tasks
