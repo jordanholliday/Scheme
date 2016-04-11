@@ -60161,7 +60161,7 @@
 	          React.createElement(
 	            'button',
 	            { onClick: this.guestLogin },
-	            'Log In as Guest User'
+	            'Log In as Guest'
 	          )
 	        ),
 	        React.createElement(

@@ -34,7 +34,7 @@ var LoginForm = React.createClass({
           <h1>Log In</h1>
 
           <div className="google-auth">
-            <button onClick={this.guestLogin}>Log In as Guest User</button>
+            <button onClick={this.guestLogin}>Log In as Guest</button>
           </div>
 
           <form onSubmit={this.handleSubmit}>
