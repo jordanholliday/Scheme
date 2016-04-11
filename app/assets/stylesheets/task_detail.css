@@ -1,11 +1,11 @@
 .task-detail {
   flex: 5;
-  min-height: 100vh;
+  height: 100%;
   margin-left: 15px;
   background: #fff;
   margin-top: 15px;
   border-radius: 3px;
-  padding: 10px 20px;
+  padding: 10px 20px 0;
   color: #1B2432;
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
   position: relative;
@@ -130,7 +130,7 @@
   .task-meta {
     width: 410px;
     float: right;
-    padding: 20px 40px;
+    padding: 20px 40px 30px;
     border-top: 1px solid #E1E2E4;
   }
 

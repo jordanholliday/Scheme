@@ -1,7 +1,8 @@
 .task-wrapper {
   display: flex;
-  max-width: 1125px;
   margin: auto;
+  max-width: 1125px;
+  height: 100%;
 }
 
 .task-index {
@@ -9,7 +10,7 @@
   flex: 6;
   margin: 0 auto;
   max-width: 860px;
-  min-height: 100vh;
+  height: 100vh;
   margin-top: 15px;
   border-radius: 3px;
   background: #fff;

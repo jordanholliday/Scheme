@@ -4,7 +4,8 @@ var React = require('react'),
     TaskActions = require('../actions/task_actions'),
     ApiUtil = require('../util/api_util.js'),
     TaskOptions = require('./task_options'),
-    TaskComment = require('./task_comment');
+    TaskComment = require('./task_comment'),
+    TaskCommentForm = require('./task_comment_form');
 
 var TaskDetail = React.createClass({
   contextTypes: {
@@ -29,9 +30,11 @@ var TaskDetail = React.createClass({
   componentWillReceiveProps: function(newProps) {
     this.setState({task: TaskStore.find(newProps.params.taskId)});
     // when task not found, go back TaskIndex
-    this.routeToTaskIndexIfTaskNull();
-
-    ApiUtil.fetchOneTask(this.props.params.taskId);
+    if (!this.state.task) {
+      this.routeToTaskIndexIfTaskNull();
+    } else {
+      ApiUtil.fetchOneTask(this.props.params.taskId);
+    }
   },
 
   componentDidMount: function () {
@@ -171,6 +174,8 @@ var TaskDetail = React.createClass({
           </div>
 
           {this.state.task.comments ? this.renderComments() : null}
+
+          <TaskCommentForm />
         </section>
       );
     } else {

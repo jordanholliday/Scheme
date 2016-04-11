@@ -1,5 +1,6 @@
 var React = require('react'),
-    TeamUserStore = require('../stores/team_users');
+    TeamUserStore = require('../stores/team_users'),
+    TaskUtil = require('../util/task_util');
 
 var TaskComment = React.createClass({
   getInitialState: function () {
@@ -8,10 +9,13 @@ var TaskComment = React.createClass({
 
   getStateFromTeamUserStore: function () {
     var commentAuthor = TeamUserStore.findUser(this.props.comment.user_id);
+    // make created_at date parseable by contextualDeadline method
+    var commentDate = new Date(this.props.comment.created_at).toDateString();
     if (commentAuthor) {
       return {
         authorName: commentAuthor.name,
-        authorAvatarUrl: commentAuthor.avatar_url
+        authorAvatarUrl: commentAuthor.avatar_url,
+        commentDate: TaskUtil.contextualDeadline(commentDate)
       };
     } else {
       return {};
@@ -30,11 +34,29 @@ var TaskComment = React.createClass({
     this.teamUserStoreToken.remove();
   },
 
+  renderAvatar: function () {
+    return <img className="comment-avatar" src={this.state.authorAvatarUrl} />;
+  },
+
+  renderCommentBody: function () {
+    return (
+      <div className="comment-body">
+        <label>
+        {this.state.authorName}
+          <span className="comment-date">
+            {this.state.commentDate}
+          </span>
+        </label>
+        <p>{this.props.comment.body}</p>
+      </div>
+      );
+  },
+
   render: function () {
     return (
-      <div>
-        <p>{this.state.authorName ? this.state.authorName : null}</p>
-        <p>{this.props.comment.body}</p>
+      <div className="group task-comment">
+        {this.state.authorAvatarUrl ? this.renderAvatar() : null}
+        {this.state.authorName ? this.renderCommentBody() : null}
       </div>
     );
   }

@@ -31909,7 +31909,7 @@
 	        ApiActions.receiveOneTask(task);
 	      },
 	      error: function () {
-	        console.log("ApiUtil#fetchTasks error");
+	        console.log("ApiUtil#fetchOneTask error");
 	      }
 	    });
 	  },
@@ -32372,6 +32372,9 @@
 	  // routing to show TaskDetail pane
 	  clickToShowDetail: function () {
 	    if (!this.props.task) {
+	      return;
+	    }
+	    if (this.state.task.new) {
 	      return;
 	    }
 	    // if user is clicking and task isn't saved, go ahead & save
@@ -44615,7 +44618,8 @@
 	    TaskActions = __webpack_require__(247),
 	    ApiUtil = __webpack_require__(242),
 	    TaskOptions = __webpack_require__(478),
-	    TaskComment = __webpack_require__(592);
+	    TaskComment = __webpack_require__(592),
+	    TaskCommentForm = __webpack_require__(609);
 	
 	var TaskDetail = React.createClass({
 	  displayName: 'TaskDetail',
@@ -44642,9 +44646,11 @@
 	  componentWillReceiveProps: function (newProps) {
 	    this.setState({ task: TaskStore.find(newProps.params.taskId) });
 	    // when task not found, go back TaskIndex
-	    this.routeToTaskIndexIfTaskNull();
-	
-	    ApiUtil.fetchOneTask(this.props.params.taskId);
+	    if (!this.state.task) {
+	      this.routeToTaskIndexIfTaskNull();
+	    } else {
+	      ApiUtil.fetchOneTask(this.props.params.taskId);
+	    }
 	  },
 	
 	  componentDidMount: function () {
@@ -44805,7 +44811,8 @@
 	            '.'
 	          )
 	        ),
-	        this.state.task.comments ? this.renderComments() : null
+	        this.state.task.comments ? this.renderComments() : null,
+	        React.createElement(TaskCommentForm, null)
 	      );
 	    } else {
 	      return React.createElement('div', null);
@@ -44973,7 +44980,10 @@
 	    } else {
 	      // if no input text, insert all teamUsers into dropdown
 	      for (var id in this.state.teamUsers) {
-	        teamUserLis.push(React.createElement(AssigneeDropdownLi, { teamUser: this.state.teamUsers[id], changeHandler: this.updateTaskAssignment }));
+	        teamUserLis.push(React.createElement(AssigneeDropdownLi, {
+	          teamUser: this.state.teamUsers[id],
+	          changeHandler: this.updateTaskAssignment,
+	          key: this.state.teamUsers[id].id }));
 	      }
 	    }
 	    return React.createElement(
@@ -60058,7 +60068,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    TeamUserStore = __webpack_require__(479);
+	    TeamUserStore = __webpack_require__(479),
+	    TaskUtil = __webpack_require__(248);
 	
 	var TaskComment = React.createClass({
 	  displayName: 'TaskComment',
@@ -60069,10 +60080,13 @@
 	
 	  getStateFromTeamUserStore: function () {
 	    var commentAuthor = TeamUserStore.findUser(this.props.comment.user_id);
+	    // make created_at date parseable by contextualDeadline method
+	    var commentDate = new Date(this.props.comment.created_at).toDateString();
 	    if (commentAuthor) {
 	      return {
 	        authorName: commentAuthor.name,
-	        authorAvatarUrl: commentAuthor.avatar_url
+	        authorAvatarUrl: commentAuthor.avatar_url,
+	        commentDate: TaskUtil.contextualDeadline(commentDate)
 	      };
 	    } else {
 	      return {};
@@ -60091,20 +60105,38 @@
 	    this.teamUserStoreToken.remove();
 	  },
 	
-	  render: function () {
+	  renderAvatar: function () {
+	    return React.createElement('img', { className: 'comment-avatar', src: this.state.authorAvatarUrl });
+	  },
+	
+	  renderCommentBody: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'comment-body' },
 	      React.createElement(
-	        'p',
+	        'label',
 	        null,
-	        this.state.authorName ? this.state.authorName : null
+	        this.state.authorName,
+	        React.createElement(
+	          'span',
+	          { className: 'comment-date' },
+	          this.state.commentDate
+	        )
 	      ),
 	      React.createElement(
 	        'p',
 	        null,
 	        this.props.comment.body
 	      )
+	    );
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'group task-comment' },
+	      this.state.authorAvatarUrl ? this.renderAvatar() : null,
+	      this.state.authorName ? this.renderCommentBody() : null
 	    );
 	  }
 	});
@@ -60458,9 +60490,8 @@
 	          { onSubmit: this.handleSubmit },
 	          React.createElement(Dropzone, {
 	            onDrop: this.onDrop,
-	            accept: 'application/pdf',
+	            accept: 'image/*',
 	            multiple: false,
-	            disableClick: true,
 	            className: 'upload-div',
 	            activeClassName: 'upload-div-active',
 	            id: 'dropzone' }),
@@ -62241,6 +62272,61 @@
 	});
 	
 	module.exports = SchemeModal;
+
+/***/ },
+/* 609 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    TeamUserStore = __webpack_require__(479),
+	    SessionStore = __webpack_require__(454),
+	    ApiUtil = __webpack_require__(242);
+	
+	var TaskCommentForm = React.createClass({
+	  displayName: 'TaskCommentForm',
+	
+	  getInitialState: function () {
+	    return { user: SessionStore.currentUser() };
+	  },
+	
+	  update: function () {},
+	
+	  showSubmit: function () {
+	    this.setState({ showSubmit: true });
+	  },
+	
+	  hideSubmit: function () {
+	    this.setState({ showSubmit: false });
+	  },
+	
+	  renderSubmitButton: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'submit-button' },
+	      React.createElement(
+	        'button',
+	        null,
+	        'Comment'
+	      )
+	    );
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'group task-comment-form' },
+	      React.createElement('img', { className: 'comment-avatar', src: this.state.user.avatar_url }),
+	      React.createElement(
+	        'div',
+	        { className: 'textarea' },
+	        React.createElement('textarea', { onChange: this.update, onFocus: this.showSubmit, onBlur: this.hideSubmit, placeholder: 'Write a comment...' }),
+	        this.state.showSubmit ? this.renderSubmitButton() : null
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = TaskCommentForm;
 
 /***/ }
 /******/ ]);

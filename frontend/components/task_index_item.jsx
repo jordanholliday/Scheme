@@ -157,6 +157,7 @@ var TaskIndexItem = React.createClass({
   // routing to show TaskDetail pane
   clickToShowDetail: function () {
     if (!this.props.task) {return}
+    if (this.state.task.new) {return}
     // if user is clicking and task isn't saved, go ahead & save
     if (!this.state.task.persisted && this.state.task.name) {
       this.apiCreateTask(this.state.task);

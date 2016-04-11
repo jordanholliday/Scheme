@@ -153,7 +153,10 @@ var TaskOptions = React.createClass({
     // if no input text, insert all teamUsers into dropdown
       for (var id in this.state.teamUsers) {
           teamUserLis.push(
-            <AssigneeDropdownLi teamUser={this.state.teamUsers[id]} changeHandler={this.updateTaskAssignment} />
+            <AssigneeDropdownLi
+              teamUser={this.state.teamUsers[id]}
+              changeHandler={this.updateTaskAssignment}
+              key={this.state.teamUsers[id].id}  />
           );
       }
     }

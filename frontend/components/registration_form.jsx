@@ -110,9 +110,8 @@ var RegistrationForm = React.createClass({
 
             <Dropzone
               onDrop={this.onDrop}
-              accept='application/pdf'
+              accept='image/*'
               multiple={false}
-              disableClick={true}
               className="upload-div"
               activeClassName="upload-div-active"
               id="dropzone">

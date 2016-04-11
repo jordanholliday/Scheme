@@ -25,7 +25,7 @@ var ApiUtil = {
         ApiActions.receiveOneTask(task)
       },
       error: function () {
-        console.log("ApiUtil#fetchTasks error");
+        console.log("ApiUtil#fetchOneTask error");
       }
     });
   },

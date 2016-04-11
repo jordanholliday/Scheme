@@ -1,0 +1,79 @@
+.task-comment-form {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - 64px);
+  border-top: 1px solid #E1E2E4;
+  background: #F8F8F9;
+  padding: 10px 32px 15px;
+}
+
+.task-comment-form .textarea {
+  float: right;
+  width: calc(100% - 65px);
+  }
+
+.task-comment-form .textarea textarea {
+  box-sizing: border-box;
+  height: 40px;
+  width: 100%;
+  padding: 10px;
+  background: #fff;
+  font-size: 14px;
+  border-radius: 3px;
+  transition: height;
+  transition-duration: .2s;
+  border: 1px solid #CDCFD2;
+}
+
+.task-comment-form textarea:focus {
+  height: 85px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #A1A4AA;
+  box-shadow: #E1E2E4 0px 1px 0px 0px inset;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom: none;
+}
+
+.task-comment-form .submit-button {
+  height: 50px;
+  width: 100%;
+  margin-top: -5px;
+  background: #fff;
+  border-radius: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border: 1px solid #A1A4AA;
+  border-top-color: #EFF0F1;
+}
+
+.task-comment-form button {
+  float: right;
+  margin: 10px 15px 10px 0;
+  padding: 0 10px;
+  height: 30px;
+  color: #fff;
+  background: #1AAFD0;
+  border: 1px solid #1AAFD0;
+  font-size: 14px;
+  transition: border-color, background;
+  transition-duration: .2s;
+}
+
+.task-comment-form button:hover {
+  box-shadow: 0 0 0 3px #80E6FF;
+  background: #02CEFF;
+  border-color: #02CEFF;
+}
+
+.task-comment-form button:disabled,
+.task-comment-form button:disabled:hover {
+  color: #B9BCC0;
+  background: #EFF0F1;
+  border: 1px solid #E1E2E4;
+  box-shadow: none;
+}
