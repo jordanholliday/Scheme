@@ -49,7 +49,7 @@ var receiveOneUnpersistedTask = function (task) {
 var sortTasks = function (tasksObj, lastTaskId) {
   // start by inserting last task
   var taskArr = [tasksObj[lastTaskId]];
-  // then insert the previous, previous, previous...
+  // then insert the previous task, until !previous_task_id
   while (taskArr[0].previous_task_id) {
     taskArr.unshift(tasksObj[taskArr[0].previous_task_id]);
   }
