@@ -13,7 +13,7 @@
 .comment-body {
   float: right;
   font-size: 14px;
-  max-width: 435px;
+  width: 435px;
 }
 
 .comment-body label {

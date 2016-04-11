@@ -175,7 +175,7 @@ var TaskDetail = React.createClass({
 
           {this.state.task.comments ? this.renderComments() : null}
 
-          <TaskCommentForm />
+          <TaskCommentForm taskId={this.props.params.taskId}/>
         </section>
       );
     } else {

@@ -31929,6 +31929,21 @@
 	    });
 	  },
 	
+	  createComment: function (comment) {
+	    $.ajax({
+	      type: 'POST',
+	      url: 'api/comments',
+	      dataType: 'json',
+	      data: { comment: comment },
+	      success: function (comment) {
+	        ApiUtil.fetchOneTask(comment.task_id);
+	      },
+	      error: function () {
+	        console.log("ApiUtil#createComment error");
+	      }
+	    });
+	  },
+	
 	  updateTask: function (task) {
 	    $.ajax({
 	      type: 'PATCH',
@@ -44812,7 +44827,7 @@
 	          )
 	        ),
 	        this.state.task.comments ? this.renderComments() : null,
-	        React.createElement(TaskCommentForm, null)
+	        React.createElement(TaskCommentForm, { taskId: this.props.params.taskId })
 	      );
 	    } else {
 	      return React.createElement('div', null);
@@ -62289,7 +62304,10 @@
 	    return { user: SessionStore.currentUser() };
 	  },
 	
-	  update: function () {},
+	  componentWillReceiveProps: function () {
+	    this.setState({ showSubmit: false });
+	    this.refs.commentInput.value = "";
+	  },
 	
 	  showSubmit: function () {
 	    this.setState({ showSubmit: true });
@@ -62299,13 +62317,24 @@
 	    this.setState({ showSubmit: false });
 	  },
 	
+	  handleSubmit: function () {
+	    if (this.refs.commentInput.value.length < 1) {
+	      return;
+	    } else {
+	      ApiUtil.createComment({
+	        task_id: this.props.taskId,
+	        body: this.refs.commentInput.value
+	      });
+	    }
+	  },
+	
 	  renderSubmitButton: function () {
 	    return React.createElement(
 	      'div',
 	      { className: 'submit-button' },
 	      React.createElement(
 	        'button',
-	        null,
+	        { onClick: this.handleSubmit },
 	        'Comment'
 	      )
 	    );
@@ -62319,7 +62348,12 @@
 	      React.createElement(
 	        'div',
 	        { className: 'textarea' },
-	        React.createElement('textarea', { onChange: this.update, onFocus: this.showSubmit, onBlur: this.hideSubmit, placeholder: 'Write a comment...' }),
+	        React.createElement('textarea', {
+	          onChange: this.update,
+	          onFocus: this.showSubmit,
+	          onBlur: this.hideSubmit,
+	          ref: 'commentInput',
+	          placeholder: 'Write a comment...' }),
 	        this.state.showSubmit ? this.renderSubmitButton() : null
 	      )
 	    );

@@ -45,6 +45,21 @@ var ApiUtil = {
     });
   },
 
+  createComment: function (comment) {
+    $.ajax({
+      type: 'POST',
+      url: 'api/comments',
+      dataType: 'json',
+      data: {comment: comment},
+      success: function (comment) {
+        ApiUtil.fetchOneTask(comment.task_id);
+      },
+      error: function () {
+        console.log("ApiUtil#createComment error");
+      }
+    });
+  },
+
   updateTask: function (task) {
     $.ajax({
       type: 'PATCH',

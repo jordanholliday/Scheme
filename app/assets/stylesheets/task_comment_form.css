@@ -10,7 +10,7 @@
 
 .task-comment-form .textarea {
   float: right;
-  width: calc(100% - 65px);
+  width: calc(100% - 45px);
   }
 
 .task-comment-form .textarea textarea {
