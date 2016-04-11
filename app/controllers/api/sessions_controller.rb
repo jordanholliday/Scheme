@@ -9,7 +9,6 @@ class Api::SessionsController < ApplicationController
   end
 
   def create
-    debugger
     user = User.find_by_credentials(
       params[:email],
       params[:password]
