@@ -39,8 +39,8 @@ Thanks to the linked-list structure, re-ordering tasks within a project is an O(
 ### Features
 * Add / delete / complete tasks
 * Assign tasks and set deadlines
-* Create projects to organiz tasks
-* Give other users access to your "team"
+* Create projects to organize tasks
+* Invite other users to join your "team"
 * Drag-n-drop ordering of tasks
 * Drag-n-drop uploading of profile pictures
 
