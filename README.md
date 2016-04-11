@@ -2,13 +2,13 @@
 Scheme is a clone of Asana, a popular team-wide task management app. Scheme was made with Ruby on Rails and React.js. Check it out at [schemeapp.com](http://www.schemeapp.com/).
 
 ### Screenshots
-#### Registration Page
+##### Registration Page
 ![registration_page]
-#### Task Detail
+##### Task Detail
 ![task_detail]
-#### Project Drawer
+##### Project Drawer
 ![project_drawer]
-#### Invite Modal
+##### Invite Modal
 ![invite_modal]
 
 [registration_page]: ./docs/screenshots/registration_page.png
