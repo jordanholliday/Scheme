@@ -7,7 +7,6 @@ var TaskComment = React.createClass({
   },
 
   getStateFromTeamUserStore: function () {
-    debugger
     var commentAuthor = TeamUserStore.findUser(this.props.comment.user_id);
     if (commentAuthor) {
       return {

@@ -33,11 +33,11 @@ var LoginForm = React.createClass({
 
           <h1>Log In</h1>
 
-          <form onSubmit={this.handleSubmit}>
+          <div className="google-auth">
+            <button onClick={this.guestLogin}>Log In as Guest User</button>
+          </div>
 
-            <div className="google-auth">
-              <button>FPO Use Google Account</button>
-            </div>
+          <form onSubmit={this.handleSubmit}>
 
             <div className="separator">
               or
@@ -87,6 +87,18 @@ var LoginForm = React.createClass({
     event.preventDefault();
     var router = this.context.router;
     ApiUtil.login(this.state, function () {
+      router.push('/projects/0')
+    })
+  },
+
+  guestLogin: function (event) {
+    event.stopPropagation();
+    var guestCredentials = {
+      email: "kingpush@gmail.com",
+      password: "abc123"
+    }
+    var router = this.context.router;
+    ApiUtil.login(guestCredentials, function () {
       router.push('/projects/0')
     })
   },
