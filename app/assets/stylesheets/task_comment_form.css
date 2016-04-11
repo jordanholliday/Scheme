@@ -26,7 +26,7 @@
   border: 1px solid #CDCFD2;
 }
 
-.task-comment-form textarea:focus {
+.task-comment-form .textarea.expand-form textarea {
   height: 85px;
   width: 100%;
   padding: 10px;

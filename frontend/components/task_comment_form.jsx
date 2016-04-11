@@ -9,16 +9,16 @@ var TaskCommentForm = React.createClass({
   },
 
   componentWillReceiveProps: function () {
-    this.setState({showSubmit: false});
+    this.setState({expandForm: false});
     this.refs.commentInput.value = "";
   },
 
-  showSubmit: function () {
-    this.setState({showSubmit: true});
+  expandForm: function () {
+    this.setState({expandForm: true});
   },
 
-  hideSubmit: function () {
-    this.setState({showSubmit: false});
+  collapseForm: function () {
+    this.setState({expandForm: false});
   },
 
   handleSubmit: function () {
@@ -29,6 +29,8 @@ var TaskCommentForm = React.createClass({
         task_id: this.props.taskId,
         body: this.refs.commentInput.value
       });
+
+      this.collapseForm();
     }
   },
 
@@ -43,14 +45,13 @@ var TaskCommentForm = React.createClass({
   render: function () {
     return (<div className="group task-comment-form">
       <img className="comment-avatar" src={this.state.user.avatar_url} />
-      <div className="textarea">
+      <div className={this.state.expandForm ? "textarea expand-form" : "textarea"}>
         <textarea
           onChange={this.update}
-          onFocus={this.showSubmit}
-          onBlur={this.hideSubmit}
+          onFocus={this.expandForm}
           ref="commentInput"
           placeholder="Write a comment..."></textarea>
-        {this.state.showSubmit ? this.renderSubmitButton() : null}
+        {this.state.expandForm? this.renderSubmitButton() : null}
       </div>
     </div>);
   }
