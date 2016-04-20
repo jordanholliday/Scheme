@@ -29,6 +29,7 @@ var taskIndexItemTarget = {
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging()
   };
 }
@@ -48,7 +49,8 @@ var TaskIndexItem = React.createClass({
   propTypes: {
     connectDragSource: React.PropTypes.func.isRequired,
     isDragging: React.PropTypes.bool.isRequired,
-    connectDragSource: React.PropTypes.func.isRequired
+    connectDragSource: React.PropTypes.func.isRequired,
+    connectDragPreview: React.PropTypes.func.isRequired
   },
 
   getInitialState: function () {
@@ -197,7 +199,24 @@ var TaskIndexItem = React.createClass({
   },
 
   renderDragHandle: function () {
-    return (<div className="drag-handle"></div>);
+    return (
+      <div className="drag-handle">
+        <svg viewBox="0 0 32 32">
+          <rect x="6" y="2" width="4" height="4"></rect>
+          <rect x="14" y="2" width="4" height="4"></rect>
+          <rect x="6" y="10" width="4" height="4"></rect>
+          <rect x="14" y="10" width="4" height="4"></rect>
+          <rect x="6" y="18" width="4" height="4"></rect>
+          <rect x="14" y="18" width="4" height="4"></rect>
+          <rect x="6" y="26" width="4" height="4"></rect>
+          <rect x="14" y="26" width="4" height="4"></rect>
+          <rect x="22" y="2" width="4" height="4"></rect>
+          <rect x="22" y="10" width="4" height="4"></rect>
+          <rect x="22" y="18" width="4" height="4"></rect>
+          <rect x="22" y="26" width="4" height="4"></rect>
+        </svg>
+      </div>
+    );
   },
 
   render: function () {
@@ -226,7 +245,7 @@ var TaskIndexItem = React.createClass({
     input = <input
             ref="childInput"
             type="text"
-            className="task-input"
+            className={"task-input"}
             value={taskName}
             id={taskId}
             autoFocus={this.props.focus}
@@ -237,12 +256,15 @@ var TaskIndexItem = React.createClass({
            />
 
     var connectDragSource = this.props.connectDragSource;
+    var connectDragPreview = this.props.connectDragPreview;
     var isDragging = this.props.isDragging;
     var connectDropTarget = this.props.connectDropTarget;
 
-    return connectDragSource(connectDropTarget(
-        <li className="group task-index-item" onClick={this.clickToShowDetail}>
-          {this.renderDragHandle()}
+    return connectDragPreview(connectDropTarget(
+        <li
+          className={this.props.selected ? "group task-index-item selected" : "group task-index-item"}
+          onClick={this.clickToShowDetail}>
+          {connectDragSource(this.renderDragHandle())}
           {button}
           {input}
           {this.state.task && this.state.task.deadline ? this.renderDeadline() : null }

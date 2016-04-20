@@ -93,6 +93,7 @@ var TaskIndex = React.createClass({
         allTasks.push(<TaskIndexItem
           task={this.state.tasks[taskId]}
           key={taskId}
+          selected={parseInt(this.props.selectedTask) === this.state.tasks[taskId].id}
           focus={false}
           projectId={this.props.project ? this.props.project.id : null}
         />);

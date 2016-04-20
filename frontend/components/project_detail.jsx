@@ -88,7 +88,8 @@ var ProjectDetail = React.createClass({
            <div className="task-wrapper">
              <TaskIndex
               project={this.state.project ? this.state.project : null}
-              projectId={this.props.params.projectId} />
+              projectId={this.props.params.projectId}
+              selectedTask={this.props.params.taskId ? this.props.params.taskId : null} />
              {this.props.children}
            </div>
          </section>

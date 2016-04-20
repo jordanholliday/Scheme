@@ -29,7 +29,7 @@ end
 
 # create tasks and assignments among teammates
 User.all.each do |user|
-  3.times do
+  4.times do
     task = Task.new
     task.name = Faker::Company.bs
     task.name = task.name.slice(0,1).capitalize + task.name.slice(1..-1)

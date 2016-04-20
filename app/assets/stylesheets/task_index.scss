@@ -14,7 +14,7 @@
   margin-top: 15px;
   border-radius: 3px;
   background: #fff;
-  padding: 15px 20px;
+  padding: 15px 0;
   color: #1B2432;
   box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
   overflow-x: hidden;
@@ -23,9 +23,14 @@
 
 .task-index .task-index-item {
   border-bottom: #E1E2E4 1px solid;
-  padding: 11px 0 10px;
+  padding: 11px 20px 10px;
   font-size: 14px;
   display: flex;
+  position: relative;
+}
+
+.task-index .task-index-item.selected {
+  background: #E8F7FB;
 }
 
 .task-index-item button.complete-task-button {
@@ -99,7 +104,7 @@ button.complete-task-button:hover svg.check-complete {
 }
 
 .task-index > button {
-  margin: 0px auto 15px;
+  margin: 0px auto 15px 20px;
   height: 30px;
   padding: 0 10px;
   font-size: 14px;
@@ -117,14 +122,14 @@ button.complete-task-button:hover svg.check-complete {
 
 .drag-handle {
   float: left;
+  cursor: move;
+}
+
+.drag-handle svg {
   margin-top: 2px;
   height: 14px;
   width: 14px;
-  background-image: image-url('potato-black.png');
-  background-size: contain;
-  fill: #E1E2E4;
+  pointer-events: none;
+  fill: #B9BCC0;
 }
 
-.drag-handle:hover {
-  background-image: image-url('potato-red.png');
-}
