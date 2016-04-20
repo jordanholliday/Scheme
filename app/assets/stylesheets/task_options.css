@@ -180,6 +180,7 @@
   fill: #676D76;
   transition: fill;
   transition-duration: .2s;
+  pointer-events: none;
 }
 
 .task-options .current-assignee-date .calendar-circle {

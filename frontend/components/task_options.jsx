@@ -293,13 +293,15 @@ var OptionsDatePicker = React.createClass({
   render: function () {
     var car;
     return (
-      <div className="group current-assignee-date">
+      <div
+        className="group current-assignee-date"
+        onClick={this.props.inputClickHandler}
+        >
         <div className="calendar-circle">{this.calendarIcon()}</div>
         <input
           className="date-input"
           type="text"
           value={this.shortDeadline()}
-          onClick={this.props.inputClickHandler}
           onChange={this.onChangePlaceholder}
         />
         {this.state.pickingDate ? this.datePickerComponent() : null}

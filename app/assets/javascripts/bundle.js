@@ -45205,7 +45205,10 @@
 	    var car;
 	    return React.createElement(
 	      'div',
-	      { className: 'group current-assignee-date' },
+	      {
+	        className: 'group current-assignee-date',
+	        onClick: this.props.inputClickHandler
+	      },
 	      React.createElement(
 	        'div',
 	        { className: 'calendar-circle' },
@@ -45215,7 +45218,6 @@
 	        className: 'date-input',
 	        type: 'text',
 	        value: this.shortDeadline(),
-	        onClick: this.props.inputClickHandler,
 	        onChange: this.onChangePlaceholder
 	      }),
 	      this.state.pickingDate ? this.datePickerComponent() : null
