@@ -232,6 +232,8 @@ var AssigneeDropdownLi = React.createClass({
   }
 });
 
+
+
 var OptionsDatePicker = React.createClass({
   getInitialState: function () {
     return {deadline: this.props.deadline, viewDate: this.props.deadline};
@@ -293,16 +295,19 @@ var OptionsDatePicker = React.createClass({
   render: function () {
     var car;
     return (
-      <div
-        className="group current-assignee-date"
-        onClick={this.props.inputClickHandler}
-        >
-        <div className="calendar-circle">{this.calendarIcon()}</div>
+      <div className="group current-assignee-date">
+        <div
+          className="calendar-circle"
+          onClick={this.props.inputClickHandler}
+          >
+            {this.calendarIcon()}
+        </div>
         <input
           className="date-input"
           type="text"
           value={this.shortDeadline()}
           onChange={this.onChangePlaceholder}
+          onClick={this.props.inputClickHandler}
         />
         {this.state.pickingDate ? this.datePickerComponent() : null}
       </div>
