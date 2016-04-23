@@ -92,7 +92,9 @@ scheme_tasks = {
   },
 
   9=> {name: 'Comments', description: "Each task comes complete with a comment form, which you can use to encourage / callout / promise vengeance against your teammates."
-  }
+  },
+
+  10=>{name: 'New Tasks and Comments in Realtime', description: "Scheme uses Pusher to send online users new tasks and comments in realtime.\n\nWanna see? Using another brower, log in with email `hov@gmail.com` and password `abc123` and try it out."}
 }
 
 scheme_tasks.each do |key, val|
@@ -125,4 +127,4 @@ scheme_project.tasks.second.task_comments.create!(body: "Status update? Client i
 scheme_project.tasks.second.task_comments.create!(body: "I don't have visibility into the CSS bandwidth but we pushed the virtual matrix live yesterday.", user_id: team1.members.sample.id)
 scheme_project.tasks.third.task_comments.create!(body: "Well this just stinks. I quit!", user_id: team1.members.sample.id)
 scheme_project.tasks.third.task_comments.create!(body: "I have never quit.", user_id: team1.members.sample.id)
-scheme_project.tasks.last.task_comments.create!(body: "Everybody had better take this task seriously... or else.", user_id: team1.members.sample.id)
+scheme_project.tasks.sort_by {|task| task.id * -1}.second.task_comments.create!(body: "Everybody had better take this task seriously... or else.", user_id: team1.members.sample.id)
