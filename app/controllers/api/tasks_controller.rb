@@ -1,4 +1,9 @@
 class Api::TasksController < ApplicationController
+  Pusher.app_id = ENV["pusher_app_id"]
+  Pusher.key    = ENV["pusher_key"]
+  Pusher.secret = ENV["pusher_secret"]
+  Pusher.logger = Rails.logger
+  Pusher.encrypted = true
 
   def index
     return_all_current_user_tasks
@@ -27,6 +32,10 @@ class Api::TasksController < ApplicationController
 
     if @task.save
       add_new_task_to_project_order(@task)
+      Pusher.trigger('task_channel', 'new_task', {
+        task_id: @task.id,
+        project_id: @task.project_id
+      })
       render :show
     end
   end

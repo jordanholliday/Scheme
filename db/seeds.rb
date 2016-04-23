@@ -20,7 +20,7 @@ TaskComment.destroy_all
 team1 = Team.create!(name: "The Good Guys")
 
 # Create projects
-scheme_project = team1.projects.create!(name: "Learn About Scheme")
+scheme_project = team1.projects.create!(name: "Learn to Scheme")
 other_proj1 = team1.projects.create!(name: "Steal Shamoo")
 other_proj2 = team1.projects.create!(name: "Become Inhumanly Shredded")
 

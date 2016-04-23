@@ -24935,10 +24935,33 @@
 	    AppDispatcher = __webpack_require__(236),
 	    ApiConstants = __webpack_require__(239),
 	    TaskConstants = __webpack_require__(240),
-	    ProjectStore = __webpack_require__(241);
+	    ProjectStore = __webpack_require__(241),
+	    ApiUtil = __webpack_require__(242);
 	
 	var _tasks = {};
 	var TaskStore = new Store(AppDispatcher);
+	
+	// Listen for Pusher events
+	var pusher = new Pusher('339ad311e14d0e26b9c3', {
+	  encrypted: true
+	});
+	
+	var channel = pusher.subscribe('task_channel');
+	channel.bind('new_comment', function (data) {
+	  // check that task attached to comment is in current project
+	  if (!_tasks[data.task_id]) {
+	    return;
+	  }
+	  ApiUtil.fetchOneTask(data.task_id);
+	});
+	channel.bind('new_task', function (data) {
+	  var singleTaskId = Object.keys(_tasks)[0];
+	  alert(_tasks[singleTaskId].project_id !== data.project_id);
+	  if (_tasks[singleTaskId].project_id !== data.project_id) {
+	    return;
+	  }
+	  ApiUtil.fetchOneTask(data.task_id);
+	});
 	
 	TaskStore.all = function () {
 	  var singleTaskId = Object.keys(_tasks)[0];

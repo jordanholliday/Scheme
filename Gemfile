@@ -35,6 +35,9 @@ gem 'figaro'
 gem "paperclip", '5.0.0.beta1'
 gem 'aws-sdk', '>= 2.0'
 
+# Real time TaskComments
+gem 'pusher'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
