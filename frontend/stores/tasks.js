@@ -21,7 +21,6 @@ channel.bind('new_comment', function(data) {
   });
 channel.bind('new_task', function(data) {
     var singleTaskId = Object.keys(_tasks)[0];
-    alert(_tasks[singleTaskId].project_id !== data.project_id);
     if (_tasks[singleTaskId].project_id !== data.project_id) {return;}
     ApiUtil.fetchOneTask(data.task_id);
   });
