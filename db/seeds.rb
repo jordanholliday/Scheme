@@ -89,7 +89,7 @@ scheme_tasks = {
   7=> {name: 'Drag & Drop Avatars', description: "Scheme users can upload avatars when they register. For maximum uploading ease, the registration page incorporates React’s Dropzone component, which enables drag-n-drop uploads.\n\nAvatars are stored remotely via Amazon AWS S3."
   },
 
-  8=> {name: 'Inviting New Team Members', description: "Click the orange button in the navbar to invite someone else to Scheme. Scheme will store their email address, and when they register, they will be automatically added to your team.\n\nOn the other hand, if you come to Scheme uninvited—everyone starts somewhere—you’ll get your own team, pre-populated with your first project and introductory tasks."
+  8=> {name: 'Inviting New Team Members', description: "Click the orange button in the navbar to invite someone else to Scheme. Scheme will send them an invite (courtesy of SendGrid), and when they register, they will be automatically added to your team.\n\nOn the other hand, if you come to Scheme uninvited—everyone starts somewhere—you’ll get your own team, pre-populated with your first project and introductory tasks."
   },
 
   9=> {name: 'Comments', description: "Each task comes complete with a comment form, which you can use to encourage / callout / promise vengeance against your teammates."

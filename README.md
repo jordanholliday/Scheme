@@ -43,6 +43,7 @@ Thanks to the linked-list structure, re-ordering tasks within a project is an O(
 * Invite other users to join your "team"
 * Drag-n-drop ordering of tasks
 * Drag-n-drop uploading of profile pictures
-
+* Comment on tasks
+* See new tasks and comments from other users in realtime
 
 [Original Design Docs](./README_v0.md)
