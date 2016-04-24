@@ -4,6 +4,7 @@ class Api::InvitesController < ApplicationController
     invite.team_id = current_user.team.id
 
     if invite.save
+      InviteNotifier.send_signup_email(current_user, invite).deliver
       render json: invite
     end
   end
