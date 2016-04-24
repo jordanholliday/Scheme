@@ -21,7 +21,7 @@ Scheme users can prioritize tasks by dragging and dropping them into the desired
 
 Task order is maintained in a linked-list data structure. Each task knows the IDs of its `next` and `previous` tasks, and every project knows its `last_task_id`. To assemble the tasks in the correct order and avoid n+1 queries, Scheme retrieves an unordered group of tasks within a project, hashes them by ID, and then references the `next_task_id`s to create an array of tasks in the user’s designated order.
 
-```
+```javascript
 var sortTasks = function (tasksObj, lastTaskId) {
   // start by inserting last task into ordered array
   var taskArr = [tasksObj[lastTaskId]];
