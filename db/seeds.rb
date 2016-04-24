@@ -9,6 +9,7 @@
 require 'faker'
 
 # empty existing data
+User.where("id > 33").destroy_all
 Task.destroy_all
 Membership.destroy_all
 Team.destroy_all
@@ -94,7 +95,7 @@ scheme_tasks = {
   9=> {name: 'Comments', description: "Each task comes complete with a comment form, which you can use to encourage / callout / promise vengeance against your teammates."
   },
 
-  10=>{name: 'New Tasks and Comments in Realtime', description: "Scheme uses Pusher to send online users new tasks and comments in realtime.\n\nWanna see? Using another brower, log in with email `hov@gmail.com` and password `abc123` and try it out."}
+  10=>{name: 'New Tasks and Comments in Realtime', description: "Scheme uses Pusher to send new tasks and comments to online users in realtime.\n\nWanna see? Using another brower, log in with email `hov@gmail.com` and password `abc123` and try it out."}
 }
 
 scheme_tasks.each do |key, val|
