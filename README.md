@@ -46,4 +46,14 @@ Thanks to the linked-list structure, re-ordering tasks within a project is an O(
 * Comment on tasks
 * See new tasks and comments from other users in realtime
 
+### Technologies Used
+* React.js
+* Flux
+* Ruby on Rails
+* JSON API
+* PostgreSQL
+* Pusher
+* Sendgrid
+* Heroku
+
 [Original Design Docs](./README_v0.md)
