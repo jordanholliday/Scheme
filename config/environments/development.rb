@@ -39,7 +39,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  # for actionmailer emails
-  config.action_controller.asset_host = ENV['HOST']
-  config.action_mailer.asset_host = ENV['HOST']
+  # # for actionmailer emails
+  # config.action_controller.asset_host = ENV['HOST']
+  # config.action_mailer.asset_host = ENV['HOST']
 end
