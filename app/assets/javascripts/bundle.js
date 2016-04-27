@@ -32498,6 +32498,8 @@
 	        className: 'task-index-avatar',
 	        src: this.state.taskAssignee.avatar_url
 	      });
+	    } else {
+	      return React.createElement('div', { className: 'task-index-avatar-missing' });
 	    }
 	  },
 	

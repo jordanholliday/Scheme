@@ -241,6 +241,10 @@ var TaskIndexItem = React.createClass({
           src={this.state.taskAssignee.avatar_url}
         />
       )
+    } else {
+      return (
+        <div className="task-index-avatar-missing"></div>
+      )
     }
   },
 
