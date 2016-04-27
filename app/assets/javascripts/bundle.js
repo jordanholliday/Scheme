@@ -42562,7 +42562,8 @@
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    ApiUtil = __webpack_require__(242),
-	    Modal = __webpack_require__(457);
+	    Modal = __webpack_require__(457),
+	    AdminNav = __webpack_require__(612);
 	
 	var customStyles = {
 	  content: {
@@ -42761,11 +42762,7 @@
 	        ),
 	        this.state.showOmniBox ? this.omniBoxRender() : null
 	      ),
-	      React.createElement(
-	        'button',
-	        { onClick: ApiUtil.logout },
-	        'Log Out'
-	      )
+	      React.createElement(AdminNav, null)
 	    );
 	  }
 	});
@@ -62469,6 +62466,85 @@
 	});
 	
 	module.exports = AssigneeDropdownLi;
+
+/***/ },
+/* 612 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    SessionStore = __webpack_require__(454),
+	    ApiUtil = __webpack_require__(242);
+	
+	var AdminNav = React.createClass({
+	  displayName: 'AdminNav',
+	
+	  getInitialState: function () {
+	    return {
+	      showAdminNavDropdown: false,
+	      currentUser: SessionStore.currentUser()
+	    };
+	  },
+	
+	  getCurrentUserFromStore: function () {
+	    this.setState({
+	      currentUser: SessionStore.currentUser()
+	    });
+	  },
+	
+	  componentDidMount: function () {
+	    this.sessionStoreToken = SessionStore.addListener(this.getCurrentUserFromStore);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.sessionStoreToken.remove();
+	  },
+	
+	  toggleAdminNavDropdown: function () {
+	    this.setState({ showAdminNavDropdown: !this.state.showAdminNavDropdown });
+	  },
+	
+	  renderAdminNavDropdown: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'admin-nav-dropdown' },
+	      React.createElement(
+	        'ul',
+	        null,
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: 'http://jordanholliday.com', target: '_blank' },
+	            'Love Scheme? Hire me!'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          { onClick: ApiUtil.logout },
+	          'Log Out'
+	        )
+	      )
+	    );
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      {
+	        className: 'admin-nav', onClick: this.toggleAdminNavDropdown },
+	      React.createElement(
+	        'span',
+	        null,
+	        this.state.currentUser.email
+	      ),
+	      React.createElement('img', { className: 'avatar', src: this.state.currentUser.avatar_url }),
+	      this.state.showAdminNavDropdown ? this.renderAdminNavDropdown() : null
+	    );
+	  }
+	});
+	
+	module.exports = AdminNav;
 
 /***/ }
 /******/ ]);

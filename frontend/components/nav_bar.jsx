@@ -1,7 +1,8 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     ApiUtil = require('../util/api_util'),
-    Modal = require('react-modal');
+    Modal = require('react-modal'),
+    AdminNav = require('./admin_nav.jsx');
 
 var customStyles = {
   content : {
@@ -150,9 +151,7 @@ var NavBar = React.createClass({
           </button>
           {this.state.showOmniBox ? this.omniBoxRender() : null}
         </div>
-
-        <button onClick={ApiUtil.logout}>Log Out</button>
-
+        <AdminNav />
       </header>
       );
   }
