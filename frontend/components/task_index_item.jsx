@@ -7,7 +7,8 @@ var React = require('react'),
     DropTarget = require('react-dnd').DropTarget,
     DragSource = require('react-dnd').DragSource,
     flow = require('lodash.flow'),
-    ApiUtil = require('../util/api_util');
+    ApiUtil = require('../util/api_util'),
+    TeamUserStore = require('../stores/team_users.js');
 
 var taskIndexItemSource = {
   beginDrag: function (props) {
@@ -23,7 +24,6 @@ var taskIndexItemTarget = {
     ApiUtil.reorderTasks(monitor.getItem().id, props.task.id);
     return {};
   },
-
 };
 
 function collect(connect, monitor) {
@@ -54,7 +54,10 @@ var TaskIndexItem = React.createClass({
   },
 
   getInitialState: function () {
-    return { task: this.props.task };
+    return {
+      task: this.props.task,
+      taskAssignee: TeamUserStore.findUser(this.props.task.assignee_id)
+    };
   },
 
   setStateFromStore: function () {
@@ -64,17 +67,28 @@ var TaskIndexItem = React.createClass({
     }
   },
 
+  setStateFromTeamUserStore: function () {
+    if (TeamUserStore.findUser(this.state.task.assignee_id)) {
+      this.setState({
+        taskAssignee: TeamUserStore.findUser(this.state.task.assignee_id)
+      });
+    }
+  },
+
   componentDidMount: function () {
     this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
+    this.teamUserStoreToken = TeamUserStore.addListener(this.setStateFromTeamUserStore);
   },
 
   componentWillUnmount: function () {
     this.taskStoreToken.remove();
+    this.teamUserStoreToken.remove();
   },
 
   componentWillReceiveProps: function (newProps) {
     this.setState({
-      task: newProps.task
+      task: newProps.task,
+      taskAssignee: TeamUserStore.findUser(newProps.task.assignee_id)
     })
   },
 
@@ -267,6 +281,7 @@ var TaskIndexItem = React.createClass({
           {connectDragSource(this.renderDragHandle())}
           {button}
           {input}
+          <span>{this.state.taskAssignee ? this.state.taskAssignee.name : null}</span>
           {this.state.task && this.state.task.deadline ? this.renderDeadline() : null }
         </li>
     ))

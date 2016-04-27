@@ -53,6 +53,7 @@ var TaskIndex = React.createClass({
 
   componentWillMount: function () {
     ApiUtil.fetchProjectTasks(this.props.projectId);
+    ApiUtil.fetchTeamUsers();
   },
 
   componentDidMount: function () {

@@ -24849,6 +24849,7 @@
 	
 	  componentWillMount: function () {
 	    ApiUtil.fetchProjectTasks(this.props.projectId);
+	    ApiUtil.fetchTeamUsers();
 	  },
 	
 	  componentDidMount: function () {
@@ -32257,7 +32258,7 @@
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    TaskStore = __webpack_require__(217);
-	Link = __webpack_require__(159).Link, TaskAction = __webpack_require__(247), TaskUtil = __webpack_require__(248), DropTarget = __webpack_require__(249).DropTarget, DragSource = __webpack_require__(249).DragSource, flow = __webpack_require__(364), ApiUtil = __webpack_require__(242);
+	Link = __webpack_require__(159).Link, TaskAction = __webpack_require__(247), TaskUtil = __webpack_require__(248), DropTarget = __webpack_require__(249).DropTarget, DragSource = __webpack_require__(249).DragSource, flow = __webpack_require__(364), ApiUtil = __webpack_require__(242), TeamUserStore = __webpack_require__(479);
 	
 	var taskIndexItemSource = {
 	  beginDrag: function (props) {
@@ -32273,7 +32274,6 @@
 	    ApiUtil.reorderTasks(monitor.getItem().id, props.task.id);
 	    return {};
 	  }
-	
 	};
 	
 	function collect(connect, monitor) {
@@ -32305,7 +32305,10 @@
 	  },
 	
 	  getInitialState: function () {
-	    return { task: this.props.task };
+	    return {
+	      task: this.props.task,
+	      taskAssignee: TeamUserStore.findUser(this.props.task.assignee_id)
+	    };
 	  },
 	
 	  setStateFromStore: function () {
@@ -32315,17 +32318,28 @@
 	    }
 	  },
 	
+	  setStateFromTeamUserStore: function () {
+	    if (TeamUserStore.findUser(this.state.task.assignee_id)) {
+	      this.setState({
+	        taskAssignee: TeamUserStore.findUser(this.state.task.assignee_id)
+	      });
+	    }
+	  },
+	
 	  componentDidMount: function () {
 	    this.taskStoreToken = TaskStore.addListener(this.setStateFromStore);
+	    this.teamUserStoreToken = TeamUserStore.addListener(this.setStateFromTeamUserStore);
 	  },
 	
 	  componentWillUnmount: function () {
 	    this.taskStoreToken.remove();
+	    this.teamUserStoreToken.remove();
 	  },
 	
 	  componentWillReceiveProps: function (newProps) {
 	    this.setState({
-	      task: newProps.task
+	      task: newProps.task,
+	      taskAssignee: TeamUserStore.findUser(newProps.task.assignee_id)
 	    });
 	  },
 	
@@ -32529,6 +32543,11 @@
 	      connectDragSource(this.renderDragHandle()),
 	      button,
 	      input,
+	      React.createElement(
+	        'span',
+	        null,
+	        this.state.taskAssignee ? this.state.taskAssignee.name : null
+	      ),
 	      this.state.task && this.state.task.deadline ? this.renderDeadline() : null
 	    )));
 	  }
