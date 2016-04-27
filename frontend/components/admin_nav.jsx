@@ -3,6 +3,10 @@ var React = require('react'),
     ApiUtil = require('../util/api_util');
 
 var AdminNav = React.createClass({
+  contextTypes: {
+      router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function () {
     return {
         showAdminNavDropdown: false,
@@ -11,9 +15,13 @@ var AdminNav = React.createClass({
   },
 
   getCurrentUserFromStore: function () {
-    this.setState({
-      currentUser: SessionStore.currentUser()
-    });
+    if (!SessionStore.currentUser()) {
+      this.context.router.push("/login");
+    } else {
+      this.setState({
+        currentUser: SessionStore.currentUser()
+      });
+    }
   },
 
   componentDidMount: function () {

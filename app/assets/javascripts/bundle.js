@@ -62478,6 +62478,10 @@
 	var AdminNav = React.createClass({
 	  displayName: 'AdminNav',
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
 	  getInitialState: function () {
 	    return {
 	      showAdminNavDropdown: false,
@@ -62486,9 +62490,13 @@
 	  },
 	
 	  getCurrentUserFromStore: function () {
-	    this.setState({
-	      currentUser: SessionStore.currentUser()
-	    });
+	    if (!SessionStore.currentUser()) {
+	      this.context.router.push("/login");
+	    } else {
+	      this.setState({
+	        currentUser: SessionStore.currentUser()
+	      });
+	    }
 	  },
 	
 	  componentDidMount: function () {
