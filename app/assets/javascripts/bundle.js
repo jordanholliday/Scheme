@@ -44893,7 +44893,9 @@
 	    ApiUtil = __webpack_require__(242),
 	    TeamUserStore = __webpack_require__(479),
 	    DatePicker = __webpack_require__(480),
-	    TaskUtil = __webpack_require__(248);
+	    TaskUtil = __webpack_require__(248),
+	    OptionsDatePicker = __webpack_require__(610),
+	    AssigneeDropdownLi = __webpack_require__(611);
 	
 	var TaskOptions = React.createClass({
 	  displayName: 'TaskOptions',
@@ -45055,10 +45057,9 @@
 	    );
 	  },
 	
-	  render: function () {
-	    var currentAssigneeDetail;
+	  renderCurrentAssigneeDetail: function () {
 	    if (this.assigneeName()) {
-	      currentAssigneeDetail = React.createElement(
+	      return React.createElement(
 	        'div',
 	        { className: 'group current-assignee-date', onClick: this.setStateAssigning },
 	        React.createElement('img', { src: this.assigneeAvatar() }),
@@ -45071,7 +45072,7 @@
 	        this.state.assigning ? this.teamUserDropdown() : null
 	      );
 	    } else {
-	      currentAssigneeDetail = React.createElement(
+	      return React.createElement(
 	        'div',
 	        { className: 'group current-assignee-date unassigned', onClick: this.setStateAssigning },
 	        React.createElement(
@@ -45088,14 +45089,16 @@
 	        this.state.assigning ? this.teamUserDropdown() : null
 	      );
 	    }
+	  },
 	
+	  render: function () {
 	    return React.createElement(
 	      'section',
 	      { className: 'task-options' },
 	      React.createElement(
 	        'div',
 	        { className: this.state.assigning ? "assigning" : "not-assigning" },
-	        currentAssigneeDetail
+	        this.renderCurrentAssigneeDetail()
 	      ),
 	      React.createElement(
 	        'div',
@@ -45115,135 +45118,6 @@
 	          React.createElement('polygon', { points: '23.778,5.393 16,13.172 8.222,5.393 5.393,8.222 13.172,16 5.393,23.778 8.222,26.607 16,18.828 23.778,26.607 26.607,23.778 18.828,16 26.607,8.222' })
 	        )
 	      )
-	    );
-	  }
-	});
-	
-	// SUBCOMPONENT - Used in assignment selector above.
-	var AssigneeDropdownLi = React.createClass({
-	  displayName: 'AssigneeDropdownLi',
-	
-	
-	  updateTaskAssignment: function () {
-	    this.props.changeHandler(this.props.teamUser.id);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'li',
-	      { className: 'group', onMouseDown: this.updateTaskAssignment },
-	      React.createElement('img', { src: this.props.teamUser.avatar_url }),
-	      React.createElement(
-	        'label',
-	        { className: 'name' },
-	        this.props.teamUser.name
-	      ),
-	      React.createElement(
-	        'label',
-	        { className: 'email' },
-	        this.props.teamUser.email
-	      )
-	    );
-	  }
-	});
-	
-	var OptionsDatePicker = React.createClass({
-	  displayName: 'OptionsDatePicker',
-	
-	  getInitialState: function () {
-	    return { deadline: this.props.deadline, viewDate: this.props.deadline };
-	  },
-	
-	  componentWillReceiveProps: function (newProps) {
-	    this.setState({
-	      deadline: newProps.deadline,
-	      viewDate: newProps.deadline,
-	      pickingDate: newProps.pickingDate
-	    });
-	  },
-	
-	  setDeadline: function (dateText) {
-	    this.setState({ deadline: dateText });
-	    this.props.changeHandler(dateText);
-	  },
-	
-	  handleViewChange: function (dateText) {
-	    this.setState({ viewDate: dateText });
-	  },
-	
-	  calendarIcon: function () {
-	    return React.createElement(
-	      'svg',
-	      { className: 'calendar-icon', viewBox: '0 0 32 32', title: 'calendar' },
-	      React.createElement('rect', { x: '14', y: '14', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '18', y: '14', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '22', y: '14', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '6', y: '18', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '10', y: '18', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '14', y: '18', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '18', y: '18', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '22', y: '18', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '6', y: '22', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '10', y: '22', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '14', y: '22', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '18', y: '22', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '22', y: '22', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '6', y: '26', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '10', y: '26', width: '2', height: '2' }),
-	      React.createElement('rect', { x: '14', y: '26', width: '2', height: '2' }),
-	      React.createElement('path', { d: 'M28,4h-2V2c0-1.105-0.895-2-2-2h-2c-1.105,0-2,0.895-2,2v2h-8V2c0-1.105-0.895-2-2-2H8C6.895,0,6,0.895,6,2v2H4    C2.895,4,2,4.895,2,6v24c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2V6C30,4.895,29.105,4,28,4z M22,2h2v6h-2V2z M8,2h2v6H8V2z     M28,30H4V12h24V30z' })
-	    );
-	  },
-	
-	  shortDeadline: function () {
-	    if (!this.state.deadline) {
-	      return null;
-	    }
-	    // prettify date for options bar
-	    // return new Date(Date.parse(this.state.deadline)).toDateString().split(" ").slice(1).join(" ");
-	    return TaskUtil.contextualDeadline(this.state.deadline);
-	  },
-	
-	  onChangePlaceholder: function () {
-	    null;
-	  },
-	
-	  datePickerComponent: function () {
-	    return React.createElement(DatePicker, {
-	      className: 'date-picker-component',
-	      minDate: '2015-10-10',
-	      maxDate: '2020-10-10',
-	      date: this.state.deadline,
-	      viewDate: this.state.viewDate ? this.state.viewDate : new Date(),
-	      hideFooter: true,
-	      weekDayNames: ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
-	      onChange: this.setDeadline,
-	      onViewDateChange: this.handleViewChange,
-	      onMouseLeave: this.props.inputClickHandler
-	    });
-	  },
-	
-	  render: function () {
-	    var car;
-	    return React.createElement(
-	      'div',
-	      { className: 'group current-assignee-date' },
-	      React.createElement(
-	        'div',
-	        {
-	          className: 'calendar-circle',
-	          onClick: this.props.inputClickHandler
-	        },
-	        this.calendarIcon()
-	      ),
-	      React.createElement('input', {
-	        className: 'date-input',
-	        type: 'text',
-	        value: this.shortDeadline(),
-	        onChange: this.onChangePlaceholder,
-	        onClick: this.props.inputClickHandler
-	      }),
-	      this.state.pickingDate ? this.datePickerComponent() : null
 	    );
 	  }
 	});
@@ -62413,6 +62287,162 @@
 	});
 	
 	module.exports = SchemeModal;
+
+/***/ },
+/* 610 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDom = __webpack_require__(158),
+	    ApiUtil = __webpack_require__(242),
+	    TeamUserStore = __webpack_require__(479),
+	    DatePicker = __webpack_require__(480),
+	    TaskUtil = __webpack_require__(248);
+	
+	var OptionsDatePicker = React.createClass({
+	  displayName: 'OptionsDatePicker',
+	
+	  getInitialState: function () {
+	    return { deadline: this.props.deadline, viewDate: this.props.deadline };
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({
+	      deadline: newProps.deadline,
+	      viewDate: newProps.deadline,
+	      pickingDate: newProps.pickingDate
+	    });
+	  },
+	
+	  setDeadline: function (dateText) {
+	    this.setState({ deadline: dateText });
+	    this.props.changeHandler(dateText);
+	  },
+	
+	  handleViewChange: function (dateText) {
+	    this.setState({ viewDate: dateText });
+	  },
+	
+	  calendarIcon: function () {
+	    return React.createElement(
+	      'svg',
+	      { className: 'calendar-icon', viewBox: '0 0 32 32', title: 'calendar' },
+	      React.createElement('rect', { x: '14', y: '14', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '18', y: '14', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '22', y: '14', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '6', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '10', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '14', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '18', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '22', y: '18', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '6', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '10', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '14', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '18', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '22', y: '22', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '6', y: '26', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '10', y: '26', width: '2', height: '2' }),
+	      React.createElement('rect', { x: '14', y: '26', width: '2', height: '2' }),
+	      React.createElement('path', { d: 'M28,4h-2V2c0-1.105-0.895-2-2-2h-2c-1.105,0-2,0.895-2,2v2h-8V2c0-1.105-0.895-2-2-2H8C6.895,0,6,0.895,6,2v2H4    C2.895,4,2,4.895,2,6v24c0,1.105,0.895,2,2,2h24c1.105,0,2-0.895,2-2V6C30,4.895,29.105,4,28,4z M22,2h2v6h-2V2z M8,2h2v6H8V2z     M28,30H4V12h24V30z' })
+	    );
+	  },
+	
+	  shortDeadline: function () {
+	    if (!this.state.deadline) {
+	      return null;
+	    }
+	    // prettify date for options bar
+	    // return new Date(Date.parse(this.state.deadline)).toDateString().split(" ").slice(1).join(" ");
+	    return TaskUtil.contextualDeadline(this.state.deadline);
+	  },
+	
+	  onChangePlaceholder: function () {
+	    null;
+	  },
+	
+	  datePickerComponent: function () {
+	    return React.createElement(DatePicker, {
+	      className: 'date-picker-component',
+	      minDate: '2015-10-10',
+	      maxDate: '2020-10-10',
+	      date: this.state.deadline,
+	      viewDate: this.state.viewDate ? this.state.viewDate : new Date(),
+	      hideFooter: true,
+	      weekDayNames: ["SU", "MO", "TU", "WE", "TH", "FR", "SA"],
+	      onChange: this.setDeadline,
+	      onViewDateChange: this.handleViewChange,
+	      onMouseLeave: this.props.inputClickHandler
+	    });
+	  },
+	
+	  render: function () {
+	    var car;
+	    return React.createElement(
+	      'div',
+	      { className: 'group current-assignee-date' },
+	      React.createElement(
+	        'div',
+	        {
+	          className: 'calendar-circle',
+	          onClick: this.props.inputClickHandler
+	        },
+	        this.calendarIcon()
+	      ),
+	      React.createElement('input', {
+	        className: 'date-input',
+	        type: 'text',
+	        value: this.shortDeadline(),
+	        onChange: this.onChangePlaceholder,
+	        onClick: this.props.inputClickHandler
+	      }),
+	      this.state.pickingDate ? this.datePickerComponent() : null
+	    );
+	  }
+	});
+	
+	module.exports = OptionsDatePicker;
+
+/***/ },
+/* 611 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDom = __webpack_require__(158),
+	    ApiUtil = __webpack_require__(242),
+	    TeamUserStore = __webpack_require__(479),
+	    DatePicker = __webpack_require__(480),
+	    TaskUtil = __webpack_require__(248),
+	    OptionsDatePicker = __webpack_require__(610);
+	
+	// SUBCOMPONENT - Used in assignment selector above.
+	var AssigneeDropdownLi = React.createClass({
+	  displayName: 'AssigneeDropdownLi',
+	
+	
+	  updateTaskAssignment: function () {
+	    this.props.changeHandler(this.props.teamUser.id);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'li',
+	      { className: 'group', onMouseDown: this.updateTaskAssignment },
+	      React.createElement('img', { src: this.props.teamUser.avatar_url }),
+	      React.createElement(
+	        'label',
+	        { className: 'name' },
+	        this.props.teamUser.name
+	      ),
+	      React.createElement(
+	        'label',
+	        { className: 'email' },
+	        this.props.teamUser.email
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = AssigneeDropdownLi;
 
 /***/ }
 /******/ ]);
