@@ -233,6 +233,17 @@ var TaskIndexItem = React.createClass({
     );
   },
 
+  renderAssigneeAvatar: function () {
+    if (this.state.taskAssignee) {
+      return (
+        <img
+          className="task-index-avatar"
+          src={this.state.taskAssignee.avatar_url}
+        />
+      )
+    }
+  },
+
   render: function () {
     var button,
         input;
@@ -281,8 +292,8 @@ var TaskIndexItem = React.createClass({
           {connectDragSource(this.renderDragHandle())}
           {button}
           {input}
-          <span>{this.state.taskAssignee ? this.state.taskAssignee.name : null}</span>
           {this.state.task && this.state.task.deadline ? this.renderDeadline() : null }
+          {this.renderAssigneeAvatar()}
         </li>
     ))
   }

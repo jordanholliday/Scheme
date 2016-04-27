@@ -32492,6 +32492,15 @@
 	    );
 	  },
 	
+	  renderAssigneeAvatar: function () {
+	    if (this.state.taskAssignee) {
+	      return React.createElement('img', {
+	        className: 'task-index-avatar',
+	        src: this.state.taskAssignee.avatar_url
+	      });
+	    }
+	  },
+	
 	  render: function () {
 	    var button, input;
 	    if (this.state.task) {
@@ -32543,12 +32552,8 @@
 	      connectDragSource(this.renderDragHandle()),
 	      button,
 	      input,
-	      React.createElement(
-	        'span',
-	        null,
-	        this.state.taskAssignee ? this.state.taskAssignee.name : null
-	      ),
-	      this.state.task && this.state.task.deadline ? this.renderDeadline() : null
+	      this.state.task && this.state.task.deadline ? this.renderDeadline() : null,
+	      this.renderAssigneeAvatar()
 	    )));
 	  }
 	});
