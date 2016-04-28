@@ -124,7 +124,7 @@ scheme_tasks.each do |key, val|
 end
 
 scheme_project.tasks.first.task_comments.create!(body: "Welcome, teammate.", user_id: team1.members.sample.id)
-scheme_project.tasks.second.task_comments.create!(body: "Status update? Client is demanding an update on the CSS bandwidth.", user_id: team1.members.sample.id)
+scheme_project.tasks.second.task_comments.create!(body: "Status on this? Client is demanding an update on the CSS bandwidth.", user_id: team1.members.sample.id)
 scheme_project.tasks.second.task_comments.create!(body: "I don't have visibility into the CSS bandwidth but we pushed the virtual matrix live yesterday.", user_id: team1.members.sample.id)
 scheme_project.tasks.third.task_comments.create!(body: "Well this just stinks. I quit!", user_id: team1.members.sample.id)
 scheme_project.tasks.third.task_comments.create!(body: "I have never quit.", user_id: team1.members.sample.id)

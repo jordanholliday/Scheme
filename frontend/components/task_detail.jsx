@@ -134,46 +134,48 @@ var TaskDetail = React.createClass({
         <section className="task-detail">
 
           <TaskOptions task={this.state.task} />
-          <section className="task-project-name">
-            <h3 onClick={this.redirectToTaskProject}>{this.state.task.project_name}</h3>
-          </section>
+          <div className="scroll-area">
+            <section className="task-project-name">
+                <h3 onClick={this.redirectToTaskProject}>{this.state.task.project_name}</h3>
+              </section>
 
-          <div className="group edit-pane-name-complete">
-            <button
-              className="complete-task-button"
-              onClick={this.apiCompleteTask}>
-              <svg viewBox="0 0 32 32" className="check-complete">
-                <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
-              </svg>
-            </button>
+              <div className="group edit-pane-name-complete">
+                <button
+                  className="complete-task-button"
+                  onClick={this.apiCompleteTask}>
+                  <svg viewBox="0 0 32 32" className="check-complete">
+                    <polygon points="30,5.077 26,2 11.5,22.5 4.5,15.5 1,19 12,30"></polygon>
+                  </svg>
+                </button>
 
-            <textarea
-              value={this.state.task.name}
-              ref="nameTextarea"
-              className="task-name-input"
-              onChange={this._onChangeHandler}
-              onBlur={this.persistTask}
-              onMouseOut={this.persistTask}>
-            </textarea>
-          </div>
+                <textarea
+                  value={this.state.task.name}
+                  ref="nameTextarea"
+                  className="task-name-input"
+                  onChange={this._onChangeHandler}
+                  onBlur={this.persistTask}
+                  onMouseOut={this.persistTask}>
+                </textarea>
+              </div>
 
-          <div className="group task-description-block">
-            <textarea
-              value={this.state.task.description ? this.state.task.description : ""}
-              ref="descriptionTextarea"
-              className="task-description-input"
-              placeholder="Description"
-              onChange={this._onChangeHandler}
-              onBlur={this.persistTask}
-              onMouseOut={this.persistTask}>
-            </textarea>
-          </div>
+              <div className="group task-description-block">
+                <textarea
+                  value={this.state.task.description ? this.state.task.description : ""}
+                  ref="descriptionTextarea"
+                  className="task-description-input"
+                  placeholder="Description"
+                  onChange={this._onChangeHandler}
+                  onBlur={this.persistTask}
+                  onMouseOut={this.persistTask}>
+                </textarea>
+              </div>
 
-          <div className="group task-meta block">
-            <p><strong>{this.state.task.creator}</strong> created task. {this.state.task.created}.</p>
-          </div>
+              <div className="group task-meta block">
+                <p><strong>{this.state.task.creator}</strong> created task. {this.state.task.created}.</p>
+              </div>
 
-          {this.state.task.comments ? this.renderComments() : null}
+              {this.state.task.comments ? this.renderComments() : null}
+            </div>
 
           <TaskCommentForm taskId={this.props.params.taskId}/>
         </section>
