@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   validates :email, :name, :password_digest, :session_token, presence: true
   validates :email, uniqueness: true
 
-  has_attached_file :avatar, default_url: ActionController::Base.helpers.asset_path('avatar-placeholder.png');
+  has_attached_file :avatar, default_url: ActionController::Base.helpers.asset_url('avatar-placeholder.png');
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
   has_many(
