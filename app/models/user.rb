@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   validates :email, :name, :password_digest, :session_token, presence: true
   validates :email, uniqueness: true
 
-  has_attached_file :avatar, default_url: ActionController::Base.helpers.asset_url('avatar-placeholder.png');
+  has_attached_file :avatar, default_url: 'http://schemeapp.com/assets/avatar-placeholder-3457dd70fea884c004730991df531cc8eb7d4b9abaca82d5e1b6aff46dde79e9.png';
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
   has_many(
