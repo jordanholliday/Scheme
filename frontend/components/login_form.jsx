@@ -71,7 +71,7 @@ var LoginForm = React.createClass({
 
         <footer className="group login">
          <ul>
-           <li><Link to="#">About Scheme</Link></li>
+           <li><a href="http://jordanholliday.com">About Scheme</a></li>
            <li><a href="http://jordanholliday.com">Blog</a></li>
          </ul>
          <div className="toggle-auth">

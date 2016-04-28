@@ -158,7 +158,7 @@ var RegistrationForm = React.createClass({
 
          <footer className="group registration">
            <ul>
-             <li><Link to="#">About Scheme</Link></li>
+             <li><a href="http://jordanholliday.com">About Scheme</a></li>
              <li><a href="http://jordanholliday.com">Blog</a></li>
            </ul>
            <div className="toggle-auth">

@@ -60541,8 +60541,8 @@
 	            'li',
 	            null,
 	            React.createElement(
-	              Link,
-	              { to: '#' },
+	              'a',
+	              { href: 'http://jordanholliday.com' },
 	              'About Scheme'
 	            )
 	          ),
@@ -60851,8 +60851,8 @@
 	            'li',
 	            null,
 	            React.createElement(
-	              Link,
-	              { to: '#' },
+	              'a',
+	              { href: 'http://jordanholliday.com' },
 	              'About Scheme'
 	            )
 	          ),
