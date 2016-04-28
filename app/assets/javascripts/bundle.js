@@ -32039,7 +32039,7 @@
 	      dataType: 'json',
 	      data: { invite: emailObj },
 	      success: function (response) {
-	        console.log(response);
+	        null;
 	      },
 	      error: function () {
 	        console.log("ApiUtil#createInvite error");
@@ -32376,6 +32376,8 @@
 	    if (this.state.task.new) {
 	      // else if not persisted, create the task in DB
 	      this.apiCreateTask({ name: this.state.task.name, project_id: this.props.projectId });
+	      this.state.task.new = false;
+	      this.setState({ task: this.state.task });
 	    } else {
 	      this.apiUpdateTaskName(this.state.task.id, this.state.task.name);
 	    }

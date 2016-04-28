@@ -131,7 +131,7 @@ var ApiUtil = {
       dataType: 'json',
       data: {invite: emailObj},
       success: function (response) {
-        console.log(response);
+        null;
       },
       error: function () {
         console.log("ApiUtil#createInvite error");
