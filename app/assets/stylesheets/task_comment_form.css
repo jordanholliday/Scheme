@@ -2,10 +2,10 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: calc(100% - 64px);
+  width: calc(100% - 74px);
   border-top: 1px solid #E1E2E4;
   background: #F8F8F9;
-  padding: 10px 32px 15px;
+  padding: 10px 37px 15px;
 }
 
 .task-comment-form .textarea {
