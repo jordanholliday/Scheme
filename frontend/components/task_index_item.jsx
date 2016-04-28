@@ -34,7 +34,7 @@ function collect(connect, monitor) {
   };
 }
 
-function collectTarget(connect, monitor) {
+function collectTarget(connect, monitor, component) {
   return {
     connectDropTarget: connect.dropTarget()
   };
@@ -280,7 +280,7 @@ var TaskIndexItem = React.createClass({
             autoFocus={this.props.focus}
             onChange={this.handleType}
             onBlur={this.saveNameChange}
-            onMouseOut={this.saveNameChange}
+            onMouseEnter={this.saveNameChange}
             onKeyDown={this.keyDownHandler}
            />
 

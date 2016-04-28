@@ -29,7 +29,6 @@ class Api::TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.new(task_params)
-
     if @task.save
       add_new_task_to_project_order(@task)
       Pusher.trigger('task_channel', 'new_task', {

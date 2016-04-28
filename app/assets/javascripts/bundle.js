@@ -24878,7 +24878,7 @@
 	      id: -1,
 	      persisted: false,
 	      new: true,
-	      projectId: this.props.project ? this.props.project.id : null
+	      project_id: this.props.projectId
 	    };
 	  },
 	
@@ -32284,7 +32284,7 @@
 	  };
 	}
 	
-	function collectTarget(connect, monitor) {
+	function collectTarget(connect, monitor, component) {
 	  return {
 	    connectDropTarget: connect.dropTarget()
 	  };
@@ -32537,7 +32537,7 @@
 	      autoFocus: this.props.focus,
 	      onChange: this.handleType,
 	      onBlur: this.saveNameChange,
-	      onMouseOut: this.saveNameChange,
+	      onMouseEnter: this.saveNameChange,
 	      onKeyDown: this.keyDownHandler
 	    });
 	
