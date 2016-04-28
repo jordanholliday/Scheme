@@ -282,7 +282,6 @@ var TaskIndexItem = React.createClass({
             autoFocus={this.props.focus}
             onChange={this.handleType}
             onBlur={this.saveNameChange}
-            onMouseEnter={this.saveNameChange}
             onKeyDown={this.keyDownHandler}
            />
 
@@ -294,6 +293,7 @@ var TaskIndexItem = React.createClass({
     return connectDragPreview(connectDropTarget(
         <li
           className={this.props.selected ? "group task-index-item selected" : "group task-index-item"}
+          onMouseEnter={this.saveNameChange}
           onClick={this.clickToShowDetail}>
           {connectDragSource(this.renderDragHandle())}
           {button}
