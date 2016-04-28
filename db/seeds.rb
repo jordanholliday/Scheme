@@ -74,10 +74,10 @@ scheme_tasks = {
   2=> {name: 'Task Assignments & Assignees', description: "You can assign tasks using the dropdown above. If you have lots of people on your team, try typing the assignee’s name into the input box—it’s faster than scrolling through the full list of your teammates.\n\nThe assignment dropdown is 100% roll-your-own."
   },
 
-  3=> {name: 'Task Deadlines', description: "You can assign deadlines to tasks using the date picker above, which was made using the React-DatePicker component.\n\nTo imitate Asana’s contextual deadlines (e.g., “tomorrow” instead of tomorrow’s MM/DD date), I created a date_util file with several reusable date-parsing functions."
+  3=> {name: 'Task Deadlines', description: "You can assign deadlines to tasks using the date picker above, which was made using the React-DatePicker component.\n\nTo imitate Asana’s contextual deadlines (e.g., “tomorrow” instead of tomorrow’s MM/DD date), I wrote a date_util file with several reusable date-parsing functions."
   },
 
-  4=> {name: 'Drag & Drop Tasks', description:"To reorder a task, grab it by the potato (far left) and drag it above another task.\n\nTask order is maintained in a linked list data structuring, which allows for constant-time reordering of tasks, no matter how large a project grows."
+  4=> {name: 'Drag & Drop Tasks', description:"To reorder a task, grab it by the 'handle' (the grid at far left) and drag it above another task.\n\nTask order is maintained in a linked list data structure, which allows for constant-time reordering of tasks, no matter how large a project grows."
   },
 
   5=> { name: 'Task CRUD & Complete', description: "While Scheming, you’ll want to create, delete, and complete tasks.\n\nUse the “Add Task” button to create a new task. To delete it, go to the task list and delete its full name. And to complete it, click the checkmark above or to the left."
