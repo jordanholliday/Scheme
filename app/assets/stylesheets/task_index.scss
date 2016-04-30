@@ -130,6 +130,8 @@ button.complete-task-button:hover svg.check-complete {
     border: 1px solid #1AAFD0;
     border-radius: 3px;
     color: #1AAFD0;
+    transition: box-shadow, border;
+    transition-duration: .2s;
 }
 
 .task-index > button:hover {

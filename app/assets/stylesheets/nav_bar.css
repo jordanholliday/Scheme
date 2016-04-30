@@ -76,20 +76,29 @@ header button.omni-button:hover {
 }
 
 
-/* hover state via after pseudo content*/
+/* hover state via pseudo content*/
 
-header .omni-button:hover::before {
+header .omni-button::before {
     content: "";
     display: block;
     border: none;
     position: absolute;
+    top: 0;
+    left: 0;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    opacity: 0.5;
+    background: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
+    transition: height, width, top, left;
+    transition-duration: .2s;
+}
+
+header .omni-button:hover::before {
     top: -4px;
     left: -4px;
     height: 32px;
     width: 32px;
-    border-radius: 50%;
-    opacity: 0.5;
-    background: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
 }
 
 header button.omni-button svg {
