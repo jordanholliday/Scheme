@@ -1,93 +1,93 @@
 .scheme-modal {
-  min-width: 520px;
+    min-width: 520px;
 }
 
 .scheme-modal header {
-  padding: 15px 0 15px 30px;
-  border-bottom: 1px solid #E1E2E4;
+    padding: 15px 0 15px 30px;
+    border-bottom: 1px solid #E1E2E4;
 }
 
 .scheme-modal header h2 {
-  float: left;
-  font-family: 'proxima_nova_bold', sans-serif;
-  font-size: 24px;
+    float: left;
+    font-family: 'proxima_nova_bold', sans-serif;
+    font-size: 24px;
 }
 
 .scheme-modal header button,
 .scheme-modal header button:hover {
-  margin: 0 5px 0 0;
-  height: 20px;
-  position: relative;
-  border: none;
-  box-shadow: none;
+    margin: 0 5px 0 0;
+    height: 20px;
+    position: relative;
+    border: none;
+    box-shadow: none;
 }
 
 .scheme-modal header button svg {
-  fill: #CDCFD2;
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  top: 0;
-  left: 0;
-  pointer-events: none;
+    fill: #CDCFD2;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 0;
+    pointer-events: none;
 }
 
 .scheme-modal header button:hover svg {
-  fill: #02CEFF;
+    fill: #02CEFF;
 }
 
 .scheme-modal form {
-  padding: 15px 30px;
+    padding: 15px 30px;
 }
 
 .scheme-modal form label {
-  padding: 15px 10px;
-  text-transform: uppercase;
-  color: #898E95;
-  font-size: 12px;
-  float: right;
+    padding: 15px 10px;
+    text-transform: uppercase;
+    color: #898E95;
+    font-size: 12px;
+    float: right;
 }
 
 .scheme-modal form input {
-  box-sizing: border-box;
-  border: 1px solid #CDCFD2;
-  padding: 10px 15px;
-  width: 350px;
-  float: right;
-  font-size: 14px;
+    box-sizing: border-box;
+    border: 1px solid #CDCFD2;
+    padding: 10px 15px;
+    width: 350px;
+    float: right;
+    font-size: 14px;
 }
 
 .scheme-modal form p {
-  float: right;
-  display: block;
-  max-width: 350px;
-  font-size: 12px;
-  color: #898E95;
+    float: right;
+    display: block;
+    max-width: 350px;
+    font-size: 12px;
+    color: #898E95;
 }
 
 .scheme-modal form button {
-  float: right;
-  margin: 15px 0;
-  padding: 0 14px;
-  height: 40px;
-  color: #fff;
-  background: #1AAFD0;
-  border: 1px solid #1AAFD0;
-  font-size: 14px;
-  transition: border-color, background;
-  transition-duration: .2s;
+    float: right;
+    margin: 15px 0;
+    padding: 0 14px;
+    height: 40px;
+    color: #fff;
+    background: #1AAFD0;
+    border: 1px solid #1AAFD0;
+    font-size: 14px;
+    transition: border-color, background;
+    transition-duration: .2s;
 }
 
 .scheme-modal form button:hover {
-  box-shadow: 0 0 0 3px #80E6FF;
-  background: #02CEFF;
-  border-color: #02CEFF;
+    box-shadow: 0 0 0 3px #80E6FF;
+    background: #02CEFF;
+    border-color: #02CEFF;
 }
 
 .scheme-modal form button:disabled,
 .scheme-modal form button:disabled:hover {
-  color: #B9BCC0;
-  background: #EFF0F1;
-  border: 1px solid #E1E2E4;
-  box-shadow: none;
+    color: #B9BCC0;
+    background: #EFF0F1;
+    border: 1px solid #E1E2E4;
+    box-shadow: none;
 }

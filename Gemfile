@@ -38,6 +38,9 @@ gem 'aws-sdk', '>= 2.0'
 # Real time TaskComments
 gem 'pusher'
 
+# cross-browser CSS
+gem 'autoprefixer-rails'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

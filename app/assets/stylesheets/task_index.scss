@@ -1,152 +1,153 @@
 .task-wrapper {
-  display: flex;
-  margin: auto;
-  max-width: 1125px;
-  height: 100%;
+    display: flex;
+    margin: auto;
+    max-width: 1125px;
+    height: 100%;
 }
 
 .task-index {
-  /*flexes inside task-wrapper, along with the task-detail*/
-  flex: 6;
-  margin: 0 auto;
-  max-width: 860px;
-  height: 100vh;
-  margin-top: 15px;
-  border-radius: 3px;
-  background: #fff;
-  padding: 15px 0;
-  color: #1B2432;
-  box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
-  overflow-x: hidden;
+    /*flexes inside task-wrapper, along with the task-detail*/
+    flex: 6;
+    margin: 0 auto;
+    max-width: 860px;
+    height: 100vh;
+    margin-top: 15px;
+    border-radius: 3px;
+    background: #fff;
+    padding: 15px 0;
+    color: #1B2432;
+    box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
+    overflow-x: hidden;
 }
 
 .task-index .task-index-item {
-  border-bottom: #E1E2E4 1px solid;
-  padding: 11px 20px 10px;
-  font-size: 14px;
-  display: flex;
-  position: relative;
+    border-bottom: #E1E2E4 1px solid;
+    padding: 11px 20px 10px;
+    font-size: 14px;
+    display: flex;
+    position: relative;
 }
 
 .task-index .task-index-item.selected {
-  background: #E8F7FB;
+    background: #E8F7FB;
 }
 
 .task-index-item button.complete-task-button {
-  border: 1px solid #B9BCC0;
-  float: left;
-  box-sizing: border-box;
-  height: 21px;
-  width: 21px;
-  border-radius: 50%;
-  margin: -2px 18px 0 12px;
-  transition: border, box-shadow;
-  transition-duration: .2s;
-  transition-timing-function: ease;
+    border: 1px solid #B9BCC0;
+    float: left;
+    box-sizing: border-box;
+    height: 21px;
+    width: 21px;
+    border-radius: 50%;
+    margin: -2px 18px 0 12px;
+    transition: border, box-shadow;
+    transition-duration: .2s;
+    transition-timing-function: ease;
 }
 
 .task-index-item button.complete-task-button:hover {
-  border: 1px solid transparent;
-  box-shadow: #3BF7D1 0 0 0 3px;
-  background: #fff;
+    border: 1px solid transparent;
+    box-shadow: #3BF7D1 0 0 0 3px;
+    background: #fff;
 }
 
 button.complete-task-button svg.check-complete {
-  width: 12px;
-  margin: 4px 0 3px 3.5px;
-  fill: #E1E2E4;
-  transition: fill;
-  transition-duration: .2s;
-  transition-timing-function: ease;
+    width: 12px;
+    margin: 4px 0 3px 3.5px;
+    fill: #E1E2E4;
+    transition: fill;
+    transition-duration: .2s;
+    transition-timing-function: ease;
 }
 
 button.complete-task-button:hover svg.check-complete {
-  fill: #3BF7D1;
+    fill: #3BF7D1;
 }
 
 .task-index .task-index-item:hover {
-  padding-bottom: 9px;
+    padding-bottom: 9px;
 }
 
 .task-index .task-index-item:hover + li {
-  padding-top: 12px;
+    padding-top: 12px;
 }
 
-.task-index-item .edit-task  {
-  border-bottom-color: #1AAFD0;
+.task-index-item .edit-task {
+    border-bottom-color: #1AAFD0;
 }
 
-.task-index-item input  {
-  /*Task item li is 860px, button+padding is 51px*/
-  /*width: 100%;*/
-  /*float: left;*/
-  padding-left: 0px;
-  padding-right: 0px;
-  flex: 1;
+.task-index-item input {
+    /*Task item li is 860px, button+padding is 51px*/
+    /*width: 100%;*/
+    /*float: left;*/
+    padding-left: 0px;
+    padding-right: 0px;
+    flex: 1;
+    text-overflow: ellipsis;
 }
 
 .task-index .task-index-item .date-block {
-  font-size: 12px;
-  line-height: 19px;
+    font-size: 12px;
+    line-height: 19px;
+    margin-left: 10px;
 }
 
 .task-index .task-index-item .date-block.due-soon {
-  color: #37C597;
+    color: #37C597;
 }
 
 .task-index .task-index-item .date-block.past-due {
-  color: #FC636B;
+    color: #FC636B;
 }
 
-.task-index .task-index-item.edit-task + li  {
-  border-bottom-color: #1AAFD0;
+.task-index .task-index-item.edit-task + li {
+    border-bottom-color: #1AAFD0;
 }
 
-.task-index .task-index-item img.task-index-avatar  {
-  float: left;
-  width: 22px;
-  height: 22px;
-  margin: -3px 0 0 10px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+.task-index .task-index-item img.task-index-avatar {
+    float: left;
+    width: 22px;
+    height: 22px;
+    margin: -3px 0 0 10px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
-.task-index .task-index-item div.task-index-avatar-missing  {
-  float: left;
-  width: 22px;
-  height: 22px;
-  margin: -3px 0 0 10px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0);
+.task-index .task-index-item div.task-index-avatar-missing {
+    float: left;
+    width: 22px;
+    height: 22px;
+    margin: -3px 0 0 10px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0);
 }
 
 .task-index > button {
-  margin: 0px auto 15px 20px;
-  height: 30px;
-  padding: 0 10px;
-  font-size: 14px;
-  border: 1px solid #1AAFD0;
-  border-radius: 3px;
-  color: #1AAFD0;
+    margin: 0px auto 15px 20px;
+    height: 30px;
+    padding: 0 10px;
+    font-size: 14px;
+    border: 1px solid #1AAFD0;
+    border-radius: 3px;
+    color: #1AAFD0;
 }
 
 .task-index > button:hover {
-  border-color: transparent;
-  color: #02ceff;
-  box-shadow: 0 0 0 3px #02ceff;
-  font-weight: 700;
+    border-color: transparent;
+    color: #02ceff;
+    box-shadow: 0 0 0 3px #02ceff;
+    font-weight: 700;
 }
 
 .drag-handle {
-  float: left;
-  cursor: move;
+    float: left;
+    cursor: move;
 }
 
 .drag-handle svg {
-  margin-top: 2px;
-  height: 14px;
-  width: 14px;
-  pointer-events: none;
-  fill: #B9BCC0;
+    margin-top: 2px;
+    height: 14px;
+    width: 14px;
+    pointer-events: none;
+    fill: #B9BCC0;
 }
-

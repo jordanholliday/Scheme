@@ -1,132 +1,139 @@
+.drawer-wrapper {
+    z-index: 1;}
+
 .project-drawer {
-  height: 100vh;
-  min-width: 245px;
-  max-width: 245px;
-  background: #2E3C54;
-  overflow-x: hidden;
+    height: 100vh;
+    min-width: 245px;
+    max-width: 245px;
+    background: #2E3C54;
+    overflow-x: hidden;
 }
 
 .project-drawer ul.drawer-header {
-  position: relative;
-  height: 50px;
+    position: relative;
+    height: 50px;
 }
 
 .project-drawer li.drawer-logo,
 .project-drawer li.close-drawer {
-  padding: 15px 0;
-  position: absolute;
-  height: 16px;
-  top: 0;
+    padding: 15px 0;
+    position: absolute;
+    height: 16px;
+    top: 0;
 }
+
 .project-drawer li.close-drawer {
-  right: 15px;
-  width: 16px;
-  fill: #A2B4BC;
+    right: 15px;
+    width: 16px;
+    fill: #A2B4BC;
 }
 
 .project-drawer li.close-drawer:hover {
-  fill: #fff;
+    fill: #fff;
 }
 
 .project-drawer li.drawer-logo {
-  left: 15px;
-  height: 16px;
-  width: 150px;
-  background: image-url('scheme-logo-color-white-text.png');
-  background-size: 140px;
-  background-origin: padding-box;
-  background-repeat: no-repeat;
-  background-position: 0 7px;
+    left: 15px;
+    height: 16px;
+    width: 150px;
+    background: image-url('scheme-logo-color-white-text.png');
+    background-size: 140px;
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-position: 0 7px;
 }
 
 .project-drawer ul.teammate-list {
-  padding: 0 15px;
+    padding: 0 15px;
 }
 
 .project-drawer ul.teammate-list li {
-  float: left;
-  margin: 0 7px 25px 0;
-  height: 24px;
-  width: 24px;
-  border-radius: 24px;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
-  overflow: hidden;
+    float: left;
+    margin: 0 7px 25px 0;
+    height: 24px;
+    width: 24px;
+    border-radius: 24px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }
 
 .project-drawer h2 {
-  text-transform: uppercase;
-  color: #fff;
-  padding: 30px 15px 13px;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 30px 15px 13px;
 }
 
 .project-drawer h3 {
-  display: block;
-  float: left;
-  margin: 0;
-  padding: 0 15px 5px;
-  color: #C1CCD1;
-  font-size: 12px;
-  font-family: 'proxima_nova_bold', sans-serif;
-  text-transform: uppercase;
+    display: block;
+    float: left;
+    margin: 0;
+    padding: 0 15px 5px;
+    color: #C1CCD1;
+    font-size: 12px;
+    font-family: 'proxima_nova_bold', sans-serif;
+    text-transform: uppercase;
 }
 
 .project-drawer ul.project-links li {
-  padding: 0 15px;
-  height: 28px;
-  line-height: 28px;
-  color: #C1CCD1;
-  font-size: 14px;
+    padding: 0 15px;
+    height: 28px;
+    line-height: 28px;
+    color: #C1CCD1;
+    font-size: 14px;
 }
 
 .project-drawer ul.project-links li.selected {
-  background: #1B2432;
+    background: #1B2432;
 }
 
 .project-drawer ul.project-links li:hover {
-  background: #179DBA;
-  background-origin: border-box;
-  color: #fff;
+    background: #179DBA;
+    background-origin: border-box;
+    color: #fff;
 }
 
 .project-list-header {
-  height: 19px;
-  line-height: 19px;
-  margin-bottom: 5px;
+    height: 19px;
+    line-height: 19px;
+    margin-bottom: 5px;
 }
 
 .project-list-header button {
-  float: right;
-  margin-right: 15px;
-  padding: 3px 2px 3px 4px;
-  width: 10px;
-  height: 10px;
-  fill: #A2B4BC;
-  border: 1px solid rgba(162,180,188,0.5);
-  border-radius: 50%;
-  box-shadow: none;
-  position: relative;
-  transition: box-shadow;
-  transition-duration: .2s;
+    float: right;
+    margin-right: 15px;
+    padding: 3px 2px 3px 4px;
+    width: 10px;
+    height: 10px;
+    fill: #A2B4BC;
+    border: 1px solid rgba(162, 180, 188, 0.5);
+    border-radius: 50%;
+    box-shadow: none;
+    position: relative;
+    transition: box-shadow;
+    transition-duration: .2s;
 }
 
 .project-list-header button:hover {
-  fill: #fff;
-  border: 1px solid #fff;
-  box-shadow: #fff 0px 0px 0px 3px;
+    fill: #fff;
+    border: 1px solid #fff;
+    box-shadow: #fff 0px 0px 0px 3px;
 }
 
 .project-list-header button svg {
-  position: absolute;
-  left: 3px;
-  top: 3px;
+    position: absolute;
+    left: 3px;
+    top: 3px;
 }
 
+
 /*/* DRAWER TRANSITIONS*/
+
 .non-drawer-content {
-  margin: auto;
-  width: 100%;
-  height: 100%;
+    margin: auto;
+    width: 100%;
+    height: 100%;
 }
+
 
 /*.drawer-transition-enter {
   min-width: 0px;
@@ -147,19 +154,19 @@
 }*/
 
 .drawer-transition-enter {
-  margin-left: -245px;
+    margin-left: -245px;
 }
 
 .drawer-transition-enter.drawer-transition-enter-active {
-  margin-left: 0;
-  transition: margin-left .4s linear;
+    margin-left: 0;
+    transition: margin-left .4s linear;
 }
 
 .drawer-transition-leave {
-  margin-left: 0;
+    margin-left: 0;
 }
 
 .drawer-transition-leave.drawer-transition-leave-active {
-  margin-left: -245px;
-  transition: margin-left .4s linear;
+    margin-left: -245px;
+    transition: margin-left .4s linear;
 }

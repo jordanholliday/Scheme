@@ -1,158 +1,132 @@
 .task-detail {
-  flex: 5;
-  height: 100%;
-  margin-left: 15px;
-  background: #fff;
-  margin-top: 15px;
-  border-radius: 3px;
-  padding: 10px 20px 0;
-  color: #1B2432;
-  box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
-  position: relative;
+    /*flex: 5;*/
+    width: 490px;
+    height: 100%;
+    margin-left: 15px;
+    background: #fff;
+    margin-top: 15px;
+    border-radius: 3px;
+    padding: 10px 20px 0;
+    color: #1B2432;
+    box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 3px 0px;
+    position: relative;
 }
 
-.task-detail
-  .task-project-name {
+.task-detail .task-project-name {
     font-family: 'proxima_nova_bold';
     color: #B9BCC0;
     letter-spacing: .1px;
     margin-left: 20px;
-  }
+}
 
 .scroll-area {
-  width: 100%;
-  height: calc(100% - 115px);
-  overflow-x: hidden;
-  overflow-y: scroll;
+    width: 100%;
+    height: calc(100% - 115px);
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .scroll-area::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .task-project-name h3 {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 .task-project-name h3:hover {
-  color: #02ceff;
-  text-decoration: underline;
+    color: #02ceff;
+    text-decoration: underline;
 }
 
-.task-detail
-  .edit-pane-name-complete {
-  display: flex;
-  border: 1px solid transparent;
-  padding: 5px;
+.task-detail .edit-pane-name-complete {
+    display: flex;
+    border: 1px solid transparent;
+    padding: 5px;
 }
 
-.task-detail
-  .edit-pane-name-complete:hover,
-.task-detail
-  .edit-pane-name-complete:active {
-  border: 1px solid #CDCFD2;
-  border-radius: 3px;
-  box-shadow: #E1E2E4 0px 1px 0px 0px inset;
+.task-detail .edit-pane-name-complete:hover,
+.task-detail .edit-pane-name-complete:active {
+    border: 1px solid #CDCFD2;
+    border-radius: 3px;
+    box-shadow: #E1E2E4 0px 1px 0px 0px inset;
 }
 
-.task-detail
-  .edit-pane-name-complete
-  button.complete-task-button {
-  border: 1px solid #B9BCC0;
-  float: left;
-  box-sizing: border-box;
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  margin: 0px 18px 0 12px;
-  transition: border, box-shadow;
-  transition-duration: .2s;
-  transition-timing-function: ease;
+.task-detail .edit-pane-name-complete button.complete-task-button {
+    border: 1px solid #B9BCC0;
+    float: left;
+    box-sizing: border-box;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin: 0px 18px 0 12px;
+    transition: border, box-shadow;
+    transition-duration: .2s;
+    transition-timing-function: ease;
 }
 
-.edit-pane-name-complete
-  button.complete-task-button:hover {
-  border: 1px solid transparent;
-  box-shadow: #3BF7D1 0 0 0 3px;
-  background: #fff;
+.edit-pane-name-complete button.complete-task-button:hover {
+    border: 1px solid transparent;
+    box-shadow: #3BF7D1 0 0 0 3px;
+    background: #fff;
 }
 
-.edit-pane-name-complete
-  button.complete-task-button
-  svg.check-complete {
-  width: 16px;
-  margin: 6px 5px 3px 6px;
-  fill: #E1E2E4;
-  transition: fill;
-  transition-duration: .2s;
-  transition-timing-function: ease;
+.edit-pane-name-complete button.complete-task-button svg.check-complete {
+    width: 16px;
+    margin: 6px 5px 3px 6px;
+    fill: #E1E2E4;
+    transition: fill;
+    transition-duration: .2s;
+    transition-timing-function: ease;
 }
 
-.task-detail
-  .edit-pane-name-complete
-  button.complete-task-button:hover
-  svg.check-complete {
-  fill: #3BF7D1;
+.task-detail .edit-pane-name-complete button.complete-task-button:hover svg.check-complete {
+    fill: #3BF7D1;
 }
 
 .edit-pane-name-complete textarea.task-name-input {
-  flex: 1;
-  font-family: 'proxima_nova_bold', sans-serif;
-  font-size: 24px;
-  overflow-y: hidden;
+    flex: 1;
+    font-family: 'proxima_nova_bold', sans-serif;
+    font-size: 24px;
+    overflow-y: hidden;
 }
 
-.task-detail
-  .task-description-block {
-  padding: 10px 30px 20px;
+.task-detail .task-description-block {
+    padding: 10px 30px 20px;
 }
 
-.task-detail
-  .task-description-block
-  textarea {
-  padding: 5px 10px;
-  width: 410px;
-  float: right;
-  font-size: 14px;
-  resize: none;
-  border: 1px transparent solid;
-  border-radius: 3px;
-  transition: border-color;
-  transition-duration: .2s;
-  overflow: hidden;
+.task-detail .task-description-block textarea {
+    padding: 5px 10px;
+    width: 410px;
+    float: right;
+    font-size: 14px;
+    resize: none;
+    border: 1px transparent solid;
+    border-radius: 3px;
+    transition: border-color;
+    transition-duration: .2s;
+    overflow: hidden;
 }
 
-.task-detail
-  .task-description-block
-  textarea:active,
-.task-detail
-  .task-description-block
-  textarea:hover,
-.task-detail
-  .task-description-block
-  textarea:focus  {
-  border-color: #CDCFD2;
-  box-shadow: #E1E2E4 0px 1px 0px 0px inset;
-
+.task-detail .task-description-block textarea:active,
+.task-detail .task-description-block textarea:hover,
+.task-detail .task-description-block textarea:focus {
+    border-color: #CDCFD2;
+    box-shadow: #E1E2E4 0px 1px 0px 0px inset;
 }
 
-.task-detail
-  .task-meta {
+.task-detail .task-meta {
     width: 410px;
     float: right;
     padding: 20px 40px 30px;
     border-top: 1px solid #E1E2E4;
-  }
+}
 
-.task-detail
-  .task-meta
-  p {
+.task-detail .task-meta p {
     font-size: 12px;
     color: #898E95;
-  }
+}
 
-  .task-detail
-    .task-meta
-    p strong {
-      font-family: 'proxima_nova_bold', sans-serif;
-    }
+.task-detail .task-meta p strong {
+    font-family: 'proxima_nova_bold', sans-serif;
+}

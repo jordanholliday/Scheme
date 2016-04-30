@@ -2,168 +2,170 @@
   ADDITION MODIFICATION FOR LOGIN BELOW */
 
 .auth-fullscreen {
-  background-image: linear-gradient(to top right,#fc7279 10%, #ff7b9c 65%, #ffc019 125%);
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  min-height: 105vh;
+    background-image: linear-gradient(to top right, #fc7279 10%, #ff7b9c 65%, #ffc019 125%);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    min-height: 105vh;
 }
 
 .login-logo {
-  width: 178px;
-  height: 40px;
-  margin: 30px auto;
-  background-image: url(image_path('scheme_logo.png'));
-  background-size: cover;
+    width: 178px;
+    height: 40px;
+    margin: 30px auto;
+    background-image: url(image_path('scheme_logo.png'));
+    background-size: cover;
 }
 
 .auth-dialog {
-  margin: auto;
-  background: #fff;
-  padding: 45px 90px;
-  width: 540px;
-  border-radius: 3px;
+    margin: auto;
+    background: #fff;
+    padding: 45px 90px;
+    width: 540px;
+    border-radius: 3px;
 }
 
 .auth-dialog h1 {
-  font-size: 40px;
-  text-align: center;
+    font-size: 40px;
+    text-align: center;
 }
 
 .auth-dialog .input {
-  margin-top: 25px;
-  position: relative;
-  width: 320px;
+    margin-top: 25px;
+    position: relative;
+    width: 320px;
 }
 
 .auth-dialog .input label {
-  font-size: 12px;
-  text-transform: uppercase;
-  color: #898E95;
-  margin-bottom: 5px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #898E95;
+    margin-bottom: 5px;
 }
 
-.auth-dialog .input:focus  {
-  opacity: 1.0
+.auth-dialog .input:focus {
+    opacity: 1.0
 }
 
 .auth-dialog .input input {
-  width: 290px;
-  border: 1px solid;
-  border-color: #A1A4AA;
-  border-radius: 3px;
-  padding:11px 10px;
-  font-size: 14px;
-  color: #1B2432;
-  transition: .25s;
-  transition-property: opacity;
-  transition-timing-function: ease;
-  opacity: 0.5;
+    width: 290px;
+    border: 1px solid;
+    border-color: #A1A4AA;
+    border-radius: 3px;
+    padding: 11px 10px;
+    font-size: 14px;
+    color: #1B2432;
+    transition: .25s;
+    transition-property: opacity;
+    transition-timing-function: ease;
+    opacity: 0.5;
 }
 
 .auth-dialog .input input:focus {
-  transition: .25s;
-  transition-property: opacity;
-  transition-timing-function: ease;
-  opacity: 1.0;
+    transition: .25s;
+    transition-property: opacity;
+    transition-timing-function: ease;
+    opacity: 1.0;
 }
 
 .auth-dialog form .upload-div {
-  box-sizing: border-box;
-  float: right;
-  width: 165px;
-  height: 165px;
-  border-radius: 50%;
-  border: 1px dashed #898E95;
-  position: relative;
-  color: #898E95;
-  box-shadow: none;
-  transition: .25s;
-  transition-property: box-shadow, inherit;
-  transition-timing-function: ease;
-  background-size: contain;
+    box-sizing: border-box;
+    float: right;
+    width: 165px;
+    height: 165px;
+    border-radius: 50%;
+    border: 1px dashed #898E95;
+    position: relative;
+    color: #898E95;
+    box-shadow: none;
+    transition: .25s;
+    transition-property: box-shadow, inherit;
+    transition-timing-function: ease;
+    background-size: contain;
 }
 
 .auth-dialog form .upload-div:hover,
 .auth-dialog form .upload-div-active {
-  box-shadow: 0 0 0 2px #02ceff;
-  border: none;
+    box-shadow: 0 0 0 2px #02ceff;
+    border: none;
 }
 
 .auth-dialog form .upload-div:after {
-  content: "ADD PHOTO";
-  font-family: 'proxima_nova_bold';
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #898E95;
-  text-transform: uppercase;
-  font-size: 12px;
+    content: "ADD PHOTO";
+    font-family: 'proxima_nova_bold';
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #898E95;
+    text-transform: uppercase;
+    font-size: 12px;
 }
 
 .auth-dialog form .upload-div-active:after,
 .auth-dialog form .upload-div:hover:after {
-  color: #02ceff;
+    color: #02ceff;
 }
 
 .auth-dialog form .upload-div.received {
-  box-shadow: 0 0 0 2px #02ceff;
-  border: none;
+    box-shadow: 0 0 0 2px #02ceff;
+    border: none;
 }
 
 .auth-dialog form .upload-div.received:after {
-  content: none;
+    content: none;
 }
 
 .auth-dialog .password.error:after {
-  content: "Password must have 6 characters.";
-  position: absolute;
-  left: 0;
-  top: 100%;
-  margin-top: 10px;
-  color: #ED4F55;
-  font-size: 12px;
-  width: 310px;
-  }
+    content: "Password must have 6 characters.";
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin-top: 10px;
+    color: #ED4F55;
+    font-size: 12px;
+    width: 310px;
+}
 
 .auth-dialog .submit button:disabled,
 .auth-dialog .submit button:disabled:hover {
-  float: right;
-  margin: 30px 0 15px;
-  height: 40px;
-  padding: 0 15px;
-  font-size: 14px;
-  background: #EFF0F1;
-  color: #898E95;
-  border: 1px solid;
-  border-color: #E1E2E4;
-  border-radius: 3px;
-  box-shadow: none;
+    float: right;
+    margin: 30px 0 15px;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 14px;
+    background: #EFF0F1;
+    color: #898E95;
+    border: 1px solid;
+    border-color: #E1E2E4;
+    border-radius: 3px;
+    box-shadow: none;
 }
 
 .auth-dialog .submit button {
-  float: right;
-  margin: 30px 0 15px;
-  height: 40px;
-  padding: 0 15px;
-  font-size: 14px;
-  border: 1px solid #1AAFD0;
-  background-color: #1AAFD0;
-  color: #fff;
+    float: right;
+    margin: 30px 0 15px;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 14px;
+    border: 1px solid #1AAFD0;
+    background-color: #1AAFD0;
+    color: #fff;
 }
+
 .auth-dialog .submit button:hover {
-  float: right;
-  margin: 30px 0 15px;
-  height: 40px;
-  padding: 0 15px;
-  font-size: 14px;
-  background-color: #02CEFF;
-  color: #fff;
-  border: #02CEFF 1px solid;
-  box-shadow: 0 0 0 3px #80E6FF;
+    float: right;
+    margin: 30px 0 15px;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 14px;
+    background-color: #02CEFF;
+    color: #fff;
+    border: #02CEFF 1px solid;
+    box-shadow: 0 0 0 3px #80E6FF;
 }
+
 
 /* STYLE ONCE ALL FIELDS PASS VALIDATION
  .auth-dialog .submit button {
@@ -172,133 +174,134 @@
 }*/
 
 .auth-dialog svg.confirm {
-  position: absolute;
-  fill: #37C597;
-  transform-origin: 8px 8px;
-  width: 16px;
-  top: 50%;
-  margin-left: 10px;
+    position: absolute;
+    fill: #37C597;
+    transform-origin: 8px 8px;
+    width: 16px;
+    top: 50%;
+    margin-left: 10px;
 }
+
 
 /* FOOTER ON LOGIN and REGISTRATION PAGES*/
 
 .auth-fullscreen footer {
-  margin: 15px auto;
-  color: #fff;
-  font-size: 14px;
-  line-height: 2.25;
+    margin: 15px auto;
+    color: #fff;
+    font-size: 14px;
+    line-height: 2.25;
 }
 
 .auth-fullscreen footer.login {
-  width: 580px;
+    width: 580px;
 }
 
 .auth-fullscreen footer.registration {
-  width: 720px;
+    width: 720px;
 }
 
 .auth-fullscreen footer ul {
-  float: left;
+    float: left;
 }
 
 .auth-fullscreen footer ul > li {
-  float: left;
-  height: 30px;
+    float: left;
+    height: 30px;
 }
 
 .auth-fullscreen footer ul > li:hover a {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .auth-fullscreen footer ul > li:after {
-  content: "•";
-  margin: 0 5px;
+    content: "•";
+    margin: 0 5px;
 }
 
 .auth-fullscreen footer ul > li:last-child:after {
-  content: "";
-  margin: 0;
+    content: "";
+    margin: 0;
 }
 
 .auth-fullscreen footer .toggle-auth {
-  float: right;
+    float: right;
 }
 
 .auth-fullscreen footer .toggle-auth .button {
-  border: 1px solid #fff;
-  border-radius: 3px;
-  height: 30px;
-  padding: 6px 10px;
-  margin-left: 10px;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    height: 30px;
+    padding: 6px 10px;
+    margin-left: 10px;
 }
 
 .auth-fullscreen footer .toggle-auth .button:hover {
-  color: #676D76;
-  background: #fff;
+    color: #676D76;
+    background: #fff;
 }
+
 
 /* LOGIN PAGE STYLE ADJUSTMENTS*/
 
 .auth-dialog.login {
-  margin: auto;
-  background: #fff;
-  padding: 45px 90px;
-  width: 417px;
-  border-radius: 3px;
+    margin: auto;
+    background: #fff;
+    padding: 45px 90px;
+    width: 417px;
+    border-radius: 3px;
 }
 
 .auth-dialog.login .input {
-  width: 415px;
+    width: 415px;
 }
 
 .auth-dialog.login .input input {
-  width: 393px;
+    width: 393px;
 }
 
-.auth-dialog.login .google-auth  {
-  text-align: center;
+.auth-dialog.login .google-auth {
+    text-align: center;
 }
 
 .auth-dialog.login .google-auth button {
-  margin: 30px auto 15px;
-  height: 40px;
-  padding: 0 15px;
-  font-size: 14px;
-  border: 1px solid #1AAFD0;
-  background-color: #1AAFD0;
-  border-radius: 3px;
-  color: #fff;
+    margin: 30px auto 15px;
+    height: 40px;
+    padding: 0 15px;
+    font-size: 14px;
+    border: 1px solid #1AAFD0;
+    background-color: #1AAFD0;
+    border-radius: 3px;
+    color: #fff;
 }
 
 .auth-dialog.login .google-auth button:hover {
-  border-color: #02CEFF;
-  background-color: #02CEFF;
-  box-shadow: 0 0 0 3px #80E6FF;
+    border-color: #02CEFF;
+    background-color: #02CEFF;
+    box-shadow: 0 0 0 3px #80E6FF;
 }
 
-.auth-dialog.login .separator  {
-  font-size: 24px;
-  text-align: center;
-  margin-top: 35px;
-  color: #B9BCC0;
-  position:relative;
-  width: 417px;
+.auth-dialog.login .separator {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 35px;
+    color: #B9BCC0;
+    position: relative;
+    width: 417px;
 }
 
 .auth-dialog.login .separator:before,
-.auth-dialog.login .separator:after   {
-  content: "";
-  width: 45%;
-  border-top: 1px solid #E1E2E4;
-  position: absolute;
-  top: 50%;
+.auth-dialog.login .separator:after {
+    content: "";
+    width: 45%;
+    border-top: 1px solid #E1E2E4;
+    position: absolute;
+    top: 50%;
 }
 
-.auth-dialog.login .separator:before  {
-  left: 0;
+.auth-dialog.login .separator:before {
+    left: 0;
 }
 
-.auth-dialog.login .separator:after  {
-  right: 0;
+.auth-dialog.login .separator:after {
+    right: 0;
 }
-

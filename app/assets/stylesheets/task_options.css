@@ -1,241 +1,242 @@
 .task-options {
-  float: left;
-  padding: 0;
-  padding-bottom: 2px;
-  background: #fff;
-  color: #1B2432;
-  font-size: 14px;
-  width: 100%;
-  display: block;
-  border-bottom: 1px solid #E1E2E4;
+    float: left;
+    padding: 0;
+    padding-bottom: 2px;
+    background: #fff;
+    color: #1B2432;
+    font-size: 14px;
+    width: 100%;
+    display: block;
+    border-bottom: 1px solid #E1E2E4;
 }
 
 .task-options .assigning,
 .task-options .not-assigning {
-  float: left;
+    float: left;
 }
 
 .task-options.fpo {
-  height: 50px;
-  border: none;
+    height: 50px;
+    border: none;
 }
 
 .task-options .current-assignee-date {
-  margin-left: 15px;
-  margin-right: 5px;
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 3px;
-  border: 1px solid transparent;
-  position: relative;
+    margin-left: 15px;
+    margin-right: 5px;
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 3px;
+    border: 1px solid transparent;
+    position: relative;
 }
 
-
 .task-options .current-assignee-date img {
-  float: left;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 1px inset;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+    float: left;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 1px inset;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }
 
 .task-options .current-assignee-date input {
-  display: block;
-  width: 75px;
-  height: 30px;
-  padding-left: 10px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    display: block;
+    width: 75px;
+    height: 30px;
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .task-options .current-assignee-date:hover {
-  border-radius: 19px;
-  transition: box-shadow .2s;
-  box-shadow: 0 0 0 3px #02ceff;
-  color: #02ceff;
+    border-radius: 19px;
+    transition: box-shadow .2s;
+    box-shadow: 0 0 0 3px #02ceff;
+    color: #02ceff;
 }
 
 .task-options .current-assignee-date.unassigned {
-  padding: 2px;
-  border-radius: 17px;
-  border: 1px solid transparent;
-  transition: none;
-  color: #898E95;
+    padding: 2px;
+    border-radius: 17px;
+    border: 1px solid transparent;
+    transition: none;
+    color: #898E95;
 }
 
 .task-options .current-assignee-date.unassigned:hover {
-  border: 1px dashed #02ceff;
-  border-width: 1px;
-  box-shadow: none;
-  color: #02ceff;
+    border: 1px dashed #02ceff;
+    border-width: 1px;
+    box-shadow: none;
+    color: #02ceff;
 }
 
 .task-options .current-assignee-date svg {
-  float: left;
-  padding: 5px;
-  width: 20px;
-  border: 1px dashed #B9BCC0;
-  border-radius: 50%;
-  fill: #B9BCC0;
-  transition: border-style, fill;
-  transition-duration: .2s;
+    float: left;
+    padding: 5px;
+    width: 20px;
+    border: 1px dashed #B9BCC0;
+    border-radius: 50%;
+    fill: #B9BCC0;
+    transition: border-style, fill;
+    transition-duration: .2s;
 }
 
 .task-options .current-assignee-date.unassigned:hover svg {
-  border-style: solid;
-  fill: #02ceff;
+    border-style: solid;
+    fill: #02ceff;
 }
 
 .task-options .assigning .current-assignee-date,
 .task-options .assigning .current-assignee-date:hover {
-  margin-left: 0;
-  padding-left: 18px;
-  display: inline-block;
-  width: 230px;
-  border: 1px solid #B9BCC0;
-  border-radius: 3px;
-  color: #898E95;
-  box-shadow: none;
+    margin-left: 0;
+    padding-left: 18px;
+    display: inline-block;
+    width: 230px;
+    border: 1px solid #B9BCC0;
+    border-radius: 3px;
+    color: #898E95;
+    box-shadow: none;
 }
 
 .task-options .assigning .current-assignee-date input {
-  width: 165px;
+    width: 165px;
 }
 
 .task-options .assigning .current-assignee-date svg,
 .task-options .assigning .current-assignee-date:hover svg {
-  border-style: dashed;
-  fill: #B9BCC0;
+    border-style: dashed;
+    fill: #B9BCC0;
 }
 
 .current-assignee-date .team-user-div {
-  position: absolute;
-  top: 100%;
-  /* -1px on left and right so borders line up with position: relative el*/
-  left: -1px;
-  right: -1px;
-  border: 1px solid #B9BCC0;
-  border-radius: 3px;
-  background: #fff;
-  z-index: 2;
-  box-shadow: rgba(0, 0, 0, 0.298039) 0px 2px 3px 0px;
+    position: absolute;
+    top: 100%;
+    /* -1px on left and right so borders line up with position: relative el*/
+    left: -1px;
+    right: -1px;
+    border: 1px solid #B9BCC0;
+    border-radius: 3px;
+    background: #fff;
+    z-index: 2;
+    box-shadow: rgba(0, 0, 0, 0.298039) 0px 2px 3px 0px;
 }
 
 .team-user-div {
-  padding: 3px 0;
-  max-height: 160px;
-  overflow-x: hidden;
+    padding: 3px 0;
+    max-height: 160px;
+    overflow-x: hidden;
 }
 
 .team-user-div li {
-  padding: 10px 0 10px 17px;
-  border-bottom: 1px solid #E1E2E4;
+    padding: 10px 0 10px 17px;
+    border-bottom: 1px solid #E1E2E4;
 }
 
 .team-user-div li:first-child {
-  border-top: 1px solid #E1E2E4;
+    border-top: 1px solid #E1E2E4;
 }
 
 .team-user-div li:hover {
-  color: #fff;
-  background: #41AED2;
+    color: #fff;
+    background: #41AED2;
 }
 
-.team-user-div li img {
-}
+.team-user-div li img {}
 
 .team-user-div li label {
-  float: left;
-  padding-left: 10px;
-  margin-top: 1px;
-  display: block;
-  width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    float: left;
+    padding-left: 10px;
+    margin-top: 1px;
+    display: block;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .team-user-div li label.email {
-  font-size: 11px;
+    font-size: 11px;
 }
+
 
 /*DATE SELECTOR SPECIFIC STYLE HERE*/
+
 .task-options .current-assignee-date .calendar-div {
-  float: left;
-  width: 32px;
-  height: 32px;
-  border: 1px solid black;
-  border-radius: 50%;
-  text-align: center;
+    float: left;
+    width: 32px;
+    height: 32px;
+    border: 1px solid black;
+    border-radius: 50%;
+    text-align: center;
 }
 
-
 .task-options .current-assignee-date svg.calendar-icon {
-  width: 16px;
-  height: 16px;
-  padding: 5px 2px 3px 6px;
-  border: none;
-  border-radius: 0;
-  fill: #676D76;
-  transition: fill;
-  transition-duration: .2s;
-  pointer-events: none;
+    width: 16px;
+    height: 16px;
+    padding: 5px 2px 3px 6px;
+    border: none;
+    border-radius: 0;
+    fill: #676D76;
+    transition: fill;
+    transition-duration: .2s;
+    pointer-events: none;
 }
 
 .task-options .current-assignee-date .calendar-circle {
-  float: left;
-  border: 1px solid #676D76;
-  border-radius: 50%;
-  height: 30px;
-  width: 30px;
-  text-align: center;
-  transition: border-color;
-  transition-duration: .2s;
+    float: left;
+    border: 1px solid #676D76;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    transition: border-color;
+    transition-duration: .2s;
 }
 
 .task-options .current-assignee-date input.date-input {
-  float: left;
-  width: 120px;
+    float: left;
+    width: 120px;
 }
 
 .task-options .current-assignee-date:hover .calendar-circle {
-  border-color: #02ceff;
+    border-color: #02ceff;
 }
 
 .task-options .current-assignee-date:hover svg.calendar-icon {
-  fill: #02ceff;
-  border: none;
+    fill: #02ceff;
+    border: none;
 }
 
 .task-options .current-assignee-date .date-picker-component {
-  position: absolute;
-  top: 115%;
-  left: 0%;
-  height: 265px;
-  z-index: 2;
+    position: absolute;
+    top: 115%;
+    left: 0%;
+    height: 265px;
+    z-index: 2;
 }
 
+
 /* CLOSE TASK DETAIL BUTTON*/
+
 .task-options .close-task-detail {
-  float: right;
-  height: 20px;
-  width: 20px;
-  position: relative;
-  border: none;
-  box-shadow: none;
+    float: right;
+    height: 20px;
+    width: 20px;
+    position: relative;
+    border: none;
+    box-shadow: none;
 }
 
 .task-options .close-task-detail svg {
-  fill: #CDCFD2;
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  top: 0;
-  left: 0;
-  pointer-events: none;
+    fill: #CDCFD2;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 0;
+    pointer-events: none;
 }
 
 .task-options .close-task-detail:hover svg {
-  fill: #02CEFF;
+    fill: #02CEFF;
 }

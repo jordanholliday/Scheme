@@ -61383,13 +61383,13 @@
 	
 	  renderProjectDrawer: function () {
 	    if (this.state.showProjectDrawer) {
-	      return [React.createElement(ProjectDrawer, {
+	      return React.createElement(ProjectDrawer, {
 	        ref: 'projectDrawer',
 	        key: 'project-drawer',
 	        projectId: this.state.project ? this.state.project.id : null,
-	        hideProjectDrawer: this.hideProjectDrawer })];
+	        hideProjectDrawer: this.hideProjectDrawer });
 	    } else {
-	      return [];
+	      return null;
 	    }
 	  },
 	
@@ -61399,7 +61399,7 @@
 	      { className: 'app' },
 	      React.createElement(
 	        ReactCSSTransitionGroup,
-	        { transitionName: 'drawer-transition', transitionEnterTimeout: 500, transitionLeaveTimeout: 500 },
+	        { className: 'drawer-wrapper', transitionName: 'drawer-transition', transitionEnterTimeout: 500, transitionLeaveTimeout: 500 },
 	        this.renderProjectDrawer()
 	      ),
 	      React.createElement(
@@ -62229,7 +62229,8 @@
 	    TeamUserStore = __webpack_require__(365),
 	    ProjectStore = __webpack_require__(241),
 	    ApiUtil = __webpack_require__(242),
-	    SchemeModal = __webpack_require__(612);
+	    SchemeModal = __webpack_require__(612),
+	    ProjectLink = __webpack_require__(613);
 	
 	var ProjectDrawer = React.createClass({
 	  displayName: 'ProjectDrawer',
@@ -62397,38 +62398,6 @@
 	  }
 	});
 	
-	var ProjectLink = React.createClass({
-	  displayName: 'ProjectLink',
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  projectLink: function () {
-	    if (this.props.selected) {
-	      return;
-	    }
-	    this.context.router.push("/projects/" + this.props.project.id);
-	  },
-	
-	  className: function () {
-	    var className;
-	    if (this.props.selected) {
-	      className = "selected";
-	    }
-	
-	    return className;
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'li',
-	      { className: this.className(), onClick: this.projectLink },
-	      this.props.project.name
-	    );
-	  }
-	});
-	
 	module.exports = ProjectDrawer;
 
 /***/ },
@@ -62559,6 +62528,51 @@
 	});
 	
 	module.exports = SchemeModal;
+
+/***/ },
+/* 613 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    TeamUserStore = __webpack_require__(365),
+	    ProjectStore = __webpack_require__(241),
+	    ApiUtil = __webpack_require__(242),
+	    SchemeModal = __webpack_require__(612);
+	
+	var ProjectLink = React.createClass({
+	  displayName: 'ProjectLink',
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  projectLink: function () {
+	    if (this.props.selected) {
+	      return;
+	    }
+	    this.context.router.push("/projects/" + this.props.project.id);
+	  },
+	
+	  className: function () {
+	    var className;
+	    if (this.props.selected) {
+	      className = "selected";
+	    }
+	
+	    return className;
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'li',
+	      { className: this.className(), onClick: this.projectLink },
+	      this.props.project.name
+	    );
+	  }
+	});
+	
+	module.exports = ProjectLink;
 
 /***/ }
 /******/ ]);

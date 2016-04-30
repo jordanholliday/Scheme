@@ -1,308 +1,308 @@
 header.main-top-nav {
-  background: #fff;
-  height: 40px;
-  border-bottom: 1px solid #fff;
-  position: relative;
+    background: #fff;
+    height: 40px;
+    border-bottom: 1px solid #fff;
+    position: relative;
 }
 
 header button {
-  float: right;
-  box-sizing: border-box;
-  height: 33px;
-  padding: 0 13px;
-  margin: 3px 10px 3px 0;
-  background: #fff;
-  border: 2px solid #6A67CE;
-  color: #6A67CE;
-  font-size: 14px;
-  transition: border-color, box-shadow, color;
-  transition-duration: .2s;
+    float: right;
+    box-sizing: border-box;
+    height: 33px;
+    padding: 0 13px;
+    margin: 3px 10px 3px 0;
+    background: #fff;
+    border: 2px solid #6A67CE;
+    color: #6A67CE;
+    font-size: 14px;
+    transition: border-color, box-shadow, color;
+    transition-duration: .2s;
 }
 
 header button:hover {
-  border-color: #a177ff;
-  box-shadow: 0 0 0 3px #a177ff;
-  color: #a177ff;
+    border-color: #a177ff;
+    box-shadow: 0 0 0 3px #a177ff;
+    color: #a177ff;
 }
 
 header button.hamburger-button {
-  float: left;
-  border: none;
-  border-right: 1px solid #EFF0F1;
-  box-shadow: none;
-  fill: #898E95;
-  width: 43px;
-  height: 41px;
-  margin: 0;
-  position: relative;
-  transition: background-color;
-  transition-duration: .2s;
+    float: left;
+    border: none;
+    border-right: 1px solid #EFF0F1;
+    box-shadow: none;
+    fill: #898E95;
+    width: 43px;
+    height: 41px;
+    margin: 0;
+    position: relative;
+    transition: background-color;
+    transition-duration: .2s;
 }
 
 header button.hamburger-button:hover {
-  background-color: rgba(239, 240, 241, 0.9)
+    background-color: rgba(239, 240, 241, 0.9)
 }
 
 header button.hamburger-button svg {
-  height: 16px;
-  width: 16px;
-  top: 12px;
-  left: 12px;
-  position: absolute;
+    height: 16px;
+    width: 16px;
+    top: 12px;
+    left: 12px;
+    position: absolute;
 }
 
 header .omni-wrapper {
-  float: left;
-  height: 100%;
-  width: 225px;
-  padding: 0;
-  margin: 0;
-  position: relative;
+    float: left;
+    height: 100%;
+    width: 225px;
+    padding: 0;
+    margin: 0;
+    position: relative;
 }
 
 header button.omni-button,
 header button.omni-button:hover {
-  position: relative;
-  margin: 8px 0 8px 200px;
-  padding: 0;
-  float: left;
-  border: none;
-  box-shadow: none;
-  box-sizing: border-box;
-  height: 24px;
-  width: 24px;
-  border-radius: 50%;
-  background: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
+    position: relative;
+    margin: 8px 0 8px 200px;
+    padding: 0;
+    float: left;
+    border: none;
+    box-shadow: none;
+    box-sizing: border-box;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
 }
 
+
 /* hover state via after pseudo content*/
+
 header .omni-button:hover::before {
-  content: "";
-  display: block;
-  border: none;
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  opacity: 0.5;
-  background: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
+    content: "";
+    display: block;
+    border: none;
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    opacity: 0.5;
+    background: linear-gradient(to top right, #FC636B, #FF6D92 35%, #FFB900 100%);
 }
 
 header button.omni-button svg {
-  fill: #fff;
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
+    fill: #fff;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
 }
 
 header .omni-box {
-  position: absolute;
-  top: 110%;
-  left: 128px;
-  width: 160px;
-  padding: 3px 0;
-  border: 1px solid #A1A4AA;
-  border-radius: 3px;
-  box-shadow: rgba(0, 0, 0, 0.298039) 0px 2px 3px 0px;
-  background: #fff;
-  border-top: none;
+    position: absolute;
+    top: 110%;
+    left: 128px;
+    width: 160px;
+    padding: 3px 0;
+    border: 1px solid #A1A4AA;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.298039) 0px 2px 3px 0px;
+    background: #fff;
+    border-top: none;
 }
 
 header .omni-box.arrow {
-  position: absolute;
-  top: 93%;
-  left: 202px;
-  height: 14px;
-  width: 14px;
-  border: 1px solid #A1A4AA;
-  border-radius: 0;
-  background: #fff;
-  box-shadow: none;
-  transform: rotate(45deg);
-  border-right: none;
-  border-bottom: none;
+    position: absolute;
+    top: 93%;
+    left: 202px;
+    height: 14px;
+    width: 14px;
+    border: 1px solid #A1A4AA;
+    border-radius: 0;
+    background: #fff;
+    box-shadow: none;
+    transform: rotate(45deg);
+    border-right: none;
+    border-bottom: none;
 }
 
 header .omni-box li {
-  padding: 0 15px;
-  height: 50px;
-  border: none;
-  color: #898E95;
-  font-size: 14px;
+    padding: 0 15px;
+    height: 50px;
+    border: none;
+    color: #898E95;
+    font-size: 14px;
 }
 
 header .omni-box li:hover {
-  background: linear-gradient(45deg, #FC636B, #FF6D92 60%, #FFB900 115%);
-  color: #fff;
+    background: linear-gradient(45deg, #FC636B, #FF6D92 60%, #FFB900 115%);
+    color: #fff;
 }
 
 header .omni-box li svg {
-  float: left;
-  width: 20px;
-  height: 20px;
-  margin: 15px 0;
-  pointer-events: none;
-  fill: #B9BCC0;
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 15px 0;
+    pointer-events: none;
+    fill: #B9BCC0;
 }
 
 header .omni-box li:hover svg {
-  fill: #fff;
+    fill: #fff;
 }
 
-header .omni-box li label{
-  float: left;
-  margin: 17px 0;
-  padding-left: 10px;
+header .omni-box li label {
+    float: left;
+    margin: 17px 0;
+    padding-left: 10px;
 }
 
 .invite-modal header {
-  padding: 15px 0 15px 30px;
-  border-bottom: 1px solid #E1E2E4;
+    padding: 15px 0 15px 30px;
+    border-bottom: 1px solid #E1E2E4;
 }
 
 .invite-modal header h2 {
-  float: left;
-  font-family: 'proxima_nova_bold', sans-serif;
-  font-size: 24px;
+    float: left;
+    font-family: 'proxima_nova_bold', sans-serif;
+    font-size: 24px;
 }
 
 .invite-modal header button,
 .invite-modal header button:hover {
-  margin: 0 5px 0 0;
-  height: 20px;
-  position: relative;
-  border: none;
-  box-shadow: none;
+    margin: 0 5px 0 0;
+    height: 20px;
+    position: relative;
+    border: none;
+    box-shadow: none;
 }
 
 .invite-modal header button svg {
-  fill: #CDCFD2;
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  top: 0;
-  left: 0;
-  pointer-events: none;
+    fill: #CDCFD2;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 0;
+    pointer-events: none;
 }
 
 .invite-modal header button:hover svg {
-  fill: #02CEFF;
+    fill: #02CEFF;
 }
 
 .invite-modal form {
-  padding: 15px 30px;
+    padding: 15px 30px;
 }
 
 .invite-modal form label {
-  padding: 15px 10px;
-  text-transform: uppercase;
-  color: #898E95;
-  font-size: 12px;
-  float: right;
+    padding: 15px 10px;
+    text-transform: uppercase;
+    color: #898E95;
+    font-size: 12px;
+    float: right;
 }
 
 .invite-modal form input {
-  box-sizing: border-box;
-  border: 1px solid #CDCFD2;
-  padding: 10px 15px;
-  width: 350px;
-  float: right;
-  font-size: 14px;
+    box-sizing: border-box;
+    border: 1px solid #CDCFD2;
+    padding: 10px 15px;
+    width: 350px;
+    float: right;
+    font-size: 14px;
 }
 
 .invite-modal form p {
-  float: right;
-  display: block;
-  max-width: 350px;
-  font-size: 12px;
-  color: #898E95;
+    float: right;
+    display: block;
+    max-width: 350px;
+    font-size: 12px;
+    color: #898E95;
 }
 
 .invite-modal form button {
-  float: right;
-  margin: 15px 0;
-  padding: 0 14px;
-  height: 40px;
-  color: #fff;
-  background: #1AAFD0;
-  border: 1px solid #1AAFD0;
-  font-size: 14px;
-  transition: border-color, background;
-  transition-duration: .2s;
+    float: right;
+    margin: 15px 0;
+    padding: 0 14px;
+    height: 40px;
+    color: #fff;
+    background: #1AAFD0;
+    border: 1px solid #1AAFD0;
+    font-size: 14px;
+    transition: border-color, background;
+    transition-duration: .2s;
 }
 
 .invite-modal form button:hover {
-  box-shadow: 0 0 0 3px #80E6FF;
-  background: #02CEFF;
-  border-color: #02CEFF;
+    box-shadow: 0 0 0 3px #80E6FF;
+    background: #02CEFF;
+    border-color: #02CEFF;
 }
 
 .invite-modal form button:disabled,
 .invite-modal form button:disabled:hover {
-  color: #B9BCC0;
-  background: #EFF0F1;
-  border: 1px solid #E1E2E4;
-  box-shadow: none;
+    color: #B9BCC0;
+    background: #EFF0F1;
+    border: 1px solid #E1E2E4;
+    box-shadow: none;
 }
 
 .admin-nav {
-  position: relative;
-  float: right;
-  height: 33px;
-  padding: 0 13px;
-  margin: 3px 10px 3px 0;
-  line-height: 33px;
-  font-size: 12px;
-  color: #898E95;
+    position: relative;
+    float: right;
+    height: 33px;
+    padding: 0 13px;
+    margin: 3px 10px 3px 0;
+    line-height: 33px;
+    font-size: 12px;
+    color: #898E95;
 }
 
 .admin-nav img.avatar {
-  float: right;
-  margin: 2px 0 0 10px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2);
+    float: right;
+    margin: 2px 0 0 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .admin-nav:hover {
-  color: #02CEFF;
+    color: #02CEFF;
 }
 
 .admin-nav:hover img.avatar {
-  box-shadow: 0 0 0 3px #02CEFF;
-  color: #02CEFF;
+    box-shadow: 0 0 0 3px #02CEFF;
+    color: #02CEFF;
 }
 
 .admin-nav-dropdown {
-  background: #fff;
-  position: absolute;
-  z-index: 5;
-  top: 110%;
-  right: 0;
-  width: 250px;
-  border: 1px solid #A1A4AA;
-  border-radius: 3px;
-  box-shadow: rgba(0, 0, 0, 0.298039) 0px 2px 3px;
-  padding: 5px 0px;
-  color: #1B2432;
-  font-size: 14px;
+    background: #fff;
+    position: absolute;
+    z-index: 5;
+    top: 110%;
+    right: 0;
+    width: 250px;
+    border: 1px solid #A1A4AA;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.298039) 0px 2px 3px;
+    padding: 5px 0px;
+    color: #1B2432;
+    font-size: 14px;
 }
 
 .admin-nav-dropdown li {
-  height: 40px;
-  line-height: 40px;
-  padding: 0 10px 0 30px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px 0 30px;
 }
 
 .admin-nav-dropdown li:hover {
-  color: #fff;
-  background-color: #1AAFD0;
+    color: #fff;
+    background-color: #1AAFD0;
 }
-
-

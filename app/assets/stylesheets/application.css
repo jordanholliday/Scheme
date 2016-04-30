@@ -21,20 +21,20 @@
  */
 
 .fpo {
-  /* requires inline styling for proper width*/
-  opacity: 0.2;
-  background: #fff;
-  font-size: 1em;
-  width: 100%;
-  height: 115px;
-  display: block;
-  font-family: 'proxima_nova_bold';
+    /* requires inline styling for proper width*/
+    opacity: 0.2;
+    background: #fff;
+    font-size: 1em;
+    width: 100%;
+    height: 115px;
+    display: block;
+    font-family: 'proxima_nova_bold';
 }
 
 body input {
-  border-radius: 3px;
+    border-radius: 3px;
 }
 
 body button {
-  border-radius: 3px;
+    border-radius: 3px;
 }

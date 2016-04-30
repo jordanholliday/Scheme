@@ -63,13 +63,15 @@ var ProjectDetail = React.createClass({
 
   renderProjectDrawer: function () {
     if (this.state.showProjectDrawer){
-      return [<ProjectDrawer
-        ref="projectDrawer"
-        key="project-drawer"
-        projectId={this.state.project ? this.state.project.id : null}
-        hideProjectDrawer={this.hideProjectDrawer} />];
+      return (
+        <ProjectDrawer
+          ref="projectDrawer"
+          key="project-drawer"
+          projectId={this.state.project ? this.state.project.id : null}
+          hideProjectDrawer={this.hideProjectDrawer} />
+      );
     } else {
-      return [];
+      return null;
     }
   },
 
@@ -78,7 +80,7 @@ var ProjectDetail = React.createClass({
     return (
       <div className="app">
 
-        <ReactCSSTransitionGroup transitionName="drawer-transition" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+        <ReactCSSTransitionGroup className="drawer-wrapper" transitionName="drawer-transition" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
            {this.renderProjectDrawer()}
         </ReactCSSTransitionGroup>
 
