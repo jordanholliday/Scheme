@@ -60,6 +60,10 @@ header .omni-wrapper {
     position: relative;
 }
 
+.new-selector {
+
+}
+
 header button.omni-button,
 header button.omni-button:hover {
     position: relative;
