@@ -1,6 +1,8 @@
 # Scheme
 Scheme is a clone of Asana, the popular project management app. Scheme was made with Ruby on Rails and React.js.
 
+**Interested in using Scheme? Please see the FAQ.**
+
 ### Screenshots
 ##### Registration Page
 ![registration_page]
@@ -57,3 +59,18 @@ Thanks to the linked-list structure, re-ordering tasks within a project is an O(
 * Heroku
 
 [Original Design Docs](./README_v0.md)
+
+### FAQ <a id="faq"></a>
+Because I receive a lot of emails about Scheme, I'm adding a FAQ.
+
+##### Can I use the code in this repo?
+Yes. You don't need to pay me or attribute anything to me. Scheme is distributed under the [MIT License](./license).
+
+##### Will you help me deploy or modify Scheme?
+Yes, but only under contract. Be forewarned that, because freelance work is not my main focus, it will be expensive. Inquire at [jordanholliday@gmail.com](mailto:jordanholliday@gmail.com).
+
+##### Are you going to add new features to Scheme?
+Not unless someone hires me to do so.
+
+
+
