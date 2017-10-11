@@ -63,13 +63,13 @@ Thanks to the linked-list structure, re-ordering tasks within a project is an O(
 ## FAQ <a id="faq"></a>
 Because I receive a lot of emails about Scheme, I'm adding a FAQ.
 
-##### Can I use the code in this repo?
+### Can I use the code in this repo?
 Yes. You don't need to pay me or attribute anything to me. Scheme is distributed under the [MIT License](./license).
 
-##### Will you help me deploy or modify Scheme?
+### Will you help me deploy or modify Scheme?
 Yes, but only under contract. Be forewarned that, because freelance work is not my main focus, it will be expensive. Inquire at [jordanholliday@gmail.com](mailto:jordanholliday@gmail.com).
 
-##### Are you going to add new features to Scheme?
+### Are you going to add new features to Scheme?
 Not unless someone hires me to do so.
 
 
