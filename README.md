@@ -60,7 +60,7 @@ Thanks to the linked-list structure, re-ordering tasks within a project is an O(
 
 [Original Design Docs](./README_v0.md)
 
-### FAQ <a id="faq"></a>
+## FAQ <a id="faq"></a>
 Because I receive a lot of emails about Scheme, I'm adding a FAQ.
 
 ##### Can I use the code in this repo?
