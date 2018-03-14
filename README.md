@@ -67,10 +67,8 @@ Because I receive a lot of emails about Scheme, I'm adding a FAQ.
 Yes. You don't need to pay me or attribute anything to me. Scheme is distributed under the [MIT License](./license).
 
 ### Will you help me deploy or modify Scheme?
-Yes, but only under contract. Be forewarned that, because freelance work is not my main focus, it will be expensive. Inquire at [jordanholliday@gmail.com](mailto:jordanholliday@gmail.com).
+Sorry, no.
 
-### Are you going to add new features to Scheme?
-Not unless someone hires me to do so.
 
 
 
